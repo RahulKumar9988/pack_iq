@@ -24,6 +24,12 @@ export default function Layout({ children }) {
         "Get a discount when ordering larger quantities and select even more designs for your pouches.",
       title2: "Get a discount by choosing bigger sizes and save more",
     },
+    design: {
+      heading: "Design",
+      title:
+        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
+      title2: "Get a discount by choosing bigger sizes and save more",
+    },
     material: {
       heading: "Material",
       title:
@@ -36,23 +42,26 @@ export default function Layout({ children }) {
 
   // Define the order of the pages
   const pageOrder = [
-    "/", // Add home "/" at the start
+    "/", 
     "packaging-type",
     "size",
+    "design",
     "quantity",
-    // "design",
     "material",
   ];
 
   // Extract the last segment of the path
-  const lastSegment = pathName.split("/").pop();
+  const lastSegment = pathName === "/" ? "/" : pathName.split("/").pop();
 
   // Find the current index and calculate the previous index
   const currentIndex = pageOrder.findIndex((page) => page === lastSegment);
+  
+  // Handle cases where path isn't found in pageOrder (defaulting to -1)
+  const validCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
 
   // If on "packaging-type", set previousIndex to 0 to go to "/"
   const previousIndex =
-    currentIndex === 0 || currentIndex === 1 ? 0 : currentIndex - 1;
+    validCurrentIndex === 0 || validCurrentIndex === 1 ? 0 : validCurrentIndex - 1;
 
   // Determine the previous page path
   const previousPage =

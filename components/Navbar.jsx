@@ -24,8 +24,10 @@ import {
   Scale,
 } from "./Icons.jsx";
 import BagLogo from "@/public/BagLogo.jsx";
+import { useRouter } from "next/navigation.js";
 
 export default function HomepageNavbar() {
+  const router = useRouter();
   const icons = {
     chevron: <ChevronDown fill="currentColor" size={16} />,
     scale: <Scale className="text-warning" fill="currentColor" size={30} />,
@@ -40,7 +42,7 @@ export default function HomepageNavbar() {
 
   return (
     <Navbar
-      className="bg-transparent"
+      className="bg-[#e39658] p-2"
       classNames={{
         wrapper: "max-w-full px-0 bg-transparent max-xs:gap-2",
       }}
@@ -56,7 +58,7 @@ export default function HomepageNavbar() {
         justify="center"
       >
         <NavbarItem>
-          <Link className="max-sm:text-sm" color="foreground" href="/home">
+          <Link className="max-sm:text-sm" color="foreground" href="/">
             Home
           </Link>
         </NavbarItem>
@@ -94,6 +96,7 @@ export default function HomepageNavbar() {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
+
         <Dropdown>
           <NavbarItem>
             <DropdownTrigger>
@@ -128,8 +131,9 @@ export default function HomepageNavbar() {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
+        
         <NavbarItem>
-          <Link className="max-sm:text-sm" color="foreground" href="#">
+          <Link className="max-sm:text-sm" color="foreground" href="/contact">
             Contact Us
           </Link>
         </NavbarItem>
@@ -138,7 +142,7 @@ export default function HomepageNavbar() {
       <NavbarContent justify="end" className="flex-grow-0 sm:gap-10">
         <NavbarItem className="lg:flex hidden">
           <Link
-            href="#"
+            href="/cart"
             className="flex flex-col pt-4 text-[12px] text-slate-500"
           >
             <BagLogo size={24} fontWeight={0.7} color="black" />
@@ -147,6 +151,7 @@ export default function HomepageNavbar() {
         </NavbarItem>
         <NavbarItem className="flex-col gap-2 pt-4 text-[12px]">
           <Avatar
+            onClick={()=>router.push('/profile')}
             isBordered
             as="button"
             className="transition-transform"

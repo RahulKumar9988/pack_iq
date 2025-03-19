@@ -1,0 +1,632 @@
+{
+	"info": {
+		"_postman_id": "a1709610-05c6-44ca-b445-a0868a0fbfca",
+		"name": "PackIQ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27981723"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_name\":\"Ranak\",\r\n  \"user_email\": \"ranak19agrawal@gmail.com\",\r\n  \"user_password\": \"Ranak@123\",\r\n  \"user_address\": \"Dhar\",\r\n  \"user_phone_number\": \"9424002330\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_email\":\"ranak19agrawal@gmail.com\",\r\n    \"user_password\":\"Ranak@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/getAllUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"getAllUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Resources",
+			"item": [
+				{
+					"name": "/material",
+					"item": [
+						{
+							"name": "/material",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"packaging_type_size_id\":\"1\",\r\n    \"quantity_id\":\"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://packiqbackend.setstatetech.com/api/v1/resources/material",
+									"protocol": "https",
+									"host": [
+										"packiqbackend",
+										"setstatetech",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"material"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/packaging-type",
+					"item": [
+						{
+							"name": "/packaging-type",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"packaging_type_size_id\":\"1\",\r\n    \"quantity_id\":\"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://packiqbackend.setstatetech.com/api/v1/resources/packaging-type",
+									"protocol": "https",
+									"host": [
+										"packiqbackend",
+										"setstatetech",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"packaging-type"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/list-packaging-type-size",
+					"item": [
+						{
+							"name": "list-packaging-type-size",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://packiqbackend.setstatetech.com/api/v1/resources/list-packaging-type-size/1",
+									"protocol": "https",
+									"host": [
+										"packiqbackend",
+										"setstatetech",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"list-packaging-type-size",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/list-packaging-type-size-quantity",
+					"item": [
+						{
+							"name": "list-packaging-type-size-quantity",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/list-packaging-type-size-quantity/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"list-packaging-type-size-quantity",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "Size",
+					"item": [
+						{
+							"name": "create_size",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"S\",\r\n    \"dimensions\":\"210*130*80\",\r\n    \"filling_volume\":\"250 g\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/create-size",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"create-size"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update_size",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"M\",\r\n    \"dimensions\":\"240*160*90\",\r\n    \"filling_volume\":\"250 g\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/update_size/b31e599a-99ff-4fdf-909b-2d5411c4c6e9-1725544832115",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"update_size",
+										"b31e599a-99ff-4fdf-909b-2d5411c4c6e9-1725544832115"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete_size",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\":\"a4ca3b06-2b91-4646-a9c8-af2b52ad903d-1725019667356\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/delete_size/b31e599a-99ff-4fdf-909b-2d5411c4c6e9-1725544832115",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"delete_size",
+										"b31e599a-99ff-4fdf-909b-2d5411c4c6e9-1725544832115"
+									],
+									"query": [
+										{
+											"key": "size_id",
+											"value": "5fc0fb41-920d-4bc0-9c18-597954468e3b-1725025040410",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-packaging-type-size",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"packaging_id\":\"1\",\r\n    \"size_id\":\"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/create-packaging-type-size",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"create-packaging-type-size"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Material",
+					"item": [
+						{
+							"name": "create_material",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Matte Look\",\r\n    \"description\":\"Smooth, non-reflective, sleek finish\",\r\n    \"price\":\"0.930\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/create-material",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"create-material"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Quantity",
+					"item": [
+						{
+							"name": "create_quantity",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\":\"2000\",\r\n    \"price\":\"5000\",\r\n    \"design_number\":\"4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/create-quantity",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"create-quantity"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-packaging-type-size-quantity",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"packaging_type_size_id\":\"1\",\r\n    \"quantity_id\":\"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/create-packaging-type-size-quantity",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"create-packaging-type-size-quantity"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "packaging_type",
+					"item": [
+						{
+							"name": "create_packaging_type",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Flat Bottom Pouch\",\r\n    \"description\":\"Our flat bottom pouches are particularly durable and resistant. Because of the integrated aroma valve,  these pouches are the best fit for coffee products.\",\r\n    \"minimum_qty\":\"500\",\r\n    \"price\":\"0.930\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/resources/create-packaging-type",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"resources",
+										"create-packaging-type"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "order",
+					"item": [
+						{
+							"name": "get all orders",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/admin/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get order by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/admin/order/by-id/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"order",
+										"by-id",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get payment-status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/v1/admin/order/payment",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"order",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "/create-order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"\",\r\n    \"packaging_id\": \"\",\r\n    \"size_id\": \"\",\r\n    \"quantity_id\": \"\",\r\n    \"material_id\": \"\",\r\n    \"payment_status_id\": \"\",\r\n    \"price\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order/create-order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"create-order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

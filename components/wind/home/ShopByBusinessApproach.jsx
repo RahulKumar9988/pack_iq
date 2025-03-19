@@ -7,12 +7,12 @@ import ProductSkeleton from "@/components/ProductSkeleton";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-export default function Products() {
+export default function ShopByBusinessApproach() {
   const [productList, setProductList] = useState([]);
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const productsPerPage = 8;
+  const productsPerPage = 2;
 
   useEffect(() => {
     getPackagingType();
@@ -58,7 +58,7 @@ export default function Products() {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
-      <div className="w-full text-left mb-2 md:mb-4">
+      <div className="w-full text-left mb-2 md:mb-4 text-[#143761]">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium sm:font-bold">
           Shop by Popularity
         </h1>

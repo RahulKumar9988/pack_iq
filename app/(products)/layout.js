@@ -2,6 +2,7 @@
 import React from "react";
 import Productnav from "@/components/ProductNav";
 import StoreProvider from "./StoreProvider";
+import Footer from "@/components/Footer";
 
 export default function Layout({ children }) {
   return (
@@ -10,6 +11,7 @@ export default function Layout({ children }) {
         <Productnav />
       </div>
       <StoreProvider>{children}</StoreProvider>
+      <Footer/>
     </div>
   );
 }

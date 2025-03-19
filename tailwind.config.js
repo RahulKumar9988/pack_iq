@@ -46,7 +46,7 @@ const nextConfig = {
   plugins: [
     nextui({
       prefix: "nextui", // prefix for themes variables
-      addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
+      addCommonColors: false, // override common colors (e.g. "blue", "", "pink").
       defaultTheme: "light", // default theme from the themes object
       defaultExtendTheme: "light", // default theme to extend on custom themes
       layout: {}, // common layout tokens (applied to all themes)
