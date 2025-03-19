@@ -11,7 +11,6 @@ export default function Layout({ children }) {
         <Productnav />
       </div>
       <StoreProvider>{children}</StoreProvider>
-      <Footer/>
     </div>
   );
 }

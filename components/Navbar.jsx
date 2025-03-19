@@ -42,13 +42,11 @@ export default function HomepageNavbar() {
 
   return (
     <Navbar
-      className="bg-[#e39658] p-2"
+      className="bg-[#ead4bf] p-2"
       classNames={{
         wrapper: "max-w-full px-0 bg-transparent max-xs:gap-2",
       }}
       isBlurred={false}
-      position="static"
-      shouldHideOnScroll
     >
       <NavbarBrand className="sm:min-w-[87.5px] max-sm:min-w-[60px]">
         <Image src="/productNavLogo.png" alt="Logo" height={52} width={87.5} />
