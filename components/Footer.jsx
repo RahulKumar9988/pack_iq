@@ -6,7 +6,7 @@ const Footer = () => {
     {
       title: "Products",
       items: [
-        { name: "Packiq", href: "#" },
+        { name: "Packiq", href: "/about-us" },
         { name: "Terms and Conditions", href: "#" },
         { name: "Return Policy", href: "#" },
         { name: "Contact Us", href: "/contact" },
@@ -16,8 +16,8 @@ const Footer = () => {
     {
       title: "Industries",
       items: [
-        { name: "My Orders", href: "/orders" },
-        { name: "Track Orders", href: "/track-order" },
+        { name: "My Orders", href: "/profile" },
+        { name: "Track Orders", href: "/profile" },
         { name: "My Profile", href: "/profile" },
       ],
     },
@@ -34,8 +34,8 @@ const Footer = () => {
     {
       title: "My Account",
       items: [
-        { name: "My Orders", href: "/orders" },
-        { name: "Track Orders", href: "/track-order" },
+        { name: "My Orders", href: "/profile" },
+        { name: "Track Orders", href: "/profile" },
         { name: "My Profile", href: "/profile" },
       ],
     },

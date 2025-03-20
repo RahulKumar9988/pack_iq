@@ -15,15 +15,17 @@ export default function Homepage() {
 
   return (
     <div className="w-full flex flex-col gap-5">
+      
       <HeroSection/>
       <Products/>
       <Innovations/>
-      <ShopByBusinessApproach/>
+      {/* <ShopByBusinessApproach/> */}
+      <Products/>
       <Quality_section/>
       <Innovations/>
       <TestimonialSection/>
       <FAQ/>
-      
+
     </div>
   );
 }

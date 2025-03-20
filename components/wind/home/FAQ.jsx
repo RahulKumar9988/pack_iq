@@ -188,6 +188,7 @@ function FAQ() {
             <Button
               variant="bordered"
               className="flex items-center gap-3 px-6 py-6 border-2 border-white rounded-md text-lg text-white hover:bg-white/10 transition-all"
+              onClick={()=>router.push('/free-sample')}
             >
               Get sample products
             </Button>

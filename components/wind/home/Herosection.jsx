@@ -29,6 +29,7 @@ export default function HeroSection({ inter }) {
             <Button
               className={ `flex justify-center items-center border-[#143761] border-1 bg-transparent rounded-[4px] font-normal text-[#143761] text-sm px-2`}
               variant="bordered"
+              onClick={()=>router.push('/free-sample')}
             >
               Get sample products
             </Button>
@@ -68,6 +69,7 @@ export default function HeroSection({ inter }) {
               </Button>
               <Button
                 className="flex justify-center items-center gap-2 border-[#143761] border-1 bg-transparent rounded-[4px] font-semibold text-[#143761] text-base"
+                onClick={()=>router.push('/free-sample')}
                 variant="bordered"
               >
                 Get sample products
