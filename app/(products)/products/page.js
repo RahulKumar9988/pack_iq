@@ -24,7 +24,7 @@ export default function Page() {
         </button>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 relative">
+      <div className="flex flex-col md:flex-row gap-6 relative mt-10">
         {/* Mobile Filter Sidebar - Absolute positioned overlay when visible */}
         <aside 
           className={`
@@ -53,6 +53,11 @@ export default function Page() {
 
         {/* Main content - Products */}
         <main className="flex-1">
+          <div className="w-full text-left mb-2 md:mb-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium sm:font-bold">
+              All products
+            </h1>
+          </div>
           <Products />
         </main>
       </div>

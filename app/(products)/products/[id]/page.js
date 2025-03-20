@@ -5,6 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import ProductSkeleton from "@/components/ProductSkeleton";
+import Products from "@/components/wind/products/Products";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -243,7 +244,14 @@ export default function ProductDetail() {
             </Button>
           </div>
         </div>
+      </div>  
+
+      <div className="w-full text-left mb-2 md:mb-4 mt-20">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium sm:font-bold">
+          Recomendations..
+        </h1>
       </div>
+      <Products/>
     </div>
   );
 }
