@@ -52,7 +52,7 @@ export default function TabBar({ content }) {
                   </span>
                   <span className="flex items-center">
                     <span
-                      className={`max-mobile:text-[10px] max-xs:text-[11px] max-sm:text-[11px] max-md:text-[13px] max-ml:text-sm font-medium ${
+                      className={`max-mobile:text-xs max-xs:text-[11px] max-sm:text-[11px] max-md:text-[13px] max-ml:text-sm font-medium ${
                         isSelectedOrBefore ? "text-[#2CB041]" : ""
                       }`}
                     >

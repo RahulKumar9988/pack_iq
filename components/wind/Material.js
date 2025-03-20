@@ -89,8 +89,8 @@ export default function Material() {
                     src={ele.img}
                     alt={ele.name}
                     objectfit="cover"
-                    width={61}
-                    height={61}
+                    width={80}
+                    height={101}
                   />
                   <div className="flex flex-col gap-2">
                     <span className="text-sm mobile:text-lg font-semibold leading-none">

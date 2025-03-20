@@ -177,8 +177,8 @@ export default function Cart() {
                         alt="Cart Item"
                         className="sm:hidden"
                         radius="sm"
-                        width={71}
-                        height={63}
+                        width={101}
+                        height={103}
                       />
                     </>
                   ) : (
