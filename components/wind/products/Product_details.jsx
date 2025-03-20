@@ -76,6 +76,7 @@ export default function ProductDetail() {
   const handleAddToCart = () => {
     // Implement add to cart functionality
     console.log(`Adding ${quantity} of ${product.name} to cart`);
+    router.push('/packaging-type');
   };
 
   const handleGoBack = () => {
