@@ -4,8 +4,10 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { GoArrowUpRight } from 'react-icons/go';
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 function FAQ() {
+  const router  = useRouter();
   const [expandedQuestions, setExpandedQuestions] = useState({});
   const [visibleQuestions, setVisibleQuestions] = useState(5);
 
@@ -178,6 +180,7 @@ function FAQ() {
           <div className="flex sm:flex-row flex-col justify-center lg:justify-start gap-4">
             <Button
               className="bg-gradient-to-r from-[#0A7CFF] to-[#46E3FF] text-white flex items-center gap-3 px-6 py-6 rounded-md text-lg border-none hover:shadow-lg transition-all"
+              onClick={()=> router.push('/packaging-type')}
             >
               Customize now
               <GoArrowUpRight />

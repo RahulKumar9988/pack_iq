@@ -3,8 +3,10 @@ import Image from 'next/image';
 import { Button } from '@nextui-org/react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { GoArrowUpRight } from 'react-icons/go';
+import { useRouter } from 'next/navigation';
 
 function Innovations() {
+  const router  = useRouter();
   const features = [
     {
       title: "Best Quality Of Packaging",
@@ -62,7 +64,7 @@ function Innovations() {
 
         {/* CTA Button */}
         <div className="flex justify-center md:justify-start mt-4">
-          <Button className="flex justify-center items-center gap-2 bg-[#143761] rounded-md px-6 py-3 font-semibold text-base text-white">
+          <Button className="flex justify-center items-center gap-2 bg-[#143761] rounded-md px-6 py-3 font-semibold text-base text-white" onClick={()=> router.push('/packaging-type')}>
             Customize now <GoArrowUpRight />
           </Button>
         </div>

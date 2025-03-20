@@ -1,8 +1,10 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
 import { GoArrowUpRight } from "react-icons/go";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection({ inter }) {
+  const router = useRouter();
   return (
     <div className="flex flex-col w-full h-full">
       <div className="h-full">
@@ -32,6 +34,7 @@ export default function HeroSection({ inter }) {
             </Button>
             <Button
               className={` flex justify-center items-center border-[#143761] border-1 bg-transparent rounded-[4px] font-normal px-2 text-sm gap-2 bg-[#143761] text-white`}
+              onClick={()=> router.push('/packaging-type')}
             >
               Customize now <GoArrowUpRight />
             </Button>
@@ -60,7 +63,7 @@ export default function HeroSection({ inter }) {
               </div>
             </div>
             <div className="flex gap-5">
-              <Button className="flex justify-center items-center gap-2 bg-[#143761] rounded-[4px] font-semibold text-base text-white">
+              <Button className="flex justify-center items-center gap-2 bg-[#143761] rounded-[4px] font-semibold text-base text-white" onClick={()=> router.push('/packaging-type')}>
                 Customize now <GoArrowUpRight />
               </Button>
               <Button
