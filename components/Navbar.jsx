@@ -42,9 +42,9 @@ export default function HomepageNavbar() {
 
   return (
     <Navbar
-      className=" p-2 bg-[#ead4bf]"
+      className="bg-[#ead4bf]"
       classNames={{
-        wrapper: "max-w-full px-0 bg-transparent max-xs:gap-2",
+        wrapper: "max-w-full px-0 max-xs:gap-2",
       }}
       isBlurred={false}
       position="static"
