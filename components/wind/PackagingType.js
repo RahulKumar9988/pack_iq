@@ -13,7 +13,7 @@ const poppins = Poppins({
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-export default function ProductsDetails() {
+export default function PackagingType() {
   const [productList, setProductList] = useState([]);
 
   const dispatch = useAppDispatch();

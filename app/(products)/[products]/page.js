@@ -1,8 +1,9 @@
-import ProductDetail from "@/components/wind/products/Product_details";
+
+import PackagingType from "@/components/wind/PackagingType";
 import React from "react";
 
 export default function page() {
   return <>
-    <ProductDetail/>
+    <PackagingType/>
   </>;
 }

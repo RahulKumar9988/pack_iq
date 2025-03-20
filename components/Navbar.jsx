@@ -123,7 +123,7 @@ export default function HomepageNavbar() {
             }}
           >
             <DropdownItem key="autoscaling" startContent={icons.scale}>
-              <Link href="/products/packaging-type">Packaging Type</Link>
+              <Link href="/packaging-type">Packaging Type</Link>
             </DropdownItem>
             <DropdownItem
               key="usage_metrics"

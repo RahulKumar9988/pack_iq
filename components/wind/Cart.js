@@ -6,7 +6,6 @@ import {
   Button,
   Divider,
   Image,
-  Link,
   Select,
   SelectItem,
 } from "@nextui-org/react";
@@ -42,7 +41,6 @@ export default function Cart() {
   useEffect(() => {
     getSizes();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
