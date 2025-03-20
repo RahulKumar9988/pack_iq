@@ -1,13 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Link, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import ProductSkeleton from "@/components/ProductSkeleton";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function Products() {
+  const router = useRouter();
   const [productList, setProductList] = useState([]);
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -29,6 +31,11 @@ export default function Products() {
 
   const loadMore = () => {
     setPage(page + 1);
+  };
+  
+  // Navigate to product detail page
+  const navigateToProductDetail = (productId) => {
+    router.push(`/products/${productId}`);
   };
 
   async function getPackagingType() {
@@ -76,10 +83,10 @@ export default function Products() {
         <>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {displayedProducts.map((ele, i) => (
-              <Link
-                href={`${ele.name.toLowerCase().replace(/\s+/g, "-")}/packaging-type`}
+              <div
                 key={i}
-                className="group flex flex-col justify-end rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
+                onClick={() => navigateToProductDetail(ele.packaging_id)}
+                className="group flex flex-col justify-end rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
               >
                 <div className="relative w-full aspect-[3/4] overflow-hidden">
                   <Image
@@ -96,7 +103,7 @@ export default function Products() {
                     {ele.price}
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
 
