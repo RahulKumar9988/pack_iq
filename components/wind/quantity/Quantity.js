@@ -18,9 +18,13 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export default function Quantity() {
   const [groupSelected, setGroupSelected] = useState([]);
   const [quantities, setQuantities] = useState([]);
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
+  
   useEffect(() => {
     if (!cartItem.size_id) {
       router.back();
@@ -40,8 +44,7 @@ export default function Quantity() {
             size: ele.quantityId.quantity,
             price: ele.quantityId.price,
             number: ele.quantityId.design_number,
-            packaging_type_size_quantity_id:
-              ele.packaging_type_size_quantity_id,
+            packaging_type_size_quantity_id: ele.packaging_type_size_quantity_id,
             quantity_id: ele.quantityId.quantity_id,
           };
         });
@@ -52,7 +55,35 @@ export default function Quantity() {
     }
   }
 
-  console.log(cartItem);
+  const handleQuantitySelection = (lastSelected) => {
+    dispatch(
+      addToCart({
+        ...cartItem,
+        quantity_id: lastSelected?.quantity_id ? lastSelected.quantity_id : "",
+        packaging_type_size_quantity_id: lastSelected?.packaging_type_size_quantity_id
+          ? lastSelected.packaging_type_size_quantity_id
+          : "",
+        quantity: lastSelected?.size ? lastSelected.size : "",
+        design_number: lastSelected?.number ? lastSelected.number : "",
+        price: lastSelected?.price ? lastSelected.price : "",
+      })
+    );
+    setGroupSelected([lastSelected]);
+  };
+
+  const handleMouseEnter = (item) => {
+    setHoveredItem(item);
+    setIsImageHovered(true);
+
+    setTimeout(() => {
+      setIsImageHovered(false);
+    }, 500);
+  };
+
+  // Get the image to display
+  const getDisplayImage = () => {
+    return cartItem.image || "/size.png";
+  };
 
   return (
     <div className="flex max-md:max-w-full mb-[72px] gap-5">
@@ -63,24 +94,7 @@ export default function Quantity() {
               value={groupSelected}
               onChange={(e) => {
                 const lastSelected = e[e.length - 1];
-                dispatch(
-                  addToCart({
-                    ...cartItem,
-                    quantity_id: lastSelected?.quantity_id
-                      ? lastSelected.quantity_id
-                      : "",
-                    packaging_type_size_quantity_id:
-                      lastSelected?.packaging_type_size_quantity_id
-                        ? lastSelected.packaging_type_size_quantity_id
-                        : "",
-                    quantity: lastSelected?.size ? lastSelected.size : "",
-                    design_number: lastSelected?.number
-                      ? lastSelected.number
-                      : "",
-                    price: lastSelected?.price ? lastSelected.price : "",
-                  })
-                );
-                setGroupSelected([lastSelected]);
+                handleQuantitySelection(lastSelected);
               }}
               classNames={{
                 base: "w-full w-max-full",
@@ -169,6 +183,7 @@ export default function Quantity() {
                         label: "w-full last:rounded-b-xl",
                       }}
                       value={ele}
+                      onMouseEnter={() => handleMouseEnter(ele)}
                     >
                       <div className="w-full flex justify-between text-[#03172B] gap-2">
                         <div className="flex flex-col justify-evenly items-center">
@@ -210,8 +225,29 @@ export default function Quantity() {
             </CheckboxGroup>
           </div>
         </div>
-        <div className="max-sm:hidden h-auto border-2 flex justify-center items-center rounded-xl">
-          <Image src={"/size.png"} alt="size" width={350} height={356} />
+        <div className="max-sm:hidden h-auto border-2 flex justify-center items-center rounded-xl overflow-hidden">
+          <Image 
+            src={getDisplayImage()} 
+            alt="Selected size" 
+            width={350} 
+            height={356}
+            className={`transition-transform transition-filter ease duration-200 ${
+              isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
+            }`}
+          />
+        </div>
+        
+        {/* Mobile image view - only visible on small screens */}
+        <div className="sm:hidden h-auto border-2 flex justify-center items-center rounded-xl overflow-hidden">
+          <Image 
+            src={getDisplayImage()} 
+            alt="Selected size" 
+            width={250} 
+            height={200}
+            className={`transition-transform transition-filter ease duration-200 ${
+              isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
+            }`}
+          />
         </div>
       </div>
       <div className="max-ml:hidden w-1/4 flex flex-col gap-5">

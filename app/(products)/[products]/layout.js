@@ -24,12 +24,6 @@ export default function Layout({ children }) {
         "Get a discount when ordering larger quantities and select even more designs for your pouches.",
       title2: "Get a discount by choosing bigger sizes and save more",
     },
-    design: {
-      heading: "Design",
-      title:
-        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
-      title2: "Get a discount by choosing bigger sizes and save more",
-    },
     material: {
       heading: "Material",
       title:
@@ -45,7 +39,6 @@ export default function Layout({ children }) {
     "/", 
     "packaging-type",
     "size",
-    "design",
     "quantity",
     "material",
   ];

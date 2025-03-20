@@ -22,6 +22,7 @@ export default function Size() {
   const [sizes, setSizes] = useState([]);
   const [hoveredItem, setHoveredItem] = useState(null); // New state for hover effect
   const [isImageHovered, setIsImageHovered] = useState(false); // For blur and enlargement effect
+  const [defaultImage, setDefaultImage] = useState(""); // Default image state
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
@@ -45,17 +46,24 @@ export default function Size() {
             size: ele.sizeId.name,
             dimension: ele.sizeId.dimensions,
             product: "coffee",
-            image: "/size.png",
-            // image: ele.sizeId.size_image_link,
+            // image: "/size.png",
+            image: ele.sizeId.size_image_link,
             weight: ele.sizeId.filling_volume,
             packaging_type_size_id: ele.packaging_type_size_id,
             size_id: ele.sizeId.size_id,
           };
         });
         setSizes(responseData);
+        // Set default image as the first item's image if available
+        if (responseData.length > 0 && responseData[0].image) {
+          setDefaultImage(responseData[0].image);
+        } else {
+          setDefaultImage("/size.png"); // Fallback to a default image
+        }
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
+      setDefaultImage("/size.png"); // Set fallback image on error
     }
   }
 
@@ -66,6 +74,7 @@ export default function Size() {
         size: lastSelected.size,
         dimension: lastSelected.dimension,
         size_id: lastSelected.size_id,
+        image: lastSelected.image, // Make sure we're storing the image correctly
         packaging_type_size_id: lastSelected.packaging_type_size_id,
         weight: lastSelected.weight,
       })
@@ -77,32 +86,37 @@ export default function Size() {
     setHoveredItem(item);
     setIsImageHovered(true); // Start image effect on hover
 
-    // Set a timeout to make it false after 2 seconds (2000 milliseconds)
+    // Set a timeout to make it false after 500 milliseconds
     setTimeout(() => {
-      setIsImageHovered(false); // Stop image effect after 2 seconds
+      setIsImageHovered(false); // Stop image effect after 500ms
     }, 500);
+  };
+
+  // Get current image to display
+  const getCurrentImage = () => {
+    if (hoveredItem?.image) {
+      return hoveredItem.image;
+    } else if (groupSelected.length && groupSelected[0].image) {
+      return groupSelected[0].image;
+    } else {
+      return defaultImage;
+    }
   };
 
   return (
     <div className="flex max-lg:flex-col max-md:w-full mb-[100px] gap-5">
-      <div className="lg:w-4/5 max-ml:w-full flex max-md:flex-col  gap-4">
+      <div className="lg:w-4/5 max-ml:w-full flex max-md:flex-col gap-4">
         <div className="sm:hidden md:w-auto h-fit border-2 flex justify-center items-center rounded-xl overflow-hidden">
           <Image
-            src={
-              hoveredItem?.image
-                ? hoveredItem.image
-                : groupSelected.length
-                ? groupSelected[0].image
-                : "/size.png"
-            }
+            src={getCurrentImage()}
             width={241}
             height={161}
             objectFit="cover"
-            alt="size"
+            alt="product size"
             className={`transition-opacity ${
               isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
             } duration-2000 ease-in-out`}
-            style={{ width: "auto", height: "100%" }} // Optional inline styles if needed
+            style={{ width: "auto", height: "100%" }}
           />
         </div>
         <div className="grid sm:grid-cols-2 w-full h-fit gap-4">
@@ -227,15 +241,8 @@ export default function Size() {
           </div>
           <div className="max-sm:hidden h-fit border-2 flex justify-center items-center rounded-xl">
             <Image
-              // src={groupSelected.length ? groupSelected[0].image : "/size.png"}
-              src={
-                hoveredItem?.image
-                  ? hoveredItem.image
-                  : groupSelected.length
-                  ? groupSelected[0].image
-                  : "/size.png"
-              }
-              alt="size"
+              src={getCurrentImage()}
+              alt="product size"
               width={350}
               height={350}
               className={`transition-transform transition-filter ease duration-200 ${
