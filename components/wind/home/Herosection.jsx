@@ -4,7 +4,7 @@ import { GoArrowUpRight } from "react-icons/go";
 
 export default function HeroSection({ inter }) {
   return (
-    <div className="flex flex-col w-full h-full bg-red-200">
+    <div className="flex flex-col w-full h-full">
       <div className="h-full">
         {/* Mobile Hero Section */}
         <div className="flex flex-col items-center gap-8 xs:hidden bg-[#ead4bf] px-[30px] pt-0 max-w-[629px]">
