@@ -75,6 +75,9 @@ export default function MobileNav() {
             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
               <Link href="/orders">Orders</Link>
             </li>
+            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              <Link href="/cart">Cart</Link>
+            </li>
           </ul>
         </motion.div>
       )}
