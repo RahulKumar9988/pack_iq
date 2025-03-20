@@ -1,24 +1,44 @@
-import Image from 'next/image';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import Image from "next/image";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   const footerLinks = [
     {
-      title: 'Products',
-      items: ['Packiq', 'Terms and Conditions', 'Return Policy', 'Contact Us', 'Bulk Order']
+      title: "Products",
+      items: [
+        { name: "Packiq", href: "#" },
+        { name: "Terms and Conditions", href: "#" },
+        { name: "Return Policy", href: "#" },
+        { name: "Contact Us", href: "/contact" },
+        { name: "Bulk Order", href: "#" },
+      ],
     },
     {
-      title: 'Industries',
-      items: ['My Orders', 'Track Orders', 'My Profile']
+      title: "Industries",
+      items: [
+        { name: "My Orders", href: "/orders" },
+        { name: "Track Orders", href: "/track-order" },
+        { name: "My Profile", href: "/profile" },
+      ],
     },
     {
-      title: 'About Us',
-      items: ['About Packiq', 'Terms and Conditions', 'Return Policy', 'FAQ', 'Blogs']
+      title: "About Us",
+      items: [
+        { name: "About Packiq", href: "/about-us" },
+        { name: "Terms and Conditions", href: "/terms" },
+        { name: "Return Policy", href: "/return-policy" },
+        { name: "FAQ", href: "/faq" },
+        { name: "Blogs", href: "/blogs" },
+      ],
     },
     {
-      title: 'My Account',
-      items: ['My Orders', 'Track Orders', 'My Profile']
-    }
+      title: "My Account",
+      items: [
+        { name: "My Orders", href: "/orders" },
+        { name: "Track Orders", href: "/track-order" },
+        { name: "My Profile", href: "/profile" },
+      ],
+    },
   ];
 
   return (
@@ -31,12 +51,12 @@ const Footer = () => {
               <h3 className="font-semibold text-lg md:text-xl">{section.title}</h3>
               <div className="flex flex-col gap-4 text-gray-700">
                 {section.items.map((item, itemIndex) => (
-                  <a 
-                    key={itemIndex} 
-                    href="#" 
+                  <a
+                    key={itemIndex}
+                    href={item.href || "#"}
                     className="hover:text-[#143761] transition-colors duration-200"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 ))}
               </div>
@@ -56,9 +76,9 @@ const Footer = () => {
             className="h-auto w-auto"
           />
         </div>
-        
+
         <span className="sm:hidden text-[#143761] text-sm">Copyright © 2024</span>
-        
+
         <div className="flex max-sm:flex-col sm:items-center gap-6">
           <span className="max-sm:hidden text-[#143761] text-sm">
             Copyright © 2024 Packiq. All rights reserved.

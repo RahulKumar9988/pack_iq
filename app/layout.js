@@ -2,6 +2,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import MobileNav from "@/components/MobileNav";
 import Footer from "@/components/Footer";
+import HomepageNavbar from "@/components/Navbar";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -17,6 +18,9 @@ export default function RootLayout({ children }) {
         {/* 🔹 Navbar for Desktop */}
         
         <div className="flex flex-col flex-grow w-full items-center">
+          <div className="hidden sm:block w-full px-10">
+            <HomepageNavbar/>    
+          </div>
           {/* 🔹 Mobile Navigation (Only for Small Screens) */}
           <div className="max-mobile:block hidden w-full">
             <MobileNav />

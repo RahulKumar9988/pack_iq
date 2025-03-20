@@ -12,7 +12,7 @@ export default function Page() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 relative">
+    <div className=" mx-auto relative">
       {/* Mobile Floating Filter Button */}
       <div className="md:hidden fixed bottom-6 right-6 z-30">
         <button
@@ -32,7 +32,7 @@ export default function Page() {
             ${showFiltersMobile ? 'translate-x-0' : '-translate-x-full'}
           `}
         >
-          <div className="p-4">
+          <div className="p-0">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold">Filters</h2>
               <button 

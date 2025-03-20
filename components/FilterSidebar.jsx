@@ -50,7 +50,7 @@ const FilterSidebar = () => {
   };
 
   return (
-    <div className="w-64 bg-white shadow rounded-lg p-4 border border-gray-200">
+    <div className="w-full bg-white shadow rounded-lg p-4 border border-gray-200">
       <div className="mb-6">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Filters</h2>
         

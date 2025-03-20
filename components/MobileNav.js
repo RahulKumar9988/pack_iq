@@ -30,12 +30,14 @@ export default function MobileNav() {
         {/* Center Logo */}
         <NavbarContent justify="center">
           <NavbarItem>
-            <Image
-              src="/productNavLogo.png"
-              alt="Logo"
-              height={32}
-              width={53.87}
-            />
+            <Link href="/">
+              <Image
+                src="/productNavLogo.png"
+                alt="Logo"
+                height={32}
+                width={53.87}
+              />
+            </Link>
           </NavbarItem>
         </NavbarContent>
 
