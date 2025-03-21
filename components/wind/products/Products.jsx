@@ -65,12 +65,6 @@ export default function Products() {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
-      <div className="w-full text-left mb-2 md:mb-4">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium sm:font-bold">
-          {/* All products */}
-        </h1>
-      </div>
-
       {loading ? (
         <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {Array(productsPerPage)

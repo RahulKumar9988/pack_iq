@@ -71,7 +71,7 @@ export default function Size() {
     dispatch(
       addToCart({
         ...cartItem,
-        size: lastSelected.size,
+        // size: lastSelected.size,
         dimension: lastSelected.dimension,
         size_id: lastSelected.size_id,
         image: lastSelected.image, // Make sure we're storing the image correctly
@@ -111,7 +111,6 @@ export default function Size() {
             src={getCurrentImage()}
             width={241}
             height={161}
-            objectFit="cover"
             alt="product size"
             className={`transition-opacity ${
               isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
@@ -160,7 +159,7 @@ export default function Size() {
                     </svg>
                   </span>
                   <span
-                    id=":Rr6cvf6jt7qcq:"
+                    // id=":Rr6cvf6jt7qcq:"
                     className="relative text-foreground select-none text-medium transition-colors-opacity before:transition-width motion-reduce:transition-none w-full"
                   >
                     <div className="w-full flex justify-between text-[#808b98] gap-2">

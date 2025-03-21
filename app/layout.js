@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           </div>
         </div>
 
-        {/* 🔹 Footer */}
+        {/* 🔹 Footer */} 
         <Footer />
       </body>
     </html>

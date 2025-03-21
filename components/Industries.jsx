@@ -102,8 +102,8 @@ export default function Industries() {
           <div className="border-b mt-12"></div>
         </div>
       </div>
-      <div className="px-20">
-        <p className="text-[28px] font-semibold mb-[-70px]">Shop by popularity</p>
+      <div className="px-5 md:px-20">
+        <p className="text-[28px] font-semibold">Shop by popularity</p>
         <Products/>
       </div>
     </div>
