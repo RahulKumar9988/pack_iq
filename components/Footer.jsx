@@ -63,7 +63,7 @@ const Footer = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div>  
 
       {/* Bottom Section */}
       <div className="flex max-sm:flex-col justify-between max-sm:gap-5 bg-[#F3F5F7] lg:px-[100px] py-5 p-6">

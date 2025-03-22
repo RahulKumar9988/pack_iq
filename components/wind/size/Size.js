@@ -16,17 +16,19 @@ import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useRouter } from "next/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const DEFAULT_IMAGE = "/size.png"; // Define default image constant
 
 export default function Size() {
   const [groupSelected, setGroupSelected] = useState([]);
   const [sizes, setSizes] = useState([]);
-  const [hoveredItem, setHoveredItem] = useState(null); // New state for hover effect
-  const [isImageHovered, setIsImageHovered] = useState(false); // For blur and enlargement effect
-  const [defaultImage, setDefaultImage] = useState(""); // Default image state
+  const [hoveredItem, setHoveredItem] = useState(null); 
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  const [defaultImage, setDefaultImage] = useState(DEFAULT_IMAGE); // Initialize with default
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
+  
   useEffect(() => {
     if (!cartItem.packaging_id) {
       router.back();
@@ -42,28 +44,29 @@ export default function Size() {
       );
       if (response.data.status === 200) {
         const responseData = response.data.data.map((ele) => {
+          // Use default image if no image is available
+          const imageUrl = ele.sizeId.size_image_link || DEFAULT_IMAGE;
+          
           return {
             size: ele.sizeId.name,
             dimension: ele.sizeId.dimensions,
             product: "coffee",
-            // image: "/size.png",
-            image: ele.sizeId.size_image_link,
+            image: imageUrl,
             weight: ele.sizeId.filling_volume,
             packaging_type_size_id: ele.packaging_type_size_id,
             size_id: ele.sizeId.size_id,
           };
         });
         setSizes(responseData);
-        // Set default image as the first item's image if available
+        
+        // Set default image from first item if available
         if (responseData.length > 0 && responseData[0].image) {
           setDefaultImage(responseData[0].image);
-        } else {
-          setDefaultImage("/size.png"); // Fallback to a default image
         }
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
-      setDefaultImage("/size.png"); // Set fallback image on error
+      // Keep using the default image on error - no need to set it again as it's already the default
     }
   }
 
@@ -71,10 +74,9 @@ export default function Size() {
     dispatch(
       addToCart({
         ...cartItem,
-        // size: lastSelected.size,
         dimension: lastSelected.dimension,
         size_id: lastSelected.size_id,
-        image: lastSelected.image, // Make sure we're storing the image correctly
+        image: lastSelected.image || DEFAULT_IMAGE, // Ensure image has a fallback
         packaging_type_size_id: lastSelected.packaging_type_size_id,
         weight: lastSelected.weight,
       })
@@ -84,15 +86,14 @@ export default function Size() {
 
   const handleMouseEnter = (item) => {
     setHoveredItem(item);
-    setIsImageHovered(true); // Start image effect on hover
+    setIsImageHovered(true);
 
-    // Set a timeout to make it false after 500 milliseconds
     setTimeout(() => {
-      setIsImageHovered(false); // Stop image effect after 500ms
+      setIsImageHovered(false);
     }, 500);
   };
 
-  // Get current image to display
+  // Get current image to display with proper fallback
   const getCurrentImage = () => {
     if (hoveredItem?.image) {
       return hoveredItem.image;
@@ -116,6 +117,9 @@ export default function Size() {
               isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
             } duration-2000 ease-in-out`}
             style={{ width: "auto", height: "100%" }}
+            onError={(e) => {
+              e.target.src = DEFAULT_IMAGE; // Set default image on error
+            }}
           />
         </div>
         <div className="grid sm:grid-cols-2 w-full h-fit gap-4">
@@ -159,7 +163,6 @@ export default function Size() {
                     </svg>
                   </span>
                   <span
-                    // id=":Rr6cvf6jt7qcq:"
                     className="relative text-foreground select-none text-medium transition-colors-opacity before:transition-width motion-reduce:transition-none w-full"
                   >
                     <div className="w-full flex justify-between text-[#808b98] gap-2">
@@ -247,6 +250,9 @@ export default function Size() {
               className={`transition-transform transition-filter ease duration-200 ${
                 isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
               }`}
+              onError={(e) => {
+                e.target.src = DEFAULT_IMAGE; // Set default image on error
+              }}
             />
           </div>
         </div>
