@@ -25,11 +25,11 @@ export default function RootLayout({ children }) {
           <div className="block sm:hidden w-full">
             <MobileNav />
           </div>
+            {/* 🔹 Main Content */}
+            <div className="max-w-full scrollbar-hide flex justify-center flex-grow w-full">
+              {children}
+            </div>
 
-          {/* 🔹 Main Content */}
-          <div className="max-w-full scrollbar-hide flex justify-center flex-grow w-full">
-            {children}
-          </div>
         </div>
 
         {/* 🔹 Footer */} 
