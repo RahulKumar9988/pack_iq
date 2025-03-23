@@ -142,14 +142,7 @@ export default function MobileNav() {
                 ) : (
                   // Show login button if not logged in
                   <div className="flex items-center">
-                    <Button
-                      onClick={handleLoginClick}
-                      className="bg-blue-500 hover:bg-blue-600 text-white"
-                      size="sm"
-                    >
-                      Login
-                    </Button>
-                    <p className="ml-2 text-sm text-gray-500">Sign in to your account</p>
+                    <p className="ml-2 text-sm text-gray-500">Please Sign-in to your account</p>
                   </div>
                 )}
                 <button 
