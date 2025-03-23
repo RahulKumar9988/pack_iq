@@ -23,7 +23,7 @@ function About_us() {
           <p className="text-gray-700 text-base sm:text-lg md:text-xl">
             Scaleup Finance helps startups and SMEs make smarter strategic
             decisions by taking their financial management to the next level.
-            The perfect solution when your colleagues don't speak spreadsheet.
+            The perfect solution when your colleagues don&apos;t speak spreadsheet.
           </p>
           <Button
             onClick={() => router.push("/contact")}
@@ -69,7 +69,7 @@ function About_us() {
       {/* Team Section */}
       <div className="w-full text-center">
         <p className="font-bold text-2xl sm:text-3xl mt-20">
-          We're a team of passionate builders and <br /> innovators across the
+          We&apos;re a team of passionate builders and <br /> innovators across the
           US, Europe, and India
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mt-10">

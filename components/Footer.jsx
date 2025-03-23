@@ -28,7 +28,7 @@ const Footer = () => {
         { name: "Terms and Conditions", href: "/terms" },
         { name: "Return Policy", href: "/return-policy" },
         { name: "FAQ", href: "/faq" },
-        { name: "Blogs", href: "/blogs" },
+        { name: "Blogs", href: "/blog" },
       ],
     },
     {
