@@ -125,7 +125,6 @@ export default function Blogs() {
       </Head>
 
       <Blog_Banner/>
-
       <Blog_list/>
     </div>
   );
