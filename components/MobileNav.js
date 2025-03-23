@@ -47,7 +47,7 @@ export default function MobileNav() {
     <div className="relative">
       <Navbar
         classNames={{
-          wrapper: "max-w-full px-[30px] py-[10px] h-[52px] bg-[#ead4bf]",
+          wrapper: "max-w-full px-[30px] py-[10px] h-[60px] bg-[#ead4bf]",
         }}
       >
         {/* Center Logo */}
