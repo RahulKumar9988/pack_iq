@@ -61,10 +61,6 @@ const BlogCard = React.memo(({ blog }) => {
               alt={blog.blog_title}
               className="w-full h-full object-cover"
               loading="lazy"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'https://via.placeholder.com/300x200?text=Blog+Image';
-              }}
             />
           ) : (
             <div className="bg-gray-200 w-full h-full flex items-center justify-center">

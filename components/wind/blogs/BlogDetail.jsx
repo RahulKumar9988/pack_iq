@@ -121,10 +121,6 @@ export default function BlogDetail() {
               src={blog.blog_image_url} 
               alt={blog.blog_title} 
               className="w-full h-64 md:h-96 object-cover"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'https://via.placeholder.com/800x400?text=Blog+Image';
-              }}
             />
           ) : (
             <div className="bg-gray-200 w-full h-64 md:h-96 flex items-center justify-center">
