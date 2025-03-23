@@ -2,15 +2,13 @@
 import React, { useState, useEffect } from "react";
 import {
   Navbar,
-  NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link,
   Image,
-  Button,
 } from "@nextui-org/react";
 import BagLogo from "@/public/BagLogo.jsx";
-import { IoIosArrowBack, IoMdClose } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
 import { BsChevronDown } from "react-icons/bs";
 import { usePathname } from "next/navigation.js";
@@ -179,7 +177,7 @@ export default function MobileNav() {
                   <li className="border-b">
                     <Link href="/contact" className="w-full p-4 flex items-center">
                       <span className="mr-2">📞</span>
-                      <span>Contact us</span>
+                      <span className="text-black">Contact us</span>
                     </Link>
                   </li>
 
@@ -187,19 +185,19 @@ export default function MobileNav() {
                   <li className="border-b">
                     <Link href="/blog" className="w-full p-4 flex items-center">
                       <span className="mr-2">📝</span>
-                      <span>Blog</span>
+                      <span className="text-black">Blog</span>
                     </Link>
                   </li>
                   <li className="border-b">
                     <Link href="/profile" className="w-full p-4 flex items-center">
                       <span className="mr-2">👤</span>
-                      <span>Account</span>
+                      <span className="text-black">Account</span>
                     </Link>
                   </li>
                   <li className="border-b">
                     <Link href="/cart" className="w-full p-4 flex items-center">
                       <span className="mr-2">🛒</span>
-                      <span>Cart</span>
+                      <span className="text-black">Cart</span>
                     </Link>
                   </li>
                 </ul>
