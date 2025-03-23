@@ -70,8 +70,18 @@ function BlogUpload() {
     fileInputRef.current.click();
   };
 
+  const logPostDetails = () => {
+    console.log('=== Blog Post Details ===');
+    console.log('Title:', title);
+    console.log('Category:', selectedCategory);
+    console.log('Content length:', content?.length || 0, 'characters');
+    console.log('Featured image:', featuredImage ? featuredImage.name : 'None');
+    console.log('========================');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    logPostDetails();
     
     if (!title || !content || !featuredImage) {
       alert("Please fill all required fields and upload a featured image");
