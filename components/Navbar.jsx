@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -28,6 +28,25 @@ import { useRouter } from "next/navigation.js";
 
 export default function HomepageNavbar() {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  useEffect(() => {
+    // Check if user is logged in when component mounts
+    // This only runs on client-side
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+    }
+  }, []);
+
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      router.push('/profile');
+    } else {
+      router.push('/auth/signin');
+    }
+  };
+  
   const icons = {
     chevron: <ChevronDown fill="currentColor" size={16} />,
     scale: <Scale className="text-warning" fill="currentColor" size={30} />,
@@ -50,7 +69,6 @@ export default function HomepageNavbar() {
       position="sticky"
       shouldHideOnScroll
     >
-  {/* Your Navbar content here */}
       <NavbarBrand className="sm:min-w-[87.5px] max-sm:min-w-[60px]">
         <Link href="/">
           <Image src="/productNavLogo.png" alt="Logo" height={52} width={87.5} />
@@ -157,18 +175,37 @@ export default function HomepageNavbar() {
             Bag
           </Link>
         </NavbarItem>
+        
+        {/* Profile section that changes based on login status */}
         <NavbarItem className="flex-col gap-2 pt-4 text-[12px]">
-          <Avatar
-            onClick={()=>router.push('/profile')}
-            isBordered
-            as="button"
-            className="transition-transform"
-            color="secondary"
-            name="Jason Hughes"
-            size="sm"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-          />
-          Profile
+          {isLoggedIn ? (
+            // Show avatar for logged in users
+            <>
+              <Avatar
+                onClick={handleProfileClick}
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="secondary"
+                name="Jason Hughes"
+                size="sm"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              />
+              Profile
+            </>
+          ) : (
+            // Show login button for guests
+            <>
+              <Button
+                onClick={handleProfileClick}
+                className="bg-blue-500 hover:bg-blue-600 text-white min-w-0 h-8 px-3"
+                size="sm"
+              >
+                Login
+              </Button>
+              <span>Sign In</span>
+            </>
+          )}
         </NavbarItem>
       </NavbarContent>
     </Navbar>
