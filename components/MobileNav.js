@@ -6,21 +6,37 @@ import {
   NavbarItem,
   Link,
   Image,
+  Button,
 } from "@nextui-org/react";
 import BagLogo from "@/public/BagLogo.jsx";
 import { IoMdClose } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
 import { BsChevronDown } from "react-icons/bs";
-import { usePathname } from "next/navigation.js";
+import { usePathname, useRouter } from "next/navigation.js";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: "Samuel John",
+    email: "bill.sanders@example.com"
+  });
   const [expandedItems, setExpandedItems] = useState({
     products: false,
     shopBy: false
   });
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Check if user is logged in when component mounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      // In a real app, you might want to decode the token or fetch user info from API
+    }
+  }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -39,6 +55,25 @@ export default function MobileNav() {
       ...prev,
       [item]: !prev[item]
     }));
+  };
+
+  const handleLoginClick = () => {
+    setIsOpen(false); // Close the menu
+    router.push('/auth/signin');
+  };
+
+  const handleProfileClick = () => {
+    setIsOpen(false); // Close the menu
+    router.push('/profile');
+  };
+
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      router.push('/');
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -93,15 +128,30 @@ export default function MobileNav() {
             <div className="flex flex-col h-full">
               {/* Header with close button */}
               <div className="flex items-center justify-between p-4 border-b">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center text-lg font-bold">
-                    S
+                {isLoggedIn ? (
+                  // Show user info if logged in
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center text-lg font-bold">
+                      {userInfo.name.charAt(0)}
+                    </div>
+                    <div className="ml-3">
+                      <p className="font-medium text-sm">{userInfo.name}</p>
+                      <p className="text-xs text-gray-500">{userInfo.email}</p>
+                    </div>
                   </div>
-                  <div className="ml-3">
-                    <p className="font-medium text-sm">Samuel John.</p>
-                    <p className="text-xs text-gray-500">bill.sanders@example.com</p>
+                ) : (
+                  // Show login button if not logged in
+                  <div className="flex items-center">
+                    <Button
+                      onClick={handleLoginClick}
+                      className="bg-blue-500 hover:bg-blue-600 text-white"
+                      size="sm"
+                    >
+                      Login
+                    </Button>
+                    <p className="ml-2 text-sm text-gray-500">Sign in to your account</p>
                   </div>
-                </div>
+                )}
                 <button 
                   onClick={() => setIsOpen(false)}
                   className="p-2"
@@ -188,18 +238,38 @@ export default function MobileNav() {
                       <span className="text-black">Blog</span>
                     </Link>
                   </li>
+                  
+                  {/* Conditional rendering for Account/Login */}
                   <li className="border-b">
-                    <Link href="/profile" className="w-full p-4 flex items-center">
-                      <span className="mr-2">👤</span>
-                      <span className="text-black">Account</span>
-                    </Link>
+                    {isLoggedIn ? (
+                      <button onClick={handleProfileClick} className="w-full p-4 flex items-center">
+                        <span className="mr-2">👤</span>
+                        <span className="text-black">My Account</span>
+                      </button>
+                    ) : (
+                      <button onClick={handleLoginClick} className="w-full p-4 flex items-center">
+                        <span className="mr-2">👤</span>
+                        <span className="text-black">Sign In</span>
+                      </button>
+                    )}
                   </li>
+                  
                   <li className="border-b">
                     <Link href="/cart" className="w-full p-4 flex items-center">
                       <span className="mr-2">🛒</span>
                       <span className="text-black">Cart</span>
                     </Link>
                   </li>
+                  
+                  {/* Logout option for logged in users */}
+                  {isLoggedIn && (
+                    <li className="border-b">
+                      <button onClick={handleLogout} className="w-full p-4 flex items-center text-red-500">
+                        <span className="mr-2">🚪</span>
+                        <span>Logout</span>
+                      </button>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

@@ -16,7 +16,7 @@ export function SignInForm() {
   const [error, setError] = useState("");
   
   // Ensure the base URL is properly handled with a fallback
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://packiqbackend.setstatetech.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -29,13 +29,38 @@ import { useRouter } from "next/navigation.js";
 export default function HomepageNavbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({
+    name: "User",
+    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+  });
   
   useEffect(() => {
     // Check if user is logged in when component mounts
     // This only runs on client-side
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
-      setIsLoggedIn(!!token);
+      
+      if (token) {
+        setIsLoggedIn(true);
+        
+        // Fetch user data or use cached data from localStorage
+        try {
+          const storedUserData = localStorage.getItem("userData");
+          if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+          } else {
+            // If no stored user data, you could fetch it from your API
+            // fetchUserData(token).then(data => {
+            //   setUserData(data);
+            //   localStorage.setItem("userData", JSON.stringify(data));
+            // });
+          }
+        } catch (error) {
+          console.error("Error loading user data:", error);
+        }
+      } else {
+        setIsLoggedIn(false);
+      }
     }
   }, []);
 
@@ -45,6 +70,13 @@ export default function HomepageNavbar() {
     } else {
       router.push('/auth/signin');
     }
+  };
+  
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userData");
+    setIsLoggedIn(false);
+    router.push('/');
   };
   
   const icons = {
@@ -177,33 +209,49 @@ export default function HomepageNavbar() {
         </NavbarItem>
         
         {/* Profile section that changes based on login status */}
-        <NavbarItem className="flex-col gap-2 pt-4 text-[12px]">
+        <NavbarItem className="flex-col gap-2 text-[12px]">
           {isLoggedIn ? (
-            // Show avatar for logged in users
-            <>
-              <Avatar
-                onClick={handleProfileClick}
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="secondary"
-                name="Jason Hughes"
-                size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-              />
-              Profile
-            </>
+            // Show user profile dropdown for logged in users
+            <Dropdown placement="bottom-end">
+              <DropdownTrigger>
+                <div className="flex flex-col items-center cursor-pointer mt-5">
+                  <Avatar
+                    isBordered
+                    as="button"
+                    className="transition-transform"
+                    color="secondary"
+                    name={userData.name}
+                    size="sm"
+                    src={userData.avatar}
+                  />
+                  <span className="text-[12px] mt-1">{userData.name}</span>
+                </div>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Profile Actions">
+                <DropdownItem key="profile" onClick={() => router.push('/profile')}>
+                  My Profile
+                </DropdownItem>
+                <DropdownItem key="orders" onClick={() => router.push('/orders')}>
+                  My Orders
+                </DropdownItem>
+                <DropdownItem key="settings" onClick={() => router.push('/settings')}>
+                  Settings
+                </DropdownItem>
+                <DropdownItem key="logout" color="danger" onClick={handleLogout}>
+                  Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           ) : (
             // Show login button for guests
             <>
               <Button
                 onClick={handleProfileClick}
-                className="bg-blue-500 hover:bg-blue-600 text-white min-w-0 h-8 px-3"
+                className="bg-[#2f4158] hover:bg-blue-800 text-white font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 size="sm"
               >
                 Login
               </Button>
-              <span>Sign In</span>
             </>
           )}
         </NavbarItem>
