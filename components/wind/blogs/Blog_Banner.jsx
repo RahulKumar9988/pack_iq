@@ -16,7 +16,7 @@ function Blog_Banner() {
 
         <div className="flex flex-col gap-8 md:gap-[60px] sm:flex max-w-[629px]">
           <div className="flex flex-col gap-3 md:gap-5 lg:gap-6 uppercase">
-            <div className="text-2xl sm:text-3xl md:text-[40px] lg:text-[51px] leading-7 sm:leading-8 md:leading-[45px] lg:leading-[60px] font-bold text-white">
+            <div className="text-3xl sm:text-3xl md:text-[40px] lg:text-[60px] leading-7 sm:leading-8 md:leading-[45px] lg:leading-[60px] font-bold text-white">
               Packiq Blogs
             </div>
             <div className="font-medium text-white text-sm md:text-base">
