@@ -5,7 +5,7 @@ function Blog_Banner() {
     <div>
         {/* blog-banner-background */}
         <div
-          className="h-[30vh] md:h-96 flex items-center bg-cover bg-center px-4 md:px-8 lg:px-16 border-t-2 w-full"
+          className="h-[30vh] md:h-96 flex items-center bg-cover bg-center px-4 md:px-8 lg:px-16 border w-full"
           style={{
             backgroundImage:
               "linear-gradient(rgba(0, 0, 0, 0.783), rgba(255, 255, 255, 0.103)), url('/blog.png')",
