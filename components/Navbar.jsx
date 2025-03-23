@@ -140,6 +140,11 @@ export default function HomepageNavbar() {
             Contact Us
           </Link>
         </NavbarItem>
+        <NavbarItem>
+          <Link className="max-sm:text-sm" color="foreground" href="/blog">
+            Blogs
+          </Link>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end" className="flex-grow-0 sm:gap-10">

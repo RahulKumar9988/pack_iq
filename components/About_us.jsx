@@ -3,6 +3,7 @@ import FAQ from "@/components/wind/home/FAQ";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Blog_list from "./wind/blogs/Blog_list";
 
 function About_us() {
   const router = useRouter();
@@ -22,7 +23,7 @@ function About_us() {
           <p className="text-gray-700 text-base sm:text-lg md:text-xl">
             Scaleup Finance helps startups and SMEs make smarter strategic
             decisions by taking their financial management to the next level.
-            The perfect solution when your colleagues don’t speak spreadsheet.
+            The perfect solution when your colleagues don't speak spreadsheet.
           </p>
           <Button
             onClick={() => router.push("/contact")}
@@ -68,7 +69,7 @@ function About_us() {
       {/* Team Section */}
       <div className="w-full text-center">
         <p className="font-bold text-2xl sm:text-3xl mt-20">
-          We’re a team of passionate builders and <br /> innovators across the
+          We're a team of passionate builders and <br /> innovators across the
           US, Europe, and India
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mt-10">
@@ -91,32 +92,9 @@ function About_us() {
       </div>
 
       {/* Blog Section */}
-      <div className="mt-20 w-full">
-        <p className="font-bold text-3xl mb-5">Packiq Blogs</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {Array(3)
-            .fill(0)
-            .map((_, index) => (
-              <div key={index} className="space-y-4">
-                <img
-                  src="https://s3-alpha-sig.figma.com/img/50bd/a1c5/69fb7799686c0dbc2cfadfbcd7ecd353?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=rLAwx1xkV8ncR~t3TblImNDCWHqfpp-MPXkPJh5f9y0MMGZnJzrkbQ1s-OmSFBqSiEkgCBg6hZ3bDU-i8R4ai5Mb2TtCfhr2iEndAg34Sbu~fkHv-DfMO2uHJuTRpXcAc~tbAjpJPSKd41WgDDQuGWspRi9yH-lLzMPV3Rt57AabhYN4IpJzQ9dsOmGjrrNquyIEmOa7z9TNe2xgaM31-PFs5UuEsDkdrv55JncN6exSQ~DUvfLmXdY6A0csRt0p1UYYal8uWpEVBL8LmiFagrQICPC8iEiRgh-7v-YCVKAbDqWPoM5~I2MdPgOy4ZhcvZ8XInUIqqu-i7y3RHMfDg__"
-                  alt="Blog"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg"
-                />
-                <p className="text-gray-500 text-sm">PRODUCT UPDATES</p>
-                <p className="text-lg font-semibold">
-                  The State of Website Privacy Report 2024
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-red-900 rounded-full"></div>
-                  <div>
-                    <p className="font-medium">Title</p>
-                    <p className="text-sm text-gray-600">Bio</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
+      <div className="w-full mt-20"> 
+        <p className="text-3xl font-bold text-start">Packiq Blogs</p>
+        <Blog_list limit={4}/>
       </div>
 
       
