@@ -1,12 +1,15 @@
-import SignUpForm from '@/components/auth/SignUpForm'
-import React from 'react'
+import SignUpForm from '@/components/auth/SignUpForm';
+import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
-function page() {
+export default function page() {
   return (
-    <div className='w-full'>
-        <SignUpForm/>
+    <div className=" flex items-center justify-center w-full">
+      <SignUpForm />
+      <Toaster 
+        position="top-right"
+        reverseOrder={false}
+      />
     </div>
-  )
+  );
 }
-
-export default page

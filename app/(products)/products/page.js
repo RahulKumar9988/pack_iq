@@ -12,7 +12,7 @@ export default function Page() {
   };
 
   return (
-    <div className=" mx-auto relative">
+    <div className=" mx-auto relative w-full py-6 px-4 sm:px-6 lg:px-8">
       {/* Mobile Floating Filter Button */}
       <div className="md:hidden fixed bottom-6 right-6 z-30">
         <button
@@ -53,8 +53,8 @@ export default function Page() {
 
         {/* Main content - Products */}
         <main className="flex-1">
-          <div className="w-full text-left mb-2 md:mb-4">
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium sm:font-bold">
+          <div className="w-full text-left">
+            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold sm:font-bold">
               All products
             </h1>
           </div>

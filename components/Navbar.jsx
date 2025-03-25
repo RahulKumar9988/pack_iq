@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useCallback, useState, useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
+  Link as NextUILink,
   Button,
   DropdownItem,
   DropdownTrigger,
@@ -14,6 +14,7 @@ import {
   Avatar,
   Image,
 } from "@nextui-org/react";
+import Link from "next/link";
 import {
   ChevronDown,
   Lock,
@@ -24,72 +25,55 @@ import {
   Scale,
 } from "./Icons.jsx";
 import BagLogo from "@/public/BagLogo.jsx";
-import { useRouter } from "next/navigation.js";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/auth/authSlice.js";
+
+// Memoize icons using a constant object instead of a function
+const ICONS = {
+  chevron: <ChevronDown fill="currentColor" size={16} />,
+  scale: <Scale className="text-warning" fill="currentColor" size={30} />,
+  lock: <Lock className="text-success" fill="currentColor" size={30} />,
+  activity: (
+    <Activity className="text-secondary" fill="currentColor" size={30} />
+  ),
+  flash: <Flash className="text-primary" fill="currentColor" size={30} />,
+  server: <Server className="text-success" fill="currentColor" size={30} />,
+  user: <TagUser className="text-danger" fill="currentColor" size={30} />,
+};
+
+const DEFAULT_USER_DATA = {
+  name: "User",
+  avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+};
 
 export default function HomepageNavbar() {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector(state => state.auth.isAuthenticated, (a, b) => a === b);
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState({
-    name: "User",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d"
-  });
   
+  // Add state to track if component is mounted to prevent hydration issues
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Ensure component only renders on client-side
   useEffect(() => {
-    // Check if user is logged in when component mounts
-    // This only runs on client-side
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      
-      if (token) {
-        setIsLoggedIn(true);
-        
-        // Fetch user data or use cached data from localStorage
-        try {
-          const storedUserData = localStorage.getItem("userData");
-          if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
-          } else {
-            // If no stored user data, you could fetch it from your API
-            // fetchUserData(token).then(data => {
-            //   setUserData(data);
-            //   localStorage.setItem("userData", JSON.stringify(data));
-            // });
-          }
-        } catch (error) {
-          console.error("Error loading user data:", error);
-        }
-      } else {
-        setIsLoggedIn(false);
-      }
-    }
+    setIsMounted(true);
   }, []);
 
-  const handleProfileClick = () => {
-    if (isLoggedIn) {
-      router.push('/profile');
-    } else {
-      router.push('/auth/signin');
-    }
-  };
-  
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userData");
-    setIsLoggedIn(false);
+  // Memoize navigation handlers to prevent unnecessary re-creation
+  const handleProfileClick = useCallback(() => {
+    router.push('/auth/signin');
+  }, [router]);
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
     router.push('/');
-  };
-  
-  const icons = {
-    chevron: <ChevronDown fill="currentColor" size={16} />,
-    scale: <Scale className="text-warning" fill="currentColor" size={30} />,
-    lock: <Lock className="text-success" fill="currentColor" size={30} />,
-    activity: (
-      <Activity className="text-secondary" fill="currentColor" size={30} />
-    ),
-    flash: <Flash className="text-primary" fill="currentColor" size={30} />,
-    server: <Server className="text-success" fill="currentColor" size={30} />,
-    user: <TagUser className="text-danger" fill="currentColor" size={30} />,
-  };
+  }, [dispatch, router]);
+
+  // Prevent rendering on server-side to avoid hydration mismatches
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <Navbar
@@ -102,18 +86,18 @@ export default function HomepageNavbar() {
       shouldHideOnScroll
     >
       <NavbarBrand className="sm:min-w-[87.5px] max-sm:min-w-[60px]">
-        <Link href="/">
+        <NextUILink href="/" as={Link} prefetch>
           <Image src="/productNavLogo.png" alt="Logo" height={52} width={87.5} />
-        </Link>
+        </NextUILink>
       </NavbarBrand>
       <NavbarContent
         className="flex gap-0 sm:gap-10 xs:gap-2 max-sm:text-sm"
         justify="center"
       >
         <NavbarItem>
-          <Link className="max-sm:text-sm" color="foreground" href="/">
+          <NextUILink href="/" as={Link} color="foreground" className="max-sm:text-sm">
             Home
-          </Link>
+          </NextUILink>
         </NavbarItem>
         <Dropdown>
           <NavbarItem>
@@ -121,7 +105,7 @@ export default function HomepageNavbar() {
               <Button
                 disableRipple
                 className="max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm"
-                endContent={icons.chevron}
+                endContent={ICONS.chevron}
                 radius="sm"
                 variant="light"
               >
@@ -129,21 +113,20 @@ export default function HomepageNavbar() {
               </Button>
             </DropdownTrigger>
           </NavbarItem>
-
           <DropdownMenu
-            aria-label="ACME features"
+            aria-label="Product features"
             className="w-[340px]"
             itemClasses={{
               base: "gap-4",
             }}
           >
-            <DropdownItem key="autoscaling" startContent={icons.scale}>
-              <Link href="/products">All Product</Link>
+            <DropdownItem key="all-products" startContent={ICONS.scale}>
+              <NextUILink href="/products" as={Link}>All Product</NextUILink>
             </DropdownItem>
             <DropdownItem
               key="usage_metrics"
-              description="Real-time metrics to debug issues. Slow query added? We'll show you exactly where."
-              startContent={icons.activity}
+              description="Real-time metrics to debug issues."
+              startContent={ICONS.activity}
             >
               Usage Metrics
             </DropdownItem>
@@ -156,7 +139,7 @@ export default function HomepageNavbar() {
               <Button
                 disableRipple
                 className="max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm"
-                endContent={icons.chevron}
+                endContent={ICONS.chevron}
                 radius="sm"
                 variant="light"
               >
@@ -164,21 +147,20 @@ export default function HomepageNavbar() {
               </Button>
             </DropdownTrigger>
           </NavbarItem>
-
           <DropdownMenu
-            aria-label="ACME features"
+            aria-label="Shop By features"
             className="w-[340px]"
             itemClasses={{
               base: "gap-4",
             }}
           >
-            <DropdownItem key="autoscaling" startContent={icons.scale}>
-              <Link href="/packaging-type">Packaging Type</Link>
+            <DropdownItem key="packaging-type" startContent={ICONS.scale}>
+              <NextUILink href="/packaging-type" as={Link}>Packaging Type</NextUILink>
             </DropdownItem>
             <DropdownItem
               key="usage_metrics"
-              description="Real-time metrics to debug issues. Slow query added? We'll show you exactly where."
-              startContent={icons.activity}
+              description="Real-time metrics to debug issues."
+              startContent={ICONS.activity}
             >
               Usage Metrics
             </DropdownItem>
@@ -186,32 +168,27 @@ export default function HomepageNavbar() {
         </Dropdown>
         
         <NavbarItem>
-          <Link className="max-sm:text-sm" color="foreground" href="/contact">
+          <NextUILink href="/contact" as={Link} color="foreground" className="max-sm:text-sm">
             Contact Us
-          </Link>
+          </NextUILink>
         </NavbarItem>
         <NavbarItem>
-          <Link className="max-sm:text-sm" color="foreground" href="/blog">
+          <NextUILink href="/blog" as={Link} color="foreground" className="max-sm:text-sm">
             Blogs
-          </Link>
+          </NextUILink>
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end" className="flex-grow-0 sm:gap-10">
         <NavbarItem className="lg:flex hidden">
-          <Link
-            href="/cart"
-            className="flex flex-col pt-4 text-[12px] text-slate-500"
-          >
+          <NextUILink href="/cart" as={Link} className="flex flex-col pt-4 text-[12px] text-slate-500">
             <BagLogo size={24} fontWeight={0.7} color="black" />
             Bag
-          </Link>
+          </NextUILink>
         </NavbarItem>
         
-        {/* Profile section that changes based on login status */}
         <NavbarItem className="flex-col gap-2 text-[12px]">
-          {isLoggedIn ? (
-            // Show user profile dropdown for logged in users
+          {auth ? (
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
                 <div className="flex flex-col items-center cursor-pointer mt-5">
@@ -220,11 +197,11 @@ export default function HomepageNavbar() {
                     as="button"
                     className="transition-transform"
                     color="secondary"
-                    name={userData.name}
+                    name={DEFAULT_USER_DATA.name}
                     size="sm"
-                    src={userData.avatar}
+                    src={DEFAULT_USER_DATA.avatar}
                   />
-                  <span className="text-[12px] mt-1">{userData.name}</span>
+                  <span className="text-[12px] mt-1">{DEFAULT_USER_DATA.name}</span>
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions">
@@ -243,16 +220,13 @@ export default function HomepageNavbar() {
               </DropdownMenu>
             </Dropdown>
           ) : (
-            // Show login button for guests
-            <>
-              <Button
-                onClick={handleProfileClick}
-                className="bg-[#2f4158] hover:bg-blue-800 text-white font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                size="sm"
-              >
-                Login
-              </Button>
-            </>
+            <Button
+              onClick={handleProfileClick}
+              className="bg-[#2f4158] hover:bg-blue-800 text-white font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              size="sm"
+            >
+              Login
+            </Button>
           )}
         </NavbarItem>
       </NavbarContent>

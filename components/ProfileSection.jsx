@@ -1,31 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   FiUser, 
-  FiLock, 
   FiShoppingBag, 
   FiHeart, 
   FiMapPin, 
   FiCreditCard, 
-  FiLogOut,
   FiEye,
   FiEyeOff,
-  FiEdit,
   FiArrowRight,
   FiPackage,
   FiCalendar,
-  FiDollarSign,
   FiCheckCircle
 } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useAppSelector } from "@/redux/hooks";
 
 const ProfileSection = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [activeTab, setActiveTab] = useState("overview");
   const [showPassword, setShowPassword] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
+  const auth = useAppSelector(state => state.auth.isAuthenticated);
+  useEffect(() => {
+    console.log(auth,userData);
+  },[auth])
+  
   const userData = {
     name: "Michael Anderson",
     email: "michael.anderson@example.com",
@@ -58,7 +58,7 @@ const ProfileSection = () => {
     <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto p-6 lg:p-8">
 
-        {!isLoggedIn ? (
+        {!auth ? (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

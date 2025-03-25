@@ -1,105 +1,49 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import axios from "axios";
+import { loginAction } from "@/app/action/loginAction";
+import React, { useState } from "react";
+import { login } from "@/redux/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+
 
 export function SignInForm() {
-  const router = useRouter();
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
-  // Ensure the base URL is properly handled with a fallback
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    
-    // Add validation
-    if (!user.email || !user.password) {
-      setError("Email and password are required");
-      return;
-    }
-    
+  const handleSubmit = async (formData) => {
     setLoading(true);
     setError("");
-    
+
     try {
-      // Request payload to match the API's expected format
-      const requestData = {
-        user_email: user.email,
-        user_password: user.password
-      };
+
+      const result = await loginAction(formData);
+      dispatch(login({ token: "newtoken" }));
       
-      // Add proper error handling and timeout
-      const response = await axios.post(`${baseUrl}/api/v1/auth/login`, requestData, {
-        timeout: 10000, // 10 seconds timeout
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log("Login response:", response.data);
-      if (response.data && response.data.data && response.data.data.token) {
-        // Save token from the correct path in the response
-        localStorage.setItem("token", response.data.data.token);
-        router.push("/");
-      } else {
-        setError("Invalid response from server");
-      }
     } catch (err) {
-      console.error("Login error:", err);
-      if (err.response) {
-        // Provide more specific error messages based on status code
-        if (err.response.status === 401) {
-          setError("Invalid email or password. Please check your credentials and try again.");
-        } else {
-          setError(err.response.data?.message || `Error: ${err.response.status}`);
-        }
-      } else if (err.request) {
-        // Request made but no response
-        setError("No response from server. Please check your connection.");
-      } else {
-        // Other errors
-        setError(err.message || "Login failed. Please try again.");
-      }
+      console.error('Submission error:', err);
+      setError(`Unexpected error: ${err.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  // Check if user is already logged in
-  useEffect(() => {
-    // Ensure this only runs on client-side
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      if (token) {
-        router.push("/");
-      }
-    }
-  }, [router]);
-
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
       
-      <form onSubmit={handleLogin}>
+      <form action={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
             Email Address
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             placeholder="your@email.com"
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
             required
           />
         </div>
@@ -111,11 +55,10 @@ export function SignInForm() {
           <div className="relative">
             <input
               id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
               required
             />
             <button
@@ -138,13 +81,9 @@ export function SignInForm() {
           {loading ? "Signing in..." : "Sign In"}
         </button>
       </form>
-      
-      <div className="mt-6 text-center">
-        <p className="text-sm">
-          Do not have an account?
-          <Link href="/auth/signup" className="text-blue-500 hover:text-blue-700 font-semibold">
-            Sign up
-          </Link>
+      <div>
+        <p className="mt-4 text-center">
+          Don't have an account? <a href="/auth/signup" className="text-blue-500 hover:underline">Sign Up</a>
         </p>
       </div>
     </div>

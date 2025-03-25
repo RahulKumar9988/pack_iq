@@ -4,6 +4,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useParams } from 'next/navigation';
+import DOMPurify from 'dompurify';
 
 export default function BlogDetail() {
   const params = useParams();
@@ -56,6 +57,22 @@ export default function BlogDetail() {
     fetchBlogDetail();
   }, [id, baseUrl]);
 
+  // Sanitize description function
+  const sanitizeDescription = (htmlContent) => {
+    // First, sanitize the HTML to prevent XSS
+    const sanitizedHTML = DOMPurify.sanitize(htmlContent, {
+      ALLOWED_TAGS: [], // Remove all HTML tags
+      ALLOWED_ATTR: [] // Remove all attributes
+    });
+
+    // Create a temporary div to extract text content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = sanitizedHTML;
+    
+    // Return the text content, trimmed
+    return tempDiv.textContent?.trim() || '';
+  };
+
   const formatDate = (dateString) => {
     if (!dateString || dateString === 'null') return 'N/A';
     const date = new Date(dateString);
@@ -104,7 +121,10 @@ export default function BlogDetail() {
     <>
       <Head>
         <title>{blog.blog_title}</title>
-        <meta name="description" content={blog.blog_description?.substring(0, 160) || 'Blog post'} />
+        <meta 
+          name="description" 
+          content={sanitizeDescription(blog.blog_description)?.substring(0, 160) || 'Blog post'} 
+        />
       </Head>
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -138,7 +158,9 @@ export default function BlogDetail() {
             </div>
             
             <div className="prose max-w-none">
-              <p className="text-gray-700 whitespace-pre-line">{blog.blog_description}</p>
+              <p className="text-gray-700 whitespace-pre-line">
+                {sanitizeDescription(blog.blog_description)}
+              </p>
             </div>
           </div>
         </article>

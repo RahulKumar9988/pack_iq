@@ -1,229 +1,161 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import axios from "axios";
+import React, { useState } from 'react';
+import { useAppDispatch } from '@/redux/hooks';
+import { login } from '@/redux/auth/authSlice';
+import { Eye, EyeOff } from 'lucide-react';
+import { registerAction } from '@/app/action/registerAction';
+import { useRouter } from 'next/navigation';
 
-export function SignUpForm() {
-  const router = useRouter();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const fileInputRef = useRef(null);
-  
-  const [user, setUser] = useState({
-    user_name: "",
-    user_email: "",
-    user_password: "",
-    user_address: "",
-    user_phone_number: "",
-    user_image_url: ""
-  });
+function SignUpForm() {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [previewImage, setPreviewImage] = useState(null);
+  const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Check file type
-    if (!file.type.match('image.*')) {
-      setError("Please select an image file");
-      return;
-    }
-
-    // Check file size (limit to 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-      setError("Image size should be less than 2MB");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64String = event.target.result;
-      setUser({ ...user, user_image_url: base64String });
-      setPreviewImage(base64String);
-    };
-    reader.onerror = () => {
-      setError("Error reading file");
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    
-    // Validation
-    if (!user.user_name || !user.user_email || !user.user_password) {
-      setError("Name, email and password are required");
-      return;
-    }
-    
+  const handleRegister = async (formData) => {
     setLoading(true);
-    setError("");
-    
+    setError(null);
+
     try {
-      const response = await axios.post(`${baseUrl}/api/v1/auth/register`, user, {
-        timeout: 10000,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const result = await registerAction(formData);
+
+      console.log(result);
+
+      if (result.success) {
+ 
+        dispatch(login({ token: "register",user: result.user }));
+        router.push('/');
       
-      if (response.data && response.data.token) {
-        // Save token to localStorage
-        localStorage.setItem("token", response.data.token);
-        router.push("/");
       } else {
-        setError("Invalid response from server");
+        // Handle validation or registration errors
+        setError({
+          message: 'Registration failed',
+          details: result?.error || ['An unexpected error occurred']
+        });
       }
     } catch (err) {
-      console.error("Registration error:", err);
-      if (err.response) {
-        setError(err.response.data?.message || `Error: ${err.response.status}`);
-      } else if (err.request) {
-        setError("No response from server. Please check your connection.");
-      } else {
-        setError(err.message || "Registration failed. Please try again.");
-      }
+      console.error('Submission error:', err);
+      setError({
+        message: 'Unexpected error',
+        details: [err.message || 'Unknown error']
+      });
     } finally {
       setLoading(false);
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-2 text-center">Create Account</h2>
-      <p className="text-gray-600 text-center mb-6">Join our community today</p>
+    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
       
-      <form onSubmit={handleSignup}>
-        {/* Avatar Upload Section */}
-        <div className="mb-6 flex flex-col items-center">
-          <div 
-            className="w-24 h-24 mb-3 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-2 border-blue-500"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            {previewImage ? (
-              <img 
-                src={previewImage} 
-                alt="Profile preview" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            )}
-          </div>
+      {error && error.message && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          <p className="font-bold">{error.message}</p>
+          {error.details && (
+            <ul className="list-disc list-inside mt-2">
+              {error.details.map((detail, index) => (
+                <li key={index}>{detail}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+      <form action={handleRegister} className="space-y-4">
+        <div>
+          <label htmlFor="email" className="block mb-2 text-sm font-medium">
+            Email
+          </label>
           <input
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            accept="image/*"
-            onChange={handleImageChange}
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="Enter your email"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button
-            type="button"
-            className="text-blue-500 text-sm font-medium"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            Upload Avatar
-          </button>
-          <p className="text-xs text-gray-500 mt-1">Click to upload (max 2MB)</p>
         </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-            Full Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            placeholder="John Doe"
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={user.user_name}
-            onChange={(e) => setUser({ ...user, user_name: e.target.value })}
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email Address
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="your@email.com"
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={user.user_email}
-            onChange={(e) => setUser({ ...user, user_email: e.target.value })}
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+        <div className="relative">
+          <label htmlFor="password" className="block mb-2 text-sm font-medium">
             Password
           </label>
           <input
+            type={showPassword ? "text" : "password"}
             id="password"
-            type="password"
-            placeholder="••••••••"
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={user.user_password}
-            onChange={(e) => setUser({ ...user, user_password: e.target.value })}
+            name="password"
             required
+            placeholder="Enter your password"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute right-3 top-10 transform -translate-y-1/2"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
+
+        <div>
+          <label htmlFor="name" className="block mb-2 text-sm font-medium">
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Enter your full name"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
+
+        <div>
+          <label htmlFor="mobile" className="block mb-2 text-sm font-medium">
+            Mobile Number
+          </label>
+          <input
+            type="tel"
+            id="mobile"
+            name="mobile"
+            required
+            placeholder="Enter your mobile number"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="address" className="block mb-2 text-sm font-medium">
             Address
           </label>
-          <input
+          <textarea
             id="address"
-            type="text"
-            placeholder="123 Main St"
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={user.user_address}
-            onChange={(e) => setUser({ ...user, user_address: e.target.value })}
+            name="address"
+            required
+            placeholder="Enter your address"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
-            Phone Number
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            placeholder="8420419829"
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={user.user_phone_number}
-            onChange={(e) => setUser({ ...user, user_phone_number: e.target.value })}
-          />
-        </div>
-        
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        
+
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
           disabled={loading}
+          className={`w-full py-2 px-4 rounded-md text-white font-semibold ${
+            loading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          }`}
         >
-          {loading ? "Creating Account..." : "Sign Up"}
+          {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
-      
-      <div className="mt-6 pt-4 border-t border-gray-200 text-center">
-        <p className="text-sm">
-          Already have an account?
-          <Link href="/auth/signin" className="text-blue-500 hover:text-blue-700 font-semibold">
-            Sign in
-          </Link>
-        </p>
-      </div>
     </div>
   );
 }

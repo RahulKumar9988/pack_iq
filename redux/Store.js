@@ -11,18 +11,22 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import authReducer from './auth/authSlice'
 
 // Persist configuration
 const persistConfig = {
   key: "root", // The key in localStorage
   storage: storage, // Defaults to localStorage
-  whitelist: ["cart"], // Only persist the cart slice
+  whitelist: ["cart","auth"], // Only persist the cart slice
 };
+
+
 
 // Combine reducers
 const rootReducer = combineReducers({
   cart: cartReducer,
   constant: constantReducer,
+  auth:authReducer
 });
 
 // Persist the root reducer

@@ -56,7 +56,7 @@ export default function PackagingType() {
   console.log(cartItem);
   return (
     <div
-      className={`grid max-sm:grid-cols-1 scrollbar-hide max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 mb-[72px] gap-4 ${poppins.className}`}
+      className={` grid max-sm:grid-cols-1 scrollbar-hide max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 mb-[72px] gap-4 ${poppins.className}`}
     >
       {productList.map((item, index) => {
         return (

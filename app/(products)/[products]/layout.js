@@ -3,7 +3,7 @@ import React from "react";
 import TabBar from "@/components/TabBar";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import NavDetails from "@/components/NavDetails";
-import { Button, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 
 export default function Layout({ children }) {
@@ -61,7 +61,7 @@ export default function Layout({ children }) {
     previousIndex === 0 ? "/" : `/${pageOrder[previousIndex]}`;
 
   return (
-    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-10 md:mt-0">
+    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 md:mt-0 px-2">
       <div className="mobile:mt-8">
         <TabBar content={content} />
       </div>

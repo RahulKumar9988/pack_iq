@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Navbar,
   NavbarContent,
@@ -14,10 +14,13 @@ import { FiMenu } from "react-icons/fi";
 import { BsChevronDown } from "react-icons/bs";
 import { usePathname, useRouter } from "next/navigation.js";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 export default function MobileNav() {
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const auth = useAppSelector(state => state.auth.isAuthenticated, (a, b) => a === b);
   const [userInfo, setUserInfo] = useState({
     name: "Samuel John",
     email: "bill.sanders@example.com"
@@ -57,24 +60,20 @@ export default function MobileNav() {
     }));
   };
 
-  const handleLoginClick = () => {
-    setIsOpen(false); // Close the menu
+  const handleLoginClick = useCallback(() => {
     router.push('/auth/signin');
-  };
+  }, [router]);
+
 
   const handleProfileClick = () => {
     setIsOpen(false); // Close the menu
     router.push('/profile');
   };
 
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
-      setIsLoggedIn(false);
-      router.push('/');
-      setIsOpen(false);
-    }
-  };
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    router.push('/');
+  }, [dispatch, router]);
 
   return (
     <div className="relative">
@@ -234,7 +233,7 @@ export default function MobileNav() {
                   
                   {/* Conditional rendering for Account/Login */}
                   <li className="border-b">
-                    {isLoggedIn ? (
+                    {auth ? (
                       <button onClick={handleProfileClick} className="w-full p-4 flex items-center">
                         <span className="mr-2">👤</span>
                         <span className="text-black">My Account</span>

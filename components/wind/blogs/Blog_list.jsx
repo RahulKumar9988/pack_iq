@@ -4,8 +4,9 @@ import axios from 'axios';
 import Link from 'next/link';
 import { Button } from '@nextui-org/react';
 import { GoArrowUpRight } from 'react-icons/go';
+import DOMPurify from 'dompurify';
 
-// Skeleton Loader Component
+// Skeleton Loader Component (unchanged from previous code)
 export const BlogListSkeleton = () => {
   return (
     <div className="container mx-auto px-4">
@@ -39,8 +40,9 @@ export const BlogListSkeleton = () => {
   );
 };
 
-// Memoized Blog Card Component
+// Memoized Blog Card Component with HTML Sanitization
 const BlogCard = React.memo(({ blog }) => {
+  // Function to format date
   const formatDate = (dateString) => {
     if (!dateString || dateString === 'null') return 'N/A';
     const date = new Date(dateString);
@@ -49,6 +51,22 @@ const BlogCard = React.memo(({ blog }) => {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  // Sanitize and extract plain text from HTML description
+  const sanitizeDescription = (htmlContent) => {
+    // First, sanitize the HTML to prevent XSS
+    const sanitizedHTML = DOMPurify.sanitize(htmlContent, {
+      ALLOWED_TAGS: [], // Remove all HTML tags
+      ALLOWED_ATTR: [] // Remove all attributes
+    });
+
+    // Create a temporary div to extract text content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = sanitizedHTML;
+    
+    // Return the text content, trimmed and limited
+    return tempDiv.textContent?.trim() || '';
   };
 
   return (
@@ -74,7 +92,9 @@ const BlogCard = React.memo(({ blog }) => {
         <Link href={`/blog/${blog.blog_id}`} className="block">
           <h2 className="text-xl font-semibold mb-2 text-gray-800 hover:text-blue-600">{blog.blog_title}</h2>
         </Link>
-        <p className="text-gray-600 mb-4 line-clamp-3">{blog.blog_description}</p>
+        <p className="text-gray-600 mb-4 line-clamp-3">
+          {sanitizeDescription(blog.blog_description)}
+        </p>
         
         <div className="flex justify-between text-sm text-gray-500">
           <span>By {blog.createBy || 'Unknown'}</span>

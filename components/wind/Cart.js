@@ -155,7 +155,7 @@ export default function Cart() {
 
   return (
     <>
-      <div className="mb-[66px] flex max-lg:flex-col gap-6 mobile:mt-10">
+      <div className="mb-[66px] w-full gap-6 mobile:mt-10">
         <div className="w-full lg:w-3/5 flex flex-col gap-4">
           <h1 className="font-bold text-xl">Your Cart</h1>
           {Object.keys(cartItem).length ? (
