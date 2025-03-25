@@ -4,6 +4,7 @@ import MobileNav from "@/components/MobileNav";
 import Footer from "@/components/Footer";
 import HomepageNavbar from "@/components/Navbar";
 import StoreProvider from "./(products)/StoreProvider";
+import NextTopLoader from 'nextjs-toploader';
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${dmSans.className} scrollbar-hide w-full flex flex-col h-screen`}>
+
         <StoreProvider>
           {/* 🔹 Navbar for Desktop */}
         

@@ -4,9 +4,11 @@ import { loginAction } from "@/app/action/loginAction";
 import React, { useState } from "react";
 import { login } from "@/redux/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
 
 
 export function SignInForm() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,7 +21,14 @@ export function SignInForm() {
     try {
 
       const result = await loginAction(formData);
-      dispatch(login({ token: "newtoken" }));
+      console.log(result);
+
+      if(result.success){
+        dispatch(login({ token: result.data.token, user: result.data.user }));
+        router.push('/');
+      }else{
+        setError(result.error[0]);
+      }
       
     } catch (err) {
       console.error('Submission error:', err);

@@ -25,7 +25,7 @@ function SignUpForm() {
 
       if (result.success) {
  
-        dispatch(login({ token: "register",user: result.user }));
+        dispatch(login({ token: result.data.token,user: result.data.user }));
         router.push('/');
       
       } else {

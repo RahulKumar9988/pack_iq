@@ -28,6 +28,7 @@ import BagLogo from "@/public/BagLogo.jsx";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice.js";
+import {logout as Logout} from '@/app/action/loginAction.js';
 
 // Memoize icons using a constant object instead of a function
 const ICONS = {
@@ -42,14 +43,11 @@ const ICONS = {
   user: <TagUser className="text-danger" fill="currentColor" size={30} />,
 };
 
-const DEFAULT_USER_DATA = {
-  name: "User",
-  avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d"
-};
+
 
 export default function HomepageNavbar() {
   const dispatch = useAppDispatch();
-  const auth = useAppSelector(state => state.auth.isAuthenticated, (a, b) => a === b);
+  const auth = useAppSelector(state => state.auth);
   const router = useRouter();
   
   // Add state to track if component is mounted to prevent hydration issues
@@ -65,9 +63,14 @@ export default function HomepageNavbar() {
     router.push('/auth/signin');
   }, [router]);
 
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
-    router.push('/');
+  const handleLogout = useCallback( async () => {
+    const result = await Logout();
+    if(result.success){
+      dispatch(logout());
+      router.push('/');
+    }else{
+      console.log(result.error);  
+    }
   }, [dispatch, router]);
 
   // Prevent rendering on server-side to avoid hydration mismatches
@@ -188,7 +191,7 @@ export default function HomepageNavbar() {
         </NavbarItem>
         
         <NavbarItem className="flex-col gap-2 text-[12px]">
-          {auth ? (
+          {auth.isAuthenticated ? (
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
                 <div className="flex flex-col items-center cursor-pointer mt-5">
@@ -197,11 +200,11 @@ export default function HomepageNavbar() {
                     as="button"
                     className="transition-transform"
                     color="secondary"
-                    name={DEFAULT_USER_DATA.name}
+                    name={auth.user.name}
                     size="sm"
-                    src={DEFAULT_USER_DATA.avatar}
+                    src={auth.user.avatar}
                   />
-                  <span className="text-[12px] mt-1">{DEFAULT_USER_DATA.name}</span>
+                  <span className="text-[12px] mt-1">{auth.user.name}</span>
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions">

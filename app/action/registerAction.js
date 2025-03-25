@@ -1,7 +1,6 @@
 "use server";
 
-// import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import axios from 'axios';
 
 // Validate email format
@@ -65,27 +64,32 @@ export async function registerAction(formData) {
       user_phone_number: mobile,
       user_address: address
     }, {
-      timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
       }
     });
 
+    const {data} = response;
     // Check for valid token in response
-    console.log(response.data); 
-    if (response.data && response.data.data) {
+    console.log(data); 
+    if (data && data.data) {
+        // Set secure HTTP-only cookie
+      cookies().set('token', data.data.user_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 60 * 60 * 24 * 7 // 1 week
+      });
+      const registerData = {
+        user:data.data.user_details,
+        token:data.data.user_token
+      }
       return {
         success:true,
-        user: response.data.data,
+        data: registerData,
         error:[]
       }
-      // Set secure HTTP-only cookie
-      // cookies().set('token', response.data.data.token, {
-      //   httpOnly: true,
-      //   secure: process.env.NODE_ENV === 'production',
-      //   sameSite: 'strict',
-      //   maxAge: 60 * 60 * 24 * 7 // 1 week
-      // });
+    
     } else {
       return {
         error: ['Registration failed. Please try again.'],
@@ -111,7 +115,6 @@ export async function registerAction(formData) {
         };
       }
     }
-
     return {
       error: ['Network error. Please try again.'],
       success: false

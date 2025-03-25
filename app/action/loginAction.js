@@ -29,15 +29,23 @@ export async function loginAction(formData) {
       }
     });
 
+    const { data } = response;
+
     // Check for valid token in response
-    if (response.data && response.data.data && response.data.data.token) {
+    if ( data && data.data) {
       // Set secure HTTP-only cookie
-      cookies().set('token', response.data.data.token, {
+      cookies().set('token', data.data.token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 60 * 60 * 24 * 7 // 1 week
       });
+
+      return{
+        success:true,
+        data:data.data,
+        error:[]
+      }
 
       // Redirect to home page
     } else {
@@ -55,6 +63,28 @@ export async function loginAction(formData) {
       success: false
     };
   }
-  redirect('/');
+}
 
+
+export async function logout(formData) {
+  try{
+  cookies().set('token', "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 60 * 60 * 24 * 7 // 1 week
+  });
+  return{
+    success:true,
+    data:null,
+    error:[]
+  }
+}
+catch(error){
+  
+  return {
+    error,
+    success: false
+  };
+}
 }
