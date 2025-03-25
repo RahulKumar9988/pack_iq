@@ -24,7 +24,6 @@ export async function loginAction(formData) {
       user_email: email,
       user_password: password
     }, {
-      timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
       }
