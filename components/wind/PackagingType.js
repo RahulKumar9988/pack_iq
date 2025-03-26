@@ -87,10 +87,10 @@ export default function PackagingType() {
                 <div className="flex gap-5 items-start pt-2 mobile:items-center mobile:flex-col overflow-y-scroll scrollbar-hide">
                   <Image
                     src={item.packaging_image_url}
-                    className="min-w-20"
+                    className=""
                     alt="size"
-                    width={80}
-                    height={80}
+                    width={100}
+                    height={100}
                   />
 
                   <div className="flex flex-col gap-5 max-mobile:gap-[6px]">
@@ -98,7 +98,7 @@ export default function PackagingType() {
                       {item.name}
                     </div>
                     <span className="mobile:text-center text-xs mobile:text-sm max-mobile:line-clamp-3">
-                      {item.description}
+                    {item.description.split(' ').slice(0, 20).join(' ')}...
                     </span>
                     <span className="mobile:hidden text-xs font-semibold line-clamp-3">
                       See More
@@ -107,12 +107,12 @@ export default function PackagingType() {
                 </div>
               </CardBody>
               <CardFooter className="text-small p-0 flex-col justify-between border rounded-lg mt-5">
-                <div className="flex justify-between w-full p-3">
+                <div className="flex justify-between w-full p-2">
                   <span className="text-sm font-normal">Minimum Quantity:</span>
                   <span className="font-medium">{item.quantity}</span>
                 </div>
                 <Divider />
-                <div className="flex justify-between w-full p-3">
+                <div className="flex justify-between w-full p-2">
                   <span className="text-sm font-normal">Price:</span>
                   <span className="font-medium">{item.price}</span>
                 </div>
@@ -133,7 +133,7 @@ export default function PackagingType() {
                       src={item.packaging_image_url}
                       className="min-w-20"
                       alt="size"
-                      width={80}
+                      width={100}
                       height={80}
                     />
                       <div>
