@@ -14,16 +14,16 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Homepage() {
 
   return (
-    <div className="w-full flex flex-col gap-5">
+    <div className="w-full flex flex-col gap-5 mt-10 md:mt-0">
 
       <HeroSection/>
-      <div className="mt-10 px-16">
-        <p className="md:text-[32px] text-[24px] font-semibold md:text-start text-center">Shop by popularity</p>
+      <div className="mt-10 px-6">
+        <p className="md:text-[32px] text-[24px] font-semibold md:text-start text-center md:px-20 px-0">Shop by popularity</p>
         <Products/>
       </div>
       <Innovations/>
-      <div className="mt-10 px-16">
-        <p className="md:text-[32px] text-[24px] font-semibold md:text-start text-center">Shop by popularity</p>
+      <div className="mt-10 px-6">
+        <p className="md:text-[32px] text-[24px] font-semibold md:text-start text-center md:px-20 px-0">Shop by popularity</p>
         <Products/>
       </div>
       <Quality_section/>
