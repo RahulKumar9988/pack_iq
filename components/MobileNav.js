@@ -6,7 +6,6 @@ import {
   NavbarItem,
   Link,
   Image,
-  Button,
 } from "@nextui-org/react";
 import BagLogo from "@/public/BagLogo.jsx";
 import { IoMdClose } from "react-icons/io";
@@ -15,16 +14,16 @@ import { BsChevronDown } from "react-icons/bs";
 import { usePathname, useRouter } from "next/navigation.js";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getUserDetails } from "@/app/action/getUserDetails";
 
 export default function MobileNav() {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const auth = useAppSelector(state => state.auth.isAuthenticated, (a, b) => a === b);
-  const [userInfo, setUserInfo] = useState({
-    name: "Samuel John",
-    email: "bill.sanders@example.com"
-  });
+  const userDetails = getUserDetails();
+  
+
   const [expandedItems, setExpandedItems] = useState({
     products: false,
     shopBy: false
@@ -127,15 +126,15 @@ export default function MobileNav() {
             <div className="flex flex-col h-full">
               {/* Header with close button */}
               <div className="flex items-center justify-between p-4 border-b">
-                {isLoggedIn ? (
+                {auth ? (
                   // Show user info if logged in
                   <div className="flex items-center">
                     <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center text-lg font-bold">
-                      {userInfo.name.charAt(0)}
+                      {userDetails.user.user_name.charAt(0).toUpperCase()}
                     </div>
                     <div className="ml-3">
-                      <p className="font-medium text-sm">{userInfo.name}</p>
-                      <p className="text-xs text-gray-500">{userInfo.email}</p>
+                      <p className="font-medium text-sm">{userDetails.user.user_name}</p>
+                      <p className="text-xs text-gray-500">{userDetails.user.user_email}</p>
                     </div>
                   </div>
                 ) : (

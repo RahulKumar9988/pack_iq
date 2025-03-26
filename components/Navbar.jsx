@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
+import { getUserDetails } from "@/app/action/getUserDetails.js";
 
 // Memoize icons using a constant object instead of a function
 const ICONS = {
@@ -49,6 +50,8 @@ export default function HomepageNavbar() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector(state => state.auth);
   const router = useRouter();
+  const userDetails = getUserDetails();
+  
   
   // Add state to track if component is mounted to prevent hydration issues
   const [isMounted, setIsMounted] = useState(false);
@@ -62,6 +65,7 @@ export default function HomepageNavbar() {
   const handleProfileClick = useCallback(() => {
     router.push('/auth/signin');
   }, [router]);
+
 
   const handleLogout = useCallback( async () => {
     const result = await Logout();
@@ -195,16 +199,11 @@ export default function HomepageNavbar() {
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
                 <div className="flex flex-col items-center cursor-pointer mt-2">
-                  <Avatar
-                    isBordered
-                    as="button"
-                    className="transition-transform"
-                    color="secondary"
-                    name={auth.user.name}
-                    size="sm"
-                    src={auth.user.avatar}
-                  />
-                  <span className="text-[12px] mt-1">{auth.user.name}</span>
+                <Avatar 
+                  color="default"
+                  className="border-[#yourCustomColor]"  // Custom border color
+                  style={{ backgroundColor: '#425e80' }}  // Custom background
+                />
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions">
