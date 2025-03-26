@@ -17,12 +17,12 @@ export default function Homepage() {
     <div className="w-full flex flex-col gap-5">
 
       <HeroSection/>
-      <div className="mt-10">
+      <div className="mt-10 px-16">
         <p className="md:text-[32px] text-[24px] font-semibold md:text-start text-center">Shop by popularity</p>
         <Products/>
       </div>
       <Innovations/>
-      <div className="mt-10">
+      <div className="mt-10 px-16">
         <p className="md:text-[32px] text-[24px] font-semibold md:text-start text-center">Shop by popularity</p>
         <Products/>
       </div>

@@ -6,6 +6,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart, clearCart } from "@/redux/features/cart/cartSlice";
+import { motion, AnimatePresence } from "framer-motion";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,13 +14,13 @@ const poppins = Poppins({
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 export default function PackagingType() {
   const [productList, setProductList] = useState([]);
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
-
-  if (!cartItem.packaging_id) <div>Loading....</div>;
 
   useEffect(() => {
     getPackagingType();
@@ -53,16 +54,17 @@ export default function PackagingType() {
     }
   }
 
-  console.log(cartItem);
   return (
     <div
-      className={` grid max-sm:grid-cols-1 scrollbar-hide max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 mb-[72px] gap-4 ${poppins.className}`}
+      className={`grid max-sm:grid-cols-1 scrollbar-hide max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 mb-[72px] gap-4 ${poppins.className}`}
     >
       {productList.map((item, index) => {
+        const isHovered = hoveredItem === index;
+        
         return (
           <Link
             key={index}
-            className="max-h-[394px]"
+            className="max-h-[394px] relative group"
             href={`/${item.name.toLocaleLowerCase().replace(" ", "-")}/size`}
             onClick={() => {
               dispatch(
@@ -74,15 +76,17 @@ export default function PackagingType() {
                 })
               );
             }}
+            onMouseEnter={() => setHoveredItem(index)}
+            onMouseLeave={() => setHoveredItem(null)}
           >
             <Card
               shadow="sm"
-              className="broder-[#E45971] p-4 h-full w-full max-h-[394px] scrollbar-hide overflow-y-scroll"
+              className="broder-[#E45971] p-4 h-full w-full max-h-[394px] scrollbar-hide overflow-y-scroll relative"
             >
               <CardBody className="p-0">
                 <div className="flex gap-5 items-start pt-2 mobile:items-center mobile:flex-col overflow-y-scroll scrollbar-hide">
                   <Image
-                    src={item.icon || "/Frame40.png"}
+                    src={item.packaging_image_url ||" "}
                     className="min-w-20"
                     alt="size"
                     width={80}
@@ -113,6 +117,34 @@ export default function PackagingType() {
                   <span className="font-medium">{item.price}</span>
                 </div>
               </CardFooter>
+
+              {/* Full Description Overlay */}
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 backdrop-blur-xl bg-[#2595ff0e] z-10 p-4 flex items-center justify-center text=-black"
+                  >
+                    <div className="h-full text-center flex flex-col justify-center items-center gap-5">
+                    <Image
+                      src={item.packaging_image_url || ""}
+                      className="min-w-20"
+                      alt="size"
+                      width={80}
+                      height={80}
+                    />
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">{item.name}</h3>
+                        <p className="text-sm text-black">{item.description}</p>
+                      </div>
+                      
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Card>
           </Link>
         );

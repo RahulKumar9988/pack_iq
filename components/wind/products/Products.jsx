@@ -73,7 +73,9 @@ export default function Products() {
               <ProductSkeleton key={`skeleton-${index}`} />
             ))}
         </div>
-      ) : (
+      ) : productList.length === 0 ? (
+        <div className="text-center text-lg font-medium">No products found</div>
+      ):(
         <>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {displayedProducts.map((ele, i) => (

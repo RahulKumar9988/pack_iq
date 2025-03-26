@@ -61,7 +61,7 @@ export default function Layout({ children }) {
     previousIndex === 0 ? "/" : `/${pageOrder[previousIndex]}`;
 
   return (
-    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 md:mt-0 px-2">
+    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 md:mt-0 px-6">
       <div className="mobile:mt-8">
         <TabBar content={content} />
       </div>

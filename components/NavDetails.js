@@ -15,7 +15,7 @@ export default function NavDetails({ content }) {
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const key = Object.keys(content).find((ele) => pathName.includes(ele));
 
-  console.log(cartItem);
+  // console.log(cartItem);
   return (
     <div className="flex justify-between w-full px-6 md:px-0">
       <div className="leading-none flex flex-col max-mobile:gap-[6px] mobile:gap-4">

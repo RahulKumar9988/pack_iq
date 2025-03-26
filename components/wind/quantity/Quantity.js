@@ -13,11 +13,15 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useRouter } from "next/navigation";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const ITEMS_PER_PAGE = 8;
 
 export default function Quantity() {
   const [groupSelected, setGroupSelected] = useState([]);
   const [quantities, setQuantities] = useState([]);
+  const [displayedQuantities, setDisplayedQuantities] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isImageHovered, setIsImageHovered] = useState(false);
   
@@ -33,21 +37,24 @@ export default function Quantity() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    // Update displayed quantities when quantities change
+    loadMoreQuantities();
+  }, [quantities, currentPage]);
+
   async function getSizes() {
     try {
       const response = await axios.get(
         `${baseUrl}/api/v1/resources/list-packaging-type-size-quantity/${cartItem.packaging_type_size_id}`
       );
       if (response.data.status === 200) {
-        const responseData = response.data.data.map((ele) => {
-          return {
-            size: ele.quantityId.quantity,
-            price: ele.quantityId.price,
-            number: ele.quantityId.design_number,
-            packaging_type_size_quantity_id: ele.packaging_type_size_quantity_id,
-            quantity_id: ele.quantityId.quantity_id,
-          };
-        });
+        const responseData = response.data.data.map((ele) => ({
+          size: ele.quantityId.quantity,
+          price: ele.quantityId.price,
+          number: ele.quantityId.design_number,
+          packaging_type_size_quantity_id: ele.packaging_type_size_quantity_id,
+          quantity_id: ele.quantityId.quantity_id,
+        }));
         setQuantities(responseData);
       }
     } catch (error) {
@@ -55,17 +62,26 @@ export default function Quantity() {
     }
   }
 
+  const loadMoreQuantities = () => {
+    const startIndex = 0;
+    const endIndex = currentPage * ITEMS_PER_PAGE;
+    const newDisplayedQuantities = quantities.slice(startIndex, endIndex);
+    setDisplayedQuantities(newDisplayedQuantities);
+  };
+
+  const handleLoadMore = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
   const handleQuantitySelection = (lastSelected) => {
     dispatch(
       addToCart({
         ...cartItem,
-        quantity_id: lastSelected?.quantity_id ? lastSelected.quantity_id : "",
-        packaging_type_size_quantity_id: lastSelected?.packaging_type_size_quantity_id
-          ? lastSelected.packaging_type_size_quantity_id
-          : "",
-        quantity: lastSelected?.size ? lastSelected.size : "",
-        design_number: lastSelected?.number ? lastSelected.number : "",
-        price: lastSelected?.price ? lastSelected.price : "",
+        quantity_id: lastSelected?.quantity_id || "",
+        packaging_type_size_quantity_id: lastSelected?.packaging_type_size_quantity_id || "",
+        quantity: lastSelected?.size || "",
+        design_number: lastSelected?.number || "",
+        price: lastSelected?.price || "",
       })
     );
     setGroupSelected([lastSelected]);
@@ -85,10 +101,23 @@ export default function Quantity() {
     return cartItem.image || "/size.png";
   };
 
+  const hasMoreItems = currentPage * ITEMS_PER_PAGE < quantities.length;
+
   return (
     <div className="flex max-md:max-w-full mb-[72px] gap-5">
       <div className="grid sm:grid-cols-2 w-full h-fit gap-4">
         <div className="border-2 h-fit rounded-xl">
+          <div className="sm:hidden h-auto border-2 flex justify-center items-center rounded-xl overflow-hidden">
+            <Image 
+              src={getDisplayImage()} 
+              alt="Selected size" 
+              width={250} 
+              height={200}
+              className={`transition-transform transition-filter ease duration-200 ${
+                isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
+              }`}
+            />
+          </div>
           <div className="flex flex-col w-full h-fit gap-0">
             <CheckboxGroup
               value={groupSelected}
@@ -167,83 +196,80 @@ export default function Quantity() {
                   </div>
                 </span>
               </label>
-              {quantities.length ? (
-                quantities.map((ele, i) => {
-                  return (
-                    <Checkbox
-                      key={i}
-                      aria-label={ele.size}
-                      classNames={{
-                        base: cn(
-                          "flex px-5 max-w-full w-full m-0",
-                          "hover:bg-content2 items-baseline justify-start",
-                          "cursor-pointer gap-2 p-2 sm:p-5 last:border-none border-b-2 last:rounded-b-xl"
-                        ),
-                        icon: "rounded-full hidden",
-                        label: "w-full last:rounded-b-xl",
-                      }}
-                      value={ele}
-                      onMouseEnter={() => handleMouseEnter(ele)}
-                    >
-                      <div className="w-full flex justify-between text-[#03172B] gap-2">
-                        <div className="flex flex-col justify-evenly items-center">
-                          <div className="flex mobile:flex-col gap-2 justify-start items-start">
-                            <span className="text-lg max-mobile:text-sm font-bold">
-                              {ele.size}
-                            </span>
-                            <span className="px-2 bg-[#1CC6181A] max-mobile:text-xs max-mobile:font-semibold text-[#1CC618] rounded-full">
-                              50% off
-                            </span>
-                          </div>
-                          <span className="text-xs font-medium mobile:hidden w-full">
-                            <span className="text-[#808b98]">
-                              No. of Design:
-                            </span>{" "}
-                            {ele.number}
+              {displayedQuantities.length ? (
+                displayedQuantities.map((ele, i) => (
+                  <Checkbox
+                    key={i}
+                    aria-label={ele.size}
+                    classNames={{
+                      base: cn(
+                        "flex px-5 max-w-full w-full h-20 m-0",
+                        "hover:bg-content2 items-baseline justify-start",
+                        "cursor-pointer gap-2 p-2 sm:p-5 last:border-none border-b-2 last:rounded-b-xl"
+                      ),
+                      icon: "rounded-full hidden",
+                      label: "w-full last:rounded-b-xl",
+                    }}
+                    value={ele}
+                    onMouseEnter={() => handleMouseEnter(ele)}
+                  >
+                    <div className="w-full flex justify-between text-[#03172B] gap-2">
+                      <div className="flex flex-col justify-evenly items-center">
+                        <div className="flex mobile:flex-col gap-2 justify-start items-start">
+                          <span className="text-lg max-mobile:text-sm font-bold">
+                            {ele.size}
+                          </span>
+                          <span className="px-2 bg-[#1CC6181A] max-mobile:text-xs max-mobile:font-semibold text-[#1CC618] rounded-full">
+                            50% off
                           </span>
                         </div>
-                        <div className="flex flex-col">
-                          <span className="text-lg font-medium">
-                            {Math.floor(parseFloat(ele.price))}
-                          </span>
-                          <span className="text-lg text-[#03172B80] font-medium">{`(₹50/piece)`}</span>
-                        </div>
-                        <div className="flex items-center gap-1 max-mobile:hidden">
+                        <span className="text-xs font-medium mobile:hidden w-full">
+                          <span className="text-[#808b98]">
+                            No. of Design:
+                          </span>{" "}
                           {ele.number}
-                        </div>
+                        </span>
                       </div>
-                    </Checkbox>
-                  );
-                })
+                      <div className="flex flex-col">
+                        <span className="text-lg font-medium">
+                          {Math.floor(parseFloat(ele.price))}
+                        </span>
+                        <span className="text-lg text-[#03172B80] font-medium">{`(₹50/piece)`}</span>
+                      </div>
+                      <div className="flex items-center gap-1 max-mobile:hidden">
+                        {ele.number}
+                      </div>
+                    </div>
+                  </Checkbox>
+                ))
               ) : (
-                <label className="group relative tap-highlight-transparent select-none flex max-w-full w-full m-0 hover:bg-content2 items-baseline justify-start cursor-pointer gap-2 p-2 sm:p-5 last:border-none border-b-2 last:rounded-b-xl">
+                <label className="group relative tap-highlight-transparent select-none flex max-w-full w-full  m-0 hover:bg-content2 items-baseline justify-start cursor-pointer gap-2 p-2 sm:p-5 last:border-none border-b-2 last:rounded-b-xl">
                   <div className="w-full flex justify-center text-[#03172B] gap-2">
                     No Quantity Found
                   </div>
                 </label>
               )}
             </CheckboxGroup>
+            
+            {/* Load More Button */}
+            {hasMoreItems && (
+              <div className="w-full flex justify-center p-4">
+                <Button 
+                  onClick={handleLoadMore}
+                  className="bg-[#253670] text-white"
+                >
+                  Load More
+                </Button>
+              </div>
+            )}
           </div>
         </div>
-        <div className="max-sm:hidden h-auto border-2 flex justify-center items-center rounded-xl overflow-hidden">
+        <div className="max-sm:hidden h-96 border-2 flex justify-center items-center rounded-xl overflow-hidden">
           <Image 
             src={getDisplayImage()} 
             alt="Selected size" 
             width={350} 
             height={356}
-            className={`transition-transform transition-filter ease duration-200 ${
-              isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
-            }`}
-          />
-        </div>
-        
-        {/* Mobile image view - only visible on small screens */}
-        <div className="sm:hidden h-auto border-2 flex justify-center items-center rounded-xl overflow-hidden">
-          <Image 
-            src={getDisplayImage()} 
-            alt="Selected size" 
-            width={250} 
-            height={200}
             className={`transition-transform transition-filter ease duration-200 ${
               isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
             }`}

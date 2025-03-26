@@ -69,7 +69,7 @@ export default function HomepageNavbar() {
       dispatch(logout());
       router.push('/');
     }else{
-      console.log(result.error);  
+      // console.log(result.error);  
     }
   }, [dispatch, router]);
 
@@ -194,7 +194,7 @@ export default function HomepageNavbar() {
           {auth.isAuthenticated ? (
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
-                <div className="flex flex-col items-center cursor-pointer mt-5">
+                <div className="flex flex-col items-center cursor-pointer mt-2">
                   <Avatar
                     isBordered
                     as="button"
