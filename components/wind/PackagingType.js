@@ -86,7 +86,7 @@ export default function PackagingType() {
               <CardBody className="p-0">
                 <div className="flex gap-5 items-start pt-2 mobile:items-center mobile:flex-col overflow-y-scroll scrollbar-hide">
                   <Image
-                    src={item.packaging_image_url ||" "}
+                    src={item.packaging_image_url}
                     className="min-w-20"
                     alt="size"
                     width={80}
@@ -130,7 +130,7 @@ export default function PackagingType() {
                   >
                     <div className="h-full text-center flex flex-col justify-center items-center gap-5">
                     <Image
-                      src={item.packaging_image_url || ""}
+                      src={item.packaging_image_url}
                       className="min-w-20"
                       alt="size"
                       width={80}
