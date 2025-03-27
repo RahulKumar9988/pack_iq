@@ -15,7 +15,6 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchOrderHistory = async () => {
       const get_id = user_details.user.user_id;
-      // console.log(user_details.user.user_address)
       const userId = get_id;
 
       try {

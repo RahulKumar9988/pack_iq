@@ -16,6 +16,7 @@ import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
 import { useRouter } from "next/navigation";
 import Order_history from "./wind/Order/Order_history";
+import Link from "next/link";
 
 const ProfileSection = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -32,7 +33,6 @@ const ProfileSection = () => {
   };
   fetchOrderLength();
   
-  const address = userDetails.user.user_address;
 
   const handleLogout = useCallback( async () => {
     const result = await Logout();
@@ -67,7 +67,7 @@ const ProfileSection = () => {
       <div className="w-full mx-auto py-2 ">
         {!auth ? (
           <>
-            {router.push('/')}
+            <Link href='/'>please login</Link>
           </>
         ) : (
           <div className="grid lg:grid-cols-12 gap-6">
@@ -169,7 +169,7 @@ const ProfileSection = () => {
                     </button>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
-                    {address}
+                    <p>{userDetails.user.user_address || 'No address on file'}</p>
                   </div>
                 </div>
               )}
