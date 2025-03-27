@@ -50,7 +50,7 @@ const InfiniteScrollImages = () => {
 
 const InfiniteScrollWallpaper = () => {
   return (
-    <div className="relative h-screen flex items-center justify-center bg-white overflow-hidden">
+    <div className="relative h-screen flex items-center justify-center overflow-hidden">
       <div className="flex">
         <InfiniteScrollImages />
       </div>

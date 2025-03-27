@@ -86,7 +86,7 @@ export default function HeroSection({ inter }) {
               </Button>
             </div>
           </div>
-          <div className="gap-10 justify-center hidden lg:flex">
+          <div className="w-full gap-10 justify-center hidden lg:flex ">
             <InfiniteScrollWallpaper />
             <InfiniteScrollWallpaper2 />
           </div>
