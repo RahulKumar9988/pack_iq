@@ -1,4 +1,5 @@
 "use client";
+import { getUserDetails, userId } from "@/app/action/getUserDetails";
 import DeleteIcon from "@/components/DeleteIcon";
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -19,8 +20,8 @@ export default function Cart() {
   const [value, setValue] = useState({
     quantity: "",
     size: "",
-  });
-
+  }); 
+  console.log(userId);
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
 
@@ -124,7 +125,7 @@ export default function Cart() {
   async function handleSave() {
     try {
       const payload = {
-        user_id: "c0a6b80a-7a24-431b-99b7-793d71af4b4b-1725961556841",
+        user_id: userId,
         packaging_id: cartItem.packaging_id,
         size_id: cartItem.size_id,
         quantity_id: cartItem.quantity_id,

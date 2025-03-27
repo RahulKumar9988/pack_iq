@@ -13,6 +13,12 @@ export default function Layout({ children }) {
       title: "Common features",
       value: ["Zipper", "V notch"],
     },
+    material: {
+      heading: "Material",
+      title:
+        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
+      title2: "Get a discount by choosing bigger sizes and save more",
+    },
     size: {
       heading: "Size",
       title: "Get a discount by choosing bigger sizes and save more",
@@ -24,12 +30,25 @@ export default function Layout({ children }) {
         "Get a discount when ordering larger quantities and select even more designs for your pouches.",
       title2: "Get a discount by choosing bigger sizes and save more",
     },
-    material: {
-      heading: "Material",
+    designs: {
+      heading: "no_designs",
       title:
         "Get a discount when ordering larger quantities and select even more designs for your pouches.",
       title2: "Get a discount by choosing bigger sizes and save more",
     },
+    Additions: {
+      heading: "Additions",
+      title:
+        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
+      title2: "Get a discount by choosing bigger sizes and save more",
+    },
+    Summery: {
+      heading: "Summery",
+      title:
+        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
+      title2: "Get a discount by choosing bigger sizes and save more",
+    },
+    
   };
 
   const pathName = usePathname();
@@ -62,7 +81,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 md:mt-0 px-6">
-      <div className="mobile:mt-8">
+      <div className="mt-8 md:block hidden">
         <TabBar content={content} />
       </div>
       <div className="flex flex-col gap-[35px] max-mobile:gap-5 flex-grow">

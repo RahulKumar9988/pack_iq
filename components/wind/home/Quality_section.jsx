@@ -5,7 +5,7 @@ function Quality_section() {
   return (
     <div>
          <div className="flex flex-col justify-center items-center gap-10 bg-[#FFEADB] ml:px-[100px] ml:py-[70px] max-sm:p-4 sm:p-10">
-          <div className="max-w-full font-semibold text-[#143761] text-[32px] text-center leading-[43px]">
+          <div className="max-w-full font-medium text-[#143761] text-[32px] text-center leading-[43px]">
             Here you will find much more than just packaging
           </div>
           <div className="w-full overflow-hidden">

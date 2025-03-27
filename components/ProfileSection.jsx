@@ -178,7 +178,11 @@ const ProfileSection = () => {
               {activeTab === "orders" && (
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6">
                   <div className="flex flex-col items-start justify-between mb-6">
-                    <h2 className="text-xl font-bold dark:text-white">Order History</h2>
+                    <div className="flex justify-between w-full">
+                      <h2 className="text-xl font-bold dark:text-white">Order History</h2>
+                      <Link href='/orders-history' className="font-semibold underline hover:text-blue-950"> View all Orders</Link>
+                    </div>
+
                     <Order_history/>
                   </div>
                 

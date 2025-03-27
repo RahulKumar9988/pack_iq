@@ -64,7 +64,7 @@ export default function Products() {
   }
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
+    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
       {loading ? (
         <div className="w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {Array(productsPerPage)
@@ -84,7 +84,7 @@ export default function Products() {
                 onClick={() => navigateToProductDetail(ele.packaging_id)}
                 className="group flex flex-col justify-end rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
               >
-                <div className="relative w-full aspect-[3/4] overflow-hidden">
+                <div className="relative w-full aspect-[4/4] overflow-hidden">
                   <Image
                     className="object-cover transition-transform duration-300"
                     src={ele.packaging_image_url}

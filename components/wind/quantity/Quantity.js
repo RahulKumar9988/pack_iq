@@ -227,7 +227,7 @@ export default function Quantity() {
                           <span className="text-[#808b98]">
                             No. of Design:
                           </span>{" "}
-                          {ele.number}
+                          {/* {ele.number} */}
                         </span>
                       </div>
                       <div className="flex flex-col">

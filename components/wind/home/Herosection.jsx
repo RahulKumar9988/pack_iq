@@ -4,8 +4,6 @@ import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import InfiniteScrollWallpaper from "./InfiniteScrollWallpaper";
 import InfiniteScrollWallpaper2 from "./InfiniteScrollWallpaper2";
-import Image from "next/image";
-
 
 export default function HeroSection({ inter }) {
   const router = useRouter();
@@ -16,8 +14,6 @@ export default function HeroSection({ inter }) {
         
         <div className="flex flex-col items-center gap-8 xs:hidden px-[30px] pt-0 max-w-[629px] relative overflow-hidden">
           {/* Floating background elements */}
-          
-
           <div className="flex flex-col items-center gap-8 xs:hidden px-[30px] pt-0 max-w-[629px]">
               <div className="flex flex-col items-center gap-3 uppercase">
                 <div className="font-medium text-[#143761] text-xs">
@@ -55,9 +51,9 @@ export default function HeroSection({ inter }) {
 
         {/* Desktop Hero Section */}
         <div
-          className="hidden items-center border-[#282828d2] bg-cover bg-center mobile:px-5 xl:px-16 xs:px-8 border-t-1 w-full max-w-full aspect-[1440/713] md:flex"
+          className="hidden items-center border-[#282828d2] bg-cover bg-center mobile:px-5 xl:px-16 xs:px-8 border-t-1 w-full md:flex"
         >
-          <div className="flex flex-col gap-[60px] max-xs:hidden max-w-[629px]">
+          <div className="flex flex-col gap-[60px] max-xs:hidden w-full">
             <div className="flex flex-col gap-5 max-md:gap-1 max-lg:gap-3 max-ml:gap-2 uppercase">
               <div className="font-medium text-[#143761] text-sm">
                 A Sustainable Approach

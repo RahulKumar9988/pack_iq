@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
@@ -81,7 +83,7 @@ const OrderHistory = () => {
     <div className="container mx-auto px-4">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="px-6 py-4 bg-gray-50 border-b">
-          <h2 className="text-2xl font-bold">Order History</h2>
+          {/* <h2 className="text-2xl font-bold">Order History</h2> */}
         </div>
         <div className="divide-y divide-gray-200">
           {orders.map((order) => (

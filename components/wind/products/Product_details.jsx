@@ -203,10 +203,10 @@ export default function ProductDetail() {
           </div>
           
           {/* Price range alternate */}
-          <div>
+          {/* <div>
             <p className="text-xs sm:text-sm text-gray-500">Price Range:</p>
             <p className="text-sm sm:text-base font-medium">{product.priceRangeAlt}</p>
-          </div>
+          </div> */}
           
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-3 sm:mt-4">

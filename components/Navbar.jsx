@@ -202,7 +202,7 @@ export default function HomepageNavbar() {
                 <Avatar 
                   color="default"
                   className="border-[#yourCustomColor]"  // Custom border color
-                  style={{ backgroundColor: '#425e80' }}  // Custom background
+                  style={{ backgroundColor: '#d7d9db' }}  // Custom background
                 />
                 </div>
               </DropdownTrigger>
@@ -210,13 +210,10 @@ export default function HomepageNavbar() {
                 <DropdownItem key="profile" onClick={() => router.push('/profile')}>
                   My Profile
                 </DropdownItem>
-                <DropdownItem key="orders" onClick={() => router.push('/orders')}>
+                <DropdownItem key="orders" onClick={() => router.push('/orders-history')}>
                   My Orders
                 </DropdownItem>
-                <DropdownItem key="settings" onClick={() => router.push('/settings')}>
-                  Settings
-                </DropdownItem>
-                <DropdownItem key="logout" color="danger" onClick={handleLogout}>
+                <DropdownItem key="logout" color='warning' onClick={handleLogout}>
                   Logout
                 </DropdownItem>
               </DropdownMenu>

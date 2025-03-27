@@ -12,7 +12,7 @@ export const getUserDetails = () => {
 };
 
 const userDetails = getUserDetails();
-const userId = userDetails ? userDetails.user?.user_id : null;
+export const userId = userDetails ? userDetails.user?.user_id : null;
 
 export const getOrderLength = async () => {
   if (!userId) {
