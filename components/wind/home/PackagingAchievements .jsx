@@ -3,7 +3,7 @@ import React from 'react';
 
 const PackagingAchievements = () => {
   return (
-    <div className=" flex flex-col gap-10 w-full">
+    <div className="flex flex-col gap-10 w-full">
           <div className="flex justify-between items-center">
             <div className="w-full font-semibold text-[#143761] text-[32px] text-center">
               Why we are best in packaging industry?

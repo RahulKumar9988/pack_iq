@@ -86,7 +86,7 @@ export default function HomepageNavbar() {
     <Navbar
       className="bg-transparent"
       classNames={{
-        wrapper: "max-w-full bg-transparent px-0 max-xs:gap-2",
+        wrapper: "max-w-full bg-transparent px-16 max-xs:gap-2",
       }}
       isBlurred={false}
       position="sticky"

@@ -19,12 +19,12 @@ export default function Homepage() {
       
       <HeroSection/>
       <div className="mt-10 px-6">
-        <p className="md:text-[32px] text-[24px] font-medium md:text-start text-center md:px-9 px-0 text-[#143761]">Shop by popularity</p>
+        <p className="md:text-[32px] text-[24px] font-medium md:text-start text-center md:px-16 px-0 text-[#143761]">Shop by popularity</p>
         <Products/>
       </div>
       <Innovations/>
       <div className="mt-10 px-6">
-        <p className="md:text-[32px] text-[24px] font-medium md:text-start text-center md:px-9 px-0 text-[#143761]">Shop by popularity</p>
+        <p className="md:text-[32px] text-[24px] font-medium md:text-start text-center md:px-16 px-0 text-[#143761]">Shop by popularity</p>
         <Products/>
       </div>
       <PackagingAchievements/>

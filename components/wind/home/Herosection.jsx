@@ -53,7 +53,7 @@ export default function HeroSection({ inter }) {
         <div
           className="hidden items-center border-[#282828d2] bg-cover bg-center mobile:px-5 xl:px-16 xs:px-8 border-t-1 w-full md:flex"
         >
-          <div className="flex flex-col gap-[60px] max-xs:hidden w-full">
+          <div className="flex flex-col gap-[60px] max-xs:hidden w-full px-10">
             <div className="flex flex-col gap-5 max-md:gap-1 max-lg:gap-3 max-ml:gap-2 uppercase">
               <div className="font-medium text-[#143761] text-sm">
                 A Sustainable Approach
