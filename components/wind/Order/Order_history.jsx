@@ -21,10 +21,9 @@ const OrderHistory = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(`${baseUrl}/api/v1/order/my-order/${userId}`);
-        
         // Check if the response has data and process accordingly
         const orderData = response.data.data ? [response.data.data] : [];
-        
+        console.log(orderData.length);
         setOrders(orderData);
         setIsLoading(false);
       } catch (err) {

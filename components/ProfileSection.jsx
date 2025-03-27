@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getUserDetails } from "@/app/action/getUserDetails";
+import { getorder, getOrderLength, getUserDetails } from "@/app/action/getUserDetails";
 import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
 import { useRouter } from "next/navigation";
@@ -24,9 +24,15 @@ const ProfileSection = () => {
   const router = useRouter();
   const auth = useAppSelector(state => state.auth.isAuthenticated);
   const userDetails = getUserDetails();
-  const address = userDetails.user.user_address;
+  const [len,setLen] = useState(0);
+  const fetchOrderLength = async () => {
+    const order_len = await getOrderLength();
+    // console.log("Order Length:", order_len);
+    setLen(order_len);
+  };
+  fetchOrderLength();
   
-
+  const address = userDetails.user.user_address;
 
   const handleLogout = useCallback( async () => {
     const result = await Logout();
@@ -37,6 +43,8 @@ const ProfileSection = () => {
       // console.log(result.error);  
     }
   }, [dispatch, router]);
+
+  // Mock data 
 
   const NavButton = ({ tab, icon, label }) => (
     <motion.button
@@ -65,7 +73,7 @@ const ProfileSection = () => {
           <div className="grid lg:grid-cols-12 gap-6">
             {/* Sidebar */} 
             <div className="lg:col-span-3 space-y-6">
-              <div className="md:h-[100vh] h-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm">
+              <div className="md:h-[100vh] h-a bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm">
                 <div className="flex items-center space-x-4 mb-6">
                   <img 
                     src={userDetails.user.user_image_url} 
@@ -78,11 +86,11 @@ const ProfileSection = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {/* <NavButton 
+                  <NavButton 
                     tab="overview" 
                     icon={<FiUser className="w-5 h-5" />} 
                     label="Overview" 
-                  /> */}
+                  />
                   <NavButton 
                     tab="orders" 
                     icon={<FiShoppingBag className="w-5 h-5" />} 
@@ -110,8 +118,44 @@ const ProfileSection = () => {
             {/* Main Content */}
             <div className="lg:col-span-9">
               {activeTab === "overview" && (
-                <>
-                </>
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 space-y-6">
+                  <h2 className="text-xl font-bold dark:text-white mb-4">Profile Overview</h2>
+                  
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                      <div className="flex items-center space-x-4 mb-2">
+                        <FiUser className="w-6 h-6 text-indigo-600" />
+                        <h3 className="font-semibold dark:text-white">Personal Information</h3>
+                      </div>
+                      <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                        <p><span className="font-medium">Name:</span> {userDetails.user.user_name}</p>
+                        <p><span className="font-medium">Email:</span> {userDetails.user.user_email}</p>
+                        <p><span className="font-medium">Phone:</span> {userDetails.user.user_phone_number}</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                      <div className="flex items-center space-x-4 mb-2">
+                        <FiMapPin className="w-6 h-6 text-indigo-600" />
+                        <h3 className="font-semibold dark:text-white">Contact Address</h3>
+                      </div>
+                      <div className="text-gray-700 dark:text-gray-300">
+                        <p>{userDetails.user.user_address || 'No address on file'}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                    <div className="flex items-center space-x-4 mb-2">
+                      <FiShoppingBag className="w-6 h-6 text-indigo-600" />
+                      <h3 className="font-semibold dark:text-white">Account Summary</h3>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-2 text-gray-700 dark:text-gray-300">
+                      <p><span className="font-medium">{len}</span></p>
+                      <p><span className="font-medium">Account Created:</span> {new Date().toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </div>
               )}
 
               {/* Addresses Tab */}

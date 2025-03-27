@@ -61,6 +61,7 @@ export default function MobileNav() {
 
   const handleLoginClick = useCallback(() => {
     router.push('/auth/signin');
+    
   }, [router]);
 
 

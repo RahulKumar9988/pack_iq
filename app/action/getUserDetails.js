@@ -11,6 +11,38 @@ export const getUserDetails = () => {
   }
 };
 
+// const userId = getUserDetails().user.user_id;
+
+// export const getorder = async() =>{
+//   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+//   const response = await axios.get(`${baseUrl}/api/v1/order/my-order/${userId}`);
+//   // Check if the response has data and process accordingly
+//   const orderData = response.data.data ? [response.data.data] : [];
+//   return JSON.parse(JSON.parse(orderData).auth);
+
+// }
+
+const userId = getUserDetails().user.user_id;
+
+export const getOrderLength = async () => {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await axios.get(`${baseUrl}/api/v1/order/my-order/${userId}`);
+
+    // Ensure response structure before accessing data
+    const orderData = response.data.data ? [response.data.data] : [];
+    // console.log(orderData.length);
+    return orderData.length;
+    
+
+    // If orderData is an array, return its length; otherwise, return 0
+  } catch (error) {
+    console.error("Error fetching order:", error.message);
+    return 0; // Return 0 in case of an error
+  }
+};
+
 export const getUserId = () => {
   try {
     const authData = getUserDetails();

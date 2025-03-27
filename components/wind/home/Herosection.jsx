@@ -4,6 +4,7 @@ import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import InfiniteScrollWallpaper from "./InfiniteScrollWallpaper";
 import InfiniteScrollWallpaper2 from "./InfiniteScrollWallpaper2";
+import Image from "next/image";
 
 
 export default function HeroSection({ inter }) {
@@ -15,40 +16,7 @@ export default function HeroSection({ inter }) {
         
         <div className="flex flex-col items-center gap-8 xs:hidden px-[30px] pt-0 max-w-[629px] relative overflow-hidden">
           {/* Floating background elements */}
-          <div className="absolute inset-0 z-0">
-            {/* Floating elements with different sizes and animations */}
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-[#143761]/30 to-[#1a4a7a]/30 animate-float"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 2}s`,
-                  animationDuration: `${8 + i * 2}s`,
-                  width: `${Math.random() * 16 + 8}px`,
-                  height: `${Math.random() * 16 + 8}px`,
-                }}
-              />
-            ))}
-            
-            {/* Larger floating elements */}
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i+8}
-                className="absolute rounded-lg bg-gradient-to-br from-[#143761]/20 to-[#1a4a7a]/20 backdrop-blur-sm animate-float"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 3}s`,
-                  animationDuration: `${12 + i * 2}s`,
-                  width: `${Math.random() * 40 + 20}px`,
-                  height: `${Math.random() * 40 + 20}px`,
-                  transform: `rotate(${Math.random() * 360}deg)`,
-                }}
-              />
-            ))}
-          </div>
+          
 
           <div className="flex flex-col items-center gap-8 xs:hidden px-[30px] pt-0 max-w-[629px]">
               <div className="flex flex-col items-center gap-3 uppercase">
@@ -81,7 +49,7 @@ export default function HeroSection({ inter }) {
                   Customize now <GoArrowUpRight />
                 </Button>
               </div>
-            </div>
+              </div>
           </div>
         
 
