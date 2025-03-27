@@ -3,7 +3,7 @@ import React from 'react';
 
 const PackagingAchievements = () => {
   return (
-    <div className="bg-red-300 flex flex-col gap-10 w-full">
+    <div className=" flex flex-col gap-10 w-full">
           <div className="flex justify-between items-center">
             <div className="w-full font-semibold text-[#143761] text-[32px] text-center">
               Why we are best in packaging industry?
@@ -13,7 +13,7 @@ const PackagingAchievements = () => {
               <HiOutlineArrowRight />
             </div> */}
           </div>
-          <div className="w-full bg-red-900 flex flex-wrap justify-center gap-5 max-sm:gap-2 max-lg:gap-4">
+          <div className="w-full  flex flex-wrap justify-center gap-5 max-sm:gap-2 max-lg:gap-4">
             <div className="flex gap-5 max-md:gap-2 max-xs:hidden">
               <div className="flex flex-col gap-5 max-sm:gap-2 max-lg:gap-4">
                 <div className="flex gap-5 max-sm:gap-2 max-lg:gap-4">
