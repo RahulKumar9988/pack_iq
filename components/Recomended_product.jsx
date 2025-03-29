@@ -61,30 +61,30 @@ export default function Recomended_product() {
         <div className="text-center text-lg font-medium">No products found</div>
       ):(
         <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-                    {productList.map((ele, i) => (
-                      <div
-                        key={i}
-                        onClick={() => navigateToProductDetail(ele.packaging_id)}
-                        className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
-                      >
-                        <div className="relative w-full aspect-square overflow-hidden">
-                          <Image
-                            className="object-contain transition-transform duration-300"
-                            src={ele.packaging_image_url}
-                            alt={ele.name}
-                            fill
-                            sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-2 p-3">
-                          <div className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</div>
-                          <div className="flex items-center justify-center bg-gray-200 px-3 py-1.5 rounded-lg text-sm font-semibold text-[#143761] self-start">
-                            {ele.price}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+          {productList.map((ele, i) => (
+            <div
+              key={i}
+              onClick={() => navigateToProductDetail(ele.packaging_id)}
+              className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+            >
+              <div className="relative w-full aspect-square overflow-hidden">
+                <Image
+                  className="object-contain transition-transform duration-300"
+                  src={ele.packaging_image_url}
+                  alt={ele.name}
+                  fill
+                  sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                />
+              </div>
+              <div className="flex flex-col gap-2 p-3">
+                <div className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</div>
+                <div className="flex items-center justify-center bg-gray-200 px-3 py-1.5 rounded-lg text-sm font-semibold text-[#143761] self-start">
+                  {ele.price}/per unit
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

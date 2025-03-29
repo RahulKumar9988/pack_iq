@@ -114,7 +114,7 @@ export default function PackagingType() {
                 <Divider />
                 <div className="flex justify-between w-full p-2">
                   <span className="text-sm font-normal">Price:</span>
-                  <span className="font-medium">{item.price}</span>
+                  <span className="font-medium">{item.price}/per unit</span>
                 </div>
               </CardFooter>
 
