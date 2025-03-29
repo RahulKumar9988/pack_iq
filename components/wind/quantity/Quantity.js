@@ -2,10 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Image,
-  CheckboxGroup,
   Link,
-  Checkbox,
-  cn,
   Button,
 } from "@nextui-org/react";
 import { LuCheck } from "react-icons/lu";
@@ -18,7 +15,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const ITEMS_PER_PAGE = 8;
 
 export default function Quantity() {
-  const [groupSelected, setGroupSelected] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [quantities, setQuantities] = useState([]);
   const [displayedQuantities, setDisplayedQuantities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,18 +70,18 @@ export default function Quantity() {
     setCurrentPage(prevPage => prevPage + 1);
   };
 
-  const handleQuantitySelection = (lastSelected) => {
+  const handleQuantitySelection = (item) => {
+    setSelectedItem(item);
     dispatch(
       addToCart({
         ...cartItem,
-        quantity_id: lastSelected?.quantity_id || "",
-        packaging_type_size_quantity_id: lastSelected?.packaging_type_size_quantity_id || "",
-        quantity: lastSelected?.size || "",
-        design_number: lastSelected?.number || "",
-        price: lastSelected?.price || "",
+        quantity_id: item?.quantity_id || "",
+        packaging_type_size_quantity_id: item?.packaging_type_size_quantity_id || "",
+        quantity: item?.size || "",
+        design_number: item?.number || "",
+        price: item?.price || "",
       })
     );
-    setGroupSelected([lastSelected]);
   };
 
   const handleMouseEnter = (item) => {
@@ -104,148 +101,79 @@ export default function Quantity() {
   const hasMoreItems = currentPage * ITEMS_PER_PAGE < quantities.length;
 
   return (
-    <div className="flex max-md:max-w-full mb-[72px] gap-2">
-      <div className="w-full h-fit gap-4">
-        <div className="border-2 h-fit rounded-xl">
-          <div className="flex flex-col w-full h-fit gap-0">
-            <CheckboxGroup
-              value={groupSelected}
-              onChange={(e) => {
-                const lastSelected = e[e.length - 1];
-                handleQuantitySelection(lastSelected);
-              }}
-              classNames={{
-                base: "w-full",
-                wrapper: "gap-0",
-              }}
-            >
-              <label
-                className="group bg-[#F9F9F9] relative tap-highlight-transparent inline-flex h-[43px] max-w-full w-full rounded-t-xl m-0 hover:bg-content2 items-center justify-start cursor-pointer gap-2 p-2 border-b-2 max-md:first:rounded-t-xl last:rounded-xl"
-                aria-label="1000"
-              >
-                <span
-                  style={{
-                    border: 0,
-                    clip: "rect(0 0 0 0)",
-                    clipPath: "inset(50%)",
-                    height: "1px",
-                    margin: "-1px",
-                    overflow: "hidden",
-                    padding: 0,
-                    position: "absolute",
-                    width: "1px",
-                    whiteSpace: "nowrap",
-                  }}
+    <div className="flex flex-col lg:flex-row w-full px-4 sm:px-6 lg:px-8 mb-[100px] lg:mb-[72px] gap-4 max-w-[1200px] mx-auto">
+      <div className="w-full lg:w-3/4 h-fit">
+        <div className="border-2 h-fit rounded-xl overflow-hidden">
+          <div className="flex flex-col w-full h-fit">
+            {/* Header Row */}
+            <div className="group bg-[#F9F9F9] relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 sm:px-6 border-b-2">
+              <div className="grid grid-cols-3 w-full text-[#808b98]">
+                <div className="flex items-center text-xs sm:text-sm font-normal">
+                  Size
+                </div>
+                <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
+                  Price
+                </div>
+                <div className="flex justify-end items-center text-xs sm:text-sm font-normal">
+                  No of Design
+                </div>
+              </div>
+            </div>
+              
+            {/* Quantity Items */}
+            {displayedQuantities.length ? (
+              displayedQuantities.map((ele, i) => (
+                <div
+                  key={i}
+                  className={`inline-flex h-auto min-h-16 w-full m-0 cursor-pointer border-b last:border-b-0 px-4 sm:px-6 py-2 ${selectedItem?.size === ele.size ? 'bg-blue-50' : 'hover:bg-content2'}`}
+                  onClick={() => handleQuantitySelection(ele)}
+                  onMouseEnter={() => handleMouseEnter(ele)}
                 >
-                  <input
-                    aria-label="1000"
-                    aria-labelledby=":R6pcvf6jt7qcq:"
-                    type="checkbox"
-                    value="1000"
-                  />
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before:bg-default-100 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-2 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
-                >
-                  <svg
-                    aria-hidden="true"
-                    role="presentation"
-                    viewBox="0 0 17 18"
-                    className="z-10 opacity-0 group-data-[selected=true]:opacity-100 w-4 h-3 transition-opacity motion-reduce:transition-none rounded-full"
-                  >
-                    <polyline
-                      fill="none"
-                      points="1 9 7 14 15 4"
-                      stroke="currentColor"
-                      strokeDasharray="22"
-                      strokeDashoffset="66"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                    ></polyline>
-                  </svg>
-                </span>
-                <span
-                  id=":R6pcvf6jt7qcq:"
-                  className="relative text-foreground select-none text-medium transition-colors-opacity before:transition-width motion-reduce:transition-none w-full last:rounded-b-xl"
-                >
-                  <div className="w-full flex justify-between text-[#808b98] gap-2">
-                    <div className="flex justify-evenly items-center gap-4">
-                      <div className="flex flex-col gap-2 justify-center items-center">
-                        <span className="text-xs font-normal">Size</span>
-                      </div>
-                    </div>
-                    <span className="text-xs mobile:ml-12 max-mobile:mr-[73px] font-normal">
-                      Price
-                    </span>
-                    <div className="max-mobile:hidden text-xs font-normal">
-                      No of Design
-                    </div>
-                  </div>
-                </span>
-              </label>
-              {displayedQuantities.length ? (
-                displayedQuantities.map((ele, i) => (
-                  <Checkbox
-                    key={i}
-                    aria-label={ele.size}
-                    classNames={{
-                      base: cn(
-                        "flex px-5 max-w-full w-full h-16 m-0",
-                        "hover:bg-content2",
-                        "cursor-pointer gap-2 last:border-none border-b-2 last:rounded-b-xl"
-                      ),
-                      icon: "rounded-full hidden",
-                      label: "w-full last:rounded-b-xl",
-                    }}
-                    value={ele}
-                    onMouseEnter={() => handleMouseEnter(ele)}
-                  >
-                    <div className="w-full flex justify-between text-[#03172B] gap-2">
-                      <div className="flex flex-col justify-evenly items-center">
-                        <div className="flex mobile:flex-col gap-2 justify-start items-start">
-                          <span className="text-md max-mobile:text-sm font-normal">
-                            {ele.size}
-                          </span>
-                          <span className="px-2 bg-[#1CC6181A] text-sm max-mobile:text-xs max-mobile:font-normal text-[#1CC618] rounded-full">
-                            50% off
-                          </span>
+                  <div className="grid grid-cols-3 w-full gap-2">
+                    {/* Size Column with Checkbox */}
+                    <div className="flex flex-col justify-center">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="w-5 h-5 border rounded flex items-center justify-center">
+                          {selectedItem?.size === ele.size && (
+                            <div className="w-3 h-3 bg-[#253670] rounded-sm"></div>
+                          )}
                         </div>
-                        <span className="text-xs font-normal mobile:hidden w-full">
-                          <span className="text-[#808b98]">
-                            No. of Design:
-                          </span>{" "}
-                          {/* {ele.number} */}
+                        <span className="text-sm sm:text-base font-medium">
+                          {ele.size}
                         </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-md font-normal">
-                          {Math.floor(parseFloat(ele.price))}
+                        <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
+                          50% off
                         </span>
-                        <span className="text-md text-[#03172B80] font-normal">{`(₹50/piece)`}</span>
-                      </div>
-                      <div className="flex items-center gap-1 max-mobile:hidden">
-                        {ele.number}
                       </div>
                     </div>
-                  </Checkbox>
-                ))
-              ) : (
-                <label className="group relative tap-highlight-transparent select-none flex max-w-full w-full  m-0 hover:bg-content2 items-baseline justify-start cursor-pointer gap-2 p-2 sm:p-5 last:border-none border-b-2 last:rounded-b-xl">
-                  <div className="w-full flex justify-center text-[#03172B] gap-2">
-                    No Quantity Found
+                    
+                    {/* Price Column */}
+                    <div className="flex flex-col justify-center items-center">
+                      <span className="text-sm sm:text-base font-medium">
+                        {Math.floor(parseFloat(ele.price))}
+                      </span>
+                      <span className="text-xs text-[#03172B80]">{`(₹50/piece)`}</span>
+                    </div>
+                    
+                    {/* No of Design Column */}
+                    <div className="flex justify-end items-center">
+                      <span className="text-sm sm:text-base">{ele.number}</span>
+                    </div>
                   </div>
-                </label>
-              )}
-            </CheckboxGroup>
+                </div>
+              ))
+            ) : (
+              <div className="w-full flex justify-center p-6 text-[#03172B] border-b">
+                No Quantity Found
+              </div>
+            )}
             
             {/* Load More Button */}
             {hasMoreItems && (
               <div className="w-full flex justify-center p-4">
                 <Button 
                   onClick={handleLoadMore}
-                  className="bg-[#253670] text-white"
+                  className="bg-[#253670] text-white text-sm px-4 py-2"
                 >
                   Load More
                 </Button>
@@ -254,27 +182,30 @@ export default function Quantity() {
           </div>
         </div>
       </div>
-      <div className="max-ml:hidden w-1/4 flex flex-col gap-5">
+      
+      {/* Right Sidebar - Desktop */}
+      <div className="hidden lg:flex w-1/4 flex-col gap-5">
         <div className="flex flex-col gap-3 p-4 text-sm border-2 rounded-xl min-w-[250px]">
-          <div className="">Your packaging</div>
+          <div className="font-medium">Your packaging</div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 min-w-fit">
-              <LuCheck />
-              <span> Type :</span>
+              <LuCheck className="text-sm text-[#253670]" />
+              <span>Type:</span>
             </div>
             <span className="font-normal">{cartItem.name}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 min-w-fit">
-              <LuCheck />
-              <span> Size :</span>
+              <LuCheck className="text-sm text-[#253670]" />
+              <span>Size:</span>
             </div>
             <span className="font-normal">{cartItem.size}</span>
-            <span className="">{`(${cartItem.dimension})`}</span>
+            <span className="text-sm text-[#03172B80]">{`(${cartItem.dimension})`}</span>
           </div>
         </div>
+        
         <div className="flex flex-col gap-3 p-4 bg-[#FDD40A1A] min-w-[250px] text-sm border-2 rounded-xl">
-          <span>Note</span>
+          <span className="font-medium">Note</span>
           <span>
             When making your purchase, opting for a higher quantity can
             significantly increase your savings. By buying in bulk, you often
@@ -282,21 +213,52 @@ export default function Quantity() {
             run.
           </span>
         </div>
+        
         <Link
-          isDisabled={!groupSelected[0]}
+          isDisabled={!selectedItem}
           href={`/design`}
-          className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-md font-normal bg-[#253670] text-white h-14"
+          className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-md font-medium bg-[#253670] text-white h-14"
         >
           Confirm
         </Link>
       </div>
-      <div className="ml:hidden z-50 fixed bg-white left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
-        <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
+      
+      {/* Mobile Information Card */}
+      <div className="lg:hidden w-full flex flex-col gap-4 mt-2 mb-20">
+        {selectedItem && (
+          <div className="border-2 rounded-xl p-4">
+            <div className="font-medium mb-2">Selected Package</div>
+            <div className="grid grid-cols-2 gap-y-2">
+              <div className="flex items-center gap-1">
+                <LuCheck className="text-sm text-[#253670]" />
+                <span className="text-sm">Type:</span>
+              </div>
+              <span className="text-sm">{cartItem.name}</span>
+              
+              <div className="flex items-center gap-1">
+                <LuCheck className="text-sm text-[#253670]" />
+                <span className="text-sm">Size:</span>
+              </div>
+              <span className="text-sm">{cartItem.size}</span>
+              
+              <div className="flex items-center gap-1">
+                <LuCheck className="text-sm text-[#253670]" />
+                <span className="text-sm">Quantity:</span>
+              </div>
+              <span className="text-sm">{selectedItem?.size || ""}</span>
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* Bottom Sticky Bar - Mobile & Tablet */}
+      <div className="lg:hidden z-50 fixed bg-white left-0 bottom-0 border-t shadow-md flex items-center justify-between w-full px-4 sm:px-6 py-3">
+        <div className="flex flex-col text-xs items-start">
           <div className="text-[#03172B80]">Price</div>
-          <div className="font-normal">{cartItem.price || 0}</div>
+          <div className="font-medium">{selectedItem?.price || "0"}</div>
         </div>
-        <Link isDisabled={!groupSelected[0]} href={`/design`}>
-          <Button className="text-xs w-[88px] font-normal bg-[#143761] rounded-md text-white h-[38px]">
+        <Link isDisabled={!selectedItem} href={`/design`}>
+          <Button className="text-sm font-medium bg-[#143761] rounded-md text-white h-10 px-4">
             Confirm
           </Button>
         </Link>
