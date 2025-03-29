@@ -126,9 +126,9 @@ export default function PackagingType() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0 backdrop-blur-xl bg-[#2595ff0e] z-10 p-4 flex items-center justify-center text=-black"
+                    className="absolute inset-0 backdrop-blur-xl bg-[#2595ff0e] z-10 p-4 flex items-center justify-between text=-black"
                   >
-                    <div className="h-full text-center flex flex-col justify-center items-center gap-5">
+                    <div className="h-full text-center flex flex-col justify-between items-center gap-5">
                     <Image
                       src={item.packaging_image_url}
                       className="min-w-20"
@@ -136,7 +136,7 @@ export default function PackagingType() {
                       width={100}
                       height={80}
                     />
-                      <div>
+                      <div className="flex flex-col justify-around h-full">
                         <h3 className="text-xl font-bold mb-3">{item.name}</h3>
                         <p className="text-sm text-black">{item.description}</p>
                       </div>
