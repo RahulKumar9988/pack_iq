@@ -115,7 +115,7 @@ export default function Quantity() {
                 handleQuantitySelection(lastSelected);
               }}
               classNames={{
-                base: "w-full w-max-full",
+                base: "w-full",
                 wrapper: "gap-0",
               }}
             >
