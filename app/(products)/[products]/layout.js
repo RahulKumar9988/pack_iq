@@ -57,9 +57,9 @@ export default function Layout({ children }) {
   const pageOrder = [
     "/", 
     "packaging-type",
+    "material",
     "size",
     "quantity",
-    "material",
   ];
 
   // Extract the last segment of the path
@@ -80,7 +80,7 @@ export default function Layout({ children }) {
     previousIndex === 0 ? "/" : `/${pageOrder[previousIndex]}`;
 
   return (
-    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 md:mt-0 px-6">
+    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 md:mt-0 px-2 md:px-16">
       <div className="mt-8 md:block hidden">
         <TabBar content={content} />
       </div>

@@ -22,7 +22,7 @@ export default function Size() {
   const [groupSelected, setGroupSelected] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [hoveredItem, setHoveredItem] = useState(null); 
-  const [isImageHovered, setIsImageHovered] = useState(false);
+  const [isImageChanging, setIsImageChanging] = useState(false);
   const [defaultImage, setDefaultImage] = useState(DEFAULT_IMAGE); // Initialize with default
 
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ export default function Size() {
   const router = useRouter();
   
   useEffect(() => {
-    if (!cartItem.packaging_id) {
+    if (!cartItem.material_id) {
       router.back();
     }
     getSizes();
@@ -42,6 +42,8 @@ export default function Size() {
       const response = await axios.get(
         `${baseUrl}/api/v1/resources/list-packaging-type-size/${cartItem.packaging_id}`
       );
+      console.log(response);
+
       if (response.data.status === 200) {
         const responseData = response.data.data.map((ele) => {
           // Use default image if no image is available
@@ -71,6 +73,9 @@ export default function Size() {
   }
 
   const handleSizeSelection = (lastSelected) => {
+    // Add a brief blur effect during image change
+    setIsImageChanging(true);
+    
     dispatch(
       addToCart({
         ...cartItem,
@@ -82,22 +87,20 @@ export default function Size() {
       })
     );
     setGroupSelected([lastSelected]);
+    
+    // Remove blur effect after a short transition
+    setTimeout(() => {
+      setIsImageChanging(false);
+    }, 300);
   };
 
   const handleMouseEnter = (item) => {
     setHoveredItem(item);
-    setIsImageHovered(true);
-
-    setTimeout(() => {
-      setIsImageHovered(false);
-    }, 500);
   };
 
   // Get current image to display with proper fallback
   const getCurrentImage = () => {
-    if (hoveredItem?.image) {
-      return hoveredItem.image;
-    } else if (groupSelected.length && groupSelected[0].image) {
+    if (groupSelected.length && groupSelected[0].image) {
       return groupSelected[0].image;
     } else {
       return defaultImage;
@@ -113,9 +116,9 @@ export default function Size() {
             width={241}
             height={161}
             alt="product size"
-            className={`transition-opacity ${
-              isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
-            } duration-2000 ease-in-out`}
+            className={`transition-all duration-300 ease-in-out ${
+              isImageChanging ? "blur-sm scale-105" : "blur-0 scale-100"
+            }`}
             style={{ width: "auto", height: "100%" }}
             onError={(e) => {
               e.target.src = DEFAULT_IMAGE; // Set default image on error
@@ -247,8 +250,8 @@ export default function Size() {
               alt="product size"
               width={350}
               height={350}
-              className={`transition-transform transition-filter ease duration-200 ${
-                isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
+              className={`transition-all duration-300 ease-in-out ${
+                isImageChanging ? "blur-sm scale-105" : "blur-0 scale-100"
               }`}
               onError={(e) => {
                 e.target.src = DEFAULT_IMAGE; // Set default image on error

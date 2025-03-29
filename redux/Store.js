@@ -3,6 +3,8 @@ import cartReducer from "./features/cart/cartSlice";
 import constantReducer from "./features/constants/constantSlice";
 import storage from "redux-persist/es/storage"; // localStorage as default
 import { persistReducer, persistStore } from "redux-persist";
+import orderReducer from './features/order/orderSlice'
+import productFilterReducer from './features/filter/productFilterSlice';
 import {
   FLUSH,
   REHYDRATE,
@@ -26,7 +28,9 @@ const persistConfig = {
 const rootReducer = combineReducers({
   cart: cartReducer,
   constant: constantReducer,
-  auth:authReducer
+  auth:authReducer,
+  order:orderReducer,
+  productFilter: productFilterReducer
 });
 
 // Persist the root reducer

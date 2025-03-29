@@ -104,20 +104,9 @@ export default function Quantity() {
   const hasMoreItems = currentPage * ITEMS_PER_PAGE < quantities.length;
 
   return (
-    <div className="flex max-md:max-w-full mb-[72px] gap-5">
-      <div className="grid sm:grid-cols-2 w-full h-fit gap-4">
+    <div className="flex max-md:max-w-full mb-[72px] gap-2">
+      <div className="w-full h-fit gap-4">
         <div className="border-2 h-fit rounded-xl">
-          <div className="sm:hidden h-auto border-2 flex justify-center items-center rounded-xl overflow-hidden">
-            <Image 
-              src={getDisplayImage()} 
-              alt="Selected size" 
-              width={250} 
-              height={200}
-              className={`transition-transform transition-filter ease duration-200 ${
-                isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
-              }`}
-            />
-          </div>
           <div className="flex flex-col w-full h-fit gap-0">
             <CheckboxGroup
               value={groupSelected}
@@ -203,9 +192,9 @@ export default function Quantity() {
                     aria-label={ele.size}
                     classNames={{
                       base: cn(
-                        "flex px-5 max-w-full w-full h-20 m-0",
-                        "hover:bg-content2 items-baseline justify-start",
-                        "cursor-pointer gap-2 p-2 sm:p-5 last:border-none border-b-2 last:rounded-b-xl"
+                        "flex px-5 max-w-full w-full h-16 m-0",
+                        "hover:bg-content2",
+                        "cursor-pointer gap-2 last:border-none border-b-2 last:rounded-b-xl"
                       ),
                       icon: "rounded-full hidden",
                       label: "w-full last:rounded-b-xl",
@@ -216,14 +205,14 @@ export default function Quantity() {
                     <div className="w-full flex justify-between text-[#03172B] gap-2">
                       <div className="flex flex-col justify-evenly items-center">
                         <div className="flex mobile:flex-col gap-2 justify-start items-start">
-                          <span className="text-lg max-mobile:text-sm font-bold">
+                          <span className="text-md max-mobile:text-sm font-normal">
                             {ele.size}
                           </span>
-                          <span className="px-2 bg-[#1CC6181A] max-mobile:text-xs max-mobile:font-semibold text-[#1CC618] rounded-full">
+                          <span className="px-2 bg-[#1CC6181A] text-sm max-mobile:text-xs max-mobile:font-normal text-[#1CC618] rounded-full">
                             50% off
                           </span>
                         </div>
-                        <span className="text-xs font-medium mobile:hidden w-full">
+                        <span className="text-xs font-normal mobile:hidden w-full">
                           <span className="text-[#808b98]">
                             No. of Design:
                           </span>{" "}
@@ -231,10 +220,10 @@ export default function Quantity() {
                         </span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-lg font-medium">
+                        <span className="text-md font-normal">
                           {Math.floor(parseFloat(ele.price))}
                         </span>
-                        <span className="text-lg text-[#03172B80] font-medium">{`(₹50/piece)`}</span>
+                        <span className="text-md text-[#03172B80] font-normal">{`(₹50/piece)`}</span>
                       </div>
                       <div className="flex items-center gap-1 max-mobile:hidden">
                         {ele.number}
@@ -264,17 +253,6 @@ export default function Quantity() {
             )}
           </div>
         </div>
-        <div className="max-sm:hidden h-96 border-2 flex justify-center items-center rounded-xl overflow-hidden">
-          <Image 
-            src={getDisplayImage()} 
-            alt="Selected size" 
-            width={350} 
-            height={356}
-            className={`transition-transform transition-filter ease duration-200 ${
-              isImageHovered ? "blur-lg scale-110" : "blur-0 scale-100"
-            }`}
-          />
-        </div>
       </div>
       <div className="max-ml:hidden w-1/4 flex flex-col gap-5">
         <div className="flex flex-col gap-3 p-4 text-sm border-2 rounded-xl min-w-[250px]">
@@ -284,14 +262,14 @@ export default function Quantity() {
               <LuCheck />
               <span> Type :</span>
             </div>
-            <span className="font-semibold">{cartItem.name}</span>
+            <span className="font-normal">{cartItem.name}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 min-w-fit">
               <LuCheck />
               <span> Size :</span>
             </div>
-            <span className="font-semibold">{cartItem.size}</span>
+            <span className="font-normal">{cartItem.size}</span>
             <span className="">{`(${cartItem.dimension})`}</span>
           </div>
         </div>
@@ -306,8 +284,8 @@ export default function Quantity() {
         </div>
         <Link
           isDisabled={!groupSelected[0]}
-          href={`material`}
-          className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-lg font-bold bg-[#253670] text-white h-14"
+          href={`/cart`}
+          className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-md font-normal bg-[#253670] text-white h-14"
         >
           Confirm
         </Link>
@@ -315,10 +293,10 @@ export default function Quantity() {
       <div className="ml:hidden z-50 fixed bg-white left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
         <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
           <div className="text-[#03172B80]">Price</div>
-          <div className="font-semibold">{cartItem.price || 0}</div>
+          <div className="font-normal">{cartItem.price || 0}</div>
         </div>
-        <Link isDisabled={!groupSelected[0]} href={`material`}>
-          <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
+        <Link isDisabled={!groupSelected[0]} href={`/cart`}>
+          <Button className="text-xs w-[88px] font-normal bg-[#143761] rounded-md text-white h-[38px]">
             Confirm
           </Button>
         </Link>

@@ -65,7 +65,7 @@ export default function PackagingType() {
           <Link
             key={index}
             className="max-h-[394px] relative group"
-            href={`/${item.name.toLocaleLowerCase().replace(" ", "-")}/size`}
+            href={`/${item.name.toLocaleLowerCase().replace(" ", "-")}/material`}
             onClick={() => {
               dispatch(
                 addToCart({

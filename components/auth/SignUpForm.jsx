@@ -156,6 +156,11 @@ function SignUpForm() {
           {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
+      <div>
+        <p className="mt-4 text-center">
+          Already have an account ? <a href="/auth/signin" className="text-blue-500 hover:underline">Sign Up</a>
+        </p>
+      </div>
     </div>
   );
 }

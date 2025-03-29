@@ -21,8 +21,9 @@ export default function Material() {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
+  
   useEffect(() => {
-    if (!cartItem.quantity_id) {
+    if (!cartItem.packaging_id) {
       router.back();
     }
     getSizes();
@@ -56,6 +57,23 @@ export default function Material() {
     setSelectedMaterial(index); // Update the selected material
   };
 
+  // Function to handle material selection and add to cart
+  const handleMaterialSelect = (material) => {
+    dispatch(
+      addToCart({
+        ...cartItem,
+        material: material.name,
+        material_id: material.material_id,
+      })
+    );
+    handleSelect(material.material_id);
+  };
+
+  // Create the URL for size route with packaging name in the format you specified
+  const sizeRouteUrl = cartItem.name ? 
+    `/${cartItem.name.toLowerCase().replace(" ", "-")}/size` : 
+    '/size';
+
   return (
     <>
       <div
@@ -74,16 +92,7 @@ export default function Material() {
               >
                 <div
                   className="flex gap-4"
-                  onClick={() => {
-                    dispatch(
-                      addToCart({
-                        ...cartItem,
-                        material: ele.name,
-                        material_id: ele.material_id,
-                      })
-                    );
-                    handleSelect(ele.material_id);
-                  }} // On click, select this material
+                  onClick={() => handleMaterialSelect(ele)} // Updated to use the new function
                 >
                   <Image
                     src={ele.img}
@@ -121,7 +130,7 @@ export default function Material() {
               <LuCheck />
               <span> Size :</span>
               <span className="font-semibold">{cartItem.size}</span>
-              <span className="">{`(${cartItem.dimension})`}</span>
+              <span className="">{`(${cartItem.dimension || ''})`}</span>
             </div>
             <div className="flex items-center gap-2">
               <LuCheck />
@@ -140,7 +149,7 @@ export default function Material() {
           </div>
           <Link
             isDisabled={!selectedMaterial}
-            href={`/cart`}
+            href={sizeRouteUrl}
             className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-lg font-bold bg-[#253670] text-white h-14"
           >
             <Button className="text-lg w-full font-bold bg-[#253670] text-white h-14">
@@ -154,7 +163,7 @@ export default function Material() {
           <div className="text-[#03172B80]">Price</div>
           <div className="font-semibold">₹ {cartItem.price || 0}</div>
         </div>
-        <Link isDisabled={!selectedMaterial} href={`/cart`}>
+        <Link isDisabled={!selectedMaterial} href={sizeRouteUrl}>
           <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
             Confirm
           </Button>

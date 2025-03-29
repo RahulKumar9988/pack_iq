@@ -130,13 +130,6 @@ export default function HomepageNavbar() {
             <DropdownItem key="all-products" startContent={ICONS.scale}>
               <NextUILink href="/products" as={Link}>All Product</NextUILink>
             </DropdownItem>
-            <DropdownItem
-              key="usage_metrics"
-              description="Real-time metrics to debug issues."
-              startContent={ICONS.activity}
-            >
-              Usage Metrics
-            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
 
@@ -164,13 +157,7 @@ export default function HomepageNavbar() {
             <DropdownItem key="packaging-type" startContent={ICONS.scale}>
               <NextUILink href="/packaging-type" as={Link}>Packaging Type</NextUILink>
             </DropdownItem>
-            <DropdownItem
-              key="usage_metrics"
-              description="Real-time metrics to debug issues."
-              startContent={ICONS.activity}
-            >
-              Usage Metrics
-            </DropdownItem>
+            
           </DropdownMenu>
         </Dropdown>
         

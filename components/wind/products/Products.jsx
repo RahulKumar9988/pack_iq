@@ -4,17 +4,24 @@ import { Button } from "@nextui-org/react";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from 'react-redux';
 import ProductSkeleton from "@/components/ProductSkeleton";
+import { setFilteredProducts } from '@/redux/features/filter/productFilterSlice';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function Products() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [productList, setProductList] = useState([]);
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const productsPerPage = 8;
+
+  // Get filters from Redux store
+  const filters = useSelector((state) => state.productFilter.filters);
+  const filteredProducts = useSelector((state) => state.productFilter.filteredProducts);
 
   useEffect(() => {
     getPackagingType();
@@ -22,18 +29,31 @@ export default function Products() {
 
   useEffect(() => {
     updateDisplayedProducts();
-  }, [productList, page]);
+  }, [productList, page, filters]);
 
   const updateDisplayedProducts = () => {
+    let productsToDisplay = productList;
+
+    // Apply filters
+    if (filters.packagingForm) {
+      productsToDisplay = productsToDisplay.filter(
+        product => product.name === filters.packagingForm
+      );
+    }
+
+    // You can add more filter conditions here for material, size, quantity
+
     const endIndex = page * productsPerPage;
-    setDisplayedProducts(productList.slice(0, endIndex));
+    const slicedProducts = productsToDisplay.slice(0, endIndex);
+    
+    setDisplayedProducts(slicedProducts);
+    dispatch(setFilteredProducts(slicedProducts));
   };
 
   const loadMore = () => {
     setPage(page + 1);
   };
   
-  // Navigate to product detail page
   const navigateToProductDetail = (productId) => {
     router.push(`/products/${productId}`);
   };
@@ -66,14 +86,14 @@ export default function Products() {
   return (
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-16 py-8 flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
       {loading ? (
-        <div className="w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {Array(productsPerPage)
             .fill(0)
             .map((_, index) => (
               <ProductSkeleton key={`skeleton-${index}`} />
             ))}
         </div>
-      ) : productList.length === 0 ? (
+      ) : displayedProducts.length === 0 ? (
         <div className="text-center text-lg font-medium">No products found</div>
       ):(
         <>
@@ -84,7 +104,7 @@ export default function Products() {
                 onClick={() => navigateToProductDetail(ele.packaging_id)}
                 className="group flex flex-col justify-end rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
               >
-                <div className="relative w-full aspect-[4/4] overflow-hidden">
+                <div className="relative w-full aspect-square overflow-hidden">
                   <Image
                     className="object-cover transition-transform duration-300"
                     src={ele.packaging_image_url}
