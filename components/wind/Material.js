@@ -172,7 +172,7 @@ export default function Material() {
       <div className="ml:hidden z-50 fixed bg-white left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
         <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
           <div className="text-[#03172B80]">Price</div>
-          <div className="font-semibold">₹ {cartItem.price || 0}</div>
+          <div className="font-semibold"> {cartItem.price || 0}</div>
         </div>
         <Link isDisabled={!selectedMaterial} href={sizeRouteUrl}>
           <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
