@@ -102,11 +102,11 @@ export default function Products() {
               <div
                 key={i}
                 onClick={() => navigateToProductDetail(ele.packaging_id)}
-                className="group flex flex-col justify-end rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
               >
                 <div className="relative w-full aspect-square overflow-hidden">
                   <Image
-                    className="object-cover transition-transform duration-300"
+                    className="object-contain transition-transform duration-300"
                     src={ele.packaging_image_url}
                     alt={ele.name}
                     fill
