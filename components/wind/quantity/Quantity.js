@@ -284,7 +284,7 @@ export default function Quantity() {
         </div>
         <Link
           isDisabled={!groupSelected[0]}
-          href={`/cart`}
+          href={`/design`}
           className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-md font-normal bg-[#253670] text-white h-14"
         >
           Confirm
@@ -295,7 +295,7 @@ export default function Quantity() {
           <div className="text-[#03172B80]">Price</div>
           <div className="font-normal">{cartItem.price || 0}</div>
         </div>
-        <Link isDisabled={!groupSelected[0]} href={`/cart`}>
+        <Link isDisabled={!groupSelected[0]} href={`/design`}>
           <Button className="text-xs w-[88px] font-normal bg-[#143761] rounded-md text-white h-[38px]">
             Confirm
           </Button>

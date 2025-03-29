@@ -69,6 +69,13 @@ export default function Material() {
     handleSelect(material.material_id);
   };
 
+  // Function to truncate text to specific number of words
+  const truncateText = (text, wordCount) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.slice(0, 20).join(" ") + "...";
+  };
+
   // Create the URL for size route with packaging name in the format you specified
   const sizeRouteUrl = cartItem.name ? 
     `/${cartItem.name.toLowerCase().replace(" ", "-")}/size` : 
@@ -83,35 +90,39 @@ export default function Material() {
           {materials.map((ele, i) => {
             return (
               <div
-                className={`text-black h-fit p-3 cursor-pointer transition-all duration-300 hover:bg-slate-100 ${
+                className={`text-black h-fit p-3 cursor-pointer transition-all duration-300 hover:bg-slate-100 group ${
                   selectedMaterial === ele.material_id
                     ? "bg-[#ebeeef] shadow-lg border-2"
                     : "bg-white"
                 }`}
                 key={i}
+                onClick={() => handleMaterialSelect(ele)}
               >
-                <div
-                  className="flex gap-4"
-                  onClick={() => handleMaterialSelect(ele)} // Updated to use the new function
-                >
-                  <Image
-                    src={ele.img}
-                    alt={ele.name}
-                    objectfit="cover"
-                    width={80}
-                    height={101}
-                  />
-                  <div className="flex flex-col gap-2">
+                <div className="flex gap-4 min-h-[150px] group-hover:min-h-fit transition-all duration-300">
+                  <div>
+                    <Image
+                      src={ele.img}
+                      alt={ele.name}
+                      objectfit="cover"
+                      width={200}
+                      height={150}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 w-full">
                     <span className="text-sm mobile:text-lg font-semibold leading-none">
                       {ele.name}
                     </span>
-                    <span className="text-xs sm:text-sm">{ele.type}</span>
-                    <span className="text-xs sm:text-base p-1 text-center w-fit rounded-full px-2 align-middle bg-[#2F46931A] font-semibold">
-                      {ele.price}
-                    </span>
-                    <span className="text-xs sm:text-base p-1 align-middle">
-                      View detail
-                    </span>
+                    <div className="relative">
+                      {/* Truncated version (visible by default) */}
+                      <span className="text-xs sm:text-sm block group-hover:hidden">
+                        {truncateText(ele.type, 10)}
+                      </span>
+                      
+                      {/* Full version (visible on hover) */}
+                      <span className="hidden group-hover:block text-xs sm:text-sm break-words w-full">
+                        {ele.type}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

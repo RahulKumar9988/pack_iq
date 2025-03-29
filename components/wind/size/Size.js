@@ -17,13 +17,14 @@ import { useRouter } from "next/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const DEFAULT_IMAGE = "/size.png"; // Define default image constant
+const ALL_SIZE_IMAGES = '/pack/all size.png';
 
 export default function Size() {
   const [groupSelected, setGroupSelected] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [hoveredItem, setHoveredItem] = useState(null); 
   const [isImageChanging, setIsImageChanging] = useState(false);
-  const [defaultImage, setDefaultImage] = useState(DEFAULT_IMAGE); // Initialize with default
+  const [defaultImage, setDefaultImage] = useState(ALL_SIZE_IMAGES); // Changed to use all sizes image as default
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
@@ -61,14 +62,13 @@ export default function Size() {
         });
         setSizes(responseData);
         
-        // Set default image from first item if available
-        if (responseData.length > 0 && responseData[0].image) {
-          setDefaultImage(responseData[0].image);
-        }
+        // Keep using the all sizes image as default
+        setDefaultImage(ALL_SIZE_IMAGES);
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
-      // Keep using the default image on error - no need to set it again as it's already the default
+      // Ensure all sizes image is used on error
+      setDefaultImage(ALL_SIZE_IMAGES);
     }
   }
 
@@ -100,31 +100,34 @@ export default function Size() {
 
   // Get current image to display with proper fallback
   const getCurrentImage = () => {
-    if (groupSelected.length && groupSelected[0].image) {
-      return groupSelected[0].image;
+    if (groupSelected.length > 0) {
+      return groupSelected[0].image || DEFAULT_IMAGE;
     } else {
-      return defaultImage;
+      return ALL_SIZE_IMAGES; // Show all sizes image when no item is selected
     }
   };
 
   return (
     <div className="flex max-lg:flex-col max-md:w-full mb-[100px] gap-5">
       <div className="lg:w-4/5 max-ml:w-full flex max-md:flex-col gap-4">
-        <div className="sm:hidden md:w-auto h-fit border-2 flex justify-center items-center rounded-xl overflow-hidden">
-          <Image
-            src={getCurrentImage()}
-            width={241}
-            height={161}
-            alt="product size"
-            className={`transition-all duration-300 ease-in-out ${
-              isImageChanging ? "blur-sm scale-105" : "blur-0 scale-100"
-            }`}
-            style={{ width: "auto", height: "100%" }}
-            onError={(e) => {
-              e.target.src = DEFAULT_IMAGE; // Set default image on error
-            }}
-          />
-        </div>
+      <div className="sm:hidden md:w-auto h-full border-2 flex flex-col justify-center items-center rounded-xl overflow-hidden p-4 gap-3">
+        <Image
+          src={getCurrentImage() || defaultImage} // Fallback handled here
+          width={200} // Increased size
+          height={250} // Increased size
+          alt="product size"
+          className={`w-full max-w-[400px] h-auto transition-all duration-300 ease-in-out ${
+            isImageChanging ? "blur-sm scale-105" : "blur-0 scale-100"
+          }`}
+        />
+        {groupSelected.length === 0 && (
+          <p className="text-center text-red-600 text-sm md:text-base">
+            No size selected..
+          </p>
+        )}
+      </div>
+
+
         <div className="grid sm:grid-cols-2 w-full h-fit gap-4">
           <div className="xs:border-2 border-b-0 h-fit rounded-xl">
             <div className="flex flex-col w-full rounded-b-xl rounded-t-xl gap-0">
@@ -140,7 +143,7 @@ export default function Size() {
                 }}
               >
                 <label
-                  className="max-xs:hidden inline-flex rounded-t-xl max-w-full w-full bg-[#F9F9F9] items-center justify-start gap-2 p-2 border-b-2 max-md:first:rounded-t-xl last:rounded-xl"
+                  className="max-xs:hidden inline-flex rounded-t-xl max-w-full w-full bg-[#f2f2f2] items-center justify-start gap-2 p-2 border-b-2 max-md:first:rounded-t-xl last:rounded-xl"
                   aria-label="XS"
                 >
                   <span
@@ -244,20 +247,21 @@ export default function Size() {
               </CheckboxGroup>
             </div>
           </div>
-          <div className="max-sm:hidden h-fit border-2 flex justify-center items-center rounded-xl">
+          <div className="w-full max-sm:hidden border-2 flex flex-col justify-center items-center rounded-xl">
             <Image
-              src={getCurrentImage()}
+              src={getCurrentImage() || ALL_SIZE_IMAGES} // Fallback handled here
               alt="product size"
               width={350}
               height={350}
-              className={`transition-all duration-300 ease-in-out ${
+              className={`object-contain transition-all duration-300 ease-in-out ${
                 isImageChanging ? "blur-sm scale-105" : "blur-0 scale-100"
               }`}
-              onError={(e) => {
-                e.target.src = DEFAULT_IMAGE; // Set default image on error
-              }}
             />
+            {groupSelected.length === 0 && (
+              <p className="text-center text-red-600">No size selected..</p>
+            )}
           </div>
+
         </div>
       </div>
       <div className="max-ml:hidden flex flex-col gap-5">
