@@ -113,7 +113,7 @@ export default function Size() {
       <div className="sm:hidden md:w-auto h-full border-2 flex flex-col justify-center items-center rounded-xl overflow-hidden p-4 gap-3">
         <Image
           src={getCurrentImage() || defaultImage} // Fallback handled here
-          width={200} // Increased size
+          width={250} // Increased size
           height={250} // Increased size
           alt="product size"
           className={`w-full max-w-[400px] h-auto transition-all duration-300 ease-in-out ${
