@@ -37,7 +37,8 @@ export default function TabBar({ content }) {
             <Tab
               key={item}
               title={
-                <p
+                <div>
+                  <div
                   className="flex max-mobile:justify-between items-center gap-2"
                   style={{ pointerEvents: "none" }}
                 >
@@ -68,7 +69,10 @@ export default function TabBar({ content }) {
                       ></div>
                     )}
                   </span>
-                </p>
+                </div>
+                </div>
+
+                
               }
             />
           );

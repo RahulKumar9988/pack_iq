@@ -7,50 +7,78 @@ import { useAppSelector } from '@/redux/hooks';
 import Link from 'next/link';
 import { addAddon, removeAddon } from '@/redux/features/cart/cartSlice';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 const AddOnsPage = () => {
   const params = useParams(); 
   const [selectedAddons, setSelectedAddons] = useState([]);
   const [hoveredAddon, setHoveredAddon] = useState(null);
   const [activePreview, setActivePreview] = useState('default');
+  const [addons, setAddons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [dataFetched, setDataFetched] = useState(false); // Flag to track if data has been fetched
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
   const dispatch = useDispatch();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   
-
-  const addons = [
-    {
-      id: 'eurohole',
-      name: 'Eurohole',
-      price: '+ 0,01 €',
-      description: 'A slit-shaped cutout at the top of packaging. A great choice if you want to present your products hanging at the point of sale.',
-      recommended: true,
-      icon: Package,
-      image: '/pack/kurkure.png'
-    },
-    {
-      id: 'zipper',
-      name: 'Standard Zipper',
-      price: '+ 0,01 € - 0,00 €',
-      description: 'Add a convenient zipper closure to your packaging for easy access and resealing.',
-      icon: Zap,
-      image: '/pack/sealtype.png'
-    }
-  ];
-
-  const sustainabilitySeal = {
-    id: 'recycling',
-    name: '"Made For Recycling"-Certification',
-    price: '+ 0,02 €',
-    description: 'Certify your packaging as recyclable and show your commitment to sustainability.',
-    icon: Recycle,
-    image: '/pack/xs.png'
+  // Define a mapping of icons to use based on addition title keywords
+  const getIconNameForAddon = (title) => {
+    const titleLower = title.toLowerCase();
+    if (titleLower.includes('zipper')) return 'zap';
+    if (titleLower.includes('recycl') || titleLower.includes('sustain')) return 'recycle';
+    // Default icon name
+    return 'package';
   };
 
+  // Fetch addons only once when component mounts
   useEffect(() => {
     if (!cartItem.packaging_id) {
       router.back();
+      return;
     }
+
+    // Only fetch data if it hasn't been fetched yet
+    if (!dataFetched) {
+      const fetchAddons = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get(`${baseUrl}/api/v1/resources/list-additions/${cartItem.packaging_id}`);
+          
+          if (response.data.status === 200) {
+            // Map backend data to the format expected by the component
+            // Using iconName instead of the React component to avoid serialization issues
+            const formattedAddons = response.data.data.map(addon => ({
+              id: addon.additions_id.toString(),
+              name: addon.additions_title,
+              price: '+ 0,01 €', // You might want to add price to your backend model
+              description: addon.additions_desc,
+              recommended: addon.additions_id === 1, // Example logic - you can adjust as needed
+              iconName: getIconNameForAddon(addon.additions_title),
+              image: addon.additions_image
+            }));
+            
+            setAddons(formattedAddons);
+            setDataFetched(true); // Mark data as fetched
+          } else {
+            setError('Failed to fetch addons');
+          }
+        } catch (err) {
+          console.error('Error fetching addons:', err);
+          setError('Error connecting to server');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchAddons();
+    }
+  }, [cartItem.packaging_id, baseUrl, dataFetched, router]);
+
+  // Separate useEffect for initializing selected addons from cart
+  useEffect(() => {
+    // Set selected addons from cart if they exist
     if (cartItem.addons && cartItem.addons.length > 0) {
       setSelectedAddons(cartItem.addons.map(addon => addon.id));
       // Set the last selected addon as the active preview
@@ -58,30 +86,44 @@ const AddOnsPage = () => {
         setActivePreview(cartItem.addons[cartItem.addons.length - 1].id);
       }
     }
-    // Validate if the URL package name matches the cart item
+
+    // Validate URL package name against cart item
     if (params.packageName) {
       const formattedCartName = cartItem.name?.toLowerCase().replace(/\s+/g, '-');
       if (formattedCartName && params.packageName !== formattedCartName) {
         console.warn('URL package name does not match cart item');
-        // Optional: redirect to correct URL or handle this case
       }
     }
-  }, [cartItem, params, router]); 
+  }, [cartItem.addons, cartItem.name, params]);
+  
+  // Helper function to get the icon component based on name
+  const getIconComponent = (iconName) => {
+    switch (iconName) {
+      case 'zap': return Zap;
+      case 'recycle': return Recycle;
+      case 'package': 
+      default: return Package;
+    }
+  };
   
   const toggleAddon = (id) => {
-    const addon = [...addons, sustainabilitySeal].find(addon => addon.id === id);
+    const addon = addons.find(addon => addon.id === id);
     
     if (selectedAddons.includes(id)) {
       // Remove addon
       setSelectedAddons(prev => prev.filter(item => item !== id));
       dispatch(removeAddon(id));
     } else {
-      // Add addon
+      // Add addon - create a serializable version by removing the icon component
+      const serializableAddon = {
+        ...addon,
+        // Don't include the icon component in the Redux store
+      };
+      dispatch(addAddon(serializableAddon));
       setSelectedAddons(prev => [...prev, id]);
-      dispatch(addAddon(addon));
     }
     
-    // Always set the clicked addon as the active preview, regardless of selection state
+    // Always set the clicked addon as the active preview
     setActivePreview(id);
   };  
 
@@ -101,6 +143,7 @@ const AddOnsPage = () => {
     const isSelected = selectedAddons.includes(addon.id);
     const isHovered = hoveredAddon === addon.id;
     const isActive = activePreview === addon.id;
+    const IconComponent = getIconComponent(addon.iconName);
 
     return e('div', {
       key: addon.id,
@@ -113,14 +156,14 @@ const AddOnsPage = () => {
           : isActive
             ? 'border-2 border-blue-300'
             : 'border border-gray-200 hover:border-blue-300'
-      } ${isHovered ? 'translate-y-[-4px]' : ''} bg-white`
+      } ${isHovered } bg-white`
     }, 
       e('div', { className: 'p-4 sm:p-6 relative overflow-hidden' },
         isSelected && e('div', {
           className: 'absolute top-0 right-0 p-2'
         }, e(Sparkles, { className: 'w-5 h-5 text-blue-500' })),
         e('div', { className: 'flex items-start gap-3 sm:gap-4' },
-          e('div', { // Changed from button to div, since entire card is now clickable
+          e('div', { 
             className: `w-5 h-5 sm:w-6 sm:h-6 rounded-lg border-2 flex-shrink-0 mt-1 transition-all ${
               isSelected
                 ? 'bg-blue-500 border-blue-500 shadow-md shadow-blue-500/30'
@@ -129,7 +172,7 @@ const AddOnsPage = () => {
           }, isSelected && renderCheckmark()),
           e('div', { className: 'flex-grow' },
             e('div', { className: 'flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2' },
-              e(addon.icon, { 
+              e(IconComponent, { 
                 className: `w-4 h-4 sm:w-5 sm:h-5 ${isSelected ? 'text-blue-500' : 'text-blue-400'}`
               }),
               e('h3', { 
@@ -161,23 +204,38 @@ const AddOnsPage = () => {
       return '/pack/all size.png';
     }
     
-    const selectedAddonObj = [...addons, sustainabilitySeal].find(addon => addon.id === activePreview);
+    const selectedAddonObj = addons.find(addon => addon.id === activePreview);
     return selectedAddonObj ? selectedAddonObj.image : '/pack/all size.png';
   };
+
+  // Render loading state
+  if (loading) {
+    return e('div', { className: 'min-h-screen flex items-center justify-center bg-white' },
+      e('div', { className: 'text-center' },
+        e('div', { className: 'w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4' }),
+        e('p', { className: 'text-blue-900 font-medium' }, 'Loading add-ons...')
+      )
+    );
+  }
+
+  // Render error state
+  if (error) {
+    return e('div', { className: 'min-h-screen flex items-center justify-center bg-white' },
+      e('div', { className: 'text-center max-w-md mx-auto p-6 rounded-xl border border-red-200 bg-red-50' },
+        e('p', { className: 'text-red-600 font-medium mb-4' }, error),
+        e('button', {
+          onClick: () => window.location.reload(),
+          className: 'px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors'
+        }, 'Try Again')
+      )
+    );
+  }
 
   return e('div', { 
     className: 'min-h-screen bg-white text-blue-900 relative'
   },
-    e('div', { className: 'max-w-6xl mx-auto px-4 py-4 sm:p-6 relative z-10' },
+    e('div', { className: 'max-w-6xl mx-auto relative z-10' },
       // Header
-      e('div', { className: 'flex justify-between items-center mb-6 sm:mb-12 pb-4 border-b border-gray-200' },
-        e('div', { className: 'space-y-1 sm:space-y-2' },
-          e('h1', { 
-            className: 'text-2xl sm:text-4xl font-bold text-[#143761]'
-          }, 'Add-ons'),
-          e('p', { className: 'text-sm sm:text-base text-[#143761]' }, 'Customize your package with premium features')
-        )
-      ),
 
       e('div', {
         className: 'fixed bottom-0 left-0 w-full bg-white border-t shadow-md p-4 z-50 md:relative md:mt-12 md:shadow-none md:border-t-0 md:p-0'
@@ -193,14 +251,13 @@ const AddOnsPage = () => {
               'No add-ons selected'
           ),
           e('button', {
-            disabled: false, // You can set this to a condition if needed
             onClick: navigateToSummary,
-            className: `px-6 py-3 rounded-lg font-medium text-white transition-all ${
-              selectedAddons.length > 0 ? 
+            className: `px-3 py-2 rounded-lg font-medium text-white transition-all ${
+              true ? 
               'bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer' : 
               'bg-gray-400 cursor-not-allowed'
             }`
-          }, 'Confirm and Continue')
+          }, 'Confirm')
         )
       ),
       
@@ -235,24 +292,16 @@ const AddOnsPage = () => {
         // Left side - Add-on selection
         e('div', { className: 'w-full md:flex-1 space-y-8 md:space-y-12' },
           e('section', { className: 'space-y-4 sm:space-y-6' },
-            e('h2', { 
-              className: 'text-xl sm:text-2xl font-semibold text-[#143761] flex items-center gap-2'
-            }, 
-              e(Package, { className: 'w-5 h-5 sm:w-6 sm:h-6 text-[#143761]' }),
-              'Add-Ons'
-            ),
-            e('div', { className: 'space-y-3 sm:space-y-4' },
-              addons.map(addon => renderAddon(addon))
+
+            addons.length > 0 ? (
+              e('div', { className: 'space-y-3 sm:space-y-4' },
+                addons.map(addon => renderAddon(addon))
+              )
+            ) : (
+              e('div', { className: 'p-4 text-center text-gray-500 border border-gray-200 rounded-lg' },
+                'No add-ons available for this packaging type'
+              )
             )
-          ),
-          e('section', { className: 'space-y-4 sm:space-y-6' },
-            e('h2', { 
-              className: 'text-xl sm:text-2xl font-semibold text-[#143761] flex items-center gap-2'
-            }, 
-              e(Recycle, { className: 'w-5 h-5 sm:w-6 sm:h-6 text-green-500' }),
-              'Sustainability seal'
-            ),
-            renderAddon(sustainabilitySeal)
           )
         ),
         
