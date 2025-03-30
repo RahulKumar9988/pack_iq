@@ -5,7 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { getUserDetails } from '@/app/action/getUserDetails';
 
-const OrderHistory = () => {
+const OrderHistory = ({maxOrders = 3}) => {
   // State to manage orders, loading, and error
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,7 +90,7 @@ const OrderHistory = () => {
   // Error state
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto py-6">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
           <strong className="font-bold">Error! </strong>
           <span className="block sm:inline">{error}</span>
@@ -113,7 +113,7 @@ const OrderHistory = () => {
 
   // Render orders
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="py-4 bg-gray-50 border-b">
           <h2 className="text-2xl font-bold">Order History</h2>
@@ -132,7 +132,7 @@ const OrderHistory = () => {
                       src={order.packagingId.packaging_image_url}
                       alt="Packaging Image"
                       fill
-                      className="object-cover rounded-lg"
+                      className="object-contain rounded-lg"
                       sizes="(max-width: 768px) 100px, 96px"
                     />
                   </div>
@@ -140,7 +140,7 @@ const OrderHistory = () => {
               </div>
 
               {/* Order Details - Responsive Layout */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex justify-around md:items-center items-end gap-4">
                 {/* Additional Order Details - Responsive Grid */}
                 <div className="flex flex-col gap-2 text-sm text-gray-600">
                   {/* Order Identification and Date */}
@@ -169,7 +169,7 @@ const OrderHistory = () => {
                 {/* Price and Payment Status */}
                 <div className="text-right sm:text-left">
                   <p className="font-semibold text-green-600 text-lg">
-                    ${order.price?.toFixed(2) || 'N/A'}
+                    ₹{order.price?.toFixed(2) || 'N/A'}
                   </p>
                   <p className={`text-sm font-medium ${
                     order.paymentStatusId?.payment_status === 'pending' 
