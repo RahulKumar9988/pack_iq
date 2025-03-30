@@ -51,8 +51,8 @@ const Summary = () => {
         <>
           {/* Cart Item Details */}
           <div className="flex gap-5 p-3 mobile:p-3 sm:p-5 shadow rounded-lg mb-6">
-            <div className="flex w-full items-start gap-3">
-              <div className="w-[161.17px] max-sm:w-[71px]">
+            <div className="flex justify-center w-full items-start gap-3">
+              <div className="w-fit">
                 {cartItem.image ? (
                   <>
                     <Image
@@ -66,9 +66,9 @@ const Summary = () => {
                     <Image
                       src={cartItem.image}
                       alt="Cart Item"
-                      className="sm:hidden"
+                      className="sm:hidden object-cover"
                       radius="sm"
-                      width={101}
+                      width={200}
                       height={103}
                     />
                   </>
