@@ -195,7 +195,7 @@ export default function Cart() {
                         <Image
                           src={cartItem.image}
                           alt={cartItem.name || "Product"}
-                          className="w-full h-auto object-cover rounded-lg"
+                          className="w-full h-auto object-contain rounded-lg"
                           radius="md"
                           width="100%"
                           height={180}
