@@ -117,11 +117,11 @@ export default function Cart() {
   };
 
   const itemPrice = getItemPrice();
-  const discount = itemPrice > 0 ? 549 : 0;
-  const deliveryFee = itemPrice > 0 ? 50 : 0;
-  const totalPrice = itemPrice - discount + deliveryFee;
+  const discount = itemPrice > 0 ? 0 : 0;
+  const deliveryFee = itemPrice > 0 ? 0 : 0;
+  const totalPrice = itemPrice * pricePerItem;
   const pricePerItem = cartItem?.quantity ? (itemPrice / parseFloat(cartItem.quantity)).toFixed(2) : 0;
-
+  
   async function handleSave() {
     try {
       const payload = {

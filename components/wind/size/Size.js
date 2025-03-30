@@ -80,6 +80,7 @@ export default function Size() {
       addToCart({
         ...cartItem,
         dimension: lastSelected.dimension,
+        size:lastSelected.size,
         size_id: lastSelected.size_id,
         image: lastSelected.image || DEFAULT_IMAGE, // Ensure image has a fallback
         packaging_type_size_id: lastSelected.packaging_type_size_id,

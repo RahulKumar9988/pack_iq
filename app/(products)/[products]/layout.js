@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import TabBar from "@/components/TabBar";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
@@ -30,13 +31,13 @@ export default function Layout({ children }) {
         "Get a discount when ordering larger quantities and select even more designs for your pouches.",
       title2: "Get a discount by choosing bigger sizes and save more",
     },
-    designs: {
-      heading: "no_designs",
-      title:
-        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
-      title2: "Get a discount by choosing bigger sizes and save more",
-    },
-    Additions: {
+    // designs: {
+    //   heading: "no_designs",
+    //   title:
+    //     "Get a discount when ordering larger quantities and select even more designs for your pouches.",
+    //   title2: "Get a discount by choosing bigger sizes and save more",
+    // },
+    additions: {
       heading: "Additions",
       title:
         "Get a discount when ordering larger quantities and select even more designs for your pouches.",
@@ -60,6 +61,7 @@ export default function Layout({ children }) {
     "material",
     "size",
     "quantity",
+    "addon"
   ];
 
   // Extract the last segment of the path

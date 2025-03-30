@@ -39,6 +39,14 @@ export default function Quantity() {
     loadMoreQuantities();
   }, [quantities, currentPage]);
 
+  const getAddonRouteUrl = () => {
+    if (!cartItem.name) return '/additions'; // Changed from '/addon'
+    
+    // Format the package name for URL: lowercase, replace spaces with hyphens
+    const formattedName = cartItem.name.toLowerCase().replace(/\s+/g, '-');
+    return `/${formattedName}/additions`; // Changed from '/${formattedName}/addon'
+  };
+  
   async function getSizes() {
     try {
       const response = await axios.get(
@@ -200,7 +208,7 @@ export default function Quantity() {
               <span>Size:</span>
             </div>
             <span className="font-normal">{cartItem.size}</span>
-            <span className="text-sm text-[#03172B80]">{`(${cartItem.dimension})`}</span>
+            <span className="text-xs text-[#03172B80]">{`(${cartItem.dimension})`}</span>
           </div>
         </div>
         
@@ -214,12 +222,10 @@ export default function Quantity() {
           </span>
         </div>
         
-        <Link
-          isDisabled={!selectedItem}
-          href={`/design`}
-          className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-md font-medium bg-[#253670] text-white h-14"
-        >
-          Confirm
+        <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
+          <Button className="text-sm font-medium bg-[#143761] rounded-md text-white h-10 px-4">
+            Confirm
+          </Button>
         </Link>
       </div>
       
@@ -257,7 +263,7 @@ export default function Quantity() {
           <div className="text-[#03172B80]">Price</div>
           <div className="font-medium">{selectedItem?.price || "0"}</div>
         </div>
-        <Link isDisabled={!selectedItem} href={`/design`}>
+        <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
           <Button className="text-sm font-medium bg-[#143761] rounded-md text-white h-10 px-4">
             Confirm
           </Button>

@@ -3,8 +3,8 @@ import React from 'react'
 
 function page() {
   return (
-    <div>
-      <AddOnsPage/>
+    <div className='w-full'>
+      <AddOnsPage/>   
     </div>
   )
 }
