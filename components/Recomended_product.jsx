@@ -73,12 +73,12 @@ export default function Recomended_product() {
                   src={ele.packaging_image_url}
                   alt={ele.name}
                   fill
-                  sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                  sizes="(max-width: 480px) 40vw, (max-width: 768px) 25vw, (max-width: 1024px) 20vw, 15vw"
                 />
               </div>
               <div className="flex flex-col gap-2 p-3">
                 <div className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</div>
-                <div className="flex items-center justify-center bg-gray-200 px-3 py-1.5 rounded-lg text-sm font-semibold text-[#143761] self-start">
+                <div className="flex items-center justify-center bg-gray-200 px-3 py-1.5 rounded-lg md:text-sm text-xs font-semibold text-[#143761] self-start">
                   {ele.price}/per unit
                 </div>
               </div>
