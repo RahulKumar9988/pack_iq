@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const InfiniteScrollImages = () => {
   // Sample images (replace with your actual image paths)
@@ -36,9 +37,11 @@ const InfiniteScrollImages = () => {
               delay: index * 0.1
             }}
           >
-            <img 
-              src={src } 
+            <Image 
+              src={src} 
               alt={`Packaging ${index + 1}`} 
+              width={200}
+              height={150}
               className="w-full h-full object-cover rounded-lg" 
             />
           </motion.div>

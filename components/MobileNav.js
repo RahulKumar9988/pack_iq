@@ -60,10 +60,9 @@ export default function MobileNav() {
   };
 
   const handleLoginClick = useCallback(() => {
+    setIsOpen(false); // Close the menu
     router.push('/auth/signin');
-    
   }, [router]);
-
 
   const handleProfileClick = () => {
     setIsOpen(false); // Close the menu
@@ -71,9 +70,16 @@ export default function MobileNav() {
   };
 
   const handleLogout = useCallback(() => {
+    setIsOpen(false); // Close the menu
     dispatch(logout());
     router.push('/');
   }, [dispatch, router]);
+
+  // New function to handle navigation and close menu
+  const handleNavigation = (path) => {
+    setIsOpen(false); // Close the menu
+    router.push(path);
+  };
 
   return (
     <div className="relative">
@@ -100,7 +106,7 @@ export default function MobileNav() {
         <NavbarContent justify="end" className="gap-4">
           {/* Bag Icon */}
           <NavbarItem>
-            <Link href="/cart">
+            <Link href="/cart" onClick={() => setIsOpen(false)}>
               <BagLogo size={20} fontWeight={0.7} color="black" />
             </Link>
           </NavbarItem>
@@ -178,7 +184,14 @@ export default function MobileNav() {
                         className="bg-gray-50"
                       >
                         <ul>
-                          <li><Link href="/products" className="block p-4 pl-12">All Products</Link></li>
+                          <li>
+                            <button 
+                              onClick={() => handleNavigation('/products')} 
+                              className="block w-full text-left p-4 pl-12"
+                            >
+                              All Products
+                            </button>
+                          </li>
                         </ul>
                       </motion.div>
                     )}
@@ -207,9 +220,30 @@ export default function MobileNav() {
                         className="bg-gray-50"
                       >
                         <ul>
-                          <li><Link href="/shop/new" className="block p-4 pl-12">New Arrivals</Link></li>
-                          <li><Link href="/shop/bestsellers" className="block p-4 pl-12">Best Sellers</Link></li>
-                          <li><Link href="/shop/sale" className="block p-4 pl-12">Sale</Link></li>
+                          <li>
+                            <button 
+                              onClick={() => handleNavigation('/shop/new')} 
+                              className="block w-full text-left p-4 pl-12"
+                            >
+                              New Arrivals
+                            </button>
+                          </li>
+                          <li>
+                            <button 
+                              onClick={() => handleNavigation('/shop/bestsellers')} 
+                              className="block w-full text-left p-4 pl-12"
+                            >
+                              Best Sellers
+                            </button>
+                          </li>
+                          <li>
+                            <button 
+                              onClick={() => handleNavigation('/shop/sale')} 
+                              className="block w-full text-left p-4 pl-12"
+                            >
+                              Sale
+                            </button>
+                          </li>
                         </ul>
                       </motion.div>
                     )}
@@ -217,18 +251,24 @@ export default function MobileNav() {
 
                   {/* Contact us */}
                   <li className="border-b">
-                    <Link href="/contact" className="w-full p-4 flex items-center">
+                    <button 
+                      onClick={() => handleNavigation('/contact')} 
+                      className="w-full p-4 flex items-center text-left"
+                    >
                       <span className="mr-2">📞</span>
                       <span className="text-black">Contact us</span>
-                    </Link>
+                    </button>
                   </li>
 
                   {/* Other links */}
                   <li className="border-b">
-                    <Link href="/blog" className="w-full p-4 flex items-center">
+                    <button 
+                      onClick={() => handleNavigation('/blog')} 
+                      className="w-full p-4 flex items-center text-left"
+                    >
                       <span className="mr-2">📝</span>
                       <span className="text-black">Blog</span>
-                    </Link>
+                    </button>
                   </li>
                   
                   {/* Conditional rendering for Account/Login */}
@@ -247,10 +287,13 @@ export default function MobileNav() {
                   </li>
                   
                   <li className="border-b">
-                    <Link href="/cart" className="w-full p-4 flex items-center">
+                    <button 
+                      onClick={() => handleNavigation('/cart')} 
+                      className="w-full p-4 flex items-center text-left"
+                    >
                       <span className="mr-2">🛒</span>
                       <span className="text-black">Cart</span>
-                    </Link>
+                    </button>
                   </li>
                   
                   {/* Logout option for logged in users */}
