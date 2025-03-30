@@ -53,6 +53,10 @@ const AddOnsPage = () => {
     }
     if (cartItem.addons && cartItem.addons.length > 0) {
       setSelectedAddons(cartItem.addons.map(addon => addon.id));
+      // Set the last selected addon as the active preview
+      if (cartItem.addons.length > 0) {
+        setActivePreview(cartItem.addons[cartItem.addons.length - 1].id);
+      }
     }
     // Validate if the URL package name matches the cart item
     if (params.packageName) {
@@ -64,8 +68,6 @@ const AddOnsPage = () => {
     }
   }, [cartItem, params, router]); 
   
-  // Rest of component remains the same...
-
   const toggleAddon = (id) => {
     const addon = [...addons, sustainabilitySeal].find(addon => addon.id === id);
     
@@ -79,6 +81,7 @@ const AddOnsPage = () => {
       dispatch(addAddon(addon));
     }
     
+    // Always set the clicked addon as the active preview, regardless of selection state
     setActivePreview(id);
   };  
 
@@ -152,15 +155,14 @@ const AddOnsPage = () => {
     router.push('/summary');
   };
   
-
   // Get preview image based on active selection
   const getPreviewImage = () => {
     if (activePreview === 'default') {
       return '/pack/all size.png';
     }
     
-    const selectedAddon = [...addons, sustainabilitySeal].find(addon => addon.id === activePreview);
-    return selectedAddon ? selectedAddon.image : '/pack/all size.png';
+    const selectedAddonObj = [...addons, sustainabilitySeal].find(addon => addon.id === activePreview);
+    return selectedAddonObj ? selectedAddonObj.image : '/pack/all size.png';
   };
 
   return e('div', { 
@@ -202,7 +204,6 @@ const AddOnsPage = () => {
         )
       ),
       
-
       // Mobile view - Preview image at top
       e('div', { className: 'md:hidden mb-8' },
         e('div', { 
