@@ -174,7 +174,7 @@ export default function Cart() {
   };
 
   return (
-    <div className="container mx-auto mb-20">
+    <div className="container mx-auto py-10">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Cart Items Section */}
         <div className="w-full lg:w-3/5">
