@@ -37,15 +37,15 @@ export default function TabBar({ content }) {
             <Tab
               key={item}
               title={
-                <Link
-                  href={`${item.toLocaleLowerCase().replace(/ /g, "-")}`}
+                <p
                   className="flex max-mobile:justify-between items-center gap-2"
+                  style={{ pointerEvents: "none" }}
                 >
                   <span
                     className={`relative max-w-fit min-w-min box-border whitespace-nowrap border-medium sm:px-1 max-mobile:h-3 mobile:h-4 lg:h-7 font-medium max-mobile:text-[9px] max-xs:text-[10px] max-sm:text-[11px] max-md:text-xs max-ml:text-sm rounded-full bg-transparent aspect-square flex justify-center items-center ${
                       isSelectedOrBefore
                         ? "border-[#2CB041] text-[#2CB041]"
-                        : "border-default"
+                        : "border-default text-black"
                     }`}
                   >
                     {isSelectedOrBefore ? <FaCheck size={25} /> : i + 1}
@@ -53,7 +53,7 @@ export default function TabBar({ content }) {
                   <span className="flex items-center">
                     <span
                       className={`max-mobile:text-xs max-xs:text-[11px] max-sm:text-[11px] max-md:text-[15px] max-ml:text-sm font-medium ${
-                        isSelectedOrBefore ? "text-[#2CB041]" : ""
+                        isSelectedOrBefore ? "text-[#2CB041]" : "text-black font-semibold"
                       }`}
                     >
                       {item}
@@ -68,7 +68,7 @@ export default function TabBar({ content }) {
                       ></div>
                     )}
                   </span>
-                </Link>
+                </p>
               }
             />
           );
