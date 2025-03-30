@@ -10,22 +10,53 @@ const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   
-  const user_details = getUserDetails();
+  // First, get user details
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const details = await getUserDetails();
+        setUserDetails(details);
+      } catch (err) {
+        console.error('Error fetching user details:', err);
+        setError('Failed to fetch user details');
+        setIsLoading(false);
+      }
+    };
+    
+    fetchUserDetails();
+  }, []);
   
+  // Then fetch orders once we have the user details
   useEffect(() => {
     const fetchOrderHistory = async () => {
-      const get_id = user_details.user.user_id;
-      const userId = get_id;
+      if (!userDetails || !userDetails.user || !userDetails.user.user_id) {
+        return; // Don't proceed if we don't have user ID
+      }
+      
+      const userId = userDetails.user.user_id;
+      console.log('Fetching orders for user ID:', userId);
 
       try {
         setIsLoading(true);
         const response = await axios.get(`${baseUrl}/api/v1/order/my-order/${userId}`);
+        
         // Check if the response has data and process accordingly
-        const orderData = response.data.data ? [response.data.data] : [];
-        console.log(orderData.length);
-        setOrders(orderData);
+        if (response.data && response.data.data) {
+          // Check if data is an array or a single object
+           const orderData = Array.isArray(response.data.data) 
+            ? response.data.data 
+            : [response.data.data];
+            
+          console.log('Orders loaded:', orderData.length);
+          setOrders(orderData);
+        } else {
+          console.log('No orders found in response');
+          setOrders([]);
+        }
+        
         setIsLoading(false);
       } catch (err) {
         console.error('Error fetching orders:', err);
@@ -34,8 +65,10 @@ const OrderHistory = () => {
       }
     };
 
-    fetchOrderHistory();
-  }, []); // Empty dependency array means this runs once on component mount
+    if (userDetails) {
+      fetchOrderHistory();
+    }
+  }, [userDetails, baseUrl]); // Depend on userDetails and baseUrl
 
   // Loading state
   if (isLoading) {
@@ -45,7 +78,7 @@ const OrderHistory = () => {
           <h2 className="text-2xl font-bold mb-4">Order History</h2>
           {[1, 2, 3].map((item) => (
             <div 
-              key={item} 
+              key={`loading-skeleton-${item}`} 
               className="h-20 bg-gray-200 animate-pulse mb-4 rounded-lg"
             />
           ))}
@@ -69,7 +102,7 @@ const OrderHistory = () => {
   // No orders state
   if (!orders || orders.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto">
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Order History</h2>
           <p className="text-gray-500">No orders found.</p>
@@ -82,13 +115,13 @@ const OrderHistory = () => {
   return (
     <div className="container mx-auto px-4">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <div className="px-6 py-4 bg-gray-50 border-b">
-          {/* <h2 className="text-2xl font-bold">Order History</h2> */}
+        <div className="py-4 bg-gray-50 border-b">
+          <h2 className="text-2xl font-bold">Order History</h2>
         </div>
         <div className="divide-y divide-gray-200">
           {orders.map((order) => (
             <div 
-              key={order.order_id} 
+              key={order.order_id || `order-${Math.random()}`} 
               className="px-6 py-4 hover:bg-gray-50 transition-colors duration-200 grid grid-cols-1 md:grid-cols-[120px_1fr] gap-4 items-center"
             >
               {/* Packaging Image - Responsive Placement */}
@@ -139,7 +172,7 @@ const OrderHistory = () => {
                     ${order.price?.toFixed(2) || 'N/A'}
                   </p>
                   <p className={`text-sm font-medium ${
-                    order.paymentStatusId?.payment_status === 'pedding' 
+                    order.paymentStatusId?.payment_status === 'pending' 
                       ? 'text-yellow-600' 
                       : 'text-green-600'
                   }`}>

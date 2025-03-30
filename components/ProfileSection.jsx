@@ -17,6 +17,7 @@ import {logout as Logout} from '@/app/action/loginAction.js';
 import { useRouter } from "next/navigation";
 import Order_history from "./wind/Order/Order_history";
 import Link from "next/link";
+import axios from "axios";
 
 const ProfileSection = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -25,13 +26,38 @@ const ProfileSection = () => {
   const router = useRouter();
   const auth = useAppSelector(state => state.auth.isAuthenticated);
   const userDetails = getUserDetails();
-  const [len,setLen] = useState(0);
-  const fetchOrderLength = async () => {
-    const order_len = await getOrderLength();
-    // console.log("Order Length:", order_len);
-    setLen(order_len);
-  };
-  fetchOrderLength();
+  const [order_len, setOrder_len] = useState(0);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  
+ // Then fetch orders once we have the user details
+  useEffect(() => {
+    const fetchOrderHistory = async () => {
+      if (!userDetails?.user?.user_id) return;
+
+      const userId = userDetails.user.user_id;
+      try {
+        const response = await axios.get(`${baseUrl}/api/v1/order/my-order/${userId}`);
+
+        if (response.data?.data) {
+          const orderData = Array.isArray(response.data.data) 
+            ? response.data.data 
+            : [response.data.data];
+
+          setOrder_len(orderData.length); // Store only the length
+          console.log("Orders loaded:", orderData.length);
+        } else {
+          setOrder_len(0);
+        }
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      }
+    };
+
+    if (userDetails) {
+      fetchOrderHistory();
+    }
+  }, [userDetails, baseUrl]);
+
   
 
   const handleLogout = useCallback( async () => {
@@ -148,10 +174,10 @@ const ProfileSection = () => {
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
                     <div className="flex items-center space-x-4 mb-2">
                       <FiShoppingBag className="w-6 h-6 text-indigo-600" />
-                      <h3 className="font-semibold dark:text-white">Account Summary</h3>
+                      <h3 className="font-semibold dark:text-white">Total order</h3>
                     </div>
                     <div className="grid md:grid-cols-2 gap-2 text-gray-700 dark:text-gray-300">
-                      <p><span className="font-medium">{len}</span></p>
+                      <p><span className="font-medium">{order_len}</span></p>
                       <p><span className="font-medium">Account Created:</span> {new Date().toLocaleDateString()}</p>
                     </div>
                   </div>

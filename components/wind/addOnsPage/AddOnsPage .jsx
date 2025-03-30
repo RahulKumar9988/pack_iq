@@ -119,6 +119,8 @@ const AddOnsPage = () => {
         ...addon,
         // Don't include the icon component in the Redux store
       };
+      console.log(serializableAddon);
+      
       dispatch(addAddon(serializableAddon));
       setSelectedAddons(prev => [...prev, id]);
     }

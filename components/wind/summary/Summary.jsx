@@ -15,6 +15,9 @@ const Summary = () => {
   const [pricePerItem, setPricePerItem] = useState(0);
   const router = useRouter();
 
+  console.log(cartItem);
+  
+
   // Calculate prices based on cart data
   useEffect(() => {
     if (Object.keys(cartItem).length) {

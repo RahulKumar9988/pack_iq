@@ -34,8 +34,10 @@ export default function Cart() {
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
+  
   const router = useRouter();
 
+  // Enhanced selection change handler that also updates the cartItem via Redux if needed
   const handleSelectionChange = (e) => {
     const { name, value } = e.target;
     setValue((prevdata) => ({
@@ -75,6 +77,7 @@ export default function Cart() {
         const sizeArray = sizeResponse.data.data.map((ele) => {
           return {
             packaging_type_size_id: ele.packaging_type_size_id,
+            size_id: ele.sizeId.id, // Store the actual size_id for the API
             size: `Size: ${ele.sizeId.name}`,
           };
         });
@@ -84,7 +87,7 @@ export default function Cart() {
         }));
       }
     } catch (error) {
-      console.error(error?.response ? error.response.data : error.message);
+      console.error("Error fetching sizes:", error?.response ? error.response.data : error.message);
     } finally {
       setLoading(false);
     }
@@ -100,9 +103,9 @@ export default function Cart() {
         const quantityArray = quantityResponse.data.data.map((ele) => {
           return {
             quantity: `Quantity: ${ele.quantityId.quantity}`,
+            quantity_id: ele.quantityId.id, // Store the actual quantity_id for the API
             price: ele.quantityId.price,
-            packaging_type_size_quantity_id:
-              ele.packaging_type_size_quantity_id,
+            packaging_type_size_quantity_id: ele.packaging_type_size_quantity_id,
           };
         });
         setConstant((prevData) => ({
@@ -111,7 +114,7 @@ export default function Cart() {
         }));
       }
     } catch (error) {
-      console.error(error?.response ? error.response.data : error.message);
+      console.error("Error fetching quantities:", error?.response ? error.response.data : error.message);
     } finally {
       setLoading(false);
     }
@@ -133,17 +136,32 @@ export default function Cart() {
   const totalPrice = itemPrice;
   const pricePerItem = cartItem?.quantity ? (itemPrice / parseFloat(cartItem.quantity)).toFixed(2) : 0;
   
+  // Fixed handleSave function without using Promise
   async function handleSave() {
     try {
       setLoading(true);
+      
+      // Make sure we have valid selections
+      if (!value.size || !value.quantity) {
+        alert("Please select both size and quantity");
+        setLoading(false);
+        return;
+      }
+      
+      // Create payload with proper structure
       const payload = {
         user_id: userId,
-        packaging_id: cartItem.packaging_id,
-        size_id: cartItem.size_id,
-        quantity_id: cartItem.quantity_id,
-        material_id: cartItem.material_id,
+        packaging_id: parseInt(cartItem.packaging_id),
+        size_id: parseInt(value.size),
+        quantity_id: parseInt(value.quantity),
+        material_id: parseInt(cartItem.material_id),
         payment_status_id: 1,
-        price: itemPrice,
+        price: parseFloat(itemPrice),
+        additions_id: cartItem.addons ? 
+          (Array.isArray(cartItem.addons) ? 
+            cartItem.addons.map(addon => addon.id) : 
+            [cartItem.addons.id]) : 
+          []
       };
       
       const response = await axios.post(
@@ -151,30 +169,54 @@ export default function Cart() {
         payload
       );
       
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
+        // Save order to localStorage
+        localStorage.setItem('lastOrder', JSON.stringify(cartItem));
+        
+        // Keep showing loading state during the transition
+        // We'll use a timeout to clear the cart AFTER navigation starts
+        // Navigate to the order page first, keeping the cart visible during transition
         router.push("/order");
+        
+        // Set a delay before clearing the cart to ensure navigation has begun
+        // This ensures the cart remains visible during the transition
+        setTimeout(() => {
+          dispatch(clearCart());
+          setLoading(false);
+        }, 500); // Give the navigation a moment to start
       }
     } catch (error) {
-      console.error("Order creation failed:", error?.response?.data || error.message);
-    } finally {
+      console.error("Order creation failed:", 
+        error?.response?.data || error.message
+      );
+      alert("Failed to create order. Please try again or contact support.");
       setLoading(false);
     }
   }
 
+  // Modify the disabled logic to check the selection values instead of cart properties
   const isConfirmDisabled = !cartItem.packaging_id ||
-    !cartItem.design_number ||
-    !cartItem.name ||
     !cartItem.material_id ||
-    !cartItem.size_id ||
-    !cartItem.quantity_id || 
+    !value.size ||
+    !value.quantity ||
     loading;
 
   const handleDelete = () => {
     dispatch(clearCart());
   };
 
+  // Loading overlay component
+  const LoadingOverlay = () => (
+    <div className="fixed inset-0 bg-white bg-opacity-80 z-50 flex items-center justify-center">
+      <div className="flex flex-col items-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-700"></div>
+        <p className="mt-4 text-lg font-medium text-gray-700">Processing your order...</p>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto mb-20">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Cart Items Section */}
         <div className="w-full lg:w-3/5">
@@ -195,7 +237,7 @@ export default function Cart() {
                         <Image
                           src={cartItem.image}
                           alt={cartItem.name || "Product"}
-                          className="w-full h-auto object-contain rounded-lg"
+                          className="w-full h-auto object-cover rounded-lg"
                           radius="md"
                           width="100%"
                           height={180}
@@ -230,6 +272,13 @@ export default function Cart() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                           <p>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></p>
                           <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p>
+                          <p>Quantity: <span className="font-medium">{cartItem.addons ? (
+                  Array.isArray(cartItem.addons) ? 
+                    cartItem.addons.map(addon => addon.name).join(', ') || "Not selected" : 
+                    typeof cartItem.addons === 'object' ? 
+                      cartItem.addons.name || "Not selected" : 
+                      cartItem.addons
+                ) : "Not selected"}</span></p>
                           <p>Quantity: <span className="font-medium">{cartItem.quantity || "N/A"}</span></p>
                         </div>
                       </div>
@@ -239,29 +288,6 @@ export default function Cart() {
                       {/* Product Options */}
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                          <Select
-                            aria-label="Select quantity"
-                            name="quantity"
-                            label="Quantity"
-                            placeholder="Select quantity"
-                            className="w-full sm:w-40"
-                            selectedKeys={value.quantity ? [value.quantity] : []}
-                            onChange={handleSelectionChange}
-                            isDisabled={loading}
-                          >
-                            {constants.quantity.length > 0 ? (
-                              constants.quantity.map((ele) => (
-                                <SelectItem key={ele.packaging_type_size_quantity_id}>
-                                  {ele.quantity}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <SelectItem key="loading">
-                                {loading ? "Loading..." : "Select size first"}
-                              </SelectItem>
-                            )}
-                          </Select>
-                          
                           <Select
                             aria-label="Select size"
                             name="size"
@@ -274,7 +300,7 @@ export default function Cart() {
                           >
                             {constants.size.length > 0 ? (
                               constants.size.map((ele) => (
-                                <SelectItem key={ele.packaging_type_size_id}>
+                                <SelectItem key={ele.packaging_type_size_id.toString()}>
                                   {ele.size}
                                 </SelectItem>
                               ))
@@ -284,9 +310,33 @@ export default function Cart() {
                               </SelectItem>
                             )}
                           </Select>
+                          
+                          <Select
+                            aria-label="Select quantity"
+                            name="quantity"
+                            label="Quantity"
+                            placeholder="Select quantity"
+                            className="w-full sm:w-40"
+                            selectedKeys={value.quantity ? [value.quantity] : []}
+                            onChange={handleSelectionChange}
+                            isDisabled={loading || constants.quantity.length === 0}
+                          >
+                            {constants.quantity.length > 0 ? (
+                              constants.quantity.map((ele) => (
+                                <SelectItem key={ele.packaging_type_size_quantity_id.toString()}>
+                                  {ele.quantity}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <SelectItem key="loading">
+                                {loading ? "Loading..." : "Select size first"}
+                              </SelectItem>
+                            )}
+                          </Select>
                         </div>
                         
-                        <Button
+                        <Tooltip content="Remove from cart" color="primary">
+                          <Button
                             color=''
                             variant="light"
                             startContent={<DeleteIcon />}
@@ -295,6 +345,7 @@ export default function Cart() {
                           >
                             <span className="sm:inline hidden">Remove</span>
                           </Button>
+                        </Tooltip>
                       </div>
                     </div>
                   </div>
@@ -302,7 +353,7 @@ export default function Cart() {
               </Card>
             </motion.div>
           ) : (
-            <Card className="shadow-md rounded-xl">
+            <Card className="shadow-xs flex ">
               <CardBody className="py-12">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <div className="text-6xl text-gray-300">🛒</div>
@@ -402,6 +453,9 @@ export default function Cart() {
           </div>
         </div>
       )}
+      
+      {/* Loading Overlay */}
+      {loading && <LoadingOverlay />}
     </div>
   );
 }
