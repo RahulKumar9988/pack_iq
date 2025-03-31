@@ -85,6 +85,9 @@ const AddOnsPage = () => {
       if (cartItem.addons.length > 0) {
         setActivePreview(cartItem.addons[cartItem.addons.length - 1].id);
       }
+    } else {
+      // When no addons are selected, ensure we show the default image
+      setActivePreview('default');
     }
 
     // Validate URL package name against cart item
@@ -111,8 +114,17 @@ const AddOnsPage = () => {
     
     if (selectedAddons.includes(id)) {
       // Remove addon
-      setSelectedAddons(prev => prev.filter(item => item !== id));
+      const newSelectedAddons = selectedAddons.filter(item => item !== id);
+      setSelectedAddons(newSelectedAddons);
       dispatch(removeAddon(id));
+      
+      // If we just removed the last addon, set preview to default
+      if (newSelectedAddons.length === 0) {
+        setActivePreview('default');
+      } else {
+        // Otherwise, set to the last selected addon
+        setActivePreview(newSelectedAddons[newSelectedAddons.length - 1]);
+      }
     } else {
       // Add addon - create a serializable version by removing the icon component
       const serializableAddon = {
@@ -123,10 +135,9 @@ const AddOnsPage = () => {
       
       dispatch(addAddon(serializableAddon));
       setSelectedAddons(prev => [...prev, id]);
+      // Set the clicked addon as the active preview
+      setActivePreview(id);
     }
-    
-    // Always set the clicked addon as the active preview
-    setActivePreview(id);
   };  
 
   const renderCheckmark = () => {
@@ -202,7 +213,8 @@ const AddOnsPage = () => {
   
   // Get preview image based on active selection
   const getPreviewImage = () => {
-    if (activePreview === 'default') {
+    // If no addons are selected or we explicitly set to default, show default image
+    if (activePreview === 'default' || selectedAddons.length === 0) {
       return '/pack/all size.png';
     }
     

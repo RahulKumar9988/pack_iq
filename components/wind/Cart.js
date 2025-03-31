@@ -183,7 +183,7 @@ export default function Cart() {
         setTimeout(() => {
           dispatch(clearCart());
           setLoading(false);
-        }, 500); // Give the navigation a moment to start
+        },2000); // Give the navigation a moment to start
       }
     } catch (error) {
       console.error("Order creation failed:", 
