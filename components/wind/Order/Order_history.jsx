@@ -5,7 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { getUserDetails } from '@/app/action/getUserDetails';
 
-const OrderHistory = ({maxOrders = 3}) => {
+const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed default from 3 to 2
   // State to manage orders, loading, and error
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +51,8 @@ const OrderHistory = ({maxOrders = 3}) => {
             : [response.data.data];
             
           console.log('Orders loaded:', orderData.length);
-          setOrders(orderData);
+          // Only take the first maxOrders (2) orders
+          setOrders(orderData.slice(0, maxOrders));
         } else {
           console.log('No orders found in response');
           setOrders([]);
@@ -68,7 +69,7 @@ const OrderHistory = ({maxOrders = 3}) => {
     if (userDetails) {
       fetchOrderHistory();
     }
-  }, [userDetails, baseUrl]); // Depend on userDetails and baseUrl
+  }, [userDetails, baseUrl, maxOrders]); // Added maxOrders as a dependency
 
   // Loading state
   if (isLoading) {
@@ -76,7 +77,8 @@ const OrderHistory = ({maxOrders = 3}) => {
       <div className="container mx-auto">
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Order History</h2>
-          {[1, 2, 3].map((item) => (
+          {/* Only show 2 loading skeletons instead of 3 */}
+          {[1, 2].map((item) => (
             <div 
               key={`loading-skeleton-${item}`} 
               className="h-20 bg-gray-200 animate-pulse mb-4 rounded-lg"

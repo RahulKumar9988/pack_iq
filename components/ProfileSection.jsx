@@ -7,7 +7,8 @@ import {
   FiMapPin, 
   FiArrowRight,
   FiPackage,
-  FiLogOut
+  FiLogOut,
+  FiLock
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -15,9 +16,9 @@ import { getorder, getOrderLength, getUserDetails } from "@/app/action/getUserDe
 import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
 import { useRouter } from "next/navigation";
-import Order_history from "./wind/Order/Order_history";
 import Link from "next/link";
 import axios from "axios";
+import OrderHistory from "./wind/Order/Order_history";
 
 const ProfileSection = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -88,13 +89,62 @@ const ProfileSection = () => {
     </motion.button>
   );
 
+  // Not logged in component
+  const NotLoggedInView = () => (
+    <div className="min-h-[70vh] flex items-center justify-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center"
+      >
+        <div className="mb-6 flex justify-center">
+          <div className="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center">
+            <FiLock className="w-10 h-10 text-indigo-600" />
+          </div>
+        </div>
+        
+        <h2 className="text-2xl font-bold mb-3 text-gray-800">Access Your Profile</h2>
+        <p className="text-gray-600 mb-8">
+          Please sign in to view your profile, track your orders, and manage your shipping addresses.
+        </p>
+        
+        <div className="flex flex-col gap-5">
+          <Link href="/auth/signin">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-xl font-medium flex items-center justify-center space-x-2"
+            >
+              <FiUser className="w-5 h-5" />
+              <span>Sign In</span>
+            </motion.button>
+          </Link>
+          
+          <Link href="/auth/signup">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-white border border-indigo-600 text-indigo-600 py-3 px-6 rounded-xl font-medium flex items-center justify-center space-x-2"
+            >
+              <FiArrowRight className="w-5 h-5" />
+              <span>Create Account</span>
+            </motion.button>
+          </Link>
+        </div>
+        
+        <p className="mt-6 text-sm text-gray-500">
+          By signing in, you'll unlock all features and benefits of your account.
+        </p>
+      </motion.div>
+    </div>
+  );
+
   return (
     <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       <div className="w-full mx-auto py-2 ">
         {!auth ? (
-          <>
-            <Link href='/'>please login</Link>
-          </>
+          <NotLoggedInView />
         ) : (
           <div className="grid lg:grid-cols-12 gap-6">
             {/* Sidebar */} 
@@ -203,7 +253,7 @@ const ProfileSection = () => {
                     <div className="flex justify-end w-full px-10">
                       <Link href='/orders-history' className="font-semibold underline hover:text-blue-950"> View all Orders</Link>
                     </div>
-                    <Order_history/>
+                    <OrderHistory limitOrders={true} maxOrders={2} />
                   </div>
                 
                 </div>
