@@ -19,7 +19,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function Cart() {
   const [value, setValue] = useState({
@@ -31,6 +30,9 @@ export default function Cart() {
     quantity: [],
     size: [],
   });
+  const auth = useAppSelector(state => state.auth.isAuthenticated);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
@@ -414,15 +416,25 @@ export default function Cart() {
                   )}
                 </div>
                 
-                <Button
+                {!auth?(
+                  <Button
                   color="primary"
-                  className="w-full mt-6 py-6 font-bold text-lg bg-gradient-to-r from-blue-700 to-blue-900"
-                  onClick={handleSave}
-                  isDisabled={isConfirmDisabled}
-                  isLoading={loading}
+                  className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
+                  onClick={()=>router.push('/auth/signin')}
                 >
-                  {loading ? "Processing..." : "Proceed to Checkout"}
+                  Please login
                 </Button>
+                ):(
+                  <Button
+                    color="primary"
+                    className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
+                    onClick={handleSave}
+                    isDisabled={isConfirmDisabled}
+                    isLoading={loading}
+                  >
+                    {loading ? "Processing..." : "Place Order"}
+                  </Button>
+                )}
                 
                 <p className="text-xs text-gray-500 mt-4 text-center">
                   By proceeding, you agree to our Terms of Service and Privacy Policy
@@ -433,7 +445,7 @@ export default function Cart() {
         ) : null}
       </div>
       
-      {/* Mobile Sticky Checkout Bar */}
+      {/* Mobile Sticky Checkout Bar
       {Object.keys(cartItem).length > 0 && (
         <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4 lg:hidden z-50">
           <div className="flex items-center justify-between">
@@ -441,18 +453,25 @@ export default function Cart() {
               <span className="text-lg font-bold">₹{totalPrice}</span>
               <span className="text-xs text-gray-500">{Object.keys(cartItem).length} item</span>
             </div>
-            <Button
-              color="primary"
-              className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
-              onClick={handleSave}
-              isDisabled={isConfirmDisabled}
-              isLoading={loading}
-            >
-              {loading ? "Processing..." : "Checkout"}
-            </Button>
+            {!auth?(
+              <div>
+                <p>login</p>
+              </div>
+            ):(
+              <Button
+                color="primary"
+                className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
+                onClick={handleSave}
+                isDisabled={isConfirmDisabled}
+                isLoading={loading}
+              >
+                {loading ? "Processing..." : "Checkout"}
+              </Button>
+            )}
+            
           </div>
         </div>
-      )}
+      )} */}
       
       {/* Loading Overlay */}
       {loading && <LoadingOverlay />}
