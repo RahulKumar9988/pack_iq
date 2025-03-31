@@ -134,7 +134,7 @@ const ProfileSection = () => {
         </div>
         
         <p className="mt-6 text-sm text-gray-500">
-          By signing in, you'll unlock all features and benefits of your account.
+          By signing in you all unlock all features and benefits of your account.
         </p>
       </motion.div>
     </div>
