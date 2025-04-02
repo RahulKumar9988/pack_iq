@@ -66,9 +66,9 @@ export default function NavDetails({ content }) {
           {/* <span className="text-base whitespace-nowrap font-normal">
             Total Price :{" "}
           </span> */}
-          <span className="bg-[#fef2e9] font-semibold text-base text-[#F47A1F] px-2 py-1 whitespace-nowrap rounded-full">
+          {/* <span className="bg-[#fef2e9] font-semibold text-base text-[#F47A1F] px-2 py-1 whitespace-nowrap rounded-full">
             {cartItem.price}
-          </span>
+          </span> */}
         </div>
       )}
     </div>
