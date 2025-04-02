@@ -233,10 +233,10 @@ const Summary = () => {
                   <span className="text-[#03172B96]">Total MRP</span>
                   <span>₹ {itemPrice}</span>
                 </span>
-                <span className="flex justify-between w-full">
+                {/* <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Price per item</span>
                   <span>₹ {pricePerItem}</span>
-                </span>
+                </span> */}
                 <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Discount on MRP</span>
                   <span className="text-[#1CC618]">- ₹ {discount}</span>

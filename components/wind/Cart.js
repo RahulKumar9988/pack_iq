@@ -385,10 +385,10 @@ export default function Cart() {
                     <span>₹{itemPrice}</span>
                   </div>
                   
-                  <div className="flex justify-between text-gray-700">
+                  {/* <div className="flex justify-between text-gray-700">
                     <span>Price per item</span>
                     <span>₹{pricePerItem}</span>
-                  </div>
+                  </div> */}
                   
                   {discount > 0 && (
                     <div className="flex justify-between">

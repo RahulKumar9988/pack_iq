@@ -52,7 +52,7 @@ const AddOnsPage = () => {
             const formattedAddons = response.data.data.map(addon => ({
               id: addon.additions_id.toString(),
               name: addon.additions_title,
-              price: '+ 0,01 €', // You might want to add price to your backend model
+              // price: '+ 0,01 €', // You might want to add price to your backend model
               description: addon.additions_desc,
               recommended: addon.additions_id === 1, // Example logic - you can adjust as needed
               iconName: getIconNameForAddon(addon.additions_title),
@@ -198,9 +198,9 @@ const AddOnsPage = () => {
             e('p', { 
               className: 'text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2'
             }, addon.description),
-            e('p', { 
-              className: `font-medium text-sm sm:text-base ${isSelected ? 'text-blue-900' : 'text-blue-500'}`
-            }, `${addon.price} / Piece`)
+            // e('p', { 
+            //   className: `font-medium text-sm sm:text-base ${isSelected ? 'text-blue-900' : 'text-blue-500'}`
+            // }, `${addon.price} / Piece`)
           )
         )
       )
