@@ -159,10 +159,9 @@ export default function Cart() {
         material_id: parseInt(cartItem.material_id),
         payment_status_id: 1,
         price: parseFloat(itemPrice),
-        additions_id: cartItem.addons ? 
-          (Array.isArray(cartItem.addons) ? 
+        additions_id:Array.isArray(cartItem.addons) ? 
             cartItem.addons.map(addon => addon.id) : 
-            [cartItem.addons.id]) : 
+            cartItem.addons ? [cartItem.addons.id]: 
           []
       };
       
@@ -274,7 +273,7 @@ export default function Cart() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                           <p>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></p>
                           <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p>
-                          <p>Quantity: <span className="font-medium">{cartItem.addons ? (
+                          <p>Additions: <span className="font-medium">{cartItem.addons ? (
                   Array.isArray(cartItem.addons) ? 
                     cartItem.addons.map(addon => addon.name).join(', ') || "Not selected" : 
                     typeof cartItem.addons === 'object' ? 
@@ -385,10 +384,10 @@ export default function Cart() {
                     <span>₹{itemPrice}</span>
                   </div>
                   
-                  {/* <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-gray-700">
                     <span>Price per item</span>
                     <span>₹{pricePerItem}</span>
-                  </div> */}
+                  </div>
                   
                   {discount > 0 && (
                     <div className="flex justify-between">

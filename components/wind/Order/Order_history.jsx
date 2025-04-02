@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { getUserDetails } from '@/app/action/getUserDetails';
+import { useAppSelector } from '@/redux/hooks';
 
 const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed default from 3 to 2
   // State to manage orders, loading, and error
@@ -12,6 +13,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
   const [error, setError] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const cartItem = useAppSelector((state) => state?.cart?.item) || {};
   
   // First, get user details
   useEffect(() => {
@@ -166,6 +168,13 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
                   <p className="truncate">
                     <span className="font-medium block sm:inline">Quantity:</span> 
                     {order.quantityId?.quantity || 'N/A'}
+                  </p>
+                  <p className="truncate">
+                    <span className="font-medium block sm:inline">Additions:</span> 
+                    {order.order_additions?.length > 0
+    ? order.order_additions.map(addition => addition.additionsId.additions_title).join(", ")
+    : "N/A"}
+
                   </p>
                 </div>
                 {/* Price and Payment Status */}

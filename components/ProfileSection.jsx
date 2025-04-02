@@ -179,7 +179,6 @@ const ProfileSection = () => {
                     label="Addresses" 
                   />
 
-                  
                   <button 
                     className="w-full flex items-center p-3 space-x-3 rounded-xl text-red-600 hover:bg-red-50 transition"
                     onClick={handleLogout}
@@ -196,7 +195,6 @@ const ProfileSection = () => {
               {activeTab === "overview" && (
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 space-y-6">
                   <h2 className="text-xl font-bold dark:text-white mb-4">Profile Overview</h2>
-                  
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
                       <div className="flex items-center space-x-4 mb-2">
@@ -217,6 +215,7 @@ const ProfileSection = () => {
                       </div>
                       <div className="text-gray-700 dark:text-gray-300">
                         <p>{userDetails.user.user_address || 'No address on file'}</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -255,7 +254,6 @@ const ProfileSection = () => {
                     </div>
                     <OrderHistory limitOrders={true} maxOrders={2} />
                   </div>
-                
                 </div>
               )}
             </div>
