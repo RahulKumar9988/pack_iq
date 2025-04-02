@@ -158,9 +158,8 @@ export default function Quantity() {
                     {/* Price Column */}
                     <div className="flex flex-col justify-center items-center">
                       <span className="text-sm sm:text-base font-medium">
-                        {Math.floor(parseFloat(ele.price))}
+                        {parseFloat(ele.price).toFixed(2)}
                       </span>
-                      <span className="text-xs text-[#03172B80]">{`(₹50/piece)`}</span>
                     </div>
                     
                     {/* No of Design Column */}
