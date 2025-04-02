@@ -1,7 +1,10 @@
 "use client";
+
 import React, { useState } from "react";
 import { FaPhone, FaEnvelope, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (
     <div className="border-b border-gray-200">
@@ -32,6 +35,9 @@ export default function Page() {
     email: "",
     query: ""
   });
+  
+  // Form loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // FAQ state
   const [openFAQ, setOpenFAQ] = useState(0);
@@ -72,20 +78,79 @@ export default function Page() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      query: ""
-    });
-    alert("Your request has been submitted. You will get a free sample in 7 days!");
+    setIsSubmitting(true);
+    
+    try {
+      // Format the data to match the API expectations
+      const formPayload = {
+        name: formData.name,
+        email: formData.email,
+        number: formData.phone, 
+        query: formData.query,
+        flag_type: "get_in_touch"
+      };
+      
+      // Send the form data to your API endpoint
+      const response = await fetch(`${baseUrl}/api/v1/contact-us/get-in-touch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formPayload),
+      });
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+      
+      // Reset the form on success
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        query: "",
+      });
+      
+      // Show success toast message
+      toast.success(data.message || "Your request has been submitted. You will get a free sample in 7 days!");
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("Failed to submit your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="w-full min-h-screen">
+      {/* Toast Container */}
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          success: {
+            style: {
+              background: '#ECFDF5',
+              border: '1px solid #10B981',
+              color: '#065F46',
+            },
+            duration: 5000,
+          },
+          error: {
+            style: {
+              background: '#FEF2F2',
+              border: '1px solid #EF4444',
+              color: '#991B1B',
+            },
+            duration: 5000,
+          }
+        }}
+      />
+      
       {/* Contact Form Section */}
       <div className="max-w-6xl mx-auto p-4 mb-12">
         <div className="grid md:grid-cols-2 gap-8 bg-white rounded-lg overflow-hidden">
@@ -135,11 +200,15 @@ export default function Page() {
                   placeholder="Your name"
                   className="w-full p-3 border border-gray-300 rounded"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
               
               <div className="flex">
-                <select className="p-3 border border-gray-300 rounded-l w-20 text-gray-500 bg-white">
+                <select 
+                  className="p-3 border border-gray-300 rounded-l w-20 text-gray-500 bg-white"
+                  disabled={isSubmitting}
+                >
                   <option>+91</option>
                   <option>+1</option>
                   <option>+44</option>
@@ -152,6 +221,7 @@ export default function Page() {
                   placeholder="Your phone"
                   className="w-full p-3 border border-gray-300 rounded-r border-l-0"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
               
@@ -164,6 +234,7 @@ export default function Page() {
                   placeholder="Your email"
                   className="w-full p-3 border border-gray-300 rounded"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
               
@@ -175,14 +246,18 @@ export default function Page() {
                   placeholder="Any query you have"
                   rows="3"
                   className="w-full p-3 border border-gray-300 rounded"
+                  disabled={isSubmitting}
                 ></textarea>
               </div>
               
               <button
                 type="submit"
-                className="w-full bg-blue-800 text-white p-3 rounded hover:bg-blue-900 transition"
+                className={`w-full bg-blue-800 text-white p-3 rounded hover:bg-blue-900 transition ${
+                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                }`}
+                disabled={isSubmitting}
               >
-                Get now
+                {isSubmitting ? 'Submitting...' : 'Get now'}
               </button>
             </form>
           </div>

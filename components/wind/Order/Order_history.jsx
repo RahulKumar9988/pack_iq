@@ -172,8 +172,8 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
                   <p className="truncate">
                     <span className="font-medium block sm:inline">Additions:</span> 
                     {order.order_additions?.length > 0
-    ? order.order_additions.map(addition => addition.additionsId.additions_title).join(", ")
-    : "N/A"}
+                    ? order.order_additions.map(addition => addition.additionsId.additions_title).join(", ")
+                    : "N/A"}
 
                   </p>
                 </div>

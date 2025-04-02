@@ -5,6 +5,7 @@ import { Button } from "@nextui-org/react";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
 
 const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (
@@ -34,16 +35,61 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
 const FreeSample = () => {
   const [openFAQ, setOpenFAQ] = useState(0);
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "", // Changed from fullName to name to match API expectations
     phone: "",
     email: "",
     query: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setIsSubmitting(true);
+    
+    try {
+      // Format the data to match the API expectations
+      const formPayload = {
+        name: formData.name,
+        email: formData.email,
+        number: formData.phone, 
+        query: formData.query,
+        flag_type: "sample_product"
+      };
+      
+      // Send the form data to your API endpoint
+      const response = await fetch(`${baseUrl}/api/v1/contact-us/get-in-touch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formPayload),
+      });
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+      
+      // Reset the form on success
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        query: "",
+      });
+      
+      // Show success toast message
+      toast.success(data.message || "Your request has been submitted. You will get a free sample in 7 days!");
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("Failed to submit your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -82,7 +128,7 @@ const FreeSample = () => {
 
   const questions = [
     "I need a quote",
-    "Something’s wrong with my order",
+    "Somethings wrong with my order",
     "I have a question",
     "Other"
   ];
@@ -90,6 +136,28 @@ const FreeSample = () => {
 
   return (
     <div className="relative w-full min-h-screen">
+      {/* Toast Container */}
+            <Toaster 
+              position="top-right"
+              toastOptions={{
+                success: {
+                  style: {
+                    background: '#ECFDF5',
+                    border: '1px solid #10B981',
+                    color: '#065F46',
+                  },
+                  duration: 5000,
+                },
+                error: {
+                  style: {
+                    background: '#FEF2F2',
+                    border: '1px solid #EF4444',
+                    color: '#991B1B',
+                  },
+                  duration: 5000,
+                }
+              }}
+            />
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-center"
@@ -138,17 +206,17 @@ const FreeSample = () => {
           <form onSubmit={handleSubmit} className="space-y-4 text-start">
             <div>
               <label
-                htmlFor="fullName"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Full name
               </label>
               <input
                 type="text"
-                id="fullName"
-                name="fullName"
+                id="name"
+                name="name"
                 placeholder="Eg: Sharmistha Halder"
-                value={formData.fullName}
+                value={formData.name}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -214,8 +282,9 @@ const FreeSample = () => {
                 <button
                   type="submit"
                   className="bg-[#143761] text-white py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold hover:bg-blue-800 transition-colors duration-200 w-full sm:w-auto"
+                  disabled={isSubmitting}
                 >
-                  Request now
+                  {isSubmitting ? "Submitting..." : "Request now"}
                 </button>
               </div>
             </div>
