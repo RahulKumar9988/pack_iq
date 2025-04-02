@@ -42,7 +42,7 @@ export default function PackagingType() {
             name: ele.name,
             time: "4-7 weeks",
             minimum_qty: ele.minimum_qty,
-            price: "₹ 0.930",
+            // price: "₹ 0.930",
             packaging_image_url: ele.packaging_image_url,
             quantity: ele.minimum_qty,
           };
@@ -72,7 +72,7 @@ export default function PackagingType() {
                   packaging_id: item.packaging_id,
                   name: item.name,
                   image: item.packaging_image_url,
-                  price: item.price,
+                  // price: item.price,
                 })
               );
             }}
@@ -112,10 +112,10 @@ export default function PackagingType() {
                   <span className="font-medium">{item.quantity}</span>
                 </div>
                 <Divider />
-                <div className="flex justify-between w-full p-2">
+                {/* <div className="flex justify-between w-full p-2">
                   <span className="text-sm font-normal">Price:</span>
                   <span className="font-medium">{item.price}/per unit</span>
-                </div>
+                </div> */}
               </CardFooter>
 
               {/* Full Description Overlay */}
