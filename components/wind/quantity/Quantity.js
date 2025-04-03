@@ -176,10 +176,10 @@ export default function Quantity() {
                   Quantity
                 </div>
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
-                  Price
+                  Discount
                 </div>
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
-                  Discount
+                  Price
                 </div>
                 <div className="flex justify-end items-center text-xs sm:text-sm font-normal">
                   No of Design
@@ -211,15 +211,6 @@ export default function Quantity() {
                       </div>
                     </div>
                     
-                    {/* Price Column */}
-                    <div className="flex flex-col justify-center items-center">
-                      <div className="flex flex-col items-center">
-                        <span className="text-sm sm:text-base font-medium">
-                          ₹{parseFloat(ele.price).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                    
                     {/* Discount Column */}
                     <div className="flex justify-center items-center">
                       {parseInt(ele.discount) > 0 ? (
@@ -229,6 +220,15 @@ export default function Quantity() {
                       ) : (
                         <span className="text-xs text-[#03172B80]">-</span>
                       )}
+                    </div>
+
+                    {/* Price Column */}
+                    <div className="flex flex-col justify-center items-center">
+                      <div className="flex flex-col items-center">
+                        <span className="text-sm sm:text-base font-medium">
+                          ₹{parseFloat(ele.price).toFixed(2)}
+                        </span>
+                      </div>
                     </div>
                     
                     {/* No of Design Column */}
