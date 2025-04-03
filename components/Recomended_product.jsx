@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ProductSkeleton from "@/components/ProductSkeleton";
+import Recomend_Scleton from "./Recomend_Scleton";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -48,7 +49,7 @@ export default function Recomended_product() {
   }
 
   return (
-    <div className="w-full mx-auto px-4 sm:px-6 lg:px-16 py-8 flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
+    <div className="w-full mx-auto px-1 sm:px-1 lg:px-1  flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
       {loading ? (
         <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {Array(productsPerPage)
@@ -78,8 +79,9 @@ export default function Recomended_product() {
               </div>
               <div className="flex flex-col gap-2 p-3">
                 <div className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</div>
-                <div className="flex items-center justify-center bg-gray-200 px-3 py-1.5 rounded-lg md:text-sm text-xs font-semibold text-[#143761] self-start">
-                  {ele.price}/per unit
+                <div className="w-full flex items-center justify-between bg-gray-200 px-3 py-1.5 rounded-lg md:text-sm text-xs font-semibold text-[#143761] self-start">
+                <span className="text-gray-600">Min: </span>
+                <span className="text-gray-600">{ele.minimum_qty} units </span>
                 </div>
               </div>
             </div>

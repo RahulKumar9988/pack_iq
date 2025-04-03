@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProductSkeleton = () => {
     return (
-        <div className=" flex flex-col bg-white rounded-lg overflow-hidden shadow-sm animate-pulse">
+        <div className="flex flex-col bg-white rounded-lg overflow-hidden shadow-sm animate-pulse">
         {/* Image placeholder */}
         <div className="relative w-full aspect-[3/4] bg-gray-200"></div>
         
