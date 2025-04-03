@@ -67,13 +67,13 @@ export default function Order() {
             : {displayData?.name || "N/A"}
           </span>
 
-          <IoCheckmark className="self-center" />
+          {/* <IoCheckmark className="self-center" />
           <span className="mobile:font-semibold text-gray-800 max-mobile:text-sm">
             Size
           </span>
           <span className="text-gray-700 max-mobile:text-black max-mobile:text-sm max-mobile:font-medium">
             : {displayData?.size ? `${displayData.size} (${displayData.dimension || "N/A"})` : "N/A"}
-          </span>
+          </span> */}
 
           <IoCheckmark className="self-center" />
           <span className="mobile:font-semibold text-gray-800 max-mobile:text-sm">

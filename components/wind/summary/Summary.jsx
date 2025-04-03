@@ -11,25 +11,17 @@ const Summary = () => {
   const [itemPrice, setItemPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(0);
+  const [totalPricePerQty, settotalPricePerQty] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [pricePerItem, setPricePerItem] = useState(0);
   const router = useRouter();
   
-  console.log(cartItem);
-  
-
   // Calculate prices based on cart data
   useEffect(() => {
     if (Object.keys(cartItem).length) {
       // Get the item price from the cart data
       const price = cartItem.price || 0;
       setItemPrice(price);
-      
-      // Set discount and delivery fee like in Cart component
-      const calculatedDiscount = price > 0 ? 0 : 0;
-      const calculatedDeliveryFee = price > 0 ? 0 : 0;
-      setDiscount(calculatedDiscount);
-      setDeliveryFee(calculatedDeliveryFee);
       
       // Calculate price per item first
       let calculatedPricePerItem = 0;
@@ -41,8 +33,12 @@ const Summary = () => {
       }
       
       // Calculate total price using the same formula as in Cart component
-      const calculatedTotalPrice = price - calculatedDiscount + calculatedDeliveryFee;
-      setTotalPrice(calculatedTotalPrice);
+      const calculatedTotalPricePerQuantity = price * (cartItem.quantity || 1);
+      settotalPricePerQty(calculatedTotalPricePerQuantity);
+
+      const calculatedDiscount = calculatedTotalPricePerQuantity * 0.18; // Change the percentage as needed
+      setDiscount(calculatedDiscount);
+      setTotalPrice(calculatedTotalPricePerQuantity + calculatedDiscount);
     }
   }, [cartItem]);
 
@@ -110,11 +106,8 @@ const Summary = () => {
                     </span>
                   </div>
                   <div className="max-sm:hidden min-w-fit flex flex-col gap-2">
-                    <span className="text-lg font-medium">
-                      ₹ {itemPrice}
-                    </span>
-                    <span className="flex gap-3 line-through text-[#9FA9B3]">
-                      ₹ {itemPrice}
+                    <span className="text-lg">
+                      ₹{itemPrice}/unit
                     </span>
                   </div>
                 </div>
@@ -230,16 +223,16 @@ const Summary = () => {
             <div className="flex max-mobile:flex-col gap-5 p-5 shadow rounded-lg">
               <div className="flex flex-col justify-between w-full gap-5">
                 <span className="flex justify-between w-full">
-                  <span className="text-[#03172B96]">Total MRP</span>
-                  <span>₹ {itemPrice}</span>
+                  <span className="text-[#03172B96]">Total MRP:</span>
+                  <span>₹ {totalPricePerQty}</span>
                 </span>
                 {/* <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Price per item</span>
                   <span>₹ {pricePerItem}</span>
                 </span> */}
                 <span className="flex justify-between w-full">
-                  <span className="text-[#03172B96]">Discount on MRP</span>
-                  <span className="text-[#1CC618]">- ₹ {discount}</span>
+                  <span className="text-[#03172B96]">Total GST:</span>
+                  <span className="text-[#1CC618]">+ ₹{discount}</span>
                 </span>
                 <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Delivery fee</span>

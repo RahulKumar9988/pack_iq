@@ -3,7 +3,7 @@ import React from "react";
 
 export default function page() {
   return(
-    <div className="w-full px-2">
+    <div className="w-full">
       <Quantity />
     </div>
   );

@@ -16,17 +16,22 @@ export default function Homepage() {
 
   return (
     <div className="flex flex-col gap-5 mt-10 md:mt-0">
-      
       <HeroSection/>
-      <div className="mt-10 px-6">
-        <p className="md:text-[32px] text-[24px] font-medium md:text-start text-center md:px-16 px-0 text-[#143761]">Shop by popularity</p>
-        <Recomended_product/>
+      <div className="mt-10 px-4 sm:px-8 md:px-20">
+        <p className="text-[24px] sm:text-[28px] md:text-[32px] font-medium text-center md:text-start text-[#143761]">
+          Shop by popularity
+        </p>
+        <Recomended_product />
       </div>
+
       <Innovations/>
-      <div className="mt-10 px-6">
-        <p className="md:text-[32px] text-[24px] font-medium md:text-start text-center md:px-16 px-0 text-[#143761]">Shop by popularity</p>
-        <Recomended_product/>
+      <div className="mt-10 px-4 sm:px-8 md:px-20">
+        <p className="text-[24px] sm:text-[28px] md:text-[32px] font-medium text-center md:text-start text-[#143761]">
+          Shop by popularity
+        </p>
+        <Recomended_product />
       </div>
+
       <PackagingAchievements/>
       <Quality_section/>
       <Innovations/>

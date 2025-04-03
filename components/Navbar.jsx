@@ -107,11 +107,11 @@ export default function HomepageNavbar() {
           </NextUILink>
         </NavbarItem>
         <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
+          <NavbarItem className="w-full">
+            <DropdownTrigger className="w-full">
               <Button
                 disableRipple
-                className="max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm"
+                className="w-full max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm flex justify-center"
                 endContent={ICONS.chevron}
                 radius="sm"
                 variant="light"
@@ -122,23 +122,29 @@ export default function HomepageNavbar() {
           </NavbarItem>
           <DropdownMenu
             aria-label="Product features"
-            className="w-[340px]"
+            className=""
             itemClasses={{
               base: "gap-4",
             }}
           >
-            <DropdownItem key="all-products" startContent={ICONS.scale}>
-              <NextUILink href="/products" as={Link}>All Product</NextUILink>
+            <DropdownItem 
+              key="all-products" 
+              startContent={ICONS.scale}
+              as={Link}
+              href="/products"
+              className="cursor-pointer w-full"
+            >
+              All Product
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
 
         <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
+          <NavbarItem className="w-full">
+            <DropdownTrigger className="w-full">
               <Button
                 disableRipple
-                className="max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm"
+                className="w-full max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm flex justify-center"
                 endContent={ICONS.chevron}
                 radius="sm"
                 variant="light"
@@ -149,15 +155,20 @@ export default function HomepageNavbar() {
           </NavbarItem>
           <DropdownMenu
             aria-label="Shop By features"
-            className="w-[340px]"
+            className=""
             itemClasses={{
               base: "gap-4",
             }}
           >
-            <DropdownItem key="packaging-type" startContent={ICONS.scale}>
-              <NextUILink href="/packaging-type" as={Link}>Packaging Type</NextUILink>
+            <DropdownItem 
+              key="packaging-type" 
+              startContent={ICONS.scale}
+              as={Link}
+              href="/packaging-type"
+              className="cursor-pointer w-full"
+            >
+              Packaging Type
             </DropdownItem>
-            
           </DropdownMenu>
         </Dropdown>
         
@@ -194,13 +205,28 @@ export default function HomepageNavbar() {
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions">
-                <DropdownItem key="profile" onClick={() => router.push('/profile')}>
+                <DropdownItem 
+                  key="profile" 
+                  as={Link} 
+                  href="/profile"
+                  className="cursor-pointer w-full"
+                >
                   My Profile
                 </DropdownItem>
-                <DropdownItem key="orders" onClick={() => router.push('/orders-history')}>
+                <DropdownItem 
+                  key="orders" 
+                  as={Link}
+                  href="/orders-history"
+                  className="cursor-pointer w-full"
+                >
                   My Orders
                 </DropdownItem>
-                <DropdownItem key="logout" color='warning' onClick={handleLogout}>
+                <DropdownItem 
+                  key="logout" 
+                  color='warning' 
+                  onClick={handleLogout}
+                  className="cursor-pointer w-full"
+                >
                   Logout
                 </DropdownItem>
               </DropdownMenu>

@@ -137,17 +137,17 @@ export default function Material() {
               <span> Type :</span>
               <span className="font-semibold"> {cartItem.name}</span>
             </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <LuCheck />
               <span> Size :</span>
               <span className="font-semibold">{cartItem.size}</span>
               <span className="">{`(${cartItem.dimension || ''})`}</span>
-            </div>
-            <div className="flex items-center gap-2">
+            </div> */}
+            {/* <div className="flex items-center gap-2">
               <LuCheck />
               <span> Quantity :</span>
               <span className="font-semibold">{cartItem.quantity}</span>
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-col gap-3 min-w-[250px] p-4 bg-[#FDD40A1A] text-sm border-2 rounded-xl">
             <span>Note</span>

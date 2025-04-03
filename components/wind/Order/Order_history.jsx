@@ -44,6 +44,8 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
       try {
         setIsLoading(true);
         const response = await axios.get(`${baseUrl}/api/v1/order/my-order/${userId}`);
+        console.log(response);
+        
         
         // Check if the response has data and process accordingly
         if (response.data && response.data.data) {

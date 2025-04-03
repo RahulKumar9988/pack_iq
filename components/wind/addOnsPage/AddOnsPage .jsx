@@ -252,7 +252,7 @@ const AddOnsPage = () => {
       // Header
 
       e('div', {
-        className: 'fixed bottom-0 left-0 w-full bg-white border-t shadow-md p-4 z-50 md:relative md:mt-12 md:shadow-none md:border-t-0 md:p-0'
+        className: 'fixed bottom-0 left-0 w-full bg-white border-t shadow-md p-4 z-50 md:relative md:mt-1 md:shadow-none md:border-t-0 md:p-0'
       },
         e('div', {
           className: 'max-w-6xl mx-auto flex justify-between items-center'
@@ -266,7 +266,7 @@ const AddOnsPage = () => {
           ),
           e('button', {
             onClick: navigateToSummary,
-            className: `px-3 py-2 rounded-lg font-medium text-white transition-all ${
+            className: `px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all ${
               true ? 
               'bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer' : 
               'bg-gray-400 cursor-not-allowed'

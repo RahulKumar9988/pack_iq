@@ -26,18 +26,20 @@ export default function Cart() {
     size: "",
   });
   const [loading, setLoading] = useState(false);
+  const [discount, setDiscount] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [totalPricePerQty, settotalPricePerQty] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [constants, setConstant] = useState({
     quantity: [],
     size: [],
   });
   const auth = useAppSelector(state => state.auth.isAuthenticated);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
-  
   const router = useRouter();
+  
 
   // Enhanced selection change handler that also updates the cartItem via Redux if needed
   const handleSelectionChange = (e) => {
@@ -61,6 +63,7 @@ export default function Cart() {
         size: cartItem?.packaging_type_size_id?.toString(),
       });
     }
+
   }, [cartItem]);
 
   useEffect(() => {
@@ -133,9 +136,6 @@ export default function Cart() {
   };
 
   const itemPrice = getItemPrice();
-  const discount = 0; // You can calculate actual discount here
-  const deliveryFee = 0; // You can calculate actual delivery fee here
-  const totalPrice = itemPrice;
   const pricePerItem = cartItem?.quantity ? (itemPrice / parseFloat(cartItem.quantity)).toFixed(2) : 0;
   
   // Fixed handleSave function without using Promise
@@ -158,7 +158,7 @@ export default function Cart() {
         quantity_id: parseInt(value.quantity),
         material_id: parseInt(cartItem.material_id),
         payment_status_id: 1,
-        price: parseFloat(itemPrice),
+        price: parseFloat(totalPrice),
         additions_id:Array.isArray(cartItem.addons) ? 
             cartItem.addons.map(addon => addon.id) : 
             cartItem.addons ? [cartItem.addons.id]: 
@@ -216,6 +216,19 @@ export default function Cart() {
     </div>
   );
 
+  useEffect(() => {
+    // Calculate total price when itemPrice or cartItem changes
+    const calculatedTotalPricePerQuantity = itemPrice * (cartItem.quantity || 1);
+    settotalPricePerQty(calculatedTotalPricePerQuantity);
+    
+    // GST is 18% of the total price
+    const calculatedGST = calculatedTotalPricePerQuantity * 0.18;
+    setDiscount(calculatedGST); // This should actually be GST, not discount
+    
+    // Total price is base price + GST
+    setTotalPrice(calculatedTotalPricePerQuantity + calculatedGST);
+  }, [itemPrice, cartItem.quantity]);
+
   return (
     <div className="container mx-auto mb-20">
       <div className="flex flex-col lg:flex-row gap-8">
@@ -263,16 +276,13 @@ export default function Cart() {
                             </Badge>
                           </div>
                           <div className="text-right">
-                            <p className="text-xl font-bold text-gray-900">₹{itemPrice}</p>
-                            {discount > 0 && (
-                              <p className="text-sm line-through text-gray-400">₹{itemPrice + discount}</p>
-                            )}
+                            <p className="text-sm text-gray-900">₹{itemPrice}/unit</p>
                           </div>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                           <p>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></p>
-                          <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p>
+                          {/* <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p> */}
                           <p>Additions: <span className="font-medium">{cartItem.addons ? (
                   Array.isArray(cartItem.addons) ? 
                     cartItem.addons.map(addon => addon.name).join(', ') || "Not selected" : 
@@ -380,19 +390,14 @@ export default function Cart() {
               <CardBody className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between text-gray-700">
-                    <span>Total MRP</span>
-                    <span>₹{itemPrice}</span>
-                  </div>
-                  
-                  <div className="flex justify-between text-gray-700">
-                    <span>Price per item</span>
-                    <span>₹{pricePerItem}</span>
+                    <span>Price:</span>
+                    <span>₹{totalPricePerQty || 0}</span>
                   </div>
                   
                   {discount > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-gray-700">Discount on MRP</span>
-                      <span className="text-green-600">-₹{discount}</span>
+                      <span className="text-gray-700">Total GST:</span>
+                      <span className="text-green-600">+ ₹{discount}</span>
                     </div>
                   )}
                   
@@ -407,12 +412,6 @@ export default function Cart() {
                     <span>Total Amount</span>
                     <span>₹{totalPrice}</span>
                   </div>
-                  
-                  {discount > 0 && (
-                    <div className="text-green-600 text-sm text-right">
-                      You save ₹{discount} on this order
-                    </div>
-                  )}
                 </div>
                 
                 {!auth?(

@@ -78,11 +78,12 @@ export default function Recomended_product() {
                 />
               </div>
               <div className="flex flex-col gap-2 p-3">
-                <div className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</div>
-                <div className="w-full flex items-center justify-between bg-gray-200 px-3 py-1.5 rounded-lg md:text-sm text-xs font-semibold text-[#143761] self-start">
-                <span className="text-gray-600">Min: </span>
-                <span className="text-gray-600">{ele.minimum_qty} units </span>
-                </div>
+                <p className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</p>
+                <p className="font-thin text-xs line-clamp-2">{ele.description}</p>
+                {/* <div className="w-full flex items-center justify-between bg-gray-200 px-3 py-1.5 rounded-lg md:text-sm text-xs font-semibold text-[#143761] self-start">
+                  <span className="text-gray-600">Min: </span>
+                  <span className="text-gray-600">{ele.minimum_qty} units </span>
+                </div> */}
               </div>
             </div>
           ))}

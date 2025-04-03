@@ -4,8 +4,15 @@ import {
   Image,
   Link,
   Button,
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Tooltip,
 } from "@nextui-org/react";
-import { LuCheck } from "react-icons/lu";
+import { LuCheck, LuInfo } from "react-icons/lu";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart } from "@/redux/features/cart/cartSlice";
@@ -21,6 +28,7 @@ export default function Quantity() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isImageHovered, setIsImageHovered] = useState(false);
+  const [firstItemPrice, setFirstItemPrice] = useState(0);
   
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
@@ -53,13 +61,32 @@ export default function Quantity() {
         `${baseUrl}/api/v1/resources/list-packaging-type-size-quantity/${cartItem.packaging_type_size_id}`
       );
       if (response.data.status === 200) {
-        const responseData = response.data.data.map((ele) => ({
-          size: ele.quantityId.quantity,
-          price: ele.quantityId.price,
-          number: ele.quantityId.design_number,
-          packaging_type_size_quantity_id: ele.packaging_type_size_quantity_id,
-          quantity_id: ele.quantityId.quantity_id,
-        }));
+        // Store the first item's price to calculate discounts
+        let firstPrice = 0;
+        if (response.data.data.length > 0) {
+          firstPrice = response.data.data[0].quantityId.price;
+          setFirstItemPrice(firstPrice);
+        }
+        
+        const responseData = response.data.data.map((ele, index) => {
+          // Calculate discount percentage based on first item price
+          let discountPercentage = 0;
+          if (index > 0 && firstPrice > 0) {
+            discountPercentage = ((firstPrice - ele.quantityId.price) / firstPrice) * 100;
+            // Handle negative discounts (price increases)
+            if (discountPercentage < 0) discountPercentage = 0;
+          }
+          
+          return {
+            size: ele.quantityId.quantity,
+            price: ele.quantityId.price,
+            originalPrice: index === 0 ? ele.quantityId.price : firstPrice,
+            number: ele.quantityId.design_number,
+            packaging_type_size_quantity_id: ele.packaging_type_size_quantity_id,
+            quantity_id: ele.quantityId.quantity_id,
+            discount: index === 0 ? 0 : discountPercentage.toFixed(0),
+          };
+        });
         setQuantities(responseData);
       }
     } catch (error) {
@@ -88,6 +115,7 @@ export default function Quantity() {
         quantity: item?.size || "",
         design_number: item?.number || "",
         price: item?.price || "",
+        discount: item?.discount || "",
       })
     );
   };
@@ -108,19 +136,50 @@ export default function Quantity() {
 
   const hasMoreItems = currentPage * ITEMS_PER_PAGE < quantities.length;
 
+  // Generate discount tiers based on actual data
+  const generateDiscountTiersTable = () => {
+    if (quantities.length <= 1) return null;
+    
+    // Group quantities by discount to create tiers
+    const discountGroups = {};
+    quantities.forEach(item => {
+      if (!discountGroups[item.discount]) {
+        discountGroups[item.discount] = [];
+      }
+      discountGroups[item.discount].push(parseInt(item.size));
+    });
+    
+    // Create tiers based on unique discounts
+    const tiers = Object.keys(discountGroups)
+      .map(discount => parseInt(discount))
+      .filter(discount => discount > 0)
+      .sort((a, b) => a - b)
+      .map(discount => {
+        const minQuantity = Math.min(...discountGroups[discount]);
+        return { minQuantity, discount: `${discount}%` };
+      });
+    
+    return tiers;
+  };
+  
+  const discountTiers = generateDiscountTiersTable();
+
   return (
-    <div className="flex flex-col lg:flex-row w-full px-4 sm:px-6 lg:px-8 mb-[100px] lg:mb-[72px] gap-4 max-w-[1200px] mx-auto">
-      <div className="w-full lg:w-3/4 h-fit">
+    <div className="flex flex-col lg:flex-row w-full mb-[100px] lg:mb-[72px] gap-4 max-w-[1200px] mx-auto">
+      <div className="w-full lg:w-3/4 h-fit">        
         <div className="border-2 h-fit rounded-xl overflow-hidden">
           <div className="flex flex-col w-full h-fit">
             {/* Header Row */}
             <div className="group bg-[#F9F9F9] relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 sm:px-6 border-b-2">
-              <div className="grid grid-cols-3 w-full text-[#808b98]">
+              <div className="grid grid-cols-4 w-full text-[#808b98]">
                 <div className="flex items-center text-xs sm:text-sm font-normal">
-                  Size
+                  Quantity
                 </div>
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
                   Price
+                </div>
+                <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
+                  Discount
                 </div>
                 <div className="flex justify-end items-center text-xs sm:text-sm font-normal">
                   No of Design
@@ -137,7 +196,7 @@ export default function Quantity() {
                   onClick={() => handleQuantitySelection(ele)}
                   onMouseEnter={() => handleMouseEnter(ele)}
                 >
-                  <div className="grid grid-cols-3 w-full gap-2">
+                  <div className="grid grid-cols-4 w-full gap-2">
                     {/* Size Column with Checkbox */}
                     <div className="flex flex-col justify-center">
                       <div className="flex flex-wrap items-center gap-2">
@@ -149,17 +208,27 @@ export default function Quantity() {
                         <span className="text-sm sm:text-base font-medium">
                           {ele.size}
                         </span>
-                        <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
-                          50% off
-                        </span>
                       </div>
                     </div>
                     
                     {/* Price Column */}
                     <div className="flex flex-col justify-center items-center">
-                      <span className="text-sm sm:text-base font-medium">
-                        {parseFloat(ele.price).toFixed(2)}
-                      </span>
+                      <div className="flex flex-col items-center">
+                        <span className="text-sm sm:text-base font-medium">
+                          ₹{parseFloat(ele.price).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Discount Column */}
+                    <div className="flex justify-center items-center">
+                      {parseInt(ele.discount) > 0 ? (
+                        <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
+                          {ele.discount}% off
+                        </span>
+                      ) : (
+                        <span className="text-xs text-[#03172B80]">-</span>
+                      )}
                     </div>
                     
                     {/* No of Design Column */}
@@ -209,6 +278,20 @@ export default function Quantity() {
             <span className="font-normal">{cartItem.size}</span>
             <span className="text-xs text-[#03172B80]">{`(${cartItem.dimension})`}</span>
           </div>
+          {selectedItem && (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 min-w-fit">
+                <LuCheck className="text-sm text-[#253670]" />
+                <span>Quantity:</span>
+              </div>
+              <span className="font-normal">{selectedItem.size}</span>
+              {parseInt(selectedItem.discount) > 0 && (
+                <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
+                  {selectedItem.discount}% off
+                </span>
+              )}
+            </div>
+          )}
         </div>
         
         <div className="flex flex-col gap-3 p-4 bg-[#FDD40A1A] min-w-[250px] text-sm border-2 rounded-xl">
@@ -222,7 +305,7 @@ export default function Quantity() {
         </div>
         
         <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
-          <Button className="text-sm font-medium bg-[#143761] rounded-md text-white h-10 px-4">
+          <Button className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-lg font-bold bg-[#253670] text-white h-14">
             Confirm
           </Button>
         </Link>
@@ -250,7 +333,14 @@ export default function Quantity() {
                 <LuCheck className="text-sm text-[#253670]" />
                 <span className="text-sm">Quantity:</span>
               </div>
-              <span className="text-sm">{selectedItem?.size || ""}</span>
+              <div className="flex items-center gap-1">
+                <span className="text-sm">{selectedItem?.size || ""}</span>
+                {parseInt(selectedItem.discount) > 0 && (
+                  <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
+                    {selectedItem.discount}% off
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -260,7 +350,19 @@ export default function Quantity() {
       <div className="lg:hidden z-50 fixed bg-white left-0 bottom-0 border-t shadow-md flex items-center justify-between w-full px-4 sm:px-6 py-3">
         <div className="flex flex-col text-xs items-start">
           <div className="text-[#03172B80]">Price</div>
-          <div className="font-medium">{selectedItem?.price || "0"}</div>
+          <div className="flex items-center gap-2">
+            <div className="font-medium">${selectedItem?.price || "0"}</div>
+            {selectedItem && parseInt(selectedItem.discount) > 0 && (
+              <>
+                <span className="text-xs text-[#03172B80] line-through">
+                  ${parseFloat(selectedItem?.originalPrice || 0).toFixed(2)}
+                </span>
+                <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
+                  {selectedItem.discount}% off
+                </span>
+              </>
+            )}
+          </div>
         </div>
         <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
           <Button className="text-sm font-medium bg-[#143761] rounded-md text-white h-10 px-4">
