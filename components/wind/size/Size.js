@@ -43,7 +43,6 @@ export default function Size() {
       const response = await axios.get(
         `${baseUrl}/api/v1/resources/list-packaging-type-size/${cartItem.packaging_id}`
       );
-      console.log(response);
 
       if (response.data.status === 200) {
         const responseData = response.data.data.map((ele) => {

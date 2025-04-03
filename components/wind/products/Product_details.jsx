@@ -5,255 +5,334 @@ import axios from "axios";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import ProductSkeleton from "@/components/ProductSkeleton";
-import Products from "@/components/wind/products/Products";
 import Recomended_product from "@/components/Recomended_product";
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { addToCart } from "@/redux/features/cart/cartSlice"; // Import your addToCart action
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function ProductDetail() {
   const router = useRouter();
   const params = useParams();
+  const dispatch = useDispatch(); // Initialize dispatch
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
+  // Form states
+  const [materials, setMaterials] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [quantities, setQuantities] = useState([]);
+  const [addons, setAddons] = useState([]);
+  
+  const [selectedMaterial, setSelectedMaterial] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedQuantity, setSelectedQuantity] = useState("");
+  const [selectedAddon, setSelectedAddon] = useState("");
+  const [selectedSizeId, setSelectedSizeId] = useState("");
+
   useEffect(() => {
-    if (params.id) {
-      getProductDetails();
-    }
+    if (params.id) getProductDetails();
   }, [params.id]);
+
+  // When size is selected, fetch quantities
+  useEffect(() => {
+    if (selectedSize && product) {
+      fetchQuantities(selectedSizeId);
+    }
+  }, [selectedSize, selectedSizeId, product]);
 
   async function getProductDetails() {
     setLoading(true);
     try {
-      // Get the full list of products
+      // Get the product data
       const response = await axios.get(`${baseUrl}/api/v1/resources/packaging-type`);
       if (response.status === 200) {
-        // Find the specific product by ID
-        const productData = response.data.data.find(item => 
-          item.packaging_id.toString() === params.id
+        const productData = response.data.data.find(
+          item => item.packaging_id.toString() === params.id
         );
         
         if (productData) {
-          // Create thumbnail images - in a real scenario, you'd get these from the API
-          const thumbnails = [
-            productData.packaging_image_url,
-            productData.packaging_image_icon_url || productData.packaging_image_url,
-            productData.packaging_image_url,
-          ];
-          
           setProduct({
-            packaging_id: productData.packaging_id,
-            icon: productData.packaging_image_icon_url,
-            description: productData.description || "Our flat bottom pouches are particularly durable and resistant. Because of the integrated panel valve, these pouches are the best for coffee products.",
-            name: productData.name,
-            time: productData.delivery_time || "4-7 weeks",
-            minimum_qty: productData.minimum_qty || 500,
-            price: productData.price ? 
-              `₹${productData.price} - ₹${(parseFloat(productData.price) + 0.1).toFixed(3)}/Pieces` : 
-              "₹0.479 - ₹0.930/Pieces",
-            packaging_image_url: productData.packaging_image_url,
-            thumbnails: thumbnails,
-            priceRange: "₹0.930 /per unit",
-            priceRangeAlt: "₹0.930 /per unit",
+            ...productData,
+            thumbnails: [
+              productData.packaging_image_url,
+              productData.packaging_image_icon_url || productData.packaging_image_url,
+              productData.packaging_image_url,
+            ]
           });
+          
+          // Once we have the product data, fetch all related options
+          await fetchFormOptions(productData.packaging_id);
+        } else {
+          // Handle case where product is not found
+          console.error("Product not found");
         }
       }
     } catch (error) {
-      console.error(error.response ? error.response.data : error.message);
+      console.error("Product fetch error:", error);
     } finally {
       setLoading(false);
     }
   }
-  
-  const handleQuantityChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value >= (product?.minimum_qty || 1)) {
-      setQuantity(value);
+
+  async function fetchFormOptions(packagingId) {
+    try {
+      // Fetch materials and sizes in parallel
+      const [materialsRes, sizesRes, addonsRes] = await Promise.all([
+        axios.get(`${baseUrl}/api/v1/resources/material`),
+        axios.get(`${baseUrl}/api/v1/resources/list-packaging-type-size/${packagingId}`),
+        axios.get(`${baseUrl}/api/v1/resources/list-additions/${packagingId}`),
+      ]);
+
+      setMaterials(materialsRes.data?.data || []);
+      setSizes(sizesRes.data?.data || []);
+      setAddons(addonsRes.data?.data || []);
+
+    } catch (error) {
+      console.error("Form options error:", error);
     }
+  }
+
+  async function fetchQuantities(sizeId) {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/api/v1/resources/list-packaging-type-size-quantity/${selectedSizeId}`
+      );
+      
+      if (response.status === 200) {
+        const quantitiesData = response.data.data.map(item => ({
+          quantity_id: item.quantityId.quantity_id,
+          quantity: item.quantityId.quantity,
+          price: item.quantityId.price,
+          design_number: item.quantityId.design_number
+        }));
+        setQuantities(quantitiesData);
+      }
+    } catch (error) {
+      console.error("Quantities fetch error:", error);
+    }
+  }
+  
+  // In the handleSizeChange function
+  const handleSizeChange = (e) => {
+    const sizeValue = e.target.value;
+    setSelectedSize(sizeValue);
+    
+    // Find the corresponding size object
+    const sizeObj = sizes.find(s => 
+      s.size_id?.toString() === sizeValue || 
+      s.sizeId?.size_id?.toString() === sizeValue
+    );
+  
+    if (sizeObj) {
+      // Extract packaging_type_size_id from nested structure
+      const packagingTypeSizeId = sizeObj.packaging_type_size_id || sizeObj.sizeId?.packaging_type_size_id;
+      if (packagingTypeSizeId) {
+        setSelectedSizeId(packagingTypeSizeId);
+      }
+    }
+    
+    setSelectedQuantity("");
   };
 
   const handleAddToCart = () => {
-    // Implement add to cart functionality
-    console.log(`Adding ${quantity} of ${product.name} to cart`);
-    router.push('/packaging-type');
+    if (!product) return;
+
+    // Find the selected items from their respective arrays
+    const selectedMaterialItem = materials.find(m => m.material_id.toString() === selectedMaterial);
+    const selectedSizeItem = sizes.find(s => (s.size_id || s.sizeId?.size_id).toString() === selectedSize);
+    const selectedQuantityItem = quantities.find(q => q.quantity_id.toString() === selectedQuantity);
+    const selectedAddonItem = addons.find(a => a.additions_id.toString() === selectedAddon);
+    
+    // Get proper price from selected quantity
+    const price = selectedQuantityItem?.price || product.price;
+    
+    // Create proper addon object format as expected by Cart component
+    let addonFormatted = null;
+    if (selectedAddonItem) {
+      addonFormatted = {
+        id: selectedAddonItem.additions_id,
+        name: selectedAddonItem.additions_title,
+        price: selectedAddonItem.additions_price || 0
+      };
+    }
+
+    const cartItem = {
+      packaging_id: product.packaging_id,
+      name: product.name,
+      image: product.packaging_image_url,
+      material: selectedMaterialItem?.name || "",
+      material_id: selectedMaterial,
+      size: selectedSizeItem?.name || selectedSizeItem?.sizeId?.name || "",
+      size_id: selectedSize,
+      packaging_type_size_id: selectedSizeId,
+      quantity: selectedQuantityItem?.quantity || "",
+      quantity_id: selectedQuantity,
+      packaging_type_size_quantity_id: selectedQuantity,
+      price: price,
+      design_number: selectedQuantityItem?.design_number,
+      // Format addons correctly for cart component
+      addons: selectedAddonItem ? [addonFormatted] : []
+    };
+
+    // Dispatch to Redux store
+    dispatch(addToCart(cartItem));
+    
+    // Also save to localStorage as backup
+    localStorage.setItem("lastOrder", JSON.stringify(cartItem));
+    
+    // Navigate to cart page
+    router.push("/cart");
   };
 
-  const handleGoBack = () => {
-    router.back();
-  };
+  // Add to cart button is disabled if required fields are not selected
+  const isAddToCartDisabled = !selectedMaterial || !selectedSize || !selectedQuantity;
 
-  const handleImageClick = (index) => {
-    setSelectedImage(index);
-  };
-
-  const handleCustomize = () => {
-    router.push('/packaging-type')
-    console.log("Customize now clicked");
-    // Implement customize functionality
-  };
-
-  if (loading) {
-    return (
-      <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <div className="w-full flex flex-col gap-4 sm:gap-8">
-          <ProductSkeleton height="lg" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <div className="w-full flex flex-col items-center gap-4">
-          <h1 className="text-xl sm:text-2xl font-bold">Product Not Found</h1>
-          <Button onClick={handleGoBack} color="primary">
-            Go Back
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <ProductSkeleton />;
+  if (!product) return <div className="w-full text-center py-12 text-lg">Product Not Found</div>;
 
   return (
     <div className="w-full bg-white max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        {/* Left column - Image gallery */}
+        {/* Image Gallery */}
         <div className="flex flex-col sm:flex-row gap-4">
-          {/* Thumbnails section - stacked vertically on mobile, horizontally on small devices, vertically on medium+ */}
-          <div className="flex flex-row sm:flex-col md:flex-col gap-2 sm:gap-3 order-2 sm:order-1 justify-center sm:justify-start overflow-x-auto sm:overflow-visible">
+          <div className="flex flex-row sm:flex-col md:flex-col gap-2 sm:gap-3 order-2 sm:order-1">
             {product.thumbnails.map((thumbnail, index) => (
               <div 
                 key={index} 
-                className={`min-w-16 w-16 h-16 sm:w-20 sm:h-20 border cursor-pointer ${selectedImage === index ? 'border-blue-500' : 'border-gray-200'}`}
-                onClick={() => handleImageClick(index)}
+                className={`min-w-16 w-16 h-26 sm:w-20 sm:h-30 border cursor-pointer ${selectedImage === index ? 'border-blue-500' : 'border-gray-200'}`}
+                onClick={() => setSelectedImage(index)}
               >
-                <div className="relative w-full h-full">
-                  <Image 
-                    src={thumbnail} 
-                    alt={`${product.name} thumbnail ${index + 1}`} 
-                    fill 
-                    className="object-cover"
-                  />
-                </div>
+                <Image 
+                  src={thumbnail} 
+                  alt={`Thumbnail ${index + 1}`} 
+                  width={70}
+                  height={80}
+                  className="object-contain"
+                />
               </div>
             ))}
           </div>
-          
-          {/* Main image */}
-          <div className="relative w-full h-48 xs:h-64 sm:h-72 md:h-80 lg:h-96 order-1 sm:order-2 mb-2 sm:mb-0">
+          <div className="relative w-full h-96 order-1 sm:order-2">
             <Image 
               src={product.thumbnails[selectedImage]} 
               alt={product.name} 
-              fill 
+              fill
               className="object-contain"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority
             />
           </div>
         </div>
-        
-        {/* Right column - Product details */}
-        <div className="flex flex-col gap-3 sm:gap-4">
-          {/* Product name with dropdown indicator */}
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl sm:text-2xl font-medium text-gray-800">{product.name}</h1>
-            <svg 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-blue-500"
-            >
-              <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
+
+        {/* Product Form */}
+        <div className="flex flex-col gap-6">
+          <h1 className="text-2xl font-bold text-gray-800">{product.name}</h1>
           
-          {/* Product description */}
-          <p className="text-gray-600 text-sm">
-            {product.description}
-          </p>
-          
-          {/* Promotional price */}
-          <div className="mt-1 sm:mt-2">
-            <p className="text-xs sm:text-sm text-gray-500">Promotional Price</p>
-            <p className="text-base sm:text-lg font-medium">{product.price}</p>
-          </div>
-          
-          {/* Production time */}
-          <div>
-            <p className="text-xs sm:text-sm text-gray-500">Production</p>
-            <p className="text-base sm:text-lg font-medium">{product.time}</p>
-          </div>
-          
-          {/* Minimum quantity */}
-          <div className="flex items-center justify-between sm:justify-start sm:gap-16 mt-2 sm:mt-4">
-            <div>
-              <p className="text-xs sm:text-sm text-gray-500">Minimum Quantity:</p>
-              <p className="text-sm sm:text-base font-medium">{product.minimum_qty}</p>
+          <div className="space-y-4">
+            {/* Material Select */}
+            <div className="flex flex-col gap-2">
+              <label className="font-medium">Select Material</label>
+              <select
+                className="p-2 border rounded-md"
+                value={selectedMaterial}
+                onChange={(e) => setSelectedMaterial(e.target.value)}
+              >
+                <option value="">Choose material</option>
+                {materials.map((material) => (
+                  <option key={material.material_id} value={material.material_id}>
+                    {material.name} (₹{material.price})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Size Select */}
+            <div className="flex flex-col gap-2">
+              <label className="font-medium">Choose Size</label>
+              <select
+                className="p-2 border rounded-md"
+                value={selectedSize}
+                onChange={handleSizeChange}
+              >
+                <option value="">Select size</option>
+                {sizes.map((size) => (
+                  <option key={size.size_id || size.sizeId?.size_id} value={size.size_id || size.sizeId?.size_id}>
+                    {size.name || size.sizeId?.name}
+                  </option>
+                ))}
+              </select>
+              {selectedSize && (
+                <p className="text-sm text-gray-500">
+                  {sizes.find(s => s.size_id?.toString() === selectedSize || s.sizeId?.size_id?.toString() === selectedSize)?.dimensions || 
+                  sizes.find(s => s.size_id?.toString() === selectedSize || s.sizeId?.size_id?.toString() === selectedSize)?.sizeId?.dimensions}
+                </p>
+              )}
+            </div>
+
+            {/* Quantity Select */}
+            <div className="flex flex-col gap-2">
+              <label className="font-medium">Set Quantity</label>
+              <select
+                className="p-2 border rounded-md"
+                value={selectedQuantity}
+                onChange={(e) => setSelectedQuantity(e.target.value)}
+                disabled={!selectedSize}
+              >
+                <option value="">Select quantity</option>
+                {quantities.map((qty) => (
+                  <option key={qty.quantity_id} value={qty.quantity_id}>
+                    {qty.quantity} units - ₹{Number(qty.price).toFixed(2)}
+                    {qty.design_number && ` (${qty.design_number} designs included)`}
+                  </option>
+                ))}
+              </select>
+              {!selectedSize && quantities.length === 0 && (
+                <p className="text-sm text-gray-500">Please select a size first</p>
+              )}
+            </div>
+
+            {/* Addons Select */}
+            <div className="flex flex-col gap-2">
+              <label className="font-medium">Add-Ons (optional)</label>
+              <select
+                className="p-2 border rounded-md"
+                value={selectedAddon}
+                onChange={(e) => setSelectedAddon(e.target.value)}
+              >
+                <option value="">Select add-on</option>
+                {addons.map((addon) => (
+                  <option key={addon.additions_id} value={addon.additions_id}>
+                    {addon.additions_title} {addon.additions_price && `(+₹${addon.additions_price})`}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
-          
-          {/* Price range */}
-          <div className="mt-1 sm:mt-2">
-            <p className="text-xs sm:text-sm text-gray-500">Price Range:</p>
-            <p className="text-sm sm:text-base font-medium">{product.priceRange}</p>
-          </div>
-          
-          {/* Price range alternate */}
-          {/* <div>
-            <p className="text-xs sm:text-sm text-gray-500">Price Range:</p>
-            <p className="text-sm sm:text-base font-medium">{product.priceRangeAlt}</p>
-          </div> */}
-          
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-3 sm:mt-4">
-            <Button 
-              className="w-full sm:flex-1 bg-white border border-blue-500 text-blue-500 rounded-md text-sm sm:text-base py-2"
-              onClick={handleCustomize}
-            >
-              <svg 
-                width="16" 
-                height="16" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg"
-                className="mr-1 sm:mr-2"
-              >
-                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
-              </svg>
-              Customize now
-            </Button>
-            
-            <Button 
-              className="w-full sm:flex-1 bg-blue-500 text-white rounded-md text-sm sm:text-base py-2"
-              onClick={handleAddToCart}
-            >
-              <svg 
-                width="16" 
-                height="16" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg"
-                className="mr-1 sm:mr-2"
-              >
-                <path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4h-.01l-1.1 2-2.76 5H8.53l-.13-.27L6.16 6l-.95-2-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.13 0-.25-.11-.25-.25z" fill="currentColor"/>
-              </svg>
-              Add to cart
-            </Button>
+
+          <Button
+            className={`w-full py-4 font-medium text-lg ${isAddToCartDisabled 
+              ? "bg-gray-300 cursor-not-allowed" 
+              : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+            onClick={handleAddToCart}
+            disabled={isAddToCartDisabled}
+          >
+            Add to Cart
+          </Button>
+
+          <div className="mt-4 space-y-2 p-4 bg-gray-50 rounded-lg">
+            <p className="text-lg font-semibold">Price Summary</p>
+            <p className="text-gray-600">Base Price: {product.price}</p>
+            <p className="text-gray-600">Production Time: {product.delivery_time}</p>
+            <p className="text-gray-600">Minimum Quantity: {product.minimum_qty}</p>
           </div>
         </div>
-      </div>  
-
-      <div className="w-full text-left mb-2 md:mb-4 mt-20 text-[#143761]">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-medium">
-          Recomendations..
-        </h1>
       </div>
-      <Recomended_product/>
+
+      <div className="mt-20">
+        <h2 className="text-2xl font-bold text-[#143761] mb-6">Recommended Products</h2>
+        <Recomended_product />
+      </div>
     </div>
   );
 }

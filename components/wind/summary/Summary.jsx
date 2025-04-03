@@ -14,7 +14,7 @@ const Summary = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [pricePerItem, setPricePerItem] = useState(0);
   const router = useRouter();
-
+  
   console.log(cartItem);
   
 

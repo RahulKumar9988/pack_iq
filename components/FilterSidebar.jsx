@@ -106,7 +106,7 @@ const FilterSidebar = ({ cartItem }) => {
     setLoading(prev => ({ ...prev, quantities: true }));
     try {
       const response = await axios.get(
-        `${baseUrl}/api/v1/resources/list-packaging-type-size-quantity/${packagingTypeSizeId}`
+        `${baseUrl}/api/v1/resources/list-packaging-type-size-quantity/${packagingId}`
       );
       if (response.data.status === 200) {
         const responseData = response.data.data.map((ele) => ({
@@ -116,6 +116,8 @@ const FilterSidebar = ({ cartItem }) => {
         }));
         setQuantities(responseData);
       }
+      console.log(response.data);
+      
     } catch (err) {
       setError(prev => ({ ...prev, quantities: err.message }));
     } finally {
