@@ -96,7 +96,7 @@ const ProfileSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center"
+        className=" rounded-2xl shadow-lg p-8 max-w-md w-full text-center"
       >
         <div className="mb-6 flex justify-center">
           <div className="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center">
@@ -125,7 +125,7 @@ const ProfileSection = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-white border border-indigo-600 text-indigo-600 py-3 px-6 rounded-xl font-medium flex items-center justify-center space-x-2"
+              className="w-full  border border-indigo-600 text-indigo-600 py-3 px-6 rounded-xl font-medium flex items-center justify-center space-x-2"
             >
               <FiArrowRight className="w-5 h-5" />
               <span>Create Account</span>
@@ -141,7 +141,7 @@ const ProfileSection = () => {
   );
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen`}>
       <div className="w-full mx-auto py-2 ">
         {!auth ? (
           <NotLoggedInView />
@@ -149,7 +149,7 @@ const ProfileSection = () => {
           <div className="grid lg:grid-cols-12 gap-6">
             {/* Sidebar */} 
             <div className="lg:col-span-3 space-y-6">
-              <div className="md:h-[100vh] h-a bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm">
+              <div className="md:h-[100vh] h-a  dark:bg-gray-800 p-6 rounded-2xl shadow-sm">
                 <div className="flex items-center space-x-4 mb-6">
                   <img 
                     src={userDetails.user.user_image_url} 
@@ -193,10 +193,10 @@ const ProfileSection = () => {
             {/* Main Content */}
             <div className="lg:col-span-9">
               {activeTab === "overview" && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 space-y-6">
+                <div className=" dark:bg-gray-800 rounded-2xl shadow-sm p-6 space-y-6">
                   <h2 className="text-xl font-bold dark:text-white mb-4">Profile Overview</h2>
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                    <div className=" p-4 rounded-xl">
                       <div className="flex items-center space-x-4 mb-2">
                         <FiUser className="w-6 h-6 text-indigo-600" />
                         <h3 className="font-semibold dark:text-white">Personal Information</h3>
@@ -208,7 +208,7 @@ const ProfileSection = () => {
                       </div>
                     </div>
 
-                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                    <div className=" p-4 rounded-xl">
                       <div className="flex items-center space-x-4 mb-2">
                         <FiMapPin className="w-6 h-6 text-indigo-600" />
                         <h3 className="font-semibold dark:text-white">Contact Address</h3>
@@ -220,7 +220,7 @@ const ProfileSection = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                  <div className=" p-4 rounded-xl">
                     <div className="flex items-center space-x-4 mb-2">
                       <FiShoppingBag className="w-6 h-6 text-indigo-600" />
                       <h3 className="font-semibold dark:text-white">Total order</h3>
@@ -235,7 +235,7 @@ const ProfileSection = () => {
 
               {/* Addresses Tab */}
               {activeTab === "addresses" && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6">
+                <div className=" dark:bg-gray-800 rounded-2xl shadow-sm p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold dark:text-white">My Addresses</h2>
                   </div>
@@ -247,7 +247,7 @@ const ProfileSection = () => {
 
               {/* Previous Orders Tab */}
               {activeTab === "orders" && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm py-4 w-full">
+                <div className=" dark:bg-gray-800 rounded-2xl shadow-sm py-4 w-full">
                   <div className="flex flex-col items-start justify-between mb-6">
                     <div className="flex justify-end w-full px-10">
                       <Link href='/orders-history' className="font-semibold underline hover:text-blue-950"> View all Orders</Link>

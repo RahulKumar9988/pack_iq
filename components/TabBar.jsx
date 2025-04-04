@@ -17,10 +17,10 @@ export default function TabBar({ content }) {
   );
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full  bg-[#fffef7]">
       <Tabs
         aria-label="Options"
-        color="default"
+        color="#fffef7"
         variant="underlined"
         classNames={{
           base: "w-full",
@@ -39,7 +39,7 @@ export default function TabBar({ content }) {
               title={
                 <div>
                   <div
-                  className="flex max-mobile:justify-between items-center gap-2"
+                  className="flex max-mobile:justify-between items-center gap-2  bg-[#fffef7]"
                   style={{ pointerEvents: "none" }}
                 >
                   <span

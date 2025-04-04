@@ -208,7 +208,7 @@ export default function Cart() {
 
   // Loading overlay component
   const LoadingOverlay = () => (
-    <div className="fixed inset-0 bg-white bg-opacity-80 z-50 flex items-center justify-center">
+    <div className="fixed inset-0  bg-opacity-80 z-50 flex items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-700"></div>
         <p className="mt-4 text-lg font-medium text-gray-700">Processing your order...</p>
@@ -242,7 +242,7 @@ export default function Cart() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="shadow-md rounded-xl overflow-hidden">
+              <Card className="shadow-md rounded-xl overflow-hidden bg-[#fffef7]">
                 <CardBody className="p-4 md:p-6">
                   <div className="flex flex-col sm:flex-row gap-6">
                     {/* Product Image */}
@@ -284,12 +284,13 @@ export default function Cart() {
                           <p>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></p>
                           {/* <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p> */}
                           <p>Additions: <span className="font-medium">{cartItem.addons ? (
-                  Array.isArray(cartItem.addons) ? 
-                    cartItem.addons.map(addon => addon.name).join(', ') || "Not selected" : 
-                    typeof cartItem.addons === 'object' ? 
-                      cartItem.addons.name || "Not selected" : 
-                      cartItem.addons
-                ) : "Not selected"}</span></p>
+                              Array.isArray(cartItem.addons) ? 
+                                cartItem.addons.map(addon => addon.name).join(', ') || "Not selected" : 
+                                typeof cartItem.addons === 'object' ? 
+                                  cartItem.addons.name || "Not selected" : 
+                                  cartItem.addons
+                            ) : "Not selected"}</span>
+                          </p>
                           <p>Quantity: <span className="font-medium">{cartItem.quantity || "N/A"}</span></p>
                         </div>
                       </div>
@@ -297,26 +298,25 @@ export default function Cart() {
                       <Divider className="my-4" />
                       
                       {/* Product Options */}
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#fffef7]">
+                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto bg-[#fffef7]">
                           <Select
                             aria-label="Select size"
                             name="size"
-                            label="Size"
                             placeholder="Select size"
-                            className="w-full sm:w-40"
+                            className="w-full sm:w-40 bg-[#fffef7]"
                             selectedKeys={value.size ? [value.size] : []}
                             onChange={handleSelectionChange}
                             isDisabled={loading}
                           >
                             {constants.size.length > 0 ? (
                               constants.size.map((ele) => (
-                                <SelectItem key={ele.packaging_type_size_id.toString()}>
+                                <SelectItem className="bg-[#fffef7]" key={ele.packaging_type_size_id.toString()}>
                                   {ele.size}
                                 </SelectItem>
                               ))
                             ) : (
-                              <SelectItem key="loading">
+                              <SelectItem className="bg-[#fffef7]" key="loading">
                                 {loading ? "Loading..." : "No sizes available"}
                               </SelectItem>
                             )}
@@ -325,21 +325,20 @@ export default function Cart() {
                           <Select
                             aria-label="Select quantity"
                             name="quantity"
-                            label="Quantity"
                             placeholder="Select quantity"
-                            className="w-full sm:w-40"
+                            className="w-full sm:w-40 bg-[#fffef7]"
                             selectedKeys={value.quantity ? [value.quantity] : []}
                             onChange={handleSelectionChange}
                             isDisabled={loading || constants.quantity.length === 0}
                           >
                             {constants.quantity.length > 0 ? (
                               constants.quantity.map((ele) => (
-                                <SelectItem key={ele.packaging_type_size_quantity_id.toString()}>
+                                <SelectItem className="bg-[#fffef7]" key={ele.packaging_type_size_quantity_id.toString()}>
                                   {ele.quantity}
                                 </SelectItem>
                               ))
                             ) : (
-                              <SelectItem key="loading">
+                              <SelectItem className="bg-[#fffef7]" key="loading">
                                 {loading ? "Loading..." : "Select size first"}
                               </SelectItem>
                             )}
@@ -364,7 +363,7 @@ export default function Cart() {
               </Card>
             </motion.div>
           ) : (
-            <Card className="shadow-xs flex ">
+            <Card className="shadow-xs flex bg-[#fffef7]">
               <CardBody className="py-12">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <div className="text-6xl text-gray-300">🛒</div>
@@ -386,7 +385,7 @@ export default function Cart() {
         {Object.keys(cartItem).length ? (
           <div className="w-full lg:w-2/5 lg:sticky lg:top-24 self-start">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Order Summary</h1>
-            <Card className="shadow-md rounded-xl">
+            <Card className="shadow-md rounded-xl bg-[#fffef7]">
               <CardBody className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between text-gray-700">

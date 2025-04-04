@@ -8,7 +8,7 @@ import InfiniteScrollWallpaper2 from "./InfiniteScrollWallpaper2";
 export default function HeroSection({ inter }) {
   const router = useRouter();
   return (
-    <div className="flex flex-col w-full h-full top-20">
+    <div className="flex flex-col w-full h-full top-20 bg-[#fffef7]">
       <div className="h-full">
         {/* Mobile Hero Section */}
         

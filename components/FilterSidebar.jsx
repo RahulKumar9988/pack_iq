@@ -299,7 +299,7 @@ const FilterSidebar = ({ cartItem }) => {
   ];
 
   return (
-    <div className="w-full bg-white shadow rounded-lg p-4 border border-gray-200">
+    <div className="w-full  shadow rounded-lg p-4 border border-gray-200">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-gray-800">Filters</h2>
         <button 

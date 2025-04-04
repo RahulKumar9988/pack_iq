@@ -129,7 +129,7 @@ const TestimonialSection = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center bg-[#F5F5F7] py-16">
+    <div className="flex flex-col justify-center items-center bg-[#fffef7] py-16">
       <h2 className="text-center font-semibold text-[#143761] text-3xl mb-8">
         Accelerating Innovations In<br />Packaging
       </h2>

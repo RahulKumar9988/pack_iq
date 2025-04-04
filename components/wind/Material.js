@@ -84,7 +84,7 @@ export default function Material() {
   return (
     <>
       <div
-        className={`${poppins.className} flex max-mobile:flex-col h-full justify-between max-mobile:max-w-screen-mobile gap-5 mb-[72px]`}
+        className={`${poppins.className} flex max-mobile:flex-col h-full justify-between max-mobile:max-w-screen-mobile gap-5 mb-[72px]  bg-[#fffef7]`}
       >
         <div className="grid max-mobile:grid-cols-1 ml:grid-cols-2 w-full ml:w-4/5 gap-5 flex-col h-fit">
           {materials.map((ele, i) => {
@@ -93,7 +93,7 @@ export default function Material() {
                 className={`text-black h-fit p-3 cursor-pointer transition-all duration-300 hover:bg-slate-100 group ${
                   selectedMaterial === ele.material_id
                     ? "bg-[#ebeeef] shadow-lg border-2"
-                    : "bg-white"
+                    : " bg-[#fffef7]"
                 }`}
                 key={i}
                 onClick={() => handleMaterialSelect(ele)}

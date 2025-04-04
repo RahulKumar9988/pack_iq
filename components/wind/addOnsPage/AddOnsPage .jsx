@@ -169,7 +169,7 @@ const AddOnsPage = () => {
           : isActive
             ? 'border-2 border-blue-300'
             : 'border border-gray-200 hover:border-blue-300'
-      } ${isHovered } bg-white`
+      } ${isHovered } `
     }, 
       e('div', { className: 'p-4 sm:p-6 relative overflow-hidden' },
         isSelected && e('div', {
@@ -224,7 +224,7 @@ const AddOnsPage = () => {
 
   // Render loading state
   if (loading) {
-    return e('div', { className: 'min-h-screen flex items-center justify-center bg-white' },
+    return e('div', { className: 'min-h-screen flex items-center justify-center ' },
       e('div', { className: 'text-center' },
         e('div', { className: 'w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4' }),
         e('p', { className: 'text-blue-900 font-medium' }, 'Loading add-ons...')
@@ -234,7 +234,7 @@ const AddOnsPage = () => {
 
   // Render error state
   if (error) {
-    return e('div', { className: 'min-h-screen flex items-center justify-center bg-white' },
+    return e('div', { className: 'min-h-screen flex items-center justify-center' },
       e('div', { className: 'text-center max-w-md mx-auto p-6 rounded-xl border border-red-200 bg-red-50' },
         e('p', { className: 'text-red-600 font-medium mb-4' }, error),
         e('button', {
@@ -246,13 +246,13 @@ const AddOnsPage = () => {
   }
 
   return e('div', { 
-    className: 'min-h-screen bg-white text-blue-900 relative'
+    className: 'min-h-screen text-blue-900 relative'
   },
     e('div', { className: 'max-w-6xl mx-auto relative z-10' },
       // Header
 
       e('div', {
-        className: 'fixed bottom-0 left-0 w-full bg-white border-t shadow-md p-4 z-50 md:relative md:mt-1 md:shadow-none md:border-t-0 md:p-0'
+        className: 'fixed bottom-0 left-0 w-full border-t shadow-md p-4 z-50 md:relative md:mt-1 md:shadow-none md:border-t-0 md:p-0'
       },
         e('div', {
           className: 'max-w-6xl mx-auto flex justify-between items-center'

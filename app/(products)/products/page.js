@@ -12,7 +12,7 @@ export default function Page() {
   };
 
   return (
-    <div className=" mx-auto relative w-full py-6 px-4 sm:px-6 lg:px-8">
+    <div className=" mx-auto relative w-full py-6 px-4 sm:px-6 lg:px-8 bg-[#fffef7]">
       {/* Mobile Floating Filter Button */}
       <div className="md:hidden fixed bottom-6 right-6 z-30">
         <button

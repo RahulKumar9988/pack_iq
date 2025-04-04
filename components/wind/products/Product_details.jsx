@@ -228,26 +228,26 @@ export default function ProductDetail() {
   const currentSize = sizes.find(s => getSizeId(s)?.toString() === selectedSize?.toString());
 
   return (
-    <div className="w-full bg-white mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+    <div className="w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 bg-[#fffef7]">
       {/* Main content container with responsive max width */}
-      <div className=" mx-auto">
+      <div className="mx-auto">
         {/* Product grid with improved responsiveness */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+        <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
           {/* Image Gallery - Enhanced for better user experience */}
-          <div className="flex flex-col gap-4 h-full">
+          <div className="w-full flex flex-col gap-4 h-full">
             {/* Main product image with zoom effect on hover */}
-            <div className="relative w-full h-64 sm:h-80 md:h-full lg:h-[450px] rounded-lg overflow-hidden shadow-sm group">
+            <div className="relative w-full h-full rounded-lg overflow-hidden group">
               <Image 
                 src={product.thumbnails[selectedImage]} 
-                alt={product.name} 
+                alt={`${product.name} - Image ${selectedImage + 1}`} 
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
-                className="object-contain"
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
                 priority
               />
               
-              {/* Navigation arrows for desktop */}
-              <div className="hidden sm:flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
+              {/* Navigation arrows for all devices */}
+              <div className="flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
                 <button 
                   onClick={() => setSelectedImage(prev => prev === 0 ? product.thumbnails.length - 1 : prev - 1)}
                   className="bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all"
@@ -268,52 +268,58 @@ export default function ProductDetail() {
                 </button>
               </div>
               
-              {/* Image counter indicator */}
-              <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+              {/* Image counter indicator with improved contrast */}
+              <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-3 py-1 rounded-full font-medium">
                 {selectedImage + 1}/{product.thumbnails.length}
               </div>
             </div>
             
-            {/* Thumbnails row - with scroll indicators and active state */}
-            <div className="relative">
-              {/* Scroll indicators for mobile */}
-              <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full pointer-events-none">
-                <div className="bg-gradient-to-r from-white to-transparent w-6 h-16 z-10"></div>
-                <div className="bg-gradient-to-l from-white to-transparent w-6 h-16 z-10"></div>
+            {/* Thumbnails row - more accessible and responsive */}
+            <div className="relative mt-2">
+              {/* Improved scroll indicators */}
+              <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full pointer-events-none z-10">
+                <div className="bg-gradient-to-r from-white via-white/80 to-transparent w-8 h-20"></div>
+                <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-8 h-20"></div>
               </div>
               
-              <div className=" justify-center h-28 mt-0 md:mt-10 flex flex-row gap-2 overflow-x-auto pb-2 px-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent scroll-smooth">
+              <div 
+                className="flex justify-start sm:justify-center h-24 gap-3 overflow-x-auto py-2 px-1 snap-x snap-mandatory scroll-smooth"
+                role="region" 
+                aria-label="Product image thumbnails"
+              >
                 {product.thumbnails.map((thumbnail, index) => (
-                  <div 
+                  <button 
                     key={index} 
-                    className={`min-w-16 w-16 h-16 sm:w-20 sm:h-20 border rounded cursor-pointer flex-shrink-0 snap-center transition-all duration-200 hover:opacity-90 ${
+                    className={`min-w-20 w-20 h-20 border rounded-md flex-shrink-0 snap-center transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                       selectedImage === index 
-                        ? 'border-blue-500 border-2 shadow-md scale-105' 
-                        : 'border-gray-200 opacity-80'
+                        ? 'border-blue-500 border-2 shadow-md scale-110' 
+                        : 'border-gray-200 opacity-80 hover:opacity-100'
                     }`}
                     onClick={() => setSelectedImage(index)}
+                    aria-label={`View product image ${index + 1} of ${product.thumbnails.length}`}
+                    aria-pressed={selectedImage === index}
                   >
                     <div className="relative w-full h-full">
                       <Image 
                         src={thumbnail} 
-                        alt={`Thumbnail ${index + 1}`} 
+                        alt="" 
                         fill
                         sizes="80px"
                         className="object-contain p-1"
                       />
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
           </div>
 
           {/* Product Form - With better spacing and responsive padding */}
-          <div className="flex flex-col gap-4 sm:gap-6 px-1 sm:px-4 lg:px-8 border-1 md:p-10 p-0 shadow-md rounded-lg">
+          <div className="flex flex-col gap-4 sm:gap-6 px-1 sm:px-4 lg:px-2 border-0 md:border-1 md:p-2 shadow-md rounded-lg">
             <h1 className="text-xl sm:text-2xl font-bold text-[#143761]">{product.name}</h1>
             <p>{product.description}</p>
             
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-3 sm:space-y-4 flex-grow">
               {/* Material Select */}
               <div className="flex flex-col gap-1 sm:gap-2 relative">
                 <label className="font-medium text-sm sm:text-base">Select Material</label>
@@ -321,12 +327,11 @@ export default function ProductDetail() {
                 {/* Dropdown button */}
                 <button 
                   className="p-2 border rounded-md w-full text-sm sm:text-base flex items-center gap-2"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown visibility
-                  type="button" // Prevent form submission if inside a form
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+                  type="button"
                 >
                   {selectedMaterial ? (
                     <>
-                      {/* <img src={selectedMaterial.material_image_url} alt="" className="h-6 w-6" /> */}
                       {materials.find(m => m.material_id.toString() === selectedMaterial)?.name || selectedMaterial}
                     </>
                   ) : (
@@ -334,7 +339,7 @@ export default function ProductDetail() {
                   )}
                 </button>
 
-                {/* Custom Dropdown List - only show when isDropdownOpen is true */}
+                {/* Custom Dropdown List */}
                 {isDropdownOpen && (
                   <ul className="absolute top-full left-0 w-full bg-white border rounded-md shadow-md mt-1 max-h-60 overflow-y-auto z-10">
                     {materials.map((material) => (
@@ -342,8 +347,8 @@ export default function ProductDetail() {
                         key={material.material_id}
                         className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
                         onClick={() => {
-                           setSelectedMaterial(material.material_id.toString()); 
-                          setIsDropdownOpen(false); // Close dropdown after selection
+                          setSelectedMaterial(material.material_id.toString()); 
+                          setIsDropdownOpen(false);
                         }}
                       >
                         <img src={material.material_image_url} alt="" className="h-8 w-8" />
@@ -354,11 +359,10 @@ export default function ProductDetail() {
                 )}
               </div>
               
-              {/* size Select */}
+              {/* Size Select */}
               <div className="flex flex-col gap-1 sm:gap-2 relative">
                 <label className="font-medium text-sm sm:text-base">Choose Size</label>
                 
-                {/* Custom dropdown button */}
                 <button
                   type="button"
                   className="p-2 border rounded-md w-full text-sm sm:text-base text-left flex items-center justify-between"
@@ -426,7 +430,7 @@ export default function ProductDetail() {
                 )}
               </div>
 
-              {/* Quantity Select - Tabular Format */}
+              {/* Quantity Select */}
               <div className="flex flex-col gap-1 sm:gap-2 relative">
                 <label className="font-medium text-sm sm:text-base">Set Quantity</label>
                 
@@ -436,7 +440,6 @@ export default function ProductDetail() {
                   <p className="text-xs sm:text-sm text-gray-500">No quantities available for this size</p>
                 ) : (
                   <>
-                    {/* Custom dropdown button */}
                     <button
                       type="button"
                       className="p-2 border rounded-md w-full text-sm sm:text-base text-left flex items-center justify-between"
@@ -476,7 +479,7 @@ export default function ProductDetail() {
                                   }`}
                                   onClick={() => {
                                     setSelectedQuantity(qty.quantity_id.toString());
-                                    setIsDropdownOpenQuantity(false); // Close dropdown after selection
+                                    setIsDropdownOpenQuantity(false);
                                   }}
                                 >
                                   <td className="px-3 py-2 border-t">{qty.quantity} units</td>
@@ -518,7 +521,6 @@ export default function ProductDetail() {
               <div className="flex flex-col gap-1 sm:gap-2 relative">
                 <label className="font-medium text-sm sm:text-base">Add-Ons (optional)</label>
                 
-                {/* Custom dropdown button */}
                 <button
                   type="button"
                   className="p-2 border rounded-md w-full text-sm sm:text-base text-left flex items-center justify-between"
@@ -537,7 +539,7 @@ export default function ProductDetail() {
                 
                 {/* Dropdown with images */}
                 {isDropdownOpenAddon && (
-                  <ul className="absolute top-full left-0 w-full bg-white border rounded-md shadow-md mt-1 max-h-60 overflow-y-auto z-10">
+                  <ul className="absolute top-full left-0 w-full bg-gray-50 border rounded-md shadow-md mt-1 max-h-60 overflow-y-auto z-10">
                     <li
                       className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
                       onClick={() => {
@@ -574,10 +576,8 @@ export default function ProductDetail() {
                           )}
                         </div>
                         <div>
-                          
                           <p>{addon.additions_title}</p>
                           <p className="text-xs">{addon.additions_desc}</p>
-                          
                         </div>
                       </li>
                     ))}
@@ -609,7 +609,7 @@ export default function ProductDetail() {
         </div>
 
         {/* Recommended Products section */}
-        <div className="mt-12 sm:mt-16 md:mt-20">
+        <div className="mt-10">
           <h2 className="text-xl sm:text-2xl font-bold text-[#143761] mb-4 sm:mb-6">Recommended Products</h2>
           <Recomended_product />
         </div>

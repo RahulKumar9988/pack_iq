@@ -82,18 +82,18 @@ export default function Layout({ children }) {
     previousIndex === 0 ? "/" : `/${pageOrder[previousIndex]}`;
 
   return (
-    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 w-full md:mt-0 px-2 md:px-16">
-      <div className="mt-8 md:block hidden">
+    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 w-full md:mt-0 px-2 md:px-16 bg-[#fffef7]">
+      <div className="mt-8 md:block hidden  bg-[#fffef7]">
         <TabBar content={content} />
       </div>
-      <div className="flex flex-col gap-[35px] max-mobile:gap-5 flex-grow">
-        <div className="flex mobile:gap-3 items-start">
+      <div className="flex flex-col gap-[35px] max-mobile:gap-5 flex-grow  bg-[#fffef7]">
+        <div className="flex mobile:gap-3 items-start  bg-[#fffef7]">
           <Link className="max-md:hidden" href={previousPage}>
             <IoArrowBackCircleOutline size={24} color="#081F38" />
           </Link>
           <NavDetails content={content} />
         </div>
-        <div className="flex flex-col flex-grow justify-between">
+        <div className="flex flex-col flex-grow justify-between  bg-[#fffef7]">
           {children}
         </div>
       </div>

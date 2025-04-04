@@ -148,7 +148,7 @@ export default function Size() {
                 >
                   <span
                     aria-hidden="true"
-                    className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before:bg-default-100 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-6 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
+                    className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before: bg-[#fffef7]outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-6 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
                   >
                     <svg
                       aria-hidden="true"
@@ -198,7 +198,7 @@ export default function Size() {
                         aria-label={ele.size}
                         classNames={{
                           base: cn(
-                            "inline-flex h-[80px] max-w-full w-full bg-content1 m-0",
+                            "inline-flex h-[80px] max-w-full w-full  bg-[#fffef7] m-0",
                             "hover:bg-content2 items-center justify-start",
                             "cursor-pointer gap-2 p-5 max-xs:rounded-xl max-xs:border-2 xs:last:border-none border-b-2 max-md:first:rounded-t-xl last:rounded-b-xl"
                           ),
@@ -291,7 +291,7 @@ export default function Size() {
           Confirm
         </Link>
       </div>
-      <div className="ml:hidden z-50 fixed bg-white left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
+      <div className="ml:hidden z-50 fixed left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
         <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
           <div className="text-[#03172B80]">Price</div>
           <div className="font-semibold">{cartItem.price}</div>

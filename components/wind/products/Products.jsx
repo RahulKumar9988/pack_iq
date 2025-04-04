@@ -120,7 +120,7 @@ export default function Products() {
   }
 
   return (
-    <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div className="bg-[#fffef7] w-full max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       {loading ? (
         // Responsive skeleton grid
         <div className="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
@@ -135,17 +135,17 @@ export default function Products() {
           No products found matching your filters
         </div>
       ) : (
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full bg-[#fffef7]">
           {/* Responsive product grid */}
           <div className="w-full grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {displayedProducts.map((product, index) => (
               <div
                 key={`product-${product.packaging_id}-${index}`}
                 onClick={() => navigateToProductDetail(product.packaging_id)}
-                className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer bg-white h-full"
+                className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer  h-full"
               >
                 {/* Responsive image container */}
-                <div className="relative w-full aspect-square overflow-hidden bg-[#fffef7]">
+                <div className="relative w-full aspect-square overflow-hidden">
                   <Image
                     className="object-contain transition-transform duration-300 group-hover:scale-105 p-2"
                     src={product.packaging_image_url}
@@ -161,7 +161,7 @@ export default function Products() {
                   <div className="font-medium text-xs sm:text-sm md:text-base line-clamp-2 min-h-[2.5rem]">
                     {product.name}
                   </div>
-                  <div className="w-full flex items-center justify-between bg-gray-50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-[#143761] self-start">
+                  <div className="w-full flex items-center justify-between px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-[#143761] self-start">
                     <span className="text-gray-600">Min: </span>
                     <span className="text-gray-600">{product.minimum_qty} units </span>
                   </div>

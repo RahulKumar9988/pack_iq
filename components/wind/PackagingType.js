@@ -79,7 +79,7 @@ export default function PackagingType() {
     return (
       <div className={`grid max-sm:grid-cols-1 max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 gap-4 mb-[72px] ${poppins.className}`}>
         {[1, 2, 3, 4].map((index) => (
-          <div key={index} className=" h-[394px] animate-pulse bg-gray-200 rounded-lg"></div>
+          <div key={index} className=" h-[394px] animate-pulse bg-gray-100 rounded-lg"></div>
         ))}
       </div>
     );
@@ -87,7 +87,7 @@ export default function PackagingType() {
 
   return (
     <div
-      className={`grid max-sm:grid-cols-1 scrollbar-hide max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 mb-[72px] gap-4 ${poppins.className}`}
+      className={`grid max-sm:grid-cols-1 scrollbar-hide max-ml:grid-cols-2 max-lg:grid-cols-3 lg:grid-cols-4 mb-[72px] gap-4 bg-[#fffef7] ${poppins.className}`}
     >
       {productList.map((item, index) => {
         const isHovered = hoveredItem === index;
@@ -104,7 +104,7 @@ export default function PackagingType() {
           >
             <Card
               shadow="sm"
-              className="border-[#E45971] p-4 h-full w-full max-h-[394px] scrollbar-hide overflow-y-auto relative"
+              className="bg-[#fffef7] border-[#E45971] p-4 h-full w-full max-h-[394px] scrollbar-hide overflow-y-auto relative"
             >
               <CardBody className="p-0">
                 <div className="h-full flex gap-5 justify-around items-start pt-2 mobile:items-center mobile:flex-col">
@@ -144,7 +144,7 @@ export default function PackagingType() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0 backdrop-blur-xl bg-[#cee7ff58] z-10 p-4 flex items-center justify-between"
+                    className="absolute inset-0 backdrop-blur-xl bg-[#e3f1ff58] z-10 p-4 flex items-center justify-between"
                   >
                     <div className="h-full text-center flex flex-row md:flex-col justify-around items-start md:items-center gap-5">
                       <Image
