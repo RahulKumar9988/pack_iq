@@ -231,26 +231,26 @@ export default function ProductDetail() {
     <div className="w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 bg-[#fffef7]">
       {/* Main content container with responsive max width */}
       <div className="mx-auto">
-        {/* Product grid with improved responsiveness */}
-        <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-          {/* Image Gallery - Enhanced for better user experience */}
+        {/* Product grid with improved professional styling */}
+        <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+          {/* Image Gallery - Enhanced for professional appearance */}
           <div className="w-full flex flex-col gap-4 h-full">
-            {/* Main product image with zoom effect on hover */}
-            <div className="relative w-full h-full rounded-lg overflow-hidden group">
+            {/* Main product image with subtle zoom effect */}
+            <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md group">
               <Image 
                 src={product.thumbnails[selectedImage]} 
                 alt={`${product.name} - Image ${selectedImage + 1}`} 
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                className="object-contain transition-transform duration-300 group-hover:scale-102"
                 priority
               />
               
-              {/* Navigation arrows for all devices */}
+              {/* Navigation arrows with improved design */}
               <div className="flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
                 <button 
                   onClick={() => setSelectedImage(prev => prev === 0 ? product.thumbnails.length - 1 : prev - 1)}
-                  className="bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all"
+                  className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                   aria-label="Previous image"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -259,7 +259,7 @@ export default function ProductDetail() {
                 </button>
                 <button 
                   onClick={() => setSelectedImage(prev => prev === product.thumbnails.length - 1 ? 0 : prev + 1)}
-                  className="bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all"
+                  className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                   aria-label="Next image"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -268,13 +268,13 @@ export default function ProductDetail() {
                 </button>
               </div>
               
-              {/* Image counter indicator with improved contrast */}
-              <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-3 py-1 rounded-full font-medium">
+              {/* Image counter indicator with improved design */}
+              <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
                 {selectedImage + 1}/{product.thumbnails.length}
               </div>
             </div>
             
-            {/* Thumbnails row - more accessible and responsive */}
+            {/* Thumbnails row - professionally styled */}
             <div className="relative mt-2">
               {/* Improved scroll indicators */}
               <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full pointer-events-none z-10">
@@ -283,17 +283,17 @@ export default function ProductDetail() {
               </div>
               
               <div 
-                className="flex justify-start sm:justify-center h-24 gap-3 overflow-x-auto py-2 px-1 snap-x snap-mandatory scroll-smooth"
+                className="flex gap-3 overflow-x-auto py-2 px-1 snap-x snap-mandatory scroll-smooth hide-scrollbar"
                 role="region" 
                 aria-label="Product image thumbnails"
               >
                 {product.thumbnails.map((thumbnail, index) => (
                   <button 
                     key={index} 
-                    className={`min-w-20 w-20 h-20 border rounded-md flex-shrink-0 snap-center transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    className={`min-w-16 w-16 h-16 border flex-shrink-0 snap-center${
                       selectedImage === index 
-                        ? 'border-blue-500 border-2 shadow-md scale-110' 
-                        : 'border-gray-200 opacity-80 hover:opacity-100'
+                        ? 'border-[#143761] ' 
+                        : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
                     }`}
                     onClick={() => setSelectedImage(index)}
                     aria-label={`View product image ${index + 1} of ${product.thumbnails.length}`}
@@ -304,7 +304,7 @@ export default function ProductDetail() {
                         src={thumbnail} 
                         alt="" 
                         fill
-                        sizes="80px"
+                        sizes="64px"
                         className="object-contain p-1"
                       />
                     </div>
@@ -314,107 +314,113 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Product Form - With better spacing and responsive padding */}
-          <div className="flex flex-col gap-4 sm:gap-6 px-1 sm:px-4 lg:px-2 border-0 md:border-1 md:p-2 shadow-md rounded-lg">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#143761]">{product.name}</h1>
-            <p>{product.description}</p>
+          {/* Product Form - With professional styling and spacing */}
+          <div className="flex flex-col gap-5 p-4 md:p-6 bg-gray-50 border border-gray-100 rounded-lg shadow-sm">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#143761] mb-2">{product.name}</h1>
+              <p className="text-gray-700 text-sm sm:text-base">{product.description}</p>
+            </div>
             
-            <div className="space-y-3 sm:space-y-4 flex-grow">
+            <div className="space-y-5 flex-grow">
               {/* Material Select */}
-              <div className="flex flex-col gap-1 sm:gap-2 relative">
-                <label className="font-medium text-sm sm:text-base">Select Material</label>
+              <div className="flex flex-col gap-2">
+                <label className="font-medium text-sm sm:text-base text-gray-800">Material</label>
 
-                {/* Dropdown button */}
                 <button 
-                  className="p-2 border rounded-md w-full text-sm sm:text-base flex items-center gap-2"
+                  className="p-3 border border-gray-200 rounded-md w-full text-sm sm:text-base flex items-center justify-between hover:border-gray-300 transition-all"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
                   type="button"
                 >
                   {selectedMaterial ? (
-                    <>
-                      {materials.find(m => m.material_id.toString() === selectedMaterial)?.name || selectedMaterial}
-                    </>
+                    <div className="flex items-center gap-3">
+                      <img 
+                        src={materials.find(m => m.material_id.toString() === selectedMaterial)?.material_image_url} 
+                        alt="" 
+                        className="h-6 w-6 object-cover rounded-sm" 
+                      />
+                      <span>{materials.find(m => m.material_id.toString() === selectedMaterial)?.name || selectedMaterial}</span>
+                    </div>
                   ) : (
-                    "Choose material"
+                    <span className="text-gray-500">Choose material</span>
                   )}
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
 
                 {/* Custom Dropdown List */}
                 {isDropdownOpen && (
-                  <ul className="absolute top-full left-0 w-full bg-white border rounded-md shadow-md mt-1 max-h-60 overflow-y-auto z-10">
-                    {materials.map((material) => (
-                      <li
-                        key={material.material_id}
-                        className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
-                        onClick={() => {
-                          setSelectedMaterial(material.material_id.toString()); 
-                          setIsDropdownOpen(false);
-                        }}
-                      >
-                        <img src={material.material_image_url} alt="" className="h-8 w-8" />
-                        {material.name} 
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="relative">
+                    <ul className="absolute top-1 left-0 w-full bg-gray-50 border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto z-20">
+                      {materials.map((material) => (
+                        <li
+                          key={material.material_id}
+                          className="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                          onClick={() => {
+                            setSelectedMaterial(material.material_id.toString()); 
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          <img src={material.material_image_url} alt="" className="h-8 w-8 object-cover rounded-sm" />
+                          <span className="font-medium">{material.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
               
               {/* Size Select */}
-              <div className="flex flex-col gap-1 sm:gap-2 relative">
-                <label className="font-medium text-sm sm:text-base">Choose Size</label>
+              <div className="flex flex-col gap-2 relative">
+                <label className="font-medium text-sm sm:text-base text-gray-800">Size</label>
                 
                 <button
                   type="button"
-                  className="p-2 border rounded-md w-full text-sm sm:text-base text-left flex items-center justify-between"
+                  className="p-3 border border-gray-200 rounded-md w-full text-sm sm:text-base flex items-center justify-between hover:border-gray-300 transition-all"
                   onClick={() => setIsDropdownOpenSize(!isDropdownOpenSize)}
                 >
-                  <span>
+                  <span className={!currentSize ? "text-gray-500" : ""}>
                     {currentSize 
                       ? `${getSizeName(currentSize)} (${getVolume(currentSize)})`
                       : "Select size"
                     }
                   </span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 
                 {/* Tabular dropdown */}
                 {isDropdownOpenSize && (
-                  <div className="absolute top-full left-0 w-full bg-white border rounded-md shadow-md mt-1 z-10 overflow-hidden">
+                  <div className="absolute top-full left-0 w-full bg-gray-50 border border-gray-200 rounded-md shadow-lg mt-1 z-20 overflow-hidden">
                     <table className="w-full text-sm">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-2 py-2 text-left font-medium">Size</th>
-                          <th className="px-2 py-2 text-left font-medium">Dimensions (WxHxD)</th>
-                          <th className="px-2 py-2 text-left font-medium">Volume</th>
+                          <th className="px-3 py-2 text-left font-semibold text-gray-700">Size</th>
+                          <th className="px-3 py-2 text-left font-semibold text-gray-700">Dimensions (WxHxD)</th>
+                          <th className="px-3 py-2 text-left font-semibold text-gray-700">Volume</th>
                         </tr>
                       </thead>
                       <tbody>
                         {sizes.map((size) => (
                           <tr 
                             key={getSizeId(size)} 
-                            className={`hover:bg-gray-100 cursor-pointer ${
+                            className={`hover:bg-gray-50 cursor-pointer transition-colors ${
                               getSizeId(size)?.toString() === selectedSize?.toString() ? 'bg-blue-50' : ''
                             }`}
                             onClick={() => handleSizeSelection(getSizeId(size))}
                           >
-                            <td className="px-2 py-2 border-t">
+                            <td className="px-3 py-3 border-t border-gray-100">
                               <div className="flex items-center">
-                                <div className={`w-8 h-8 flex items-center justify-center border rounded-md mr-2 ${
-                                  getSizeName(size) === 'XXS' ? 'text-base' :
-                                  getSizeName(size) === 'XS' ? 'text-base' :
-                                  getSizeName(size) === 'S' ? 'text-base' :
-                                  getSizeName(size) === 'M' ? 'text-base' :
-                                  getSizeName(size) === 'L' ? 'text-base' :
-                                  getSizeName(size) === 'XL' ? 'text-base' : 'text-base'
+                                <div className={`w-8 h-8 flex items-center justify-center border rounded-md mr-2 font-medium ${
+                                  getSizeId(size)?.toString() === selectedSize?.toString() ? 'border-[#143761] text-[#143761]' : 'border-gray-300 text-gray-700'
                                 }`}>
                                   {getSizeName(size)}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-2 py-2 border-t">{getDimensions(size)}</td>
-                            <td className="px-2 py-2 border-t">{getVolume(size)}</td>
+                            <td className="px-3 py-3 border-t border-gray-100">{getDimensions(size)}</td>
+                            <td className="px-3 py-3 border-t border-gray-100 font-medium">{getVolume(size)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -423,58 +429,59 @@ export default function ProductDetail() {
                 )}
                 
                 {/* Show dimensions for selected size below dropdown when closed */}
-                {selectedSize && !isDropdownOpen && currentSize && (
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {getDimensions(currentSize)} - {getVolume(currentSize)}
+                {selectedSize && !isDropdownOpenSize && currentSize && (
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Dimensions: {getDimensions(currentSize)}
                   </p>
                 )}
               </div>
 
               {/* Quantity Select */}
-              <div className="flex flex-col gap-1 sm:gap-2 relative">
-                <label className="font-medium text-sm sm:text-base">Set Quantity</label>
+              <div className="flex flex-col gap-2 relative">
+                <label className="font-medium text-sm sm:text-base text-gray-800">Quantity</label>
                 
                 {!selectedSize ? (
-                  <p className="text-xs sm:text-sm text-gray-500">Please select a size first</p>
+                  <p className="text-sm text-gray-500">Please select a size first</p>
                 ) : quantities.length === 0 ? (
-                  <p className="text-xs sm:text-sm text-gray-500">No quantities available for this size</p>
+                  <p className="text-sm text-gray-500">No quantities available for this size</p>
                 ) : (
                   <>
                     <button
                       type="button"
-                      className="p-2 border rounded-md w-full text-sm sm:text-base text-left flex items-center justify-between"
+                      className="p-3 border border-gray-200 rounded-md w-full text-sm sm:text-base flex items-center justify-between hover:border-gray-300 transition-all"
                       onClick={() => setIsDropdownOpenQuantity(!isDropdownOpenQuantity)}
+                      disabled={!selectedSize}
                     >
-                      <span>
+                      <span className={!selectedQuantity ? "text-gray-500" : ""}>
                         {selectedQuantity 
                           ? `${quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity} units`
                           : "Select quantity"
                         }
                       </span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
                     
                     {/* Tabular dropdown with fixed height and scrolling */}
                     {isDropdownOpenQuantity && (
-                      <div className="absolute top-full left-0 w-full bg-white border rounded-md shadow-md mt-1 z-10">
-                        <div className="max-h-60 overflow-y-auto">
+                      <div className="absolute top-full left-0 w-full bg-gray-50 border border-gray-200 rounded-md shadow-lg mt-1 z-20">
+                        <div className="max-h-64 overflow-y-auto">
                           <table className="w-full text-sm">
                             <thead className="bg-gray-50 sticky top-0 z-10">
                               <tr>
-                                <th className="px-3 py-2 text-left font-medium">Quantity</th>
-                                <th className="px-3 py-2 text-left font-medium">Discount</th>
-                                <th className="px-3 py-2 text-left font-medium">Price per unit</th>
-                                <th className="px-3 py-2 text-left font-medium">Possible designs</th>
-                                <th className="px-3 py-2 text-left font-medium">Total price</th>
+                                <th className="px-3 py-2 text-left font-semibold text-gray-700">Quantity</th>
+                                <th className="px-3 py-2 text-left font-semibold text-gray-700">Discount</th>
+                                <th className="px-3 py-2 text-left font-semibold text-gray-700">Price/unit</th>
+                                <th className="px-3 py-2 text-left font-semibold text-gray-700">Designs</th>
+                                <th className="px-3 py-2 text-left font-semibold text-gray-700">Total</th>
                               </tr>
                             </thead>
                             <tbody>
                               {quantities.map((qty) => (
                                 <tr 
                                   key={qty.quantity_id} 
-                                  className={`hover:bg-gray-100 cursor-pointer ${
+                                  className={`hover:bg-gray-50 cursor-pointer transition-colors ${
                                     qty.quantity_id.toString() === selectedQuantity ? 'bg-blue-50' : ''
                                   }`}
                                   onClick={() => {
@@ -482,19 +489,19 @@ export default function ProductDetail() {
                                     setIsDropdownOpenQuantity(false);
                                   }}
                                 >
-                                  <td className="px-3 py-2 border-t">{qty.quantity} units</td>
-                                  <td className="px-3 py-2 border-t">
+                                  <td className="px-3 py-3 border-t border-gray-100 font-medium">{qty.quantity} units</td>
+                                  <td className="px-3 py-3 border-t border-gray-100">
                                     {parseInt(qty.discount) > 0 ? (
-                                      <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
+                                      <span className="px-2 py-1 bg-green-50 text-xs text-green-600 rounded-full font-medium whitespace-nowrap">
                                         {qty.discount}% off
                                       </span>
                                     ) : (
-                                      <span className="text-xs text-[#03172B80]">-</span>
+                                      <span className="text-xs text-gray-400">-</span>
                                     )}
                                   </td>
-                                  <td className="px-3 py-2 border-t">₹{Number(qty.price).toFixed(2)}</td>
-                                  <td className="px-3 py-2 border-t">{qty.design_number || 1}</td>
-                                  <td className="px-3 py-2 border-t font-medium">
+                                  <td className="px-3 py-3 border-t border-gray-100">₹{Number(qty.price).toFixed(2)}</td>
+                                  <td className="px-3 py-3 border-t border-gray-100">{qty.design_number || 1}</td>
+                                  <td className="px-3 py-3 border-t border-gray-100 font-semibold">
                                     ₹{(Number(qty.price) * Number(qty.quantity)).toFixed(2)}
                                   </td>
                                 </tr>
@@ -507,98 +514,96 @@ export default function ProductDetail() {
                     
                     {/* Show selected quantity details when dropdown is closed */}
                     {selectedQuantity && !isDropdownOpenQuantity && (
-                      <p className="text-xs sm:text-sm text-gray-500">
-                        {quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity} units - 
-                        ₹{(Number(quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.price) * 
-                          Number(quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity)).toFixed(2)}
-                      </p>
+                      <div className="flex items-center justify-between mt-1 text-sm">
+                        <span className="text-gray-500">
+                          {quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity} units
+                        </span>
+                        <span className="font-semibold text-[#143761]">
+                          ₹{(Number(quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.price) * 
+                            Number(quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity)).toFixed(2)}
+                        </span>
+                      </div>
                     )}
                   </>
                 )}
               </div>
 
               {/* Addons Select with Images */}
-              <div className="flex flex-col gap-1 sm:gap-2 relative">
-                <label className="font-medium text-sm sm:text-base">Add-Ons (optional)</label>
+              <div className="flex flex-col gap-2 relative">
+                <label className="font-medium text-sm sm:text-base text-gray-800">Add-Ons <span className="text-gray-500 font-normal">(optional)</span></label>
                 
                 <button
                   type="button"
-                  className="p-2 border rounded-md w-full text-sm sm:text-base text-left flex items-center justify-between"
+                  className="p-3 border border-gray-200 rounded-md w-full text-sm sm:text-base flex items-center justify-between hover:border-gray-300 transition-all"
                   onClick={() => setIsDropdownOpenAddon(!isDropdownOpenAddon)}
                 >
-                  <span>
+                  <span className={!selectedAddon ? "text-gray-500" : ""}>
                     {selectedAddon 
                       ? addons.find(a => a.additions_id.toString() === selectedAddon)?.additions_title
                       : "Select add-on"
                     }
                   </span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 
                 {/* Dropdown with images */}
                 {isDropdownOpenAddon && (
-                  <ul className="absolute top-full left-0 w-full bg-gray-50 border rounded-md shadow-md mt-1 max-h-60 overflow-y-auto z-10">
-                    <li
-                      className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
-                      onClick={() => {
-                        setSelectedAddon("");
-                        setIsDropdownOpenAddon(false);
-                      }}
-                    >
-                    </li>
-                    {addons.map((addon) => (
-                      <li
-                        key={addon.additions_id}
-                        className={`flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 ${
-                          addon.additions_id.toString() === selectedAddon ? 'bg-blue-50' : ''
-                        }`}
-                        onClick={() => {
-                          setSelectedAddon(addon.additions_id.toString());
-                          setIsDropdownOpenAddon(false);
-                        }}
-                      >
-                        <div className="relative w-10 h-10 border rounded overflow-hidden">
-                          {addon.additions_image ? (
-                            <Image 
-                              src={addon.additions_image} 
-                              alt={addon.additions_title} 
-                              fill
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          <p>{addon.additions_title}</p>
-                          <p className="text-xs">{addon.additions_desc}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="absolute top-full left-0 w-full bg-gray-50 border border-gray-200 rounded-md shadow-lg mt-1 z-20">
+                    <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
+                      {addons.map((addon) => (
+                        <li
+                          key={addon.additions_id}
+                          className={`flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors ${
+                            addon.additions_id.toString() === selectedAddon ? 'bg-blue-50' : ''
+                          }`}
+                          onClick={() => {
+                            setSelectedAddon(addon.additions_id.toString());
+                            setIsDropdownOpenAddon(false);
+                          }}
+                        >
+                          <div className="relative w-12 h-12 border rounded-md overflow-hidden flex-shrink-0">
+                            {addon.additions_image ? (
+                              <Image 
+                                src={addon.additions_image} 
+                                alt={addon.additions_title} 
+                                fill
+                                className="object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-medium">{addon.additions_title}</p>
+                            <p className="text-xs text-gray-500">{addon.additions_desc}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             </div>
             
-            {/* Responsive button layout that stacks on very small screens */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-6">
+            {/* Call-to-action buttons with professional styling */}
+            <div className="flex flex-col sm:flex-row gap-3 border-t border-gray-100">
               <Button
-                className="bg-[#143761] font-medium text-white text-sm sm:text-base py-2 px-4 rounded w-full sm:w-auto"
-                onClick={()=>router.push('/packaging-type')}
+                className="bg-[#143761] hover:bg-[#0e2d4e] font-medium text-white text-sm sm:text-base py-3 px-6 rounded-md w-full sm:w-auto transition-colors shadow-sm"
+                onClick={() => router.push('/packaging-type')}
               >
                 Customize kit
               </Button>
               
               <Button
-                className={`py-2 px-4 font-medium text-sm sm:text-base rounded w-full sm:w-auto ${isAddToCartDisabled 
-                  ? "bg-gray-300 cursor-not-allowed" 
-                  : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+                className={`py-3 px-6 font-medium text-sm sm:text-base rounded-md w-full sm:w-auto shadow-sm ${isAddToCartDisabled 
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed" 
+                  : "bg-blue-600 hover:bg-blue-700 text-white transition-colors"}`}
                 onClick={handleAddToCart}
                 disabled={isAddToCartDisabled}
               >
