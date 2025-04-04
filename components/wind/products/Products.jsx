@@ -145,7 +145,7 @@ export default function Products() {
                 className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer bg-white h-full"
               >
                 {/* Responsive image container */}
-                <div className="relative w-full aspect-square overflow-hidden bg-gray-50">
+                <div className="relative w-full aspect-square overflow-hidden bg-[#fffef7]">
                   <Image
                     className="object-contain transition-transform duration-300 group-hover:scale-105 p-2"
                     src={product.packaging_image_url}
@@ -161,7 +161,7 @@ export default function Products() {
                   <div className="font-medium text-xs sm:text-sm md:text-base line-clamp-2 min-h-[2.5rem]">
                     {product.name}
                   </div>
-                  <div className="w-full flex items-center justify-between bg-gray-100 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-[#143761] self-start">
+                  <div className="w-full flex items-center justify-between bg-gray-50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-[#143761] self-start">
                     <span className="text-gray-600">Min: </span>
                     <span className="text-gray-600">{product.minimum_qty} units </span>
                   </div>

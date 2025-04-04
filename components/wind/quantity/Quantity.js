@@ -171,7 +171,7 @@ export default function Quantity() {
           <div className="flex flex-col w-full h-fit">
             {/* Header Row */}
             <div className="group bg-[#F9F9F9] relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 sm:px-6 border-b-2">
-              <div className="grid grid-cols-4 w-full text-[#808b98]">
+              <div className="grid grid-cols-5 w-full text-[#808b98]">
                 <div className="flex items-center text-xs sm:text-sm font-normal">
                   Quantity
                 </div>
@@ -179,7 +179,10 @@ export default function Quantity() {
                   Discount
                 </div>
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
-                  Price
+                  Price/unit
+                </div>
+                <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
+                  Total Price
                 </div>
                 <div className="flex justify-end items-center text-xs sm:text-sm font-normal">
                   No of Design
@@ -196,13 +199,13 @@ export default function Quantity() {
                   onClick={() => handleQuantitySelection(ele)}
                   onMouseEnter={() => handleMouseEnter(ele)}
                 >
-                  <div className="grid grid-cols-4 w-full gap-2">
+                  <div className="grid grid-cols-5 w-full gap-2">
                     {/* Size Column with Checkbox */}
                     <div className="flex flex-col justify-center">
                       <div className="flex flex-wrap items-center gap-2">
-                        <div className="w-5 h-5 border rounded flex items-center justify-center">
+                        <div className="w-5 h-5 border rounded-full flex items-center justify-center">
                           {selectedItem?.size === ele.size && (
-                            <div className="w-3 h-3 bg-[#253670] rounded-sm"></div>
+                            <div className="w-3 h-3 bg-[#253670] rounded-full"></div>
                           )}
                         </div>
                         <span className="text-sm sm:text-base font-medium">
@@ -222,11 +225,20 @@ export default function Quantity() {
                       )}
                     </div>
 
-                    {/* Price Column */}
+                    {/* Price/unit Column */}
                     <div className="flex flex-col justify-center items-center">
                       <div className="flex flex-col items-center">
                         <span className="text-sm sm:text-base font-medium">
                           ₹{parseFloat(ele.price).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Total Price Column */}
+                    <div className="flex flex-col justify-center items-center">
+                      <div className="flex flex-col items-center">
+                        <span className="text-sm sm:text-base font-medium">
+                          ₹{parseFloat(ele.price).toFixed(2) * ele.size}
                         </span>
                       </div>
                     </div>

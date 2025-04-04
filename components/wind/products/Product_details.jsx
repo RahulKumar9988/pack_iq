@@ -59,13 +59,20 @@ export default function ProductDetail() {
         );
         
         if (productData) {
+          // Create thumbnails array from packaging_gallery
+          const galleryImages = productData.packaging_gallery?.map(
+            item => item.packaging_gallery_image_url
+          ) || [];
+
+          // Use main image as first, then gallery images
+          const thumbnailImages = [
+            productData.packaging_image_url,
+            ...galleryImages
+          ];
+
           setProduct({
             ...productData,
-            thumbnails: [
-              productData.packaging_image_url,
-              productData.packaging_image_icon_url || productData.packaging_image_url,
-              productData.packaging_image_url,
-            ]
+            thumbnails: thumbnailImages,
           });
           
           // Once we have the product data, fetch all related options
@@ -474,14 +481,14 @@ export default function ProductDetail() {
                                 >
                                   <td className="px-3 py-2 border-t">{qty.quantity} units</td>
                                   <td className="px-3 py-2 border-t">
-                {parseInt(qty.discount) > 0 ? (
-                  <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
-                    {qty.discount}% off
-                  </span>
-                ) : (
-                  <span className="text-xs text-[#03172B80]">-</span>
-                )}
-              </td>
+                                    {parseInt(qty.discount) > 0 ? (
+                                      <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
+                                        {qty.discount}% off
+                                      </span>
+                                    ) : (
+                                      <span className="text-xs text-[#03172B80]">-</span>
+                                    )}
+                                  </td>
                                   <td className="px-3 py-2 border-t">₹{Number(qty.price).toFixed(2)}</td>
                                   <td className="px-3 py-2 border-t">{qty.design_number || 1}</td>
                                   <td className="px-3 py-2 border-t font-medium">

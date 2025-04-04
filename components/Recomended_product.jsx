@@ -68,7 +68,7 @@ export default function Recomended_product() {
               onClick={() => navigateToProductDetail(ele.packaging_id)}
               className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
             >
-              <div className="relative w-full aspect-square overflow-hidden">
+              <div className="relative w-full aspect-square overflow-hidden bg-[#fffef7]">
                 <Image
                   className="object-contain transition-transform duration-300"
                   src={ele.packaging_image_url}
