@@ -4,21 +4,19 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ProductSkeleton from "@/components/ProductSkeleton";
-import Recomend_Scleton from "./Recomend_Scleton";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-export default function Recomended_product() {
+export default function RecommendedProducts() {
   const router = useRouter();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const productsPerPage = 4; // Changed to 4 products
+  const productsPerPage = 4;
 
   useEffect(() => {
     getPackagingType();
   }, []);
 
-  // Navigate to product detail page
   const navigateToProductDetail = (productId) => {
     router.push(`/products/${productId}`);
   };
@@ -49,9 +47,9 @@ export default function Recomended_product() {
   }
 
   return (
-    <div className=" w-full mx-auto px-1 sm:px-1 lg:px-1  flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
       {loading ? (
-        <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {Array(productsPerPage)
             .fill(0)
             .map((_, index) => (
@@ -59,31 +57,46 @@ export default function Recomended_product() {
             ))}
         </div>
       ) : productList.length === 0 ? (
-        <div className="text-center text-lg font-medium">No products found</div>
-      ):(
-        <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {productList.map((ele, i) => (
+        <div className="text-center py-8 sm:py-12 text-gray-500 text-sm sm:text-base">
+          No products found
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+          {productList.map((product, index) => (
             <div
-              key={i}
-              onClick={() => navigateToProductDetail(ele.packaging_id)}
-              className="border-2 group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+              key={index}
+              onClick={() => navigateToProductDetail(product.packaging_id)}
+              className="group flex flex-col bg-white rounded-lg overflow-hidden transform transition duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer border border-indigo-100"
             >
-              <div className="relative w-full aspect-square overflow-hidden">
+              <div className="relative w-full aspect-square bg-gray-50">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-30" />
                 <Image
-                  className="object-contain transition-transform duration-300"
-                  src={ele.packaging_image_url}
-                  alt={ele.name}
+                  className="object-contain p-2 sm:p-4"
+                  src={product.packaging_image_url}
+                  alt={product.name}
                   fill
-                  sizes="(max-width: 480px) 40vw, (max-width: 768px) 25vw, (max-width: 1024px) 20vw, 15vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  priority={index < 2}
                 />
               </div>
-              <div className="flex flex-col gap-2 p-3">
-                <p className="font-medium text-sm sm:text-base line-clamp-2">{ele.name}</p>
-                <p className="font-thin text-xs line-clamp-2">{ele.description}</p>
-                {/* <div className="w-full flex items-center justify-between bg-gray-200 px-3 py-1.5 rounded-lg md:text-sm text-xs font-semibold text-[#143761] self-start">
-                  <span className="text-gray-600">Min: </span>
-                  <span className="text-gray-600">{ele.minimum_qty} units </span>
-                </div> */}
+              
+              <div className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 flex-grow">
+                <h3 className="font-medium text-xs sm:text-sm text-indigo-900 line-clamp-1">
+                  {product.name}
+                </h3>
+                
+                <p className="text-xs text-gray-500 line-clamp-2 min-h-[2.5rem]">
+                  {(product.description).split(' ').slice(0, 10).join(' ') + '...'}
+                </p>
+                
+                <div className="mt-auto pt-1 sm:pt-2 flex items-center justify-between">
+                  <span className="text-[10px] sm:text-xs font-medium rounded-full bg-blue-100 text-blue-700 px-1.5 sm:px-2 py-0.5 sm:py-1">
+                    Min: {product.minimum_qty}
+                  </span>
+                  <span className="text-[10px] sm:text-xs text-purple-600 font-medium">
+                    {product.time}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
