@@ -79,7 +79,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
   if (isLoading) {
     return (
       <div className="container mx-auto">
-        <div className="bg-white shadow-md rounded-lg p-6">
+        <div className=" shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Order History</h2>
           {/* Only show 2 loading skeletons instead of 3 */}
           {[1, 2].map((item) => (
@@ -109,7 +109,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
   if (!orders || orders.length === 0) {
     return (
       <div className="container mx-auto">
-        <div className="bg-white shadow-md rounded-lg p-6">
+        <div className=" shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Order History</h2>
           <p className="text-gray-500">No orders found.</p>
         </div>
@@ -120,8 +120,8 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
   // Render orders
   return (
     <div className="container mx-auto">
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <div className="py-4 bg-gray-50 border-b">
+      <div className="shadow-md rounded-lg overflow-hidden">
+        <div className="py-4 border-b">
           <h2 className="text-2xl font-bold">Order History</h2>
         </div>
         <div className="divide-y divide-gray-200">
