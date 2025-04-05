@@ -128,7 +128,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {  // Changed d
           {orders.map((order) => (
             <div 
               key={order.order_id || `order-${Math.random()}`} 
-              className="px-6 py-4 hover:bg-gray-50 transition-colors duration-200 grid grid-cols-1 md:grid-cols-[120px_1fr] gap-4 items-center"
+              className="px-6 py-4 transition-colors duration-200 grid grid-cols-1 md:grid-cols-[120px_1fr] gap-4 items-center"
             >
               {/* Packaging Image - Responsive Placement */}
               <div className="flex justify-center md:justify-start">
