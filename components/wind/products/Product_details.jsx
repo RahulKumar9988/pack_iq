@@ -315,7 +315,7 @@ export default function ProductDetail() {
           </div>
 
           {/* Product Form - With professional styling and spacing */}
-          <div className="flex flex-col gap-5 p-4 md:p-6 bg-gray-50 border border-gray-100 rounded-lg shadow-sm">
+          <div className="flex flex-col gap-5 p-4 md:p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-[#143761] mb-2">{product.name}</h1>
               <p className="text-gray-700 text-sm sm:text-base">{product.description}</p>
