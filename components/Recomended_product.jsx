@@ -49,7 +49,7 @@ export default function Recomended_product() {
   }
 
   return (
-    <div className="bg-[#fffef7] w-full mx-auto px-1 sm:px-1 lg:px-1  flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
+    <div className=" w-full mx-auto px-1 sm:px-1 lg:px-1  flex flex-col items-center gap-4 md:gap-8 lg:gap-12">
       {loading ? (
         <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {Array(productsPerPage)
@@ -66,7 +66,7 @@ export default function Recomended_product() {
             <div
               key={i}
               onClick={() => navigateToProductDetail(ele.packaging_id)}
-              className="border-1 group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+              className="border-2 group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
             >
               <div className="relative w-full aspect-square overflow-hidden">
                 <Image
