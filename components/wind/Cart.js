@@ -396,7 +396,7 @@ export default function Cart() {
                   {discount > 0 && (
                     <div className="flex justify-between">
                       <span className="text-gray-700">Total GST:</span>
-                      <span className="text-green-600 text-xs">+ ₹{discount.toFixed(2)}</span>
+                      <span className="text-green-600 text-sm">+ ₹{discount.toFixed(2)}</span>
                     </div>
                   )}
                   

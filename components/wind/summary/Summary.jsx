@@ -43,7 +43,7 @@ const Summary = () => {
   }, [cartItem]);
 
   return (
-    <div className="max-w-4xl mx-auto p-4 mb-[66px]">
+    <div className="max-w-4xl mx-auto p-4 ">
       <h1 className="text-xl font-bold mb-4">Summary</h1>
       
       {Object.keys(cartItem).length ? (
@@ -73,7 +73,7 @@ const Summary = () => {
                   </>
                 ) : (
                   <>
-                    <div className="max-sm:hidden flex items-center justify-center bg-gray-100 w-[161px] h-[143px] rounded-md">
+                    <div className="max-sm:hidden flex items-center justify-center bg-gray-50 w-[161px] h-[143px] rounded-md">
                       <span className="text-gray-500">No Image</span>
                     </div>
                     <div className="sm:hidden flex items-center justify-center bg-gray-100 w-[71px] h-[63px] rounded-md">
@@ -119,7 +119,7 @@ const Summary = () => {
           <div className="border rounded-md overflow-hidden mb-6">
             {/* Packaging Form Row */}
             <div className="flex border-b">
-              <div className="w-1/3 p-4 bg-gray-50 font-medium">Packaging form:</div>
+              <div className="w-1/3 p-4 font-medium">Packaging form:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.name || "Not selected"}</span>
                 <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
@@ -133,7 +133,7 @@ const Summary = () => {
 
             {/* Material Row */}
             <div className="flex border-b">
-              <div className="w-1/3 p-4 bg-gray-50 font-medium">Material:</div>
+              <div className="w-1/3 p-4 font-medium">Material:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.material || "Not selected"}</span>
                 <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
@@ -147,7 +147,7 @@ const Summary = () => {
 
             {/* Size Row */}
             <div className="flex border-b">
-              <div className="w-1/3 p-4 bg-gray-50 font-medium">Size:</div>
+              <div className="w-1/3 p-4 font-medium">Size:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.size || "Not selected"}</span>
                 <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
@@ -161,7 +161,7 @@ const Summary = () => {
 
             {/* Quantity Row */}
             <div className="flex border-b">
-              <div className="w-1/3 p-4 bg-gray-50 font-medium">Quantity:</div>
+              <div className="w-1/3 p-4 font-medium">Quantity:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.quantity || "Not selected"}</span>
                 <div className="flex items-center">
@@ -180,7 +180,7 @@ const Summary = () => {
 
             {/* Design Row */}
             <div className="flex border-b">
-              <div className="w-1/3 p-4 bg-gray-50 font-medium">Design:</div>
+              <div className="w-1/3 p-4 font-medium">Design:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.design_number || "Not selected"}</span>
                 <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
@@ -194,7 +194,7 @@ const Summary = () => {
 
             {/* Add on section */}
             <div className="flex border-b">
-              <div className="w-1/3 p-4 bg-gray-50 font-medium">Additions:</div>
+              <div className="w-1/3 p-4 font-medium">Additions:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
               <span>
                 {cartItem.addons ? (
@@ -232,11 +232,11 @@ const Summary = () => {
                 </span> */}
                 <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Total GST:</span>
-                  <span className="text-[#1CC618]">+ ₹{discount}</span>
+                  <span className="text-sm text-[#1CC618]">+ ₹{(discount).toFixed(2)}</span>
                 </span>
                 <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Delivery fee</span>
-                  <span>₹ {deliveryFee}</span>
+                  <span>Free</span>
                 </span>
                 <Divider />
                 <span className="flex justify-between font-bold">
@@ -249,7 +249,7 @@ const Summary = () => {
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-4 mt-6">
-            <button onClick={()=>router.push('/')} className="text-xs w-[88px] font-medium border-1 border-[#143761] bg-white rounded-md text-[#143761] h-[38px]">
+            <button onClick={()=>router.push('/')} className="text-xs w-[88px] font-medium border-1 border-[#143761] bg-gray-50 rounded-md text-[#143761] h-[38px]">
               exit
             </button>
             <button onClick={()=>router.push('/cart')} className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
@@ -262,7 +262,7 @@ const Summary = () => {
       )}
 
       {/* Mobile Fixed Bottom Bar - Same as in Cart */}
-      <div className="mobile:hidden fixed bg-white left-0 bottom-0 flex items-center justify-between w-full px-[30px] py-[14px]">
+      <div className="mobile:hidden fixed left-0 bottom-0 flex items-center justify-between w-full px-[30px] py-[14px]">
         <div>
           <span className="font-medium">₹ {totalPrice}</span>
         </div>
