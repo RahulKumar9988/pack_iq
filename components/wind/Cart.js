@@ -263,6 +263,7 @@ export default function Cart() {
                           radius="md"
                           width="100%"
                           height={180}
+                          loading="lazy"
                         />
                       ) : (
                         <div className="flex items-center justify-center bg-gray-100 w-full h-40 rounded-lg">

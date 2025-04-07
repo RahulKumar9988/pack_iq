@@ -253,6 +253,7 @@ export default function Size() {
               alt="product size"
               width={350}
               height={350}
+              loading="lazy"
               className={`object-contain transition-all duration-300 ease-in-out ${
                 isImageChanging ? "blur-sm scale-105" : "blur-0 scale-100"
               }`}

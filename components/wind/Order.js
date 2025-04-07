@@ -42,6 +42,7 @@ export default function Order() {
           alt="Order Successful"
           width={130}
           height={101}
+          loading="lazy"
         />
       </div>
       <h2 className="mobile:text-2xl text-base font-bold text-gray-800 mb-2">

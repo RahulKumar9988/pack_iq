@@ -106,6 +106,7 @@ export default function Material() {
                       objectfit="cover"
                       width={200}
                       height={150}
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex flex-col gap-2 w-full">
