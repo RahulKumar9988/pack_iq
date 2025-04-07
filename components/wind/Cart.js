@@ -138,7 +138,7 @@ export default function Cart() {
   const itemPrice = getItemPrice();
   const pricePerItem = cartItem?.quantity ? (itemPrice / parseFloat(cartItem.quantity)).toFixed(2) : 0;
   
-  // Fixed handleSave function without using Promise
+  // Fixed handleSave function with order date
   async function handleSave() {
     try {
       setLoading(true);
@@ -150,7 +150,10 @@ export default function Cart() {
         return;
       }
       
-      // Create payload with proper structure
+      // Get current date
+      // const orderDate = getCurrentDate();
+      
+      // Create payload with proper structure and add order date
       const payload = {
         user_id: userId,
         packaging_id: parseInt(cartItem.packaging_id),
@@ -159,6 +162,7 @@ export default function Cart() {
         material_id: parseInt(cartItem.material_id),
         payment_status_id: 1,
         price: parseFloat(totalPrice),
+        // order_date: orderDate, // Add order date to payload
         additions_id: Array.isArray(cartItem.addons) ? 
           cartItem.addons.map(addon => addon.additionsId?.additions_id || addon.id) : 
           cartItem.addons ? [cartItem.addons.additionsId?.additions_id || cartItem.addons.id] : 
@@ -171,8 +175,12 @@ export default function Cart() {
       );
       
       if (response.status === 200 || response.status === 201) {
-        // Save order to localStorage
-        localStorage.setItem('lastOrder', JSON.stringify(cartItem));
+        // Save order to localStorage with date
+        const orderWithDate = {
+          ...cartItem,
+          // order_date: orderDate
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(orderWithDate));
         
         // Keep showing loading state during the transition
         // We'll use a timeout to clear the cart AFTER navigation starts
@@ -184,7 +192,7 @@ export default function Cart() {
         setTimeout(() => {
           dispatch(clearCart());
           setLoading(false);
-        },2000); // Give the navigation a moment to start
+        }, 2000); // Give the navigation a moment to start
       }
     } catch (error) {
       console.error("Order creation failed:", 
@@ -292,6 +300,7 @@ export default function Cart() {
                           ) : "Not selected"}</span>
                           </p>
                           <p>Quantity: <span className="font-medium">{cartItem.quantity || "N/A"}</span></p>
+                          {/* <p>Order Date: <span className="font-medium">{getCurrentDate()}</span></p> */}
                         </div>
                       </div>
                       
@@ -405,6 +414,11 @@ export default function Cart() {
                     <span>{deliveryFee > 0 ? `₹${deliveryFee}` : "Free"}</span>
                   </div>
                   
+                  <div className="flex justify-between text-gray-700">
+                    <span>Order Date</span>
+                    {/* <span>{getCurrentDate()}</span> */}
+                  </div>
+                  
                   <Divider />
                   
                   <div className="flex justify-between font-bold text-lg">
@@ -415,12 +429,12 @@ export default function Cart() {
                 
                 {!auth?(
                   <Button
-                  color="primary"
-                  className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
-                  onClick={()=>router.push('/auth/signin')}
-                >
-                  Please login
-                </Button>
+                    color="primary"
+                    className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
+                    onClick={()=>router.push('/auth/signin')}
+                  >
+                    Please login
+                  </Button>
                 ):(
                   <Button
                     color="primary"
@@ -441,34 +455,6 @@ export default function Cart() {
           </div>
         ) : null}
       </div>
-      
-      {/* Mobile Sticky Checkout Bar
-      {Object.keys(cartItem).length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4 lg:hidden z-50">
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col">
-              <span className="text-lg font-bold">₹{totalPrice}</span>
-              <span className="text-xs text-gray-500">{Object.keys(cartItem).length} item</span>
-            </div>
-            {!auth?(
-              <div>
-                <p>login</p>
-              </div>
-            ):(
-              <Button
-                color="primary"
-                className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
-                onClick={handleSave}
-                isDisabled={isConfirmDisabled}
-                isLoading={loading}
-              >
-                {loading ? "Processing..." : "Checkout"}
-              </Button>
-            )}
-            
-          </div>
-        </div>
-      )} */}
       
       {/* Loading Overlay */}
       {loading && <LoadingOverlay />}

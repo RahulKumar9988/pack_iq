@@ -174,9 +174,9 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <p className="text-sm text-gray-500">
-                    Order placed on <span className="font-medium">{formatDate(order.order_date)}</span>
+                    Order placed on <span className="font-medium">{formatDate(order.createdAt)}</span>
                   </p>
-                  <p className="text-xs text-gray-400">Order #{order.order_id || 'Unknown'}</p>
+                  {/* <p className="text-xs text-gray-400">Order #{order.order_id || 'Unknown'}</p> */}
                 </div>
                 <div>
                   <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
