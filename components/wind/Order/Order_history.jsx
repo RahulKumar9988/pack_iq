@@ -49,21 +49,23 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
         // Check if the response has data and process accordingly
         if (response.data && response.data.data) {
           // Check if data is an array or a single object
-           const orderData = Array.isArray(response.data.data) 
+          const orderData = Array.isArray(response.data.data) 
             ? response.data.data 
             : [response.data.data];
             
           console.log('Orders loaded:', orderData.length);
           
-          // Sort orders by date (newest first) before limiting
+          // Sort orders by createdAt date (newest first)
           const sortedOrders = [...orderData].sort((a, b) => {
-            const dateA = new Date(a.order_date || 0);
-            const dateB = new Date(b.order_date || 0);
+            // Use createdAt timestamps for more reliable sorting
+            const dateA = new Date(a.createdAt).getTime();
+            const dateB = new Date(b.createdAt).getTime();
             return dateB - dateA; // Newest first
           });
           
-          // Then limit to maxOrders if needed
-          setOrders(sortedOrders.slice(0, maxOrders));
+          // Then limit to maxOrders if limitOrders is true
+          const finalOrders = limitOrders ? sortedOrders.slice(0, maxOrders) : sortedOrders;
+          setOrders(finalOrders);
         } else {
           console.log('No orders found in response');
           setOrders([]);
@@ -80,7 +82,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
     if (userDetails) {
       fetchOrderHistory();
     }
-  }, [userDetails, baseUrl, maxOrders]);
+  }, [userDetails, baseUrl, maxOrders, limitOrders]);
 
   // Format date function
   const formatDate = (dateString) => {
@@ -176,15 +178,15 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
                   <p className="text-sm text-gray-500">
                     Order placed on <span className="font-medium">{formatDate(order.createdAt)}</span>
                   </p>
-                  {/* <p className="text-xs text-gray-400">Order #{order.order_id || 'Unknown'}</p> */}
+                  <p className="text-xs text-gray-400">Order #{order.order_id || 'Unknown'}</p>
                 </div>
                 <div>
                   <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                    order.paymentStatusId?.payment_status === 'pending' 
+                    order.paymentStatusId?.payment_status === 'pending' || order.paymentStatusId?.payment_status === 'pedding'
                       ? 'bg-yellow-100 text-yellow-800' 
                       : 'bg-green-100 text-green-800'
                   }`}>
-                    {order.paymentStatusId?.payment_status || 'Unknown'}
+                    {order.paymentStatusId?.payment_status === 'pedding' ? 'pending' : order.paymentStatusId?.payment_status || 'Unknown'}
                   </span>
                 </div>
               </div>
@@ -224,7 +226,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
                   
                   <div className="md:text-right md:col-span-1">
                     <p className="font-semibold text-lg text-indigo-800">
-                      ₹{order.price?.toFixed(2) || 'N/A'}
+                      ₹{(order.price).toFixed(2) || 'N/A'}
                     </p>
                   </div>
                   
