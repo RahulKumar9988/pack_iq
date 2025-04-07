@@ -37,7 +37,6 @@ const InfiniteScrollImages = () => {
             <img 
               src={src } 
               alt={`Packaging ${index + 1}`} 
-              loading='lazy'
               className="w-full h-full object-cover rounded-lg" 
             />
           </motion.div>

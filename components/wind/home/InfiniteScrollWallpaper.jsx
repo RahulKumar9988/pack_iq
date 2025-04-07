@@ -42,7 +42,6 @@ const InfiniteScrollImages = () => {
               alt={`Packaging ${index + 1}`} 
               width={200}
               height={150}
-              loading='lazy'
               className="w-full h-full object-cover rounded-lg" 
             />
           </motion.div>

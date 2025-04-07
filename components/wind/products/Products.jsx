@@ -151,9 +151,7 @@ export default function Products() {
                     src={product.packaging_image_url}
                     alt={product.name}
                     fill
-                    priority={index === 0} // Add priority to first image (likely LCP)
                     sizes="(max-width: 480px) 100vw, (max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-                    loading={index === 0 ? "eager" : "lazy"}
                     placeholder="blur"
                     blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmM2YzZjMiLz48L3N2Zz4="
                   />
