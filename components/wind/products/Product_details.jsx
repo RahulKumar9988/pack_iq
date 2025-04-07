@@ -178,7 +178,7 @@ export default function ProductDetail() {
   const selectedSizeItem = sizes.find(s => (s.size_id || s.sizeId?.size_id).toString() === selectedSize);
 
     const selectedQuantityItem = quantities.find(q => q.quantity_id.toString() === selectedQuantity);
-    const selectedAddonItem = addons.find(a => a.additions_id.toString() === selectedAddon);
+    const selectedAddonItem = addons.find(a => a.additionsId.additions_id.toString() === selectedAddon);
     
     // Get proper price from selected quantity
     const price = selectedQuantityItem?.price || product.price;
@@ -187,9 +187,9 @@ export default function ProductDetail() {
     let addonFormatted = null;
     if (selectedAddonItem) {
       addonFormatted = {
-        id: selectedAddonItem.additions_id,
-        name: selectedAddonItem.additions_title,
-        price: selectedAddonItem.additions_price || 0
+        id: selectedAddonItem.additionsId.additions_id,
+        name: selectedAddonItem.additionsId.additions_title,
+        description: selectedAddonItem.additionsId.additions_desc,
       };
     }
 
@@ -207,7 +207,12 @@ export default function ProductDetail() {
       price: price,
       design_number: selectedQuantityItem?.design_number,
       // Format addons correctly for cart component
-      addons: selectedAddonItem ? [addonFormatted] : []
+      addons: selectedAddonItem ? [{
+        id: selectedAddonItem.additionsId.additions_id,
+        name: selectedAddonItem.additionsId.additions_title,
+        description: selectedAddonItem.additionsId.additions_desc,
+        image: selectedAddonItem.additionsId.additions_image
+      }] : []
     };
 
     // Dispatch to Redux store
@@ -539,7 +544,7 @@ export default function ProductDetail() {
                 >
                   <span className={!selectedAddon ? "text-gray-500" : ""}>
                     {selectedAddon 
-                      ? addons.find(a => a.additions_id.toString() === selectedAddon)?.additions_title
+                      ? addons.find(a => a.additionsId.additions_id.toString() === selectedAddon)?.additionsId.additions_title
                       : "Select add-on"
                     }
                   </span>
@@ -550,44 +555,44 @@ export default function ProductDetail() {
                 
                 {/* Dropdown with images */}
                 {isDropdownOpenAddon && (
-                  <div className="absolute top-full left-0 w-full bg-gray-50 border border-gray-200 rounded-md shadow-lg mt-1 z-20">
-                    <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
-                      {addons.map((addon) => (
-                        <li
-                          key={addon.additions_id}
-                          className={`flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors ${
-                            addon.additions_id.toString() === selectedAddon ? 'bg-blue-50' : ''
-                          }`}
-                          onClick={() => {
-                            setSelectedAddon(addon.additions_id.toString());
-                            setIsDropdownOpenAddon(false);
-                          }}
-                        >
-                          <div className="relative w-12 h-12 border rounded-md overflow-hidden flex-shrink-0">
-                            {addon.additions_image ? (
-                              <Image 
-                                src={addon.additions_image} 
-                                alt={addon.additions_title} 
-                                fill
-                                className="object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            <p className="font-medium">{addon.additions_title}</p>
-                            <p className="text-xs text-gray-500">{addon.additions_desc}</p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <div className="absolute top-full left-0 w-full bg-gray-50 border border-gray-200 rounded-md shadow-lg mt-1 z-20">
+                  <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
+                    {addons.map((addon) => (
+                      <li
+                        key={addon.additionsId.additions_id}
+                        className={`flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors ${
+                          addon.additionsId.additions_id.toString() === selectedAddon ? 'bg-blue-50' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedAddon(addon.additionsId.additions_id.toString());
+                          setIsDropdownOpenAddon(false);
+                        }}
+                      >
+                        <div className="relative w-12 h-12 border rounded-md overflow-hidden flex-shrink-0">
+                          {addon.additionsId.additions_image ? (
+                            <Image 
+                              src={addon.additionsId.additions_image} 
+                              alt={addon.additionsId.additions_title} 
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-medium">{addon.additionsId.additions_title}</p>
+                          <p className="text-xs text-gray-500">{addon.additionsId.additions_desc}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+)}
               </div>
             </div>
             

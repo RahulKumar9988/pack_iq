@@ -50,13 +50,13 @@ const AddOnsPage = () => {
             // Map backend data to the format expected by the component
             // Using iconName instead of the React component to avoid serialization issues
             const formattedAddons = response.data.data.map(addon => ({
-              id: addon.additions_id.toString(),
-              name: addon.additions_title,
+              id: addon.additionsId.additions_id.toString(),
+              name: addon.additionsId.additions_title,
               // price: '+ 0,01 €', // You might want to add price to your backend model
-              description: addon.additions_desc,
-              recommended: addon.additions_id === 1, // Example logic - you can adjust as needed
-              iconName: getIconNameForAddon(addon.additions_title),
-              image: addon.additions_image
+              description: addon.additionsId.additions_desc,
+              recommended: addon.additionsId.additions_id === 1, // Example logic - you can adjust as needed
+              iconName: getIconNameForAddon(addon.additionsId.additions_title),
+              image: addon.additionsId.additions_image
             }));
             
             setAddons(formattedAddons);
@@ -71,7 +71,7 @@ const AddOnsPage = () => {
           setLoading(false);
         }
       };
-
+    
       fetchAddons();
     }
   }, [cartItem.packaging_id, baseUrl, dataFetched, router]);

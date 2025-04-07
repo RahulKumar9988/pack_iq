@@ -159,9 +159,9 @@ export default function Cart() {
         material_id: parseInt(cartItem.material_id),
         payment_status_id: 1,
         price: parseFloat(totalPrice),
-        additions_id:Array.isArray(cartItem.addons) ? 
-            cartItem.addons.map(addon => addon.id) : 
-            cartItem.addons ? [cartItem.addons.id]: 
+        additions_id: Array.isArray(cartItem.addons) ? 
+          cartItem.addons.map(addon => addon.additionsId?.additions_id || addon.id) : 
+          cartItem.addons ? [cartItem.addons.additionsId?.additions_id || cartItem.addons.id] : 
           []
       };
       
@@ -284,12 +284,12 @@ export default function Cart() {
                           <p>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></p>
                           {/* <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p> */}
                           <p>Additions: <span className="font-medium">{cartItem.addons ? (
-                              Array.isArray(cartItem.addons) ? 
-                                cartItem.addons.map(addon => addon.name).join(', ') || "Not selected" : 
-                                typeof cartItem.addons === 'object' ? 
-                                  cartItem.addons.name || "Not selected" : 
-                                  cartItem.addons
-                            ) : "Not selected"}</span>
+                            Array.isArray(cartItem.addons) ? 
+                              cartItem.addons.map(addon => addon.additionsId?.additions_title || addon.name).join(', ') || "Not selected" : 
+                              typeof cartItem.addons === 'object' ? 
+                                cartItem.addons.additionsId?.additions_title || cartItem.addons.name || "Not selected" : 
+                                cartItem.addons
+                          ) : "Not selected"}</span>
                           </p>
                           <p>Quantity: <span className="font-medium">{cartItem.quantity || "N/A"}</span></p>
                         </div>

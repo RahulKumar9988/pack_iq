@@ -142,7 +142,7 @@ export default function Products() {
               <div
                 key={`product-${product.packaging_id}-${index}`}
                 onClick={() => navigateToProductDetail(product.packaging_id)}
-                className="border-1 group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer h-full"
+                className="group flex flex-col justify-between rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer  h-full"
               >
                 {/* Responsive image container */}
                 <div className="relative w-full aspect-square overflow-hidden">
