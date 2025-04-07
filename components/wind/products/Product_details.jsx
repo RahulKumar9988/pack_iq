@@ -246,9 +246,9 @@ export default function ProductDetail() {
                 src={product.thumbnails[selectedImage]} 
                 alt={`${product.name} - Image ${selectedImage + 1}`} 
                 fill
-                loading="lazy"
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
                 className="object-contain transition-transform duration-300 group-hover:scale-102"
+                priority
               />
               
               {/* Navigation arrows with improved design */}
