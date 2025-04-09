@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAppDispatch } from '@/redux/hooks';
 import { login } from '@/redux/auth/authSlice';
-import { Eye, EyeOff, Lock, Mail, User, Phone, MapPin } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, User, Phone, MapPin, Camera } from 'lucide-react';
 import { registerAction } from '@/app/action/registerAction';
 import { useRouter } from 'next/navigation';
 
@@ -12,16 +12,62 @@ function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageError, setImageError] = useState('');
+  const fileInputRef = useRef(null);
+  const formRef = useRef(null);
   const router = useRouter();
 
-  const handleRegister = async (formData) => {
+  const MAX_FILE_SIZE = 50 * 1024; // 50KB in bytes
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageError('');
+    
+    if (!file) return;
+
+    if (file.size > MAX_FILE_SIZE) {
+      setImageError(`Image size must be less than 50KB. Current size: ${(file.size / 1024).toFixed(2)}KB`);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64String = event.target.result;
+      setProfileImage(base64String);
+      setImagePreview(base64String);
+      console.log('Profile image loaded:', {
+        size: `${(file.size / 1024).toFixed(2)}KB`,
+        type: file.type,
+        name: file.name
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      // Create FormData object from form
+      const formData = new FormData(formRef.current);
+      
+      // Add profile image if available - map to user_image_url
+      if (profileImage) {
+        formData.set('user_image_url', profileImage);
+      }
+
       const result = await registerAction(formData);
 
-      console.log(result);
+      console.log('Registration response:', result);
+      
+      // Log profile image data if available
+      if (profileImage) {
+        console.log('Profile image included in submission');
+      }
 
       if (result.success) {
         dispatch(login({ token: result.data.token, user: result.data.user }));
@@ -47,10 +93,49 @@ function SignUpForm() {
   return (
     <div className="w-96 mx-auto m-10 p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg border border-blue-100">
       <div className="flex justify-center mb-6">
-        <div className="h-16 w-16 bg-gradient-to-br from-blue-600 to-indigo-900 rounded-full flex items-center justify-center shadow-md">
-          <User size={28} className="text-white" />
-        </div>
+        {imagePreview ? (
+          <div className="relative">
+            <img 
+              src={imagePreview} 
+              alt="Profile Preview" 
+              className="h-20 w-20 rounded-full object-cover border-2 border-blue-400 shadow-md"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current.click()}
+              className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-1 rounded-full shadow-sm"
+            >
+              <Camera size={16} />
+            </button>
+          </div>
+        ) : (
+          <div className="relative">
+            <div className="h-20 w-20 bg-gradient-to-br from-blue-600 to-indigo-900 rounded-full flex items-center justify-center shadow-md">
+              <User size={32} className="text-white" />
+            </div>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current.click()}
+              className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-1 rounded-full shadow-sm"
+            >
+              <Camera size={16} />
+            </button>
+          </div>
+        )}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          accept="image/jpeg, image/png, image/gif"
+          className="hidden"
+        />
       </div>
+
+      {imageError && (
+        <div className="mb-4 p-2 bg-red-50 border-l-4 border-red-500 rounded-md">
+          <p className="text-sm text-red-600">{imageError}</p>
+        </div>
+      )}
       
       <h2 className="text-2xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-900">Create Account</h2>
       
@@ -67,7 +152,14 @@ function SignUpForm() {
         </div>
       )}
 
-      <form action={handleRegister} className="space-y-5">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+        {/* Hidden input for profile image with updated name to match API */}
+        <input 
+          type="hidden" 
+          name="user_image_url" 
+          value={profileImage || ''} 
+        />
+
         <div>
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">
             Email Address

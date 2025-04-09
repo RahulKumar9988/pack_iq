@@ -21,6 +21,7 @@ export async function registerAction(formData) {
   const name = formData.get('name');
   const mobile = formData.get('mobile');
   const address = formData.get('address');
+  const userImageUrl = formData.get('user_image_url') || ''; 
 
   // Comprehensive input validation
   const validationErrors = [];
@@ -56,41 +57,56 @@ export async function registerAction(formData) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     
-    // Make registration request to API
-    const response = await axios.post(`${baseUrl}/api/v1/auth/register`, {
+    // Create the request payload including the image URL
+    const requestPayload = {
       user_email: email,
       user_password: password,
       user_name: name,
       user_phone_number: mobile,
-      user_address: address
-    }, {
+      user_address: address,
+      user_image_url: userImageUrl 
+    };
+    
+    console.log('Registration request payload:', requestPayload);
+    
+    // Make registration request to API
+    const response = await axios.post(`${baseUrl}/api/v1/auth/register`, requestPayload, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
 
+    // Log the complete response
+    console.log('Registration API response:', response);
+
     const {data} = response;
+    // Log the response data specifically
+    console.log('Registration response data:', data);
+    
     // Check for valid token in response
-    console.log(data); 
     if (data && data.data) {
-        // Set secure HTTP-only cookie
+      // Set secure HTTP-only cookie
       cookies().set('token', data.data.user_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 7 // 1 week
+        maxAge: 60 * 60 * 24 * 7 // 1 week validity 
       });
+      
       const registerData = {
-        user:data.data.user_details,
-        token:data.data.user_token
-      }
+        user: data.data.user_details,
+        token: data.data.user_token
+      };
+      
+      console.log('Processed registration data:', registerData);
+      
       return {
-        success:true,
+        success: true,
         data: registerData,
-        error:[]
-      }
-    
+        error: []
+      };
     } else {
+      console.log('Registration failed: No valid data in response');
       return {
         error: ['Registration failed. Please try again.'],
         success: false
@@ -99,16 +115,24 @@ export async function registerAction(formData) {
   } catch (error) {
     console.error('Registration error:', error);
 
+    // Log the complete error object
+    console.log('Full error object:', JSON.stringify(error, null, 2));
+
     // Handle specific axios error responses
     if (axios.isAxiosError(error)) {
       if (error.response) {
         // The request was made and the server responded with a status code
+        console.log('Error response data:', error.response.data);
+        console.log('Error response status:', error.response.status);
+        console.log('Error response headers:', error.response.headers);
+        
         return {
           error: [error.response.data.message || 'Registration failed'],
           success: false
         };
       } else if (error.request) {
         // The request was made but no response was received
+        console.log('Error request:', error.request);
         return {
           error: ['No response received from server'],
           success: false
@@ -120,5 +144,4 @@ export async function registerAction(formData) {
       success: false
     };
   }
-  
 }
