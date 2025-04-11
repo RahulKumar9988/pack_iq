@@ -30,6 +30,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
 import { getUserDetails } from "@/app/action/getUserDetails.js";
+import { FiUser } from "react-icons/fi";
 
 // Memoize icons using a constant object instead of a function
 const ICONS = {
@@ -196,13 +197,19 @@ export default function HomepageNavbar() {
           {auth.isAuthenticated ? (
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
-                <div className="flex flex-col items-center cursor-pointer mt-2">
-                <Avatar 
-                  color="default"
-                  className="border-[#yourCustomColor]"  // Custom border color
-                  style={{ backgroundColor: '#d7d9db' }}  // Custom background
-                />
-                </div>
+              <div className="w-14 h-14 rounded-full border-4 border-white bg-white overflow-hidden">
+                {userDetails?.user?.user_image_url ? (
+                  <img 
+                    src={userDetails.user.user_image_url} 
+                    className="w-full h-full object-cover"
+                    alt="Profile"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-indigo-100 flex items-center justify-center">
+                    <FiUser className="w-8 h-8 text-indigo-600" />
+                  </div>
+                )}
+              </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions">
                 <DropdownItem 
