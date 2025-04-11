@@ -35,13 +35,13 @@ function SignUpForm() {
     const reader = new FileReader();
     reader.onload = (event) => {
       const base64String = event.target.result;
+      const base64Data = base64String.split(',')[1];
+      console.log("Base64 Data:", base64Data); // Debugging line  
+      
+      
+      // Store the full base64 string including the data URL prefix
       setProfileImage(base64String);
       setImagePreview(base64String);
-      console.log('Profile image loaded:', {
-        size: `${(file.size / 1024).toFixed(2)}KB`,
-        type: file.type,
-        name: file.name
-      });
     };
     reader.readAsDataURL(file);
   };
@@ -50,37 +50,35 @@ function SignUpForm() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
-      // Create FormData object from form
-      const formData = new FormData(formRef.current);
+      // Get form values
+      const formData = new FormData();
+      formData.append('email', formRef.current.email.value);
+      formData.append('password', formRef.current.password.value);
+      formData.append('name', formRef.current.name.value);
+      formData.append('mobile', formRef.current.mobile.value);
+      formData.append('address', formRef.current.address.value);
       
-      // Add profile image if available - map to user_image_url
+      // Add the profile image if it exists
       if (profileImage) {
-        formData.set('user_image_url', profileImage);
+        formData.append('user_image_url', profileImage);
+      } else {
+        formData.append('user_image_url', '');
       }
-
+  
       const result = await registerAction(formData);
-
-      console.log('Registration response:', result);
       
-      // Log profile image data if available
-      if (profileImage) {
-        console.log('Profile image included in submission');
-      }
-
       if (result.success) {
         dispatch(login({ token: result.data.token, user: result.data.user }));
         router.push('/');
       } else {
-        // Handle validation or registration errors
         setError({
           message: 'Registration failed',
           details: result?.error || ['An unexpected error occurred']
         });
       }
     } catch (err) {
-      console.error('Submission error:', err);
       setError({
         message: 'Unexpected error',
         details: [err.message || 'Unknown error']
@@ -153,13 +151,6 @@ function SignUpForm() {
       )}
 
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
-        {/* Hidden input for profile image with updated name to match API */}
-        <input 
-          type="hidden" 
-          name="user_image_url" 
-          value={profileImage || ''} 
-        />
-
         <div>
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">
             Email Address

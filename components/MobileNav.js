@@ -222,26 +222,10 @@ export default function MobileNav() {
                         <ul>
                           <li>
                             <button 
-                              onClick={() => handleNavigation('/shop/new')} 
+                              onClick={() => handleNavigation('/packaging-type')} 
                               className="block w-full text-left p-4 pl-12"
                             >
-                              New Arrivals
-                            </button>
-                          </li>
-                          <li>
-                            <button 
-                              onClick={() => handleNavigation('/shop/bestsellers')} 
-                              className="block w-full text-left p-4 pl-12"
-                            >
-                              Best Sellers
-                            </button>
-                          </li>
-                          <li>
-                            <button 
-                              onClick={() => handleNavigation('/shop/sale')} 
-                              className="block w-full text-left p-4 pl-12"
-                            >
-                              Sale
+                              Packaging Type
                             </button>
                           </li>
                         </ul>
