@@ -116,7 +116,7 @@ export function SignInForm() {
       
       <div>
         <p className="mt-6 text-center text-gray-600">
-          Don not have an account? <a href="/auth/signup" className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">Sign Up</a>
+          Do not have any account? <a href="/auth/signup" className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">Sign Up</a>
         </p>
       </div>
     </div>
