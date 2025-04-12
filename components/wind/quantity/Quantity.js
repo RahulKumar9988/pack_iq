@@ -238,7 +238,7 @@ export default function Quantity() {
                     <div className="flex flex-col justify-center items-center">
                       <div className="flex flex-col items-center">
                         <span className="text-sm sm:text-base font-medium">
-                          ₹{parseFloat(ele.price).toFixed(2) * ele.size}
+                          ₹{(parseFloat(ele.price) * ele.size).toFixed(2)}
                         </span>
                       </div>
                     </div>
