@@ -45,7 +45,7 @@ export default function Material() {
             type: ele.description,
             price: "₹" + ele.price,
             material_id: ele.material_id,
-            updatedAt: "2024-09-10T09:39:19.000Z",
+            updatedAt: "",
           };
         });
         setMaterials(responseData);
@@ -66,6 +66,7 @@ export default function Material() {
         ...cartItem,
         material: material.name,
         material_id: material.material_id,
+        material_img: material.img,
       })
     );
     handleSelect(material.material_id);

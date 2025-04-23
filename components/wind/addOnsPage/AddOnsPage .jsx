@@ -160,7 +160,7 @@ const AddOnsPage = () => {
     <div className="min-h-screen text-blue-900 relative">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Fixed footer */}
-        <div className="bg-[#] fixed bottom-0 left-0 w-full border-t shadow-md p-4 z-50 md:relative md:mt-1 md:shadow-none md:border-t-0 md:p-0">
+        <div className="bg-white fixed bottom-0 left-0 w-full border-t shadow-md p-4 z-50 md:relative md:mt-1 md:shadow-none md:border-t-0 md:p-0">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
             <div className="text-sm text-gray-700">
               All {addons.length} add-ons included

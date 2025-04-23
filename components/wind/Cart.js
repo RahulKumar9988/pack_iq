@@ -12,13 +12,19 @@ import {
   Card,
   CardBody,
   Tooltip,
-  Badge
+  Badge,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
+import { EditIcon } from "lucide-react"; // Import EditIcon from lucide-react
 
 export default function Cart() {
   const [value, setValue] = useState({
@@ -39,6 +45,7 @@ export default function Cart() {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
 
   // Enhanced selection change handler that also updates the cartItem via Redux if needed
@@ -138,6 +145,12 @@ export default function Cart() {
   const itemPrice = getItemPrice();
   const pricePerItem = cartItem?.quantity ? (itemPrice / parseFloat(cartItem.quantity)).toFixed(2) : 0;
   
+  // Handle form submission in the modal
+  const handleSaveChanges = () => {
+    onClose(); // Close the modal
+    // Additional logic if needed after saving changes
+  };
+
   // Fixed handleSave function with order date
   async function handleSave() {
     try {
@@ -150,10 +163,7 @@ export default function Cart() {
         return;
       }
       
-      // Get current date
-      // const orderDate = getCurrentDate();
-      
-      // Create payload with proper structure and add order date
+      // Create payload with proper structure
       const payload = {
         user_id: userId,
         packaging_id: parseInt(cartItem.packaging_id),
@@ -162,7 +172,6 @@ export default function Cart() {
         material_id: parseInt(cartItem.material_id),
         payment_status_id: 1,
         price: parseFloat(totalPrice),
-        // order_date: orderDate, // Add order date to payload
         additions_id: Array.isArray(cartItem.addons) ? 
           cartItem.addons.map(addon => addon.additionsId?.additions_id || addon.id) : 
           cartItem.addons ? [cartItem.addons.additionsId?.additions_id || cartItem.addons.id] : 
@@ -177,13 +186,10 @@ export default function Cart() {
       if (response.status === 200 || response.status === 201) {
         // Save order to localStorage with date
         const orderWithDate = {
-          ...cartItem,
-          // order_date: orderDate
+          ...cartItem
         };
         localStorage.setItem('lastOrder', JSON.stringify(orderWithDate));
         
-        // Keep showing loading state during the transition
-        // We'll use a timeout to clear the cart AFTER navigation starts
         // Navigate to the order page first, keeping the cart visible during transition
         router.push("/order");
         
@@ -216,7 +222,7 @@ export default function Cart() {
 
   // Loading overlay component
   const LoadingOverlay = () => (
-    <div className="fixed inset-0  bg-opacity-80 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-opacity-80 z-50 flex items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-700"></div>
         <p className="mt-4 text-lg font-medium text-gray-700">Processing your order...</p>
@@ -237,6 +243,7 @@ export default function Cart() {
     setTotalPrice(calculatedTotalPricePerQuantity + calculatedGST);
   }, [itemPrice, cartItem.quantity]);
 
+  console.log(cartItem, "cartItem");
   return (
     <div className="container mx-auto mb-20">
       <div className="flex flex-col lg:flex-row gap-8">
@@ -250,7 +257,7 @@ export default function Cart() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="shadow-md rounded-xl overflow-hidden bg-[#]">
+              <Card className="shadow-md rounded-xl overflow-hidden">
                 <CardBody className="p-4 md:p-6">
                   <div className="flex flex-col sm:flex-row gap-6">
                     {/* Product Image */}
@@ -290,8 +297,17 @@ export default function Cart() {
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
-                          <p>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></p>
-                          {/* <p>Size: <span className="font-medium">{cartItem.size || "N/A"}</span></p> */}
+                          <div className="flex items-center">
+                            Material:  
+                              <img className="h-10" src={cartItem.material_img} alt={cartItem.material} />
+                              <span className="font-medium">{cartItem.material || "N/A"}</span>
+                            </div>
+                          <p className="flex items-center gap-2">Size: <span className="font-medium">
+                            {constants.size.find(s => s.packaging_type_size_id.toString() === value.size)?.size?.replace('Size: ', '') || "Not selected"}
+                          </span></p>
+                          <p>Quantity: <span className="font-medium">
+                            {constants.quantity.find(q => q.packaging_type_size_quantity_id.toString() === value.quantity)?.quantity?.replace('Quantity: ', '') || "Not selected"}
+                          </span></p>
                           <p>Additions: <span className="font-medium">{cartItem.addons ? (
                             Array.isArray(cartItem.addons) ? 
                               cartItem.addons.map(addon => addon.additionsId?.additions_title || addon.name).join(', ') || "Not selected" : 
@@ -300,68 +316,29 @@ export default function Cart() {
                                 cartItem.addons
                           ) : "Not selected"}</span>
                           </p>
-                          <p>Quantity: <span className="font-medium">{cartItem.quantity || "N/A"}</span></p>
-                          {/* <p>Order Date: <span className="font-medium">{getCurrentDate()}</span></p> */}
                         </div>
                       </div>
                       
                       <Divider className="my-4" />
                       
-                      {/* Product Options */}
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#]">
-                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto bg-[#]">
-                          <Select
-                            aria-label="Select size"
-                            name="size"
-                            placeholder="Select size"
-                            className="w-full sm:w-40 bg-[#]"
-                            selectedKeys={value.size ? [value.size] : []}
-                            onChange={handleSelectionChange}
-                            isDisabled={loading}
-                          >
-                            {constants.size.length > 0 ? (
-                              constants.size.map((ele) => (
-                                <SelectItem className="bg-[#]" key={ele.packaging_type_size_id.toString()}>
-                                  {ele.size}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <SelectItem className="bg-[#]" key="loading">
-                                {loading ? "Loading..." : "No sizes available"}
-                              </SelectItem>
-                            )}
-                          </Select>
-                          
-                          <Select
-                            aria-label="Select quantity"
-                            name="quantity"
-                            placeholder="Select quantity"
-                            className="w-full sm:w-40 bg-[#]"
-                            selectedKeys={value.quantity ? [value.quantity] : []}
-                            onChange={handleSelectionChange}
-                            isDisabled={loading || constants.quantity.length === 0}
-                          >
-                            {constants.quantity.length > 0 ? (
-                              constants.quantity.map((ele) => (
-                                <SelectItem className="bg-[#]" key={ele.packaging_type_size_quantity_id.toString()}>
-                                  {ele.quantity}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <SelectItem className="bg-[#]" key="loading">
-                                {loading ? "Loading..." : "Select size first"}
-                              </SelectItem>
-                            )}
-                          </Select>
-                        </div>
+                      {/* Edit button and Remove button */}
+                      <div className="flex justify-between items-center bg-[#]">
+                        <Button
+                          color="primary"
+                          variant="flat"
+                          startContent={<EditIcon size={18} />}
+                          onClick={onOpen}
+                          className="px-4"
+                        >
+                          Edit
+                        </Button>
                         
                         <Tooltip content="Remove from cart" color="primary">
                           <Button
-                            color=''
+                            color=""
                             variant="light"
                             startContent={<DeleteIcon />}
                             onClick={handleDelete}
-                            className="self-end"
                           >
                             <span className="sm:inline hidden">Remove</span>
                           </Button>
@@ -373,7 +350,7 @@ export default function Cart() {
               </Card>
             </motion.div>
           ) : (
-            <Card className="shadow-xs flex bg-[#]">
+            <Card className="shadow-xs flex">
               <CardBody className="py-12">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <div className="text-6xl text-gray-300">🛒</div>
@@ -395,7 +372,7 @@ export default function Cart() {
         {Object.keys(cartItem).length ? (
           <div className="w-full lg:w-2/5 lg:sticky lg:top-24 self-start">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Order Summary</h1>
-            <Card className="shadow-md rounded-xl bg-[#]">
+            <Card className="shadow-md rounded-xl">
               <CardBody className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between text-gray-700">
@@ -415,11 +392,6 @@ export default function Cart() {
                     <span>{deliveryFee > 0 ? `₹${deliveryFee}` : "Free"}</span>
                   </div>
                   
-                  {/* <div className="flex justify-between text-gray-700">
-                    <span>Order Date</span>
-                    <span>{getCurrentDate()}</span>
-                  </div> */}
-                  
                   <Divider />
                   
                   <div className="flex justify-between font-bold text-lg">
@@ -428,18 +400,18 @@ export default function Cart() {
                   </div>
                 </div>
                 
-                {!auth?(
+                {!auth ? (
                   <Button
                     color="primary"
-                    className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
+                    className="w-full mt-6 px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
                     onClick={()=>router.push('/auth/signin')}
                   >
                     Please login to checkout
                   </Button>
-                ):(
+                ) : (
                   <Button
                     color="primary"
-                    className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
+                    className="w-full mt-6 px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
                     onClick={handleSave}
                     isDisabled={isConfirmDisabled}
                     isLoading={loading}
@@ -456,6 +428,72 @@ export default function Cart() {
           </div>
         ) : null}
       </div>
+      
+      {/* Edit Modal */}
+      <Modal 
+        isOpen={isOpen} 
+        onClose={onClose}
+        size="md"
+      >
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">Edit Item Details</ModalHeader>
+          <ModalBody>
+            <div className="flex gap-10">
+              <Select
+                label="Size"
+                name="size"
+                placeholder="Select size"
+                selectedKeys={value.size ? [value.size] : []}
+                onChange={handleSelectionChange}
+                isDisabled={loading}
+                fullWidth
+              >
+                {constants.size.length > 0 ? (
+                  constants.size.map((ele) => (
+                    <SelectItem key={ele.packaging_type_size_id.toString()}>
+                      {ele.size}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem key="loading">
+                    {loading ? "Loading..." : "No sizes available"}
+                  </SelectItem>
+                )}
+              </Select>
+              
+              <Select
+                label="Quantity"
+                name="quantity"
+                placeholder="Select quantity"
+                selectedKeys={value.quantity ? [value.quantity] : []}
+                onChange={handleSelectionChange}
+                isDisabled={loading || constants.quantity.length === 0}
+                fullWidth
+              >
+                {constants.quantity.length > 0 ? (
+                  constants.quantity.map((ele) => (
+                    <SelectItem key={ele.packaging_type_size_quantity_id.toString()}>
+                      {ele.quantity}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem key="loading">
+                    {loading ? "Loading..." : "Select size first"}
+                  </SelectItem>
+                )}
+              </Select>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" variant="flat" onPress={onClose}>
+              Cancel
+            </Button>
+            <Button color="primary" onPress={handleSaveChanges}>
+              Save Changes
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       
       {/* Loading Overlay */}
       {loading && <LoadingOverlay />}

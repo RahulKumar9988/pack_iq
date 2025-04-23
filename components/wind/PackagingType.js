@@ -165,7 +165,7 @@ export default function PackagingType() {
                 isPressable
               >
                 <CardBody className="p-0">
-                  <div className="h-full flex flex-col gap-3 sm:gap-5 items-center sm:items-start sm:justify-around pt-2 relative">
+                  <div className="h-full flex flex-col gap-3 sm:gap-5 items-center sm:justify-around pt-2 relative">
                     <div className="relative w-24 sm:w-auto flex-shrink-0">
                       <motion.div
                         animate={{ 
@@ -194,7 +194,7 @@ export default function PackagingType() {
                       </motion.div>
                     </div>
 
-                    <div className="flex flex-col gap-2 sm:gap-3 justify-around text-center sm:text-left flex-1">
+                    <div className="flex flex-col items-center gap-2 sm:gap-3 justify-around text-center sm:text-left flex-1">
                       <div className="text-base sm:text-xl font-semibold">
                         {item.name}
                       </div>
