@@ -1,16 +1,62 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ProductSkeleton from "@/components/ProductSkeleton";
+import { Card, CardBody, Button } from "@nextui-org/react";
+import { motion, AnimatePresence } from "framer-motion";
+import { LuArrowRight, LuSparkles } from "react-icons/lu";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+// Decorative elements component
+const DecorativeElements = ({ position }) => {
+  return (
+    <div className={`absolute ${position} z-0 pointer-events-none`}>
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0.7 }}
+        animate={{ 
+          scale: [0.8, 1, 0.8],
+          opacity: [0.7, 1, 0.7]
+        }}
+        transition={{ 
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <LuSparkles className="text-[#E45971] opacity-60" size={16} />
+      </motion.div>
+    </div>
+  );
+};
+
+// Circle background decoration
+const CircleDecoration = ({ size, position, color, delay }) => {
+  return (
+    <motion.div 
+      className={`absolute ${position} rounded-full bg-${color} opacity-30 z-0 pointer-events-none`}
+      style={{ width: size, height: size }}
+      initial={{ scale: 0.6, opacity: 0 }}
+      animate={{ 
+        scale: [0.6, 1, 0.6],
+        opacity: [0, 0.3, 0]
+      }}
+      transition={{ 
+        duration: 4,
+        delay: delay,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+    />
+  );
+};
 
 export default function RecommendedProducts() {
   const router = useRouter();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredItem, setHoveredItem] = useState(null);
   const productsPerPage = 4;
 
   useEffect(() => {
@@ -20,6 +66,11 @@ export default function RecommendedProducts() {
   const navigateToProductDetail = (productId) => {
     router.push(`/products/${productId}`);
   };
+
+  // Create a truncated description for cards
+  const getTruncatedDescription = useCallback((description) => {
+    return description.split(' ').slice(0, 15).join(' ') + '...';
+  }, []);
 
   async function getPackagingType() {
     setLoading(true);
@@ -31,9 +82,7 @@ export default function RecommendedProducts() {
           icon: ele.packaging_image_icon_url,
           description: ele.description,
           name: ele.name,
-          time: "4-7 weeks",
           minimum_qty: ele.minimum_qty,
-          price: "₹ 0.930",
           packaging_image_url: ele.packaging_image_url,
           quantity: ele.minimum_qty,
         }));
@@ -49,11 +98,15 @@ export default function RecommendedProducts() {
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
       {loading ? (
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
           {Array(productsPerPage)
             .fill(0)
             .map((_, index) => (
-              <ProductSkeleton key={`skeleton-${index}`} />
+              <div key={index} className="h-96 animate-pulse bg-gray-100 rounded-lg relative overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gray-200 animate-pulse"></div>
+                <div className="absolute bottom-6 left-0 right-0 mx-auto w-32 h-4 bg-gray-200 animate-pulse"></div>
+                <div className="absolute bottom-0 left-0 right-0 mx-auto w-24 h-4 bg-gray-200 animate-pulse mb-6"></div>
+              </div>
             ))}
         </div>
       ) : productList.length === 0 ? (
@@ -61,47 +114,152 @@ export default function RecommendedProducts() {
           No products found
         </div>
       ) : (
-        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-          {productList.map((product, index) => (
-            <div
-              key={index}
-              onClick={() => navigateToProductDetail(product.packaging_id)}
-              className="group flex flex-col bg-white rounded-lg overflow-hidden transform transition duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer border border-indigo-100"
-            >
-              <div className="relative w-full aspect-square bg-gray-50">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-30" />
-                <Image
-                  className="object-contain p-2 sm:p-4"
-                  src={product.packaging_image_url}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  priority={index < 2}
-                />
-              </div>
-              
-              <div className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 flex-grow">
-                <h3 className="font-medium text-xs sm:text-sm text-indigo-900 line-clamp-1">
-                  {product.name}
-                </h3>
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+          {productList.map((product, index) => {
+            const isHovered = hoveredItem === index;
+            const truncatedDescription = getTruncatedDescription(product.description);
+            
+            return (
+              <div
+                key={product.packaging_id || index}
+                className="h-96 relative cursor-pointer"
+                onMouseEnter={() => setHoveredItem(index)}
+                onMouseLeave={() => setHoveredItem(null)}
+                onClick={() => navigateToProductDetail(product.packaging_id)}
+              >
+                {/* Decorative elements */}
+                <DecorativeElements position="top-3 right-3" />
+                <DecorativeElements position="bottom-6 left-8" />
+                <CircleDecoration size="70px" position="top-1 right-1" color="pink-200" delay={0} />
+                <CircleDecoration size="40px" position="bottom-4 left-4" color="blue-200" delay={1.5} />
                 
-                <p className="text-xs text-gray-500 line-clamp-2 min-h-[2.5rem]">
-                  {(product.description).split(' ').slice(0, 10).join(' ') + '...'}
-                </p>
+                <motion.div
+                  whileHover={{ translateY: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="h-full"
+                >
+                  <Card
+                    shadow="sm"
+                    className="bg-gradient-to-br from-white to-blue-50 border border-gray-200 h-full w-full relative overflow-visible"
+                    isPressable
+                  >
+                    <CardBody className="flex flex-col items-center justify-between p-4">
+                      {/* Image centered and emphasized */}
+                      <div className="flex-1 flex items-center justify-center w-full relative mb-4">
+                        <motion.div
+                          animate={{ 
+                            boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0.1)" 
+                          }}
+                          transition={{ duration: 0.3 }}
+                          className="rounded-full bg-white p-3 border border-gray-100 relative"
+                        >
+                          <Image
+                            src={product.packaging_image_url}
+                            className="object-contain"
+                            alt={product.name}
+                            width={120}
+                            height={120}
+                            priority={index < 2}
+                            loading={index < 2 ? "eager" : "lazy"}
+                          />
+                        </motion.div>
+                      </div>
+
+                      {/* Text content at bottom */}
+                      <div className="w-full text-center">
+                        <h3 className="text-base font-semibold mb-1 line-clamp-1">{product.name}</h3>
+                        <p className="text-xs text-gray-600 mb-2 line-clamp-2">{truncatedDescription}</p>
+                        <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                          <span>Min Qty: </span>
+                          <span className="font-medium">{product.quantity}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Always visible detail button with hover effect */}
+                      <div className="absolute bottom-3 right-3 z-10">
+                        <Button
+                          isIconOnly
+                          className={`${isHovered ? 'bg-[#E45971]' : 'bg-gray-300'} text-white shadow-md hover:bg-[#d34663] transition-colors duration-200`}
+                          size="sm"
+                          radius="full"
+                        >
+                          <LuArrowRight size={16} />
+                        </Button>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </motion.div>
                 
-                <div className="mt-auto pt-1 sm:pt-2 flex items-center justify-between">
-                  <span className="text-[10px] sm:text-xs font-medium rounded-full bg-blue-100 text-blue-700 px-1.5 sm:px-2 py-0.5 sm:py-1">
-                    Min: {product.minimum_qty}
-                  </span>
-                  <span className="text-[10px] sm:text-xs text-purple-600 font-medium">
-                    {product.time}
-                  </span>
-                </div>
+                {/* Full Description Overlay - Only render when hovered */}
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 backdrop-blur-lg bg-[#e4f1ff]/90 z-10 flex flex-col justify-between rounded-lg overflow-hidden"
+                    >
+                      {/* Decorative circles in the overlay */}
+                      <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#E45971]/10 rounded-full"></div>
+                      <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-200/30 rounded-full"></div>
+                      
+                      <div className="h-full flex flex-col p-6 relative z-10">
+                        {/* Larger image at the top */}
+                        <div className="flex-1 flex justify-center items-center mb-4">
+                          <Image
+                            src={product.packaging_image_url}
+                            alt={product.name}
+                            width={140}
+                            height={140}
+                            className="object-contain"
+                          />
+                        </div>
+                        
+                        {/* Content at the bottom */}
+                        <div className="space-y-3">
+                          <h3 className="text-xl font-bold text-[#253670] text-center">{product.name}</h3>
+                          <p className="text-sm text-gray-700 line-clamp-3">{product.description}</p>
+                          
+                          <div className="flex justify-between items-center text-sm mt-2">
+                            <span className="font-medium text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs">
+                              {product.time}
+                            </span>
+                            <span className="font-medium text-purple-600">{product.price}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
+      
+      {/* Global animation styles */}
+      <style jsx global>{`
+        @keyframes ping-once {
+          0% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.5);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        
+        .animate-ping-once {
+          animation: ping-once 0.8s cubic-bezier(0, 0, 0.2, 1);
+        }
+      `}</style>
     </div>
   );
 }
