@@ -114,7 +114,7 @@ export default function PackagingType() {
 
   // Create a truncated description for cards
   const getTruncatedDescription = useCallback((description) => {
-    return description.split(' ').slice(0, 20).join(' ') + '...';
+    return description.split(' ').slice(0,9).join(' ') + '...';
   }, []);
 
   // Loading skeleton
@@ -178,8 +178,8 @@ export default function PackagingType() {
                           src={item.packaging_image_url}
                           className="object-contain"
                           alt={item.name}
-                          width={100}
-                          height={100}
+                          width={130}
+                          height={120}
                           priority={index < 4}
                           loading={index < 4 ? "eager" : "lazy"}
                         />
@@ -238,8 +238,8 @@ export default function PackagingType() {
                       <Image
                         src={item.packaging_image_url}
                         alt={item.name}
-                        width={100}
-                        height={100}
+                        width={120}
+                        height={120}
                         className="object-contain sm:block"
                       />
                       
