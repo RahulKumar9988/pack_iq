@@ -246,7 +246,7 @@ export default function Cart() {
   console.log(cartItem, "cartItem");
   return (
     <div className="container mx-auto mb-20">
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex gap-8  ">
         {/* Cart Items Section */}
         <div className="w-full lg:w-3/5">
           <h1 className="text-2xl font-bold mb-6 text-gray-800">Your Cart</h1>
@@ -350,14 +350,16 @@ export default function Cart() {
               </Card>
             </motion.div>
           ) : (
-            <Card className="shadow-xs flex">
-              <CardBody className="py-12">
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <div className="text-6xl text-gray-300">🛒</div>
-                  <h3 className="text-xl font-medium text-gray-600">Your cart is empty</h3>
+            <Card className="shadow-sm rounded-2xl p-6">
+              <CardBody className=" ">
+                <div className="flex flex-col items-center justify-center gap-6">
+                  <div className="text-7xl text-indigo-400 drop-shadow-lg animate-bounce">🛒</div>
+                  <h3 className="text-2xl font-semibold text-gray-700">Your cart is empty</h3>
+                  <p className="text-gray-500 text-center max-w-xs">
+                    Looks like you haven not added anything yet. Start exploring our store to fill your cart!
+                  </p>
                   <Button 
-                    color="primary" 
-                    variant="flat" 
+                    className="bg-indigo-500 text-white px-6 py-3 rounded-xl hover:bg-indigo-600 transition-all duration-300 shadow-md"
                     onClick={() => router.push('/')}
                   >
                     Continue Shopping
@@ -365,6 +367,7 @@ export default function Cart() {
                 </div>
               </CardBody>
             </Card>
+
           )}
         </div>
         
