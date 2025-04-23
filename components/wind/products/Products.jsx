@@ -120,7 +120,7 @@ export default function Products() {
   }
 
   return (
-    <div className="bg-[#fffef7] w-full max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div className="bg-[#] w-full max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       {loading ? (
         // Responsive skeleton grid
         <div className="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
@@ -135,7 +135,7 @@ export default function Products() {
           No products found matching your filters
         </div>
       ) : (
-        <div className="flex flex-col items-center w-full bg-[#fffef7]">
+        <div className="flex flex-col items-center w-full bg-[#]">
           {/* Responsive product grid */}
           <div className="w-full grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {displayedProducts.map((product, index) => (

@@ -122,12 +122,12 @@ const Summary = () => {
               <div className="w-1/3 p-4 font-medium">Packaging form:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.name || "Not selected"}</span>
-                <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
+                {/* <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 20h9"></path>
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                   </svg>
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -136,12 +136,12 @@ const Summary = () => {
               <div className="w-1/3 p-4 font-medium">Material:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.material || "Not selected"}</span>
-                <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
+                {/* <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 20h9"></path>
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                   </svg>
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -150,12 +150,12 @@ const Summary = () => {
               <div className="w-1/3 p-4 font-medium">Size:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.size || "Not selected"}</span>
-                <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
+                {/* <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 20h9"></path>
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                   </svg>
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -168,12 +168,12 @@ const Summary = () => {
                   {/* <span className="font-medium">
                     ₹ {itemPrice}
                   </span> */}
-                  <button className="text-[#253670] ml-4" onClick={()=>router.push('/packaging-type')}>
+                  {/* <button className="text-[#253670] ml-4" onClick={()=>router.push('/packaging-type')}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 20h9"></path>
                       <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                     </svg>
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -183,12 +183,12 @@ const Summary = () => {
               <div className="w-1/3 p-4 font-medium">Design:</div>
               <div className="w-2/3 p-4 flex justify-between items-center">
                 <span>{cartItem.design_number || "Not selected"}</span>
-                <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
+                {/* <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 20h9"></path>
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                   </svg>
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -205,12 +205,12 @@ const Summary = () => {
                       cartItem.addons
                 ) : "Not selected"}
               </span>
-                <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
+                {/* <button className="text-[#253670]" onClick={()=>router.push('/packaging-type')}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 20h9"></path>
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                   </svg>
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@ const Summary = () => {
               <div className="flex flex-col justify-between w-full gap-5">
                 <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Total MRP:</span>
-                  <span>₹ {totalPricePerQty}</span>
+                  <span>₹ {totalPricePerQty.toFixed(2)}</span>
                 </span>
                 {/* <span className="flex justify-between w-full">
                   <span className="text-[#03172B96]">Price per item</span>
@@ -241,7 +241,7 @@ const Summary = () => {
                 <Divider />
                 <span className="flex justify-between font-bold">
                   <span>Total</span>
-                  <span>₹ {totalPrice}</span>
+                  <span>₹ {totalPrice.toFixed(2)}</span>
                 </span>
               </div>
             </div>
@@ -249,8 +249,8 @@ const Summary = () => {
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-4 mt-6">
-            <button onClick={()=>router.push('/')} className="text-xs w-[88px] font-medium border-1 border-[#143761] bg-gray-50 rounded-md text-[#143761] h-[38px]">
-              exit
+            <button onClick={()=>router.back()  } className="text-xs w-[88px] font-medium border-1 border-[#143761] bg-gray-50 rounded-md text-[#143761] h-[38px]">
+              back
             </button>
             <button onClick={()=>router.push('/cart')} className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
               Add to Cart
@@ -261,15 +261,6 @@ const Summary = () => {
         <div className="p-8 text-center text-gray-500 shadow rounded-lg">No Item in Cart</div>
       )}
 
-      {/* Mobile Fixed Bottom Bar - Same as in Cart */}
-      <div className="mobile:hidden fixed left-0 bottom-0 flex items-center justify-between w-full px-[30px] py-[14px]">
-        <div>
-          <span className="font-medium">₹ {totalPrice}</span>
-        </div>
-        <button onClick={()=>router.push('/cart')} className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
-          Add to Cart
-        </button>
-      </div>
     </div>
   );
 };

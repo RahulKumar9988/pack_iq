@@ -14,6 +14,8 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useRouter } from "next/navigation";
+import { LuArrowLeft } from "react-icons/lu";
+
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const DEFAULT_IMAGE = "/size.png"; // Define default image constant
@@ -29,6 +31,9 @@ export default function Size() {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
+  const handleBack = () => {
+    router.back();
+  };
   
   useEffect(() => {
     if (!cartItem.material_id) {
@@ -148,7 +153,7 @@ export default function Size() {
                 >
                   <span
                     aria-hidden="true"
-                    className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before: bg-[#fffef7]outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-6 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
+                    className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before: bg-[#]outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-6 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
                   >
                     <svg
                       aria-hidden="true"
@@ -198,7 +203,7 @@ export default function Size() {
                         aria-label={ele.size}
                         classNames={{
                           base: cn(
-                            "inline-flex h-[80px] max-w-full w-full  bg-[#fffef7] m-0",
+                            "inline-flex h-[80px] max-w-full w-full  bg-[#] m-0",
                             "hover:bg-content2 items-center justify-start",
                             "cursor-pointer gap-2 p-5 max-xs:rounded-xl max-xs:border-2 xs:last:border-none border-b-2 max-md:first:rounded-t-xl last:rounded-b-xl"
                           ),
@@ -266,31 +271,53 @@ export default function Size() {
         </div>
       </div>
       <div className="max-ml:hidden flex flex-col gap-5">
+        <div className="flex justify-around">
+          <div className="mb-4">
+              <Button 
+                onClick={handleBack}
+                className="bg-blue-50 hover:bg-gray-100 text-[#253670] px-2"
+                startContent={<LuArrowLeft size={20} />}
+              >
+                Back
+              </Button>
+            </div>
+            <Link
+                isDisabled={groupSelected.length === 0}
+                href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}
+                className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
+              >
+              Confirm
+            </Link>
+        </div>
+        
         <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 sm:p-3 md:p-4 pr-1 h-auto text-xs sm:text-sm md:text-base border-2 rounded-xl">
           <div className="text-sm sm:text-base">Your packaging</div>
-          <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm md:text-base">
+          <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
             <LuCheck className="text-sm" />
             <span>Type :</span>
             <span className="font-semibold">{cartItem.name}</span>
+          </div>
+          <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
+            <LuCheck className="text-sm" />
+            <span>Material :</span>
+            <span className="font-semibold">{cartItem.material}</span>
           </div>
         </div>
 
         <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 bg-[#FDD40A1A] text-sm border-2 rounded-xl">
           <span>Note</span>
-          <span>
-            When making your purchase, opting for a higher quantity can
-            significantly increase your savings. By buying in bulk, you often
-            get a better deal per unit, allowing you to save more in the long
-            run.
-          </span>
+          <ol className="list-disc list-inside text-xs text-gray-700 ">
+            <li>The size indicated is as per coffee beans and different products have
+              different weights, so we request you to order physical samples to verify the
+              sizes.
+            </li>
+
+            <li>Closed Sizes are mentioned for open size please download the print
+              template.
+            </li>
+          </ol>
         </div>
-        <Link
-          isDisabled={groupSelected.length === 0}
-          href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}
-          className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-lg font-bold bg-[#253670] text-white h-14"
-        >
-          Confirm
-        </Link>
+       
       </div>
       <div className="ml:hidden z-50 fixed left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
         <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">

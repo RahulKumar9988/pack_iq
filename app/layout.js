@@ -17,7 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${dmSans.className} scrollbar-hide w-full flex flex-col h-screen bg-[#fffef7]`}>
+      <body className={`${dmSans.className} scrollbar-hide w-full flex flex-col h-screen bg-[#]`}>
 
         <StoreProvider>
           {/* 🔹 Navbar for Desktop */}

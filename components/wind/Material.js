@@ -6,7 +6,7 @@ import axios from "axios";
 import { Poppins } from "next/font/google";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { LuCheck } from "react-icons/lu";
+import { LuArrowLeft, LuCheck } from "react-icons/lu";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,7 +21,9 @@ export default function Material() {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
-  
+  const handleBack = () => {
+    router.back();
+  };
   useEffect(() => {
     if (!cartItem.packaging_id) {
       router.back();
@@ -84,7 +86,7 @@ export default function Material() {
   return (
     <>
       <div
-        className={`${poppins.className} flex max-mobile:flex-col h-full justify-between max-mobile:max-w-screen-mobile gap-5 mb-[72px]  bg-[#fffef7]`}
+        className={`${poppins.className} flex max-mobile:flex-col h-full justify-between max-mobile:max-w-screen-mobile gap-5 mb-[72px]  bg-[#]`}
       >
         <div className="grid max-mobile:grid-cols-1 ml:grid-cols-2 w-full ml:w-4/5 gap-5 flex-col h-fit">
           {materials.map((ele, i) => {
@@ -93,7 +95,7 @@ export default function Material() {
                 className={`text-black h-fit p-3 cursor-pointer transition-all duration-300 hover:bg-slate-100 group ${
                   selectedMaterial === ele.material_id
                     ? "bg-[#ebeeef] shadow-lg border-2"
-                    : " bg-[#fffef7]"
+                    : " bg-[#]"
                 }`}
                 key={i}
                 onClick={() => handleMaterialSelect(ele)}
@@ -131,8 +133,26 @@ export default function Material() {
           })}
         </div>
         <div className="max-ml:hidden w-1/4 flex flex-col gap-5">
+          <div className="flex justify-around">
+            <div>
+              <Button 
+                onClick={handleBack}
+                className="bg-blue-50 hover:bg-gray-100 text-[#253670] px-2"
+                startContent={<LuArrowLeft size={20} />}
+              >
+                Back
+              </Button>
+            </div>
+            <Link
+              isDisabled={!selectedMaterial}
+              href={sizeRouteUrl}
+              className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
+            >
+                Confirm
+            </Link>
+          </div>
           <div className="flex flex-col gap-3 p-4 pr-1 min-w-[250px] text-sm border-2 rounded-xl">
-            <div>Your packaging</div>
+            <div>Your Selected Packaging</div>
             <div className="flex items-center gap-2">
               <LuCheck />
               <span> Type :</span>
@@ -152,22 +172,12 @@ export default function Material() {
           </div>
           <div className="flex flex-col gap-3 min-w-[250px] p-4 bg-[#FDD40A1A] text-sm border-2 rounded-xl">
             <span>Note</span>
-            <span>
-              When making your purchase, opting for a higher quantity can
-              significantly increase your savings. By buying in bulk, you often
-              get a better deal per unit, allowing you to save more in the long
-              run.
-            </span>
+            <ul className="list-disc list-inside text-xs text-gray-700">
+              <li>Matt Finish window will have a frosty window.</li>
+              <li>Any pouch with window will reduce the shelf life of the product as metalized layer is removed.</li>
+            </ul>
           </div>
-          <Link
-            isDisabled={!selectedMaterial}
-            href={sizeRouteUrl}
-            className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-lg font-bold bg-[#253670] text-white h-14"
-          >
-            <Button className="text-lg w-full font-bold bg-[#253670] text-white h-14">
-              Confirm
-            </Button>
-          </Link>
+          
         </div>
       </div>
       <div className="ml:hidden z-50 fixed bg-white left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">

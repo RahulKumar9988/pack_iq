@@ -73,10 +73,10 @@ export default function TabBar({ content }) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full bg-[#fffef7]">
+    <div className="flex flex-col items-center w-full bg-[#]">
       <Tabs
         aria-label="Options"
-        color="#fffef7"
+        color="#"
         variant="underlined"
         classNames={{
           base: "w-full",
@@ -98,7 +98,7 @@ export default function TabBar({ content }) {
                   onClick={() => handleTabClick(i)}
                 >
                   <div
-                    className="flex max-mobile:justify-between items-center gap-2 bg-[#fffef7]"
+                    className="flex max-mobile:justify-between items-center gap-2 bg-[#]"
                   >
                     <span
                       className={`relative max-w-fit min-w-min box-border whitespace-nowrap border-medium sm:px-1 max-mobile:h-3 mobile:h-4 lg:h-7 font-medium max-mobile:text-[9px] max-xs:text-[10px] max-sm:text-[11px] max-md:text-xs max-ml:text-sm rounded-full bg-transparent aspect-square flex justify-center items-center ${

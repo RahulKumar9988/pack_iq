@@ -3,7 +3,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div className='w-full px-6 bg-[#fffef7]'>
+    <div className='w-full px-6 bg-[#]'>
       <ProfileSection/>
     </div>
   )

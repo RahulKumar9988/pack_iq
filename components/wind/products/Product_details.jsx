@@ -233,7 +233,7 @@ export default function ProductDetail() {
   const currentSize = sizes.find(s => getSizeId(s)?.toString() === selectedSize?.toString());
 
   return (
-    <div className="w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 bg-[#fffef7]">
+    <div className="w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 bg-[#]">
       {/* Main content container with responsive max width */}
       <div className="mx-auto">
         {/* Product grid with improved professional styling */}

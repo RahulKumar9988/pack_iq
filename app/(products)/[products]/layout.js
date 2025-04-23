@@ -10,25 +10,20 @@ export default function Layout({ children }) {
   const content = {
     "packaging-type": {
       heading: "Packaging Type",
-      title: "Common features",
-      value: ["Zipper", "V notch"],
+      title: "Pick your packaging style:-",
+      
     },
     material: {
       heading: "Material",
-      title:
-        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
-      title2: "Get a discount by choosing bigger sizes and save more",
+      title: "Pick your finish:-",
     },
     size: {
       heading: "Size",
-      title: "Get a discount by choosing bigger sizes and save more",
-      title2: "Get a discount by choosing bigger sizes and save more",
+      title: "Pick your perfect Size:-",
     },
     quantity: {
       heading: "Quantity",
-      title:
-        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
-      title2: "Get a discount by choosing bigger sizes and save more",
+      title:"How many would you like to order?",
     },
     // designs: {
     //   heading: "no_designs",
@@ -38,9 +33,7 @@ export default function Layout({ children }) {
     // },
     additions: {
       heading: "Additions",
-      title:
-        "Get a discount when ordering larger quantities and select even more designs for your pouches.",
-      title2: "Get a discount by choosing bigger sizes and save more",
+      title:"Select Features on the pouches"
     },
     Summery: {
       heading: "Summery",
@@ -121,12 +114,12 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 w-full md:mt-0 px-2 md:px-16 bg-[#fffef7]">
-      <div className="mt-8 md:block hidden bg-[#fffef7]">
+    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 w-full md:mt-0 px-2 md:px-16 bg-[#]">
+      <div className="mt-8 md:block hidden bg-[#]">
         <TabBar content={content} />
       </div>
-      <div className="flex flex-col gap-[35px] max-mobile:gap-5 flex-grow bg-[#fffef7]">
-        <div className="flex mobile:gap-3 items-start bg-[#fffef7]">
+      <div className="flex flex-col gap-[35px] max-mobile:gap-5 flex-grow bg-[#]">
+        <div className="flex mobile:gap-3 items-start bg-[#]">
           <div 
             className="max-md:hidden cursor-pointer"
             onClick={handleBackClick}
@@ -135,7 +128,7 @@ export default function Layout({ children }) {
           </div>
           <NavDetails content={content} />
         </div>
-        <div className="flex flex-col flex-grow justify-between bg-[#fffef7]">
+        <div className="flex flex-col flex-grow justify-between bg-[#]">
           {children}
         </div>
       </div>

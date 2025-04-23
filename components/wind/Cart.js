@@ -250,7 +250,7 @@ export default function Cart() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="shadow-md rounded-xl overflow-hidden bg-[#fffef7]">
+              <Card className="shadow-md rounded-xl overflow-hidden bg-[#]">
                 <CardBody className="p-4 md:p-6">
                   <div className="flex flex-col sm:flex-row gap-6">
                     {/* Product Image */}
@@ -308,25 +308,25 @@ export default function Cart() {
                       <Divider className="my-4" />
                       
                       {/* Product Options */}
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#fffef7]">
-                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto bg-[#fffef7]">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#]">
+                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto bg-[#]">
                           <Select
                             aria-label="Select size"
                             name="size"
                             placeholder="Select size"
-                            className="w-full sm:w-40 bg-[#fffef7]"
+                            className="w-full sm:w-40 bg-[#]"
                             selectedKeys={value.size ? [value.size] : []}
                             onChange={handleSelectionChange}
                             isDisabled={loading}
                           >
                             {constants.size.length > 0 ? (
                               constants.size.map((ele) => (
-                                <SelectItem className="bg-[#fffef7]" key={ele.packaging_type_size_id.toString()}>
+                                <SelectItem className="bg-[#]" key={ele.packaging_type_size_id.toString()}>
                                   {ele.size}
                                 </SelectItem>
                               ))
                             ) : (
-                              <SelectItem className="bg-[#fffef7]" key="loading">
+                              <SelectItem className="bg-[#]" key="loading">
                                 {loading ? "Loading..." : "No sizes available"}
                               </SelectItem>
                             )}
@@ -336,19 +336,19 @@ export default function Cart() {
                             aria-label="Select quantity"
                             name="quantity"
                             placeholder="Select quantity"
-                            className="w-full sm:w-40 bg-[#fffef7]"
+                            className="w-full sm:w-40 bg-[#]"
                             selectedKeys={value.quantity ? [value.quantity] : []}
                             onChange={handleSelectionChange}
                             isDisabled={loading || constants.quantity.length === 0}
                           >
                             {constants.quantity.length > 0 ? (
                               constants.quantity.map((ele) => (
-                                <SelectItem className="bg-[#fffef7]" key={ele.packaging_type_size_quantity_id.toString()}>
+                                <SelectItem className="bg-[#]" key={ele.packaging_type_size_quantity_id.toString()}>
                                   {ele.quantity}
                                 </SelectItem>
                               ))
                             ) : (
-                              <SelectItem className="bg-[#fffef7]" key="loading">
+                              <SelectItem className="bg-[#]" key="loading">
                                 {loading ? "Loading..." : "Select size first"}
                               </SelectItem>
                             )}
@@ -373,7 +373,7 @@ export default function Cart() {
               </Card>
             </motion.div>
           ) : (
-            <Card className="shadow-xs flex bg-[#fffef7]">
+            <Card className="shadow-xs flex bg-[#]">
               <CardBody className="py-12">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <div className="text-6xl text-gray-300">🛒</div>
@@ -395,7 +395,7 @@ export default function Cart() {
         {Object.keys(cartItem).length ? (
           <div className="w-full lg:w-2/5 lg:sticky lg:top-24 self-start">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Order Summary</h1>
-            <Card className="shadow-md rounded-xl bg-[#fffef7]">
+            <Card className="shadow-md rounded-xl bg-[#]">
               <CardBody className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between text-gray-700">
@@ -415,16 +415,16 @@ export default function Cart() {
                     <span>{deliveryFee > 0 ? `₹${deliveryFee}` : "Free"}</span>
                   </div>
                   
-                  <div className="flex justify-between text-gray-700">
+                  {/* <div className="flex justify-between text-gray-700">
                     <span>Order Date</span>
-                    {/* <span>{getCurrentDate()}</span> */}
-                  </div>
+                    <span>{getCurrentDate()}</span>
+                  </div> */}
                   
                   <Divider />
                   
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total Amount</span>
-                    <span>₹{totalPrice}</span>
+                    <span>₹{totalPrice.toFixed(2)}</span>
                   </div>
                 </div>
                 
@@ -434,7 +434,7 @@ export default function Cart() {
                     className="px-6 font-bold bg-gradient-to-r from-blue-700 to-blue-900"
                     onClick={()=>router.push('/auth/signin')}
                   >
-                    Please login
+                    Please login to checkout
                   </Button>
                 ):(
                   <Button
@@ -444,7 +444,7 @@ export default function Cart() {
                     isDisabled={isConfirmDisabled}
                     isLoading={loading}
                   >
-                    {loading ? "Processing..." : "Place Order"}
+                    {loading ? "Processing..." : "Checkout & place order"}
                   </Button>
                 )}
                 

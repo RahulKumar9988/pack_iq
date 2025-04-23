@@ -1,14 +1,8 @@
 "use client";
 import React from "react";
-import { Poppins } from "next/font/google";
 import { GiCheckMark } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
 
 export default function NavDetails({ content }) {
   const pathName = usePathname();
@@ -37,11 +31,11 @@ export default function NavDetails({ content }) {
     <div className="flex justify-between w-full px-6 md:px-0">
       <div className="leading-none flex flex-col max-mobile:gap-[6px] mobile:gap-4">
         <div
-          className={`${poppins.className} text-xl max-mobile:font-medium mobile:text-[26px]`}
+          className={`text-xl font-bold mobile:text-[26px] text-[#072745]`}
         >
           {currentContent.heading}
         </div>
-        <div className="mobile:text-sm text-xs flex items-center justify-evenly gap-4">
+        <div className="text-[#072745] text-sm font-bold flex items-center justify-evenly gap-4">
           <div>
             <span className="max-mobile:hidden">{currentContent.title}</span>
             <span className="mobile:hidden">{currentContent.title2}</span>

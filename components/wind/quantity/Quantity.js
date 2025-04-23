@@ -1,17 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
   Link,
   Button,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Tooltip,
 } from "@nextui-org/react";
+import { LuArrowLeft } from "react-icons/lu";
 import { LuCheck, LuInfo } from "react-icons/lu";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -33,7 +26,10 @@ export default function Quantity() {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
-  
+  const handleBack = () => {
+    router.back();
+  };
+
   useEffect(() => {
     if (!cartItem.size_id) {
       router.back();
@@ -87,7 +83,10 @@ export default function Quantity() {
             discount: index === 0 ? 0 : discountPercentage.toFixed(0),
           };
         });
-        setQuantities(responseData);
+        
+        // Sort quantities in ascending order by quantity value
+        const sortedData = responseData.sort((a, b) => parseInt(a.size) - parseInt(b.size));
+        setQuantities(sortedData);
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
@@ -172,7 +171,7 @@ export default function Quantity() {
             {/* Header Row */}
             <div className="group bg-[#F9F9F9] relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 sm:px-6 border-b-2">
               <div className="grid grid-cols-5 w-full text-[#808b98]">
-                <div className="flex items-center text-xs sm:text-sm font-normal">
+                <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
                   Quantity
                 </div>
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
@@ -184,7 +183,7 @@ export default function Quantity() {
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
                   Total Price
                 </div>
-                <div className="flex justify-end items-center text-xs sm:text-sm font-normal">
+                <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
                   No of Design
                 </div>
               </div>
@@ -202,7 +201,7 @@ export default function Quantity() {
                   <div className="grid grid-cols-5 w-full gap-2">
                     {/* Size Column with Checkbox */}
                     <div className="flex flex-col justify-center">
-                      <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex justify-center flex-wrap items-center gap-2">
                         <div className="w-5 h-5 border rounded-full flex items-center justify-center">
                           {selectedItem?.size === ele.size && (
                             <div className="w-3 h-3 bg-[#253670] rounded-full"></div>
@@ -244,7 +243,7 @@ export default function Quantity() {
                     </div>
                     
                     {/* No of Design Column */}
-                    <div className="flex justify-end items-center">
+                    <div className="flex justify-center items-center">
                       <span className="text-sm sm:text-base">{ele.number}</span>
                     </div>
                   </div>
@@ -273,54 +272,49 @@ export default function Quantity() {
       
       {/* Right Sidebar - Desktop */}
       <div className="hidden lg:flex w-1/4 flex-col gap-5">
-        <div className="flex flex-col gap-3 p-4 text-sm border-2 rounded-xl min-w-[250px]">
-          <div className="font-medium">Your packaging</div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 min-w-fit">
-              <LuCheck className="text-sm text-[#253670]" />
-              <span>Type:</span>
-            </div>
-            <span className="font-normal">{cartItem.name}</span>
+      <div className="flex justify-around">
+          <div className="mb-4">
+            <Button 
+              onClick={handleBack}
+              className="bg-transparent hover:bg-gray-100 text-[#253670] px-2"
+              startContent={<LuArrowLeft size={20} />}
+            >
+              Back
+            </Button>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 min-w-fit">
-              <LuCheck className="text-sm text-[#253670]" />
-              <span>Size:</span>
-            </div>
-            <span className="font-normal">{cartItem.size}</span>
-            <span className="text-xs text-[#03172B80]">{`(${cartItem.dimension})`}</span>
+
+          <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
+            <Button className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'>
+              Confirm
+            </Button>
+          </Link>
+        </div>
+        <div className="flex flex-col gap-3 p-4 text-sm border-2 rounded-xl min-w-[250px]">          
+          <div className="text-sm sm:text-base">Your packaging</div>
+          <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
+            <LuCheck className="text-sm" />
+            <span>Type :</span>
+            <span className="font-semibold">{cartItem.name}</span>
           </div>
-          {selectedItem && (
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2 min-w-fit">
-                <LuCheck className="text-sm text-[#253670]" />
-                <span>Quantity:</span>
-              </div>
-              <span className="font-normal">{selectedItem.size}</span>
-              {parseInt(selectedItem.discount) > 0 && (
-                <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
-                  {selectedItem.discount}% off
-                </span>
-              )}
-            </div>
-          )}
+          <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
+            <LuCheck className="text-sm" />
+            <span>Material :</span>
+            <span className="font-semibold">{cartItem.material}</span>
+          </div>
+          <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
+            <LuCheck className="text-sm" />
+            <span>Size :</span>
+            <span className="font-semibold">{cartItem.size}</span>
+          </div>
         </div>
         
         <div className="flex flex-col gap-3 p-4 bg-[#FDD40A1A] min-w-[250px] text-sm border-2 rounded-xl">
           <span className="font-medium">Note</span>
-          <span>
-            When making your purchase, opting for a higher quantity can
-            significantly increase your savings. By buying in bulk, you often
-            get a better deal per unit, allowing you to save more in the long
-            run.
-          </span>
+          <ul className="list-disc list-inside text-xs text-gray-700">
+            <li>All Prices Attract 18% GST.</li>
+            <li>Possible Designs indicate how many designs is possible in the selected quantity.</li>
+          </ul>
         </div>
-        
-        <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
-          <Button className="w-full min-w-[250px] flex justify-center items-center rounded-lg text-lg font-bold bg-[#253670] text-white h-14">
-            Confirm
-          </Button>
-        </Link>
       </div>
       
       {/* Mobile Information Card */}
@@ -363,11 +357,11 @@ export default function Quantity() {
         <div className="flex flex-col text-xs items-start">
           <div className="text-[#03172B80]">Price</div>
           <div className="flex items-center gap-2">
-            <div className="font-medium">${selectedItem?.price || "0"}</div>
+            <div className="font-medium">₹{selectedItem?.price || "0"}</div>
             {selectedItem && parseInt(selectedItem.discount) > 0 && (
               <>
                 <span className="text-xs text-[#03172B80] line-through">
-                  ${parseFloat(selectedItem?.originalPrice || 0).toFixed(2)}
+                  ₹{parseFloat(selectedItem?.originalPrice || 0).toFixed(2)}
                 </span>
                 <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
                   {selectedItem.discount}% off
