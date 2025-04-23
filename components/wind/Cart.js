@@ -299,7 +299,6 @@ export default function Cart() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                           <div className="flex items-center">
                             Material:  
-                              <img className="h-10" src={cartItem.material_img} alt={cartItem.material} />
                               <span className="font-medium">{cartItem.material || "N/A"}</span>
                             </div>
                           <p className="flex items-center gap-2">Size: <span className="font-medium">
