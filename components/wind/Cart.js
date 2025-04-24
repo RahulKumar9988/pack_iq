@@ -547,12 +547,12 @@ export default function Cart() {
           </div>
         ) : null}
       </div>
-      
+
       {/* Edit Modal */}
       <Modal 
         isOpen={isOpen} 
         onClose={onClose}
-        size="md"
+        size="lg" // Changed from "md" to "lg" to accommodate the table
         motionProps={{
           variants: {
             enter: {
@@ -577,7 +577,7 @@ export default function Cart() {
         className="bg-gradient-to-br from-white to-blue-50"
       >
         <ModalContent className="relative overflow-hidden">
-          {/* Decorative elements */}
+          {/* Decorative elements remain the same */}
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-100 rounded-full blur-xl opacity-60 animate-pulse"></div>
           <div className="absolute -bottom-10 -left-10 w-28 h-28 bg-purple-100 rounded-full blur-xl opacity-40 animate-pulse" style={{ animationDelay: "1s" }}></div>
           
@@ -592,8 +592,9 @@ export default function Cart() {
           </ModalHeader>
           
           <ModalBody className="z-10">
-            <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-              <div className="flex-1 relative group">
+            <div className="flex flex-col gap-4">
+              {/* Size selector remains the same */}
+              <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-50 rounded-xl transform group-hover:scale-105 transition-transform duration-300 -z-10"></div>
                 <Select
                   label="Size"
@@ -630,63 +631,121 @@ export default function Cart() {
                 </Select>
               </div>
               
-              <div className="flex-1 relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl transform group-hover:scale-105 transition-transform duration-300 -z-10"></div>
-                <Select
-                  label="Quantity"
-                  name="quantity"
-                  placeholder="Select quantity"
-                  selectedKeys={value.quantity ? [value.quantity] : []}
-                  onChange={handleSelectionChange}
-                  isDisabled={loading || constants.quantity.length === 0}
-                  classNames={{
-                    trigger: "bg-white shadow-sm hover:shadow-md transition-shadow duration-200",
-                    label: "text-purple-700 font-medium"
-                  }}
-                  fullWidth
-                >
-                  {constants.quantity.length > 0 ? (
-                    constants.quantity.map((ele) => (
-                      <SelectItem 
-                        key={ele.packaging_type_size_quantity_id.toString()}
-                        className="data-[hover=true]:bg-purple-50"
-                      >
-                        {ele.quantity}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <SelectItem key="loading">
-                      {loading ? (
-                        <div className="flex items-center gap-2">
-                          <span className="animate-spin h-4 w-4 border-2 border-purple-500 border-t-transparent rounded-full"></span>
-                          <span>Loading quantities...</span>
+              {/* Quantities Table - New Section */}
+              {value.size && constants.quantity.length > 0 && (
+                <div className="w-full">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Select Quantity</h4>
+                  <div className="border-1 rounded-xl overflow-hidden">
+                    {/* Header Row */}
+                    <div className="bg-blue-50 relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 border-b-1">
+                      <div className="grid grid-cols-5 w-full text-[#808b98] text-xs">
+                        <div className="flex justify-center items-center font-normal">
+                          Quantity
                         </div>
-                      ) : "Select size first"}
-                    </SelectItem>
-                  )}
-                </Select>
-              </div>
-            </div>
-            
-            {/* Preview section */}
-            {value.size && value.quantity && (
-              <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100 animate-fadeIn">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Your Selection</h4>
-                <div className="flex justify-between text-sm">
-                  <div className="flex gap-2">
-                    <Badge size="sm" color="primary" variant="flat">
-                      {constants.size.find(s => s.packaging_type_size_id.toString() === value.size)?.size?.replace('Size: ', '') || ""}
-                    </Badge>
-                    <Badge size="sm" color="secondary" variant="flat">
-                      {constants.quantity.find(q => q.packaging_type_size_quantity_id.toString() === value.quantity)?.quantity?.replace('Quantity: ', '') || ""}
-                    </Badge>
+                        <div className="flex justify-center items-center font-normal">
+                          Discount
+                        </div>
+                        <div className="flex justify-center items-center font-normal">
+                          Price/unit
+                        </div>
+                        <div className="flex justify-center items-center font-normal">
+                          Total Price
+                        </div>
+                        <div className="flex justify-center text-center items-center font-normal">
+                          No of Design
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Quantity Items */}
+                    <div className="max-h-[300px] overflow-y-auto">
+                      {constants.quantity.map((ele, i) => {
+                        // Parse the quantity from the string (e.g., "Quantity: 100" -> 100)
+                        const quantityValue = parseInt(ele.quantity.replace('Quantity: ', ''));
+                        const discount = i === 0 ? 0 : ((constants.quantity[0]?.price - ele.price) / constants.quantity[0]?.price * 100).toFixed(0);
+                        
+                        return (
+                          <div
+                            key={i}
+                            className={`inline-flex h-auto min-h-16 w-full m-0 cursor-pointer border-b last:border-b-0 px-4 py-2 ${
+                              value.quantity === ele.packaging_type_size_quantity_id.toString() ? 'bg-blue-50' : 'hover:bg-blue-50'
+                            }`}
+                            onClick={() => handleSelectionChange({
+                              target: { name: 'quantity', value: ele.packaging_type_size_quantity_id.toString() }
+                            })}
+                          >
+                            <div className="grid grid-cols-5 w-full gap-2">
+                              {/* Size Column with Checkbox */}
+                              <div className="flex flex-col justify-center">
+                                <div className="flex justify-center flex-wrap items-center gap-2">
+                                  <div className="w-5 h-5 border rounded-full flex items-center justify-center">
+                                    {value.quantity === ele.packaging_type_size_quantity_id.toString() && (
+                                      <div className="w-3 h-3 bg-[#253670] rounded-full"></div>
+                                    )}
+                                  </div>
+                                  <span className="text-sm font-medium">
+                                    {quantityValue}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              {/* Discount Column */}
+                              <div className="flex justify-center items-center">
+                                {parseInt(discount) > 0 ? (
+                                  <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
+                                    {discount}% off
+                                  </span>
+                                ) : (
+                                  <span className="text-xs text-[#03172B80]">-</span>
+                                )}
+                              </div>
+
+                              {/* Price/unit Column */}
+                              <div className="flex flex-col justify-center items-center">
+                                <div className="flex flex-col items-center">
+                                  <span className="text-sm font-medium">
+                                    ₹{parseFloat(ele.price).toFixed(2)}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Total Price Column */}
+                              <div className="flex flex-col justify-center items-center">
+                                <div className="flex flex-col items-center">
+                                  <span className="text-sm font-medium">
+                                    ₹{(parseFloat(ele.price) * quantityValue).toFixed(2)}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              {/* No of Design Column - This is placeholder data since we don't have design_number in our quantity object */}
+                              <div className="flex justify-center items-center">
+                                <span className="text-sm">
+                                  {Math.max(1, Math.floor(quantityValue / 1000))}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <span className="font-semibold text-blue-700">
-                    ₹{getItemPrice()}/unit
-                  </span>
                 </div>
-              </div>
-            )}
+              )}
+              
+              {value.size && constants.quantity.length === 0 && (
+                <div className="p-4 bg-gray-50 rounded-lg text-center">
+                  {loading ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="animate-spin h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full"></span>
+                      <p>Loading quantities...</p>
+                    </div>
+                  ) : (
+                    <p>No quantities available for this size</p>
+                  )}
+                </div>
+              )}
+            </div>
           </ModalBody>
           
           <ModalFooter className="z-10">
@@ -714,8 +773,8 @@ export default function Cart() {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>  
-      
+      </Modal> 
+
       {/* Loading Overlay */}
       {loading && <LoadingOverlay />}
     </div>
