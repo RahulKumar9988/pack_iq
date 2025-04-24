@@ -44,7 +44,7 @@ const Summary = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4 ">
-      <h1 className="text-3xl font-bold mb-4">Summary</h1>
+      <h1 className="text-4xl font-bold mb-4 text-[#0b2949]">Summary</h1>
       
       {Object.keys(cartItem).length ? (
         <>
