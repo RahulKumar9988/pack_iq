@@ -157,12 +157,23 @@ export default function PackagingType() {
     );
   }
 
+  const BestSellingBadge = () => {
+    return (
+      <motion.div
+        className="absolute -top-2 -right-2 rounded-full px-2 py-1 flex items-center justify-center text-xs font-bold z-20 shadow-md"
+      >
+        <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20 " />
+      </motion.div>
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-[72px] scrollbar-hide">
       {productList.map((item, index) => {
         const isHovered = hoveredItem === index;
         const isSelected = selectedCardId === item.packaging_id;
         const truncatedDescription = getTruncatedDescription(item.description);
+        const isStandupPouch = item.name.toLowerCase().includes("standup pouch");
         
         return (
           <div
@@ -171,6 +182,7 @@ export default function PackagingType() {
             onMouseEnter={() => setHoveredItem(index)}
             onMouseLeave={() => setHoveredItem(null)}
           >
+            {isStandupPouch && <BestSellingBadge />}
             {/* Decorative elements */}
             <DecorativeElements position="top-3 right-3" />
             <DecorativeElements position="bottom-6 left-8" />
