@@ -44,7 +44,7 @@ const Summary = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4 ">
-      <h1 className="text-xl font-bold mb-4">Summary</h1>
+      <h1 className="text-3xl font-bold mb-4">Summary</h1>
       
       {Object.keys(cartItem).length ? (
         <>
@@ -85,13 +85,13 @@ const Summary = () => {
               <div className="mobile:flex-grow max-mobile:max-w-[240px] gap-4 flex flex-col">
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-2">
-                    <span className="text-xl mobile:text-sm sm:text-lg font-medium">
+                    <span className="text-xl mobile:text-sm sm:text-2xl font-semibold">
                       {cartItem.name || "Product Name"}
                     </span>
-                    <span className="flex mobile:text-sm max-mobile:hidden gap-3 text-[#7a8188]">
+                    <span className="flex mobile:text-sm max-mobile:hidden gap-3 text-[#000000]">
                       <span>Material : {cartItem.material || "N/A"}</span>
                     </span>
-                    <span className="flex text-xs  gap-3 text-[#7a8188]">
+                    <span className="flex text-sm  gap-3 text-[#000000]">
                       Packing : {cartItem.name || "N/A"} | Size : {cartItem.size || "N/A"} |
                       Quantity : {cartItem.quantity || "N/A"} | Design : {cartItem.design_number || "N/A"} | Material :{" "}
                       {cartItem.material || "N/A"}

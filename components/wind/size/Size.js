@@ -96,7 +96,7 @@ export default function Size() {
     // Remove blur effect after a short transition
     setTimeout(() => {
       setIsImageChanging(false);
-    }, 300);
+    },0);
   };
 
   const handleMouseEnter = (item) => {
@@ -115,7 +115,7 @@ export default function Size() {
   return (
     <div className="flex max-lg:flex-col max-md:w-full mb-[100px] gap-5">
       <div className="lg:w-4/5 max-ml:w-full flex max-md:flex-col gap-4">
-      <div className="sm:hidden md:w-auto h-full border-2 flex flex-col justify-center items-center rounded-xl overflow-hidden p-4 gap-3">
+      <div className="sm:hidden md:w-auto h-full border-1 flex flex-col justify-center items-center rounded-xl overflow-hidden p-4 gap-3">
         <Image
           src={getCurrentImage() || defaultImage} // Fallback handled here
           width={250} // Increased size
@@ -134,7 +134,7 @@ export default function Size() {
 
 
         <div className="grid sm:grid-cols-2 w-full h-fit gap-4">
-          <div className="xs:border-2 border-b-0 h-fit rounded-xl">
+          <div className="xs:border-1 border-b-0 h-fit rounded-xl">
             <div className="flex flex-col w-full rounded-b-xl rounded-t-xl gap-0">
               <CheckboxGroup
                 value={groupSelected}
@@ -148,12 +148,12 @@ export default function Size() {
                 }}
               >
                 <label
-                  className="max-xs:hidden inline-flex rounded-t-xl max-w-full w-full bg-[#f2f2f2] items-center justify-start gap-2 p-2 border-b-2 max-md:first:rounded-t-xl last:rounded-xl"
+                  className="max-xs:hidden inline-flex rounded-t-xl max-w-full w-full bg-blue-50 items-center justify-start gap-2 p-2 border-b-1 max-md:first:rounded-t-xl last:rounded-xl"
                   aria-label="XS"
                 >
                   <span
                     aria-hidden="true"
-                    className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before: bg-[#]outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-6 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
+                    className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-1 before:box-border before:border-transparent after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before: bg-[#]outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-6 rtl:ml-2 rtl:mr-[unset] rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
                   >
                     <svg
                       aria-hidden="true"
@@ -203,9 +203,9 @@ export default function Size() {
                         aria-label={ele.size}
                         classNames={{
                           base: cn(
-                            "inline-flex h-[80px] max-w-full w-full  bg-[#] m-0",
-                            "hover:bg-content2 items-center justify-start",
-                            "cursor-pointer gap-2 p-5 max-xs:rounded-xl max-xs:border-2 xs:last:border-none border-b-2 max-md:first:rounded-t-xl last:rounded-b-xl"
+                            "inline-flex h-[70px] max-w-full w-full m-0",
+                            "hover:bg-blue-50 items-center justify-start",
+                            "cursor-pointer gap-2 p-5 max-xs:rounded-xl max-xs:border-1 xs:last:border-none border-b-1 max-md:first:rounded-t-xl last:rounded-b-xl"
                           ),
                           icon: "rounded-full",
                           label: "max-xs:rounded-xl w-full",
@@ -217,7 +217,7 @@ export default function Size() {
                           <div className="flex justify-evenly items-center gap-4">
                             <Chip
                               size="lg"
-                              className="relative max-w-fit min-w-min box-border whitespace-nowrap px-2 h-10 rounded-full bg-default aspect-square w-10 flex justify-center text-xl font-semibold text-[#2F4693] items-center`"
+                              className="relative max-w-fit min-w-min box-border whitespace-nowrap px-2 h-10 rounded-full bg-blue-100 aspect-square w-10 flex justify-center text-xl font-semibold text-[#2F4693] items-center"
                             >
                               <span className="">{ele.size}</span>
                             </Chip>
@@ -252,7 +252,7 @@ export default function Size() {
               </CheckboxGroup>
             </div>
           </div>
-          <div className="w-full max-sm:hidden border-2 flex flex-col justify-center items-center rounded-xl">
+          <div className="w-full max-sm:hidden flex flex-col justify-center items-center rounded-xl">
             <Image
               src={getCurrentImage() || ALL_SIZE_IMAGES} // Fallback handled here
               alt="product size"
@@ -275,7 +275,7 @@ export default function Size() {
           <div className="mb-4">
               <Button 
                 onClick={handleBack}
-                className="bg-blue-50 hover:bg-gray-100 text-[#253670] px-2"
+                className="bg-blue-50 hover:bg-blue-100 text-[#253670] px-2"
                 startContent={<LuArrowLeft size={20} />}
               >
                 Back
@@ -290,7 +290,7 @@ export default function Size() {
             </Link>
         </div>
         
-        <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 sm:p-3 md:p-4 pr-1 h-auto text-xs sm:text-sm md:text-base border-2 rounded-xl">
+        <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 sm:p-3 md:p-4 pr-1 h-auto text-xs sm:text-sm md:text-base border-1 rounded-xl">
           <div className="text-sm sm:text-base">Your packaging</div>
           <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
             <LuCheck className="text-sm" />
@@ -304,7 +304,7 @@ export default function Size() {
           </div>
         </div>
 
-        <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 bg-[#FDD40A1A] text-sm border-2 rounded-xl">
+        <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 bg-[#FDD40A1A] text-sm border-1 rounded-xl">
           <span>Note</span>
           <ol className="list-disc list-inside text-xs text-gray-700 ">
             <li>The size indicated is as per coffee beans and different products have

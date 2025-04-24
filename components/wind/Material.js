@@ -93,9 +93,9 @@ export default function Material() {
           {materials.map((ele, i) => {
             return (
               <div
-                className={`text-black h-fit p-3 cursor-pointer transition-all duration-300 hover:bg-slate-100 group ${
+                className={`text-black h-fit p-3 cursor-pointer transition-all duration-300 hover:bg-blue-50 rounded-xl group ${
                   selectedMaterial === ele.material_id
-                    ? "bg-[#ebeeef] shadow-lg border-2"
+                    ? "bg-gradient-to-t from-blue-100 to-[#f4f7ff] shadow-lg border-1 rounded-lg"
                     : " bg-[#]"
                 }`}
                 key={i}

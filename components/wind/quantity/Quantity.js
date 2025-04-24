@@ -166,10 +166,10 @@ export default function Quantity() {
   return (
     <div className="flex flex-col lg:flex-row w-full mb-[100px] lg:mb-[72px] gap-4 max-w-[1200px] mx-auto">
       <div className="w-full lg:w-3/4 h-fit">        
-        <div className="border-2 h-fit rounded-xl overflow-hidden">
+        <div className="border-1 h-fit rounded-xl overflow-hidden">
           <div className="flex flex-col w-full h-fit">
             {/* Header Row */}
-            <div className="group bg-[#F9F9F9] relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 sm:px-6 border-b-2">
+            <div className="group bg-blue-50 relative tap-highlight-transparent inline-flex h-[50px] w-full rounded-t-xl items-center justify-between px-4 sm:px-8 border-b-1">
               <div className="grid grid-cols-5 w-full text-[#808b98]">
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
                   Quantity
@@ -194,7 +194,7 @@ export default function Quantity() {
               displayedQuantities.map((ele, i) => (
                 <div
                   key={i}
-                  className={`inline-flex h-auto min-h-16 w-full m-0 cursor-pointer border-b last:border-b-0 px-4 sm:px-6 py-2 ${selectedItem?.size === ele.size ? 'bg-blue-50' : 'hover:bg-content2'}`}
+                  className={`inline-flex h-auto min-h-16 w-full m-0 cursor-pointer border-b last:border-b-0 px-4 sm:px-6 py-2 ${selectedItem?.size === ele.size ? 'bg-blue-0' : 'hover:bg-blue-50'}`}
                   onClick={() => handleQuantitySelection(ele)}
                   onMouseEnter={() => handleMouseEnter(ele)}
                 >
@@ -289,7 +289,7 @@ export default function Quantity() {
             </Button>
           </Link>
         </div>
-        <div className="flex flex-col gap-3 p-4 text-sm border-2 rounded-xl min-w-[250px]">          
+        <div className="flex flex-col gap-3 p-4 text-sm border-1 rounded-xl min-w-[250px]">          
           <div className="text-sm sm:text-base">Your packaging</div>
           <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
             <LuCheck className="text-sm" />
@@ -308,7 +308,7 @@ export default function Quantity() {
           </div>
         </div>
         
-        <div className="flex flex-col gap-3 p-4 bg-[#FDD40A1A] min-w-[250px] text-sm border-2 rounded-xl">
+        <div className="flex flex-col gap-3 p-4 bg-[#FDD40A1A] min-w-[250px] text-sm border-1 rounded-xl">
           <span className="font-medium">Note</span>
           <ul className="list-disc list-inside text-xs text-gray-700">
             <li>All Prices Attract 18% GST.</li>
@@ -320,7 +320,7 @@ export default function Quantity() {
       {/* Mobile Information Card */}
       <div className="lg:hidden w-full flex flex-col gap-4 mt-2 mb-20">
         {selectedItem && (
-          <div className="border-2 rounded-xl p-4">
+          <div className="border-1 rounded-xl p-4">
             <div className="font-medium mb-2">Selected Package</div>
             <div className="grid grid-cols-2 gap-y-2">
               <div className="flex items-center gap-1">
