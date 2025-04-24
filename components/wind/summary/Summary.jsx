@@ -58,10 +58,9 @@ const Summary = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="flex items-center mb-6">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 bg-clip-text text-transparent">
             Order Summary
           </h1>
-          <div className="ml-4 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex-grow"></div>
         </div>
       </motion.div>
       
@@ -76,8 +75,8 @@ const Summary = () => {
             className="relative overflow-hidden"
           >
             {/* Animated accent */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
-            <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-blue-400 to-indigo-500 rounded-tr-md rounded-br-md"></div>
+            {/* <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+            <div className="absolute top-0 left-0 w-1  h-full bg-gradient-to-b from-blue-400 to-indigo-500 rounded-tr-md rounded-br-md"></div> */}
             
             <div className="flex gap-5 p-5 shadow-md rounded-lg mb-6 bg-white border border-gray-100">
               <div className="flex justify-center w-full items-start gap-4">
@@ -173,7 +172,7 @@ const Summary = () => {
                     {/* Desktop price display */}
                     <div className="max-sm:hidden min-w-fit flex flex-col gap-2">
                       <Tooltip content="Price per unit" color="primary">
-                        <span className="text-lg font-semibold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">
+                        <span className="text-lg font-semibold bg-gradient-to-r from-blue-700 to-indigo-800 bg-clip-text text-transparent">
                           ₹{itemPrice}/unit
                         </span>
                       </Tooltip>
