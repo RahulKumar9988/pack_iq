@@ -167,13 +167,7 @@ export default function PackagingType() {
                 <CardBody className="p-0">
                   <div className="h-full flex flex-col gap-3 sm:gap-5 items-center sm:justify-around pt-2 relative">
                     <div className="relative w-24 sm:w-auto flex-shrink-0">
-                      <motion.div
-                        animate={{ 
-                          boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0.1)" 
-                        }}
-                        transition={{ duration: 0.3 }}
-                        className="rounded-full bg-white p-2 border border-gray-100"
-                      >
+                      <motion.div>
                         <Image
                           src={item.packaging_image_url}
                           className="object-contain"
@@ -247,7 +241,7 @@ export default function PackagingType() {
                           as="a"
                           href={`/${item.name.toLowerCase().replace(/\s+/g, "-")}/material`}
                           onClick={() => handleCardClick(item, index)}
-                          className="bg-[#253670] text-white px-4 sm:px-6 py-2 rounded-full w-full sm:w-auto"
+                          className="bg-[#253670] text-white px-4 sm:px-6 py-2 rounded-full  sm:w-auto"
                         >
                           Select
                         </Button>

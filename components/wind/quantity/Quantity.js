@@ -3,6 +3,12 @@ import React, { useEffect, useState } from "react";
 import {
   Link,
   Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from "@nextui-org/react";
 import { LuArrowLeft } from "react-icons/lu";
 import { LuCheck, LuInfo } from "react-icons/lu";
@@ -12,16 +18,14 @@ import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useRouter } from "next/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-const ITEMS_PER_PAGE = 8;
 
 export default function Quantity() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [quantities, setQuantities] = useState([]);
-  const [displayedQuantities, setDisplayedQuantities] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isImageHovered, setIsImageHovered] = useState(false);
   const [firstItemPrice, setFirstItemPrice] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
@@ -38,17 +42,18 @@ export default function Quantity() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    // Update displayed quantities when quantities change
-    loadMoreQuantities();
-  }, [quantities, currentPage]);
-
   const getAddonRouteUrl = () => {
-    if (!cartItem.name) return '/additions'; // Changed from '/addon'
+    if (!cartItem.name) return '/additions';
     
-    // Format the package name for URL: lowercase, replace spaces with hyphens
     const formattedName = cartItem.name.toLowerCase().replace(/\s+/g, '-');
-    return `/${formattedName}/additions`; // Changed from '/${formattedName}/addon'
+    return `/${formattedName}/additions`;
+  };
+  
+  const handleNextClick = (e) => {
+    if (!selectedItem) {
+      e.preventDefault();
+      onOpen();
+    }
   };
   
   async function getSizes() {
@@ -57,7 +62,6 @@ export default function Quantity() {
         `${baseUrl}/api/v1/resources/list-packaging-type-size-quantity/${cartItem.packaging_type_size_id}`
       );
       if (response.data.status === 200) {
-        // Store the first item's price to calculate discounts
         let firstPrice = 0;
         if (response.data.data.length > 0) {
           firstPrice = response.data.data[0].quantityId.price;
@@ -65,11 +69,9 @@ export default function Quantity() {
         }
         
         const responseData = response.data.data.map((ele, index) => {
-          // Calculate discount percentage based on first item price
           let discountPercentage = 0;
           if (index > 0 && firstPrice > 0) {
             discountPercentage = ((firstPrice - ele.quantityId.price) / firstPrice) * 100;
-            // Handle negative discounts (price increases)
             if (discountPercentage < 0) discountPercentage = 0;
           }
           
@@ -84,7 +86,6 @@ export default function Quantity() {
           };
         });
         
-        // Sort quantities in ascending order by quantity value
         const sortedData = responseData.sort((a, b) => parseInt(a.size) - parseInt(b.size));
         setQuantities(sortedData);
       }
@@ -92,17 +93,6 @@ export default function Quantity() {
       console.error(error.response ? error.response.data : error.message);
     }
   }
-
-  const loadMoreQuantities = () => {
-    const startIndex = 0;
-    const endIndex = currentPage * ITEMS_PER_PAGE;
-    const newDisplayedQuantities = quantities.slice(startIndex, endIndex);
-    setDisplayedQuantities(newDisplayedQuantities);
-  };
-
-  const handleLoadMore = () => {
-    setCurrentPage(prevPage => prevPage + 1);
-  };
 
   const handleQuantitySelection = (item) => {
     setSelectedItem(item);
@@ -127,41 +117,6 @@ export default function Quantity() {
       setIsImageHovered(false);
     }, 500);
   };
-
-  // Get the image to display
-  const getDisplayImage = () => {
-    return cartItem.image || "/size.png";
-  };
-
-  const hasMoreItems = currentPage * ITEMS_PER_PAGE < quantities.length;
-
-  // Generate discount tiers based on actual data
-  const generateDiscountTiersTable = () => {
-    if (quantities.length <= 1) return null;
-    
-    // Group quantities by discount to create tiers
-    const discountGroups = {};
-    quantities.forEach(item => {
-      if (!discountGroups[item.discount]) {
-        discountGroups[item.discount] = [];
-      }
-      discountGroups[item.discount].push(parseInt(item.size));
-    });
-    
-    // Create tiers based on unique discounts
-    const tiers = Object.keys(discountGroups)
-      .map(discount => parseInt(discount))
-      .filter(discount => discount > 0)
-      .sort((a, b) => a - b)
-      .map(discount => {
-        const minQuantity = Math.min(...discountGroups[discount]);
-        return { minQuantity, discount: `${discount}%` };
-      });
-    
-    return tiers;
-  };
-  
-  const discountTiers = generateDiscountTiersTable();
 
   return (
     <div className="flex flex-col lg:flex-row w-full mb-[100px] lg:mb-[72px] gap-4 max-w-[1200px] mx-auto">
@@ -189,104 +144,95 @@ export default function Quantity() {
               </div>
             </div>
               
-            {/* Quantity Items */}
-            {displayedQuantities.length ? (
-              displayedQuantities.map((ele, i) => (
-                <div
-                  key={i}
-                  className={`inline-flex h-auto min-h-16 w-full m-0 cursor-pointer border-b last:border-b-0 px-4 sm:px-6 py-2 ${selectedItem?.size === ele.size ? 'bg-blue-0' : 'hover:bg-blue-50'}`}
-                  onClick={() => handleQuantitySelection(ele)}
-                  onMouseEnter={() => handleMouseEnter(ele)}
-                >
-                  <div className="grid grid-cols-5 w-full gap-2">
-                    {/* Size Column with Checkbox */}
-                    <div className="flex flex-col justify-center">
-                      <div className="flex justify-center flex-wrap items-center gap-2">
-                        <div className="w-5 h-5 border rounded-full flex items-center justify-center">
-                          {selectedItem?.size === ele.size && (
-                            <div className="w-3 h-3 bg-[#253670] rounded-full"></div>
-                          )}
+            {/* Quantity Items with scrollable container */}
+            <div className="max-h-[500px] overflow-y-auto">
+              {quantities.length ? (
+                quantities.map((ele, i) => (
+                  <div
+                    key={i}
+                    className={`inline-flex h-auto min-h-16 w-full m-0 cursor-pointer border-b last:border-b-0 px-4 sm:px-6 py-2 ${selectedItem?.size === ele.size ? 'bg-blue-50' : 'hover:bg-blue-50'}`}
+                    onClick={() => handleQuantitySelection(ele)}
+                    onMouseEnter={() => handleMouseEnter(ele)}
+                  >
+                    <div className="grid grid-cols-5 w-full gap-2">
+                      {/* Size Column with Checkbox */}
+                      <div className="flex flex-col justify-center">
+                        <div className="flex justify-center flex-wrap items-center gap-2">
+                          <div className="w-5 h-5 border rounded-full flex items-center justify-center">
+                            {selectedItem?.size === ele.size && (
+                              <div className="w-3 h-3 bg-[#253670] rounded-full"></div>
+                            )}
+                          </div>
+                          <span className="text-sm sm:text-base font-medium">
+                            {ele.size}
+                          </span>
                         </div>
-                        <span className="text-sm sm:text-base font-medium">
-                          {ele.size}
-                        </span>
                       </div>
-                    </div>
-                    
-                    {/* Discount Column */}
-                    <div className="flex justify-center items-center">
-                      {parseInt(ele.discount) > 0 ? (
-                        <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
-                          {ele.discount}% off
-                        </span>
-                      ) : (
-                        <span className="text-xs text-[#03172B80]">-</span>
-                      )}
-                    </div>
+                      
+                      {/* Discount Column */}
+                      <div className="flex justify-center items-center">
+                        {parseInt(ele.discount) > 0 ? (
+                          <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full whitespace-nowrap">
+                            {ele.discount}% off
+                          </span>
+                        ) : (
+                          <span className="text-xs text-[#03172B80]">-</span>
+                        )}
+                      </div>
 
-                    {/* Price/unit Column */}
-                    <div className="flex flex-col justify-center items-center">
-                      <div className="flex flex-col items-center">
-                        <span className="text-sm sm:text-base font-medium">
-                          ₹{parseFloat(ele.price).toFixed(2)}
-                        </span>
+                      {/* Price/unit Column */}
+                      <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col items-center">
+                          <span className="text-sm sm:text-base font-medium">
+                            ₹{parseFloat(ele.price).toFixed(2)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Total Price Column */}
-                    <div className="flex flex-col justify-center items-center">
-                      <div className="flex flex-col items-center">
-                        <span className="text-sm sm:text-base font-medium">
-                          ₹{(parseFloat(ele.price) * ele.size).toFixed(2)}
-                        </span>
+                      {/* Total Price Column */}
+                      <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col items-center">
+                          <span className="text-sm sm:text-base font-medium">
+                            ₹{(parseFloat(ele.price) * ele.size).toFixed(2)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    
-                    {/* No of Design Column */}
-                    <div className="flex justify-center items-center">
-                      <span className="text-sm sm:text-base">{ele.number}</span>
+                      
+                      {/* No of Design Column */}
+                      <div className="flex justify-center items-center">
+                        <span className="text-sm sm:text-base">{ele.number}</span>
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="w-full flex justify-center p-6 text-[#03172B] border-b">
+                  No Quantity Found
                 </div>
-              ))
-            ) : (
-              <div className="w-full flex justify-center p-6 text-[#03172B] border-b">
-                No Quantity Found
-              </div>
-            )}
-            
-            {/* Load More Button */}
-            {hasMoreItems && (
-              <div className="w-full flex justify-center p-4">
-                <Button 
-                  onClick={handleLoadMore}
-                  className="bg-[#253670] text-white text-sm px-4 py-2"
-                >
-                  Load More
-                </Button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
       
       {/* Right Sidebar - Desktop */}
       <div className="hidden lg:flex w-1/4 flex-col gap-5">
-      <div className="flex justify-around">
+        <div className="flex justify-around">
           <div className="mb-4">
             <Button 
               onClick={handleBack}
-              className=" hover:bg-blue-100 text-[#253670] px-2 bg-blue-50 border-1 border-[#253670] rounded-lg"
+              className="hover:bg-blue-100 text-[#253670] px-2 bg-blue-50 border-1 border-[#253670] rounded-lg"
               startContent={<LuArrowLeft size={20} />}
             >
               Back
             </Button>
           </div>
 
-          <Link isDisabled={!selectedItem} href={getAddonRouteUrl()} className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'>
+          <Link href={getAddonRouteUrl()} onClick={handleNextClick} className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'>
             Next
           </Link>
         </div>
+        
         <div className="flex flex-col gap-3 p-4 text-sm border-1 rounded-xl min-w-[250px]">          
           <div className="text-sm sm:text-base">Your packaging</div>
           <div className="flex flex-wrap min-w-fit items-center gap-2 text-xs sm:text-sm">
@@ -315,13 +261,35 @@ export default function Quantity() {
         </div>
       </div>
       
-      
       {/* Bottom Sticky Bar - Mobile & Tablet */}
       <div className="lg:hidden z-50 fixed bg-white left-0 bottom-0 border-t shadow-md flex items-center justify-between w-full px-4 sm:px-6 py-3">
-        <Link isDisabled={!selectedItem} href={getAddonRouteUrl()} className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'>
+        <Button 
+          onClick={handleBack}
+          className="hover:bg-blue-100 text-[#253670] px-2 bg-blue-50 border-1 border-[#253670] rounded-lg"
+          startContent={<LuArrowLeft size={20} />}
+        >
+          Back
+        </Button>
+        
+        <Link href={getAddonRouteUrl()} onClick={handleNextClick} className='px-5 py-2 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'>
           Next
         </Link>
       </div>
+      
+      {/* Selection Popup Modal */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">Selection Required</ModalHeader>
+          <ModalBody>
+            <p>Please select any quantity before proceeding.</p>
+          </ModalBody>
+          {/* <ModalFooter>
+            <Button color="primary" onClick={onClose}>
+              OK
+            </Button>
+          </ModalFooter> */}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

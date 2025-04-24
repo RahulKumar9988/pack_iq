@@ -10,16 +10,16 @@ export default function Layout({ children }) {
   const content = {
     "packaging-type": {
       heading: "Packaging Type",
-      title: "Pick your packaging style:-",
+      title: "Pick your packaging style",
       
     },
     material: {
       heading: "Material",
-      title: "Pick your finish:-",
+      title: "Pick your finish",
     },
     size: {
       heading: "Size",
-      title: "Pick your perfect Size:-",
+      title: "Pick your perfect Size",
     },
     quantity: {
       heading: "Quantity",
@@ -33,7 +33,7 @@ export default function Layout({ children }) {
     // },
     additions: {
       heading: "Additions",
-      title:"Select Features on the pouches"
+      title:"Features on the pouches"
     },
     Summery: {
       heading: "Summery",
