@@ -114,7 +114,7 @@ export default function PackagingType() {
 
   // Create a truncated description for cards
   const getTruncatedDescription = useCallback((description) => {
-    return description.split(' ').slice(0,9).join(' ') + '...';
+    return description.split(' ').slice(0,15).join(' ') + '...';
   }, []);
 
   // Loading skeleton
@@ -195,17 +195,12 @@ export default function PackagingType() {
                     </div>
 
                     <div className="flex flex-col items-center gap-2 sm:gap-3 justify-around text-center sm:text-left flex-1">
-                      <div className="text-base sm:text-xl font-semibold">
+                      <div className="text-base sm:text-2xl font-semibold">
                         {item.name}
                       </div>
                       <span className="text-xs sm:text-sm line-clamp-3 text-gray-600">
                         {truncatedDescription}
                       </span>
-                      
-                      <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-gray-500 mt-1">
-                        <span>Min Qty: </span>
-                        <span className="font-medium">{item.quantity}</span>
-                      </div>
                     </div>
                   </div>
                   

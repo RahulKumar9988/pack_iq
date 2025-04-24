@@ -248,7 +248,7 @@ export default function Cart() {
   return (
     <div className="container mx-auto mb-20">
       {/* Product Details Section */}
-      <div className="w-full flex gap-5">
+      <div className="w-full flex flex-col md:flex-row gap-5">
         <div className="w-full lg:w-3/5">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Your Cart</h1>
@@ -308,9 +308,8 @@ export default function Cart() {
                                 transition={{ repeat: Infinity, duration: 1.5 }}
                               />
                             </h2>
-                            <Badge color="primary" variant="flat" className="mt-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
-                              Design: {cartItem.design_number || "N/A"}
-                            </Badge>
+                            
+                            Design: {cartItem.design_number || "N/A"}
                           </div>
                           <div className="text-right">
                             <p className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">₹{itemPrice}/unit</p>
@@ -551,69 +550,171 @@ export default function Cart() {
       
       {/* Edit Modal */}
       <Modal 
-        isOpen={isOpen} 
-        onClose={onClose}
-        size="md"
-      >
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">Edit Item Details</ModalHeader>
-          <ModalBody>
-            <div className="flex gap-10">
-              <Select
-                label="Size"
-                name="size"
-                placeholder="Select size"
-                selectedKeys={value.size ? [value.size] : []}
-                onChange={handleSelectionChange}
-                isDisabled={loading}
-                fullWidth
-              >
-                {constants.size.length > 0 ? (
-                  constants.size.map((ele) => (
-                    <SelectItem key={ele.packaging_type_size_id.toString()}>
-                      {ele.size}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key="loading">
-                    {loading ? "Loading..." : "No sizes available"}
-                  </SelectItem>
-                )}
-              </Select>
-              
-              <Select
-                label="Quantity"
-                name="quantity"
-                placeholder="Select quantity"
-                selectedKeys={value.quantity ? [value.quantity] : []}
-                onChange={handleSelectionChange}
-                isDisabled={loading || constants.quantity.length === 0}
-                fullWidth
-              >
-                {constants.quantity.length > 0 ? (
-                  constants.quantity.map((ele) => (
-                    <SelectItem key={ele.packaging_type_size_quantity_id.toString()}>
-                      {ele.quantity}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key="loading">
-                    {loading ? "Loading..." : "Select size first"}
-                  </SelectItem>
-                )}
-              </Select>
+  isOpen={isOpen} 
+  onClose={onClose}
+  size="md"
+  motionProps={{
+    variants: {
+      enter: {
+        y: 0,
+        opacity: 1,
+        transition: {
+          duration: 0.3,
+          ease: "easeOut"
+        }
+      },
+      exit: {
+        y: -20,
+        opacity: 0,
+        transition: {
+          duration: 0.2,
+          ease: "easeIn"
+        }
+      }
+    }
+  }}
+  backdrop="blur"
+  className="bg-gradient-to-br from-white to-blue-50"
+>
+  <ModalContent className="relative overflow-hidden">
+    {/* Decorative elements */}
+    <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-100 rounded-full blur-xl opacity-60 animate-pulse"></div>
+    <div className="absolute -bottom-10 -left-10 w-28 h-28 bg-purple-100 rounded-full blur-xl opacity-40 animate-pulse" style={{ animationDelay: "1s" }}></div>
+    
+    <ModalHeader className="flex flex-col gap-1 z-10">
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></span>
+        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent">
+          Edit Item Details
+        </h3>
+      </div>
+      <p className="text-sm text-gray-500 mt-1">Customize your product options</p>
+    </ModalHeader>
+    
+    <ModalBody className="z-10">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+        <div className="flex-1 relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-50 rounded-xl transform group-hover:scale-105 transition-transform duration-300 -z-10"></div>
+          <Select
+            label="Size"
+            name="size"
+            placeholder="Select size"
+            selectedKeys={value.size ? [value.size] : []}
+            onChange={handleSelectionChange}
+            isDisabled={loading}
+            classNames={{
+              trigger: "bg-white shadow-sm hover:shadow-md transition-shadow duration-200",
+              label: "text-blue-700 font-medium"
+            }}
+            fullWidth
+          >
+            {constants.size.length > 0 ? (
+              constants.size.map((ele) => (
+                <SelectItem 
+                  key={ele.packaging_type_size_id.toString()}
+                  className="data-[hover=true]:bg-blue-50"
+                >
+                  {ele.size}
+                </SelectItem>
+              ))
+            ) : (
+              <SelectItem key="loading">
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <span className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></span>
+                    <span>Loading sizes...</span>
+                  </div>
+                ) : "No sizes available"}
+              </SelectItem>
+            )}
+          </Select>
+        </div>
+        
+        <div className="flex-1 relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl transform group-hover:scale-105 transition-transform duration-300 -z-10"></div>
+          <Select
+            label="Quantity"
+            name="quantity"
+            placeholder="Select quantity"
+            selectedKeys={value.quantity ? [value.quantity] : []}
+            onChange={handleSelectionChange}
+            isDisabled={loading || constants.quantity.length === 0}
+            classNames={{
+              trigger: "bg-white shadow-sm hover:shadow-md transition-shadow duration-200",
+              label: "text-purple-700 font-medium"
+            }}
+            fullWidth
+          >
+            {constants.quantity.length > 0 ? (
+              constants.quantity.map((ele) => (
+                <SelectItem 
+                  key={ele.packaging_type_size_quantity_id.toString()}
+                  className="data-[hover=true]:bg-purple-50"
+                >
+                  {ele.quantity}
+                </SelectItem>
+              ))
+            ) : (
+              <SelectItem key="loading">
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <span className="animate-spin h-4 w-4 border-2 border-purple-500 border-t-transparent rounded-full"></span>
+                    <span>Loading quantities...</span>
+                  </div>
+                ) : "Select size first"}
+              </SelectItem>
+            )}
+          </Select>
+        </div>
+      </div>
+      
+      {/* Preview section */}
+      {value.size && value.quantity && (
+        <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100 animate-fadeIn">
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Your Selection</h4>
+          <div className="flex justify-between text-sm">
+            <div className="flex gap-2">
+              <Badge size="sm" color="primary" variant="flat">
+                {constants.size.find(s => s.packaging_type_size_id.toString() === value.size)?.size?.replace('Size: ', '') || ""}
+              </Badge>
+              <Badge size="sm" color="secondary" variant="flat">
+                {constants.quantity.find(q => q.packaging_type_size_quantity_id.toString() === value.quantity)?.quantity?.replace('Quantity: ', '') || ""}
+              </Badge>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" variant="flat" onPress={onClose}>
-              Cancel
-            </Button>
-            <Button color="primary" onPress={handleSaveChanges}>
-              Save Changes
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <span className="font-semibold text-blue-700">
+              ₹{getItemPrice()}
+            </span>
+          </div>
+        </div>
+      )}
+    </ModalBody>
+    
+    <ModalFooter className="z-10">
+      <Button 
+        color="danger" 
+        variant="light"
+        onPress={onClose}
+        className="relative overflow-hidden group"
+      >
+        <span className="relative z-10">Cancel</span>
+        <div className="absolute inset-0 bg-red-100 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
+      </Button>
+      <Button 
+        color="primary" 
+        onPress={handleSaveChanges}
+        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group"
+      >
+        <span className="relative z-10 flex items-center gap-2">
+          Save Changes
+          <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </span>
+        <div className="absolute inset-0 bg-white opacity-20 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>  
       
       {/* Loading Overlay */}
       {loading && <LoadingOverlay />}
