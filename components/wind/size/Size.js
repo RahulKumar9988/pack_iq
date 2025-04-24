@@ -275,7 +275,7 @@ export default function Size() {
           <div className="mb-4">
               <Button 
                 onClick={handleBack}
-                className="bg-blue-50 hover:bg-blue-100 text-[#253670] px-2"
+                className="bg-blue-50 hover:bg-blue-100 text-[#253670] px-2 border-1 border-[#253670] rounded-md"
                 startContent={<LuArrowLeft size={20} />}
               >
                 Back
@@ -284,9 +284,9 @@ export default function Size() {
             <Link
                 isDisabled={groupSelected.length === 0}
                 href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}
-                className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
+                className='px-5 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
               >
-              Confirm
+              Next
             </Link>
         </div>
         
@@ -329,7 +329,7 @@ export default function Size() {
           href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}
         >
           <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
-            Confirm
+            Next
           </Button>
         </Link>
       </div>

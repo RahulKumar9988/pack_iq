@@ -252,7 +252,7 @@ const Summary = () => {
             <button onClick={()=>router.back()  } className="text-xs w-[88px] font-medium border-1 border-[#143761] bg-gray-50 rounded-md text-[#143761] h-[38px]">
               back
             </button>
-            <button onClick={()=>router.push('/cart')} className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
+            <button onClick={()=>router.push('/cart')} className="text-sm w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
               Add to Cart
             </button>
           </div>

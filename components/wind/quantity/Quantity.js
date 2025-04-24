@@ -276,7 +276,7 @@ export default function Quantity() {
           <div className="mb-4">
             <Button 
               onClick={handleBack}
-              className="bg-transparent hover:bg-gray-100 text-[#253670] px-2"
+              className=" hover:bg-blue-100 text-[#253670] px-2 bg-blue-50 border-1 border-[#253670] rounded-lg"
               startContent={<LuArrowLeft size={20} />}
             >
               Back
@@ -285,7 +285,7 @@ export default function Quantity() {
 
           <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
             <Button className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'>
-              Confirm
+              Next
             </Button>
           </Link>
         </div>

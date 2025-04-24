@@ -138,7 +138,7 @@ export default function Material() {
             <div>
               <Button 
                 onClick={handleBack}
-                className="bg-blue-50 hover:bg-gray-100 text-[#253670] px-2"
+                className="bg-blue-50 hover:bg-gray-100 text-[#253670] px-2 border-1 border-[#143761]"
                 startContent={<LuArrowLeft size={20} />}
               >
                 Back
@@ -147,9 +147,9 @@ export default function Material() {
             <Link
               isDisabled={!selectedMaterial}
               href={sizeRouteUrl}
-              className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
+              className='px-5 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
             >
-                Confirm
+                Next
             </Link>
           </div>
           <div className="flex flex-col gap-3 p-4 pr-1 min-w-[250px] text-sm border-2 rounded-xl">
@@ -188,7 +188,7 @@ export default function Material() {
         </div>
         <Link isDisabled={!selectedMaterial} href={sizeRouteUrl}>
           <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
-            Confirm
+            Next
           </Button>
         </Link>
       </div>
