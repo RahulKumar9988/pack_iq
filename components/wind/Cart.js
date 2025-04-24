@@ -445,7 +445,7 @@ export default function Cart() {
                     </motion.div>
                     <h3 className="text-2xl font-semibold text-gray-700">Your cart is empty</h3>
                     <p className="text-gray-500 text-center max-w-xs">
-                      Looks like you haven't added anything yet. Start exploring our store to fill your cart!
+                      Looks like you haven not added anything yet. Start exploring our store to fill your cart!
                     </p>
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                       <Button 
