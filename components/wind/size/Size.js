@@ -332,6 +332,13 @@ export default function Size() {
        
       </div>
       <div className="ml:hidden z-50 fixed left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[10px] bg-white">
+        <Button 
+          onClick={handleBack}
+          className="bg-blue-50 hover:bg-blue-100 text-[#253670] px-2 border-1 border-[#253670] rounded-md"
+          startContent={<LuArrowLeft size={20} />}
+        >
+          Back
+        </Button>
         <Link
           className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'
           href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}

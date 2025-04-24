@@ -154,11 +154,11 @@ export default function Quantity() {
                     onClick={() => handleQuantitySelection(ele)}
                     onMouseEnter={() => handleMouseEnter(ele)}
                   >
-                    <div className="grid grid-cols-5 w-full gap-2">
+                    <div className="grid grid-cols-5 w-full gap-5">
                       {/* Size Column with Checkbox */}
                       <div className="flex flex-col justify-center">
-                        <div className="flex justify-center flex-wrap items-center gap-2">
-                          <div className="w-5 h-5 border rounded-full flex items-center justify-center">
+                        <div className="flex justify-center items-center gap-1">
+                          <div className="w-5 h-5 rounded-full flex items-center justify-center">
                             {selectedItem?.size === ele.size && (
                               <div className="w-3 h-3 bg-[#253670] rounded-full"></div>
                             )}

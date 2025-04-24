@@ -92,7 +92,22 @@ export default function PackagingType() {
   }, []);
 
   useEffect(() => {
-    getPackagingType();
+    const fetchAndSortData = async () => {
+      await getPackagingType();
+      // Sort productList to put Standup Pouch first, then sort the rest
+      setProductList(prev => {
+        const standupPouch = prev.find(item => item.name.toLowerCase().includes("standup pouch"));
+        const otherItems = prev.filter(item => !item.name.toLowerCase().includes("standup pouch"));
+        
+        // Sort other items by name
+        const sortedOthers = [...otherItems].sort((a, b) => a.name.localeCompare(b.name));
+        
+        // Return array with Standup Pouch first, then the rest
+        return standupPouch ? [standupPouch, ...sortedOthers] : sortedOthers;
+      });
+    };
+    
+    fetchAndSortData();
     dispatch(clearCart());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPackagingType]);
@@ -187,8 +202,8 @@ export default function PackagingType() {
                           src={item.packaging_image_url}
                           className="object-contain"
                           alt={item.name}
-                          width={130}
-                          height={120}
+                          width={150}
+                          height={150}
                           priority={index < 4}
                           loading={index < 4 ? "eager" : "lazy"}
                         />
