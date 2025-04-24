@@ -157,15 +157,16 @@ export default function PackagingType() {
     );
   }
 
-  const BestSellingBadge = () => {
-    return (
-      <motion.div
-        className="absolute -top-2 -right-2 rounded-full px-2 py-1 flex items-center justify-center text-xs font-bold z-20 shadow-md"
-      >
-        <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20 " />
-      </motion.div>
-    );
-  };
+  // Updated BestSellingBadge component with image
+const BestSellingBadge = () => {
+  return (
+    <motion.div
+      className="absolute -top-2 -right-2 z-20"
+    >
+      <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20" />
+    </motion.div>
+  );
+};
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-[72px] scrollbar-hide">
