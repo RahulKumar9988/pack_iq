@@ -175,7 +175,7 @@ const AddOnsPage = () => {
               </button>
               <button
                 onClick={navigateToSummary}
-                className="px-5 py-2 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer"
+                className="px-5 py-2 rounded-lg font-medium text-white transition-all bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer"
               >
                 Next
               </button>

@@ -58,7 +58,7 @@ const Summary = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="flex items-center mb-6">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-[#0b2949] to-indigo-800 bg-clip-text text-transparent">
             Order Summary
           </h1>
         </div>
@@ -93,7 +93,7 @@ const Summary = () => {
                           alt="Cart Item"
                           className="max-sm:hidden relative z-10 transform group-hover:scale-105 transition-transform duration-300"
                           radius="md"
-                          width={161}
+                          width={181}
                           height={143}
                           loading="lazy"
                         />
@@ -133,15 +133,15 @@ const Summary = () => {
                       </span>
                       
                       {/* Material tag for non-mobile */}
-                      <span className="flex mobile:text-sm max-mobile:hidden gap-3 text-gray-600 items-center">
-                        <Tag size={14} className="text-blue-500" />
+                      <span className="flex mobile:text-lg max-mobile:hidden gap-3 text-gray-600 items-center">
+                        <Tag size={20} className="text-blue-500" />
                         <span>Material: <span className="font-medium">{cartItem.material || "N/A"}</span></span>
                       </span>
                       
                       {/* Details row with icons */}
-                      <div className="flex flex-wrap text-sm gap-x-3 gap-y-2 text-gray-700">
+                      <div className="flex flex-wrap text-lg gap-x-3 gap-y-2 text-gray-700">
                         <span className="flex items-center gap-1">
-                          <Package size={14} className="text-blue-500" />
+                          <Package size={20} className="text-blue-500" />
                           {cartItem.name || "N/A"}
                         </span>
                         <span className="flex items-center gap-1">
