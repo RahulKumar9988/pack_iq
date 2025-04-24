@@ -183,7 +183,7 @@ export default function Quantity() {
                 <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
                   Total Price
                 </div>
-                <div className="flex justify-center items-center text-xs sm:text-sm font-normal">
+                <div className="flex justify-center text-center items-center text-xs sm:text-sm font-normal">
                   No of Design
                 </div>
               </div>
@@ -283,10 +283,8 @@ export default function Quantity() {
             </Button>
           </div>
 
-          <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
-            <Button className='px-3 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'>
-              Next
-            </Button>
+          <Link isDisabled={!selectedItem} href={getAddonRouteUrl()} className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'>
+            Next
           </Link>
         </div>
         <div className="flex flex-col gap-3 p-4 text-sm border-1 rounded-xl min-w-[250px]">          
@@ -310,70 +308,18 @@ export default function Quantity() {
         
         <div className="flex flex-col gap-3 p-4 bg-[#FDD40A1A] min-w-[250px] text-sm border-1 rounded-xl">
           <span className="font-medium">Note</span>
-          <ul className="list-disc list-inside text-xs text-gray-700">
+          <ul className="list-disc px-3 text-[13px] text-gray-700">
             <li>All Prices Attract 18% GST.</li>
             <li>Possible Designs indicate how many designs is possible in the selected quantity.</li>
           </ul>
         </div>
       </div>
       
-      {/* Mobile Information Card */}
-      <div className="lg:hidden w-full flex flex-col gap-4 mt-2 mb-20">
-        {selectedItem && (
-          <div className="border-1 rounded-xl p-4">
-            <div className="font-medium mb-2">Selected Package</div>
-            <div className="grid grid-cols-2 gap-y-2">
-              <div className="flex items-center gap-1">
-                <LuCheck className="text-sm text-[#253670]" />
-                <span className="text-sm">Type:</span>
-              </div>
-              <span className="text-sm">{cartItem.name}</span>
-              
-              <div className="flex items-center gap-1">
-                <LuCheck className="text-sm text-[#253670]" />
-                <span className="text-sm">Size:</span>
-              </div>
-              <span className="text-sm">{cartItem.size}</span>
-              
-              <div className="flex items-center gap-1">
-                <LuCheck className="text-sm text-[#253670]" />
-                <span className="text-sm">Quantity:</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-sm">{selectedItem?.size || ""}</span>
-                {parseInt(selectedItem.discount) > 0 && (
-                  <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
-                    {selectedItem.discount}% off
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
       
       {/* Bottom Sticky Bar - Mobile & Tablet */}
       <div className="lg:hidden z-50 fixed bg-white left-0 bottom-0 border-t shadow-md flex items-center justify-between w-full px-4 sm:px-6 py-3">
-        <div className="flex flex-col text-xs items-start">
-          <div className="text-[#03172B80]">Price</div>
-          <div className="flex items-center gap-2">
-            <div className="font-medium">₹{selectedItem?.price || "0"}</div>
-            {selectedItem && parseInt(selectedItem.discount) > 0 && (
-              <>
-                <span className="text-xs text-[#03172B80] line-through">
-                  ₹{parseFloat(selectedItem?.originalPrice || 0).toFixed(2)}
-                </span>
-                <span className="px-2 py-0.5 bg-[#1CC6181A] text-xs text-[#1CC618] rounded-full">
-                  {selectedItem.discount}% off
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-        <Link isDisabled={!selectedItem} href={getAddonRouteUrl()}>
-          <Button className="text-sm font-medium bg-[#143761] rounded-md text-white h-10 px-4">
-            Confirm
-          </Button>
+        <Link isDisabled={!selectedItem} href={getAddonRouteUrl()} className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'>
+          Next
         </Link>
       </div>
     </div>

@@ -70,7 +70,7 @@ const Summary = () => {
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={fadeInUp}
+            variants={fadeInUp} 
             transition={{ duration: 0.5, delay: 0.1 }}
             className="relative overflow-hidden"
           >

@@ -1,7 +1,7 @@
 "use client";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Button, Image, Link } from "@nextui-org/react";
+import { Button, Image, Link, Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
 import axios from "axios";
 import { Poppins } from "next/font/google";
 import { useRouter } from "next/navigation";
@@ -18,12 +18,15 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export default function Material() {
   const [selectedMaterial, setSelectedMaterial] = useState(null); // State to track selected material
   const [materials, setMaterials] = useState([]);
+  const [showWarning, setShowWarning] = useState(false); // State for warning popup
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
+  
   const handleBack = () => {
     router.back();
   };
+  
   useEffect(() => {
     if (!cartItem.packaging_id) {
       router.back();
@@ -70,6 +73,14 @@ export default function Material() {
       })
     );
     handleSelect(material.material_id);
+  };
+
+  // Function to handle next button click
+  const handleNextClick = (e) => {
+    if (!selectedMaterial) {
+      e.preventDefault(); // Prevent navigation
+      setShowWarning(true); // Show warning popup
+    }
   };
 
   // Function to truncate text to specific number of words
@@ -145,9 +156,9 @@ export default function Material() {
               </Button>
             </div>
             <Link
-              isDisabled={!selectedMaterial}
               href={sizeRouteUrl}
-              className='px-5 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
+              onClick={handleNextClick}
+              className='flex items-center gap-2 px-5 py-2 font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200'
             >
                 Next
             </Link>
@@ -159,39 +170,35 @@ export default function Material() {
               <span> Type :</span>
               <span className="font-semibold"> {cartItem.name}</span>
             </div>
-            {/* <div className="flex items-center gap-2">
-              <LuCheck />
-              <span> Size :</span>
-              <span className="font-semibold">{cartItem.size}</span>
-              <span className="">{`(${cartItem.dimension || ''})`}</span>
-            </div> */}
-            {/* <div className="flex items-center gap-2">
-              <LuCheck />
-              <span> Quantity :</span>
-              <span className="font-semibold">{cartItem.quantity}</span>
-            </div> */}
           </div>
           <div className="flex flex-col gap-3 min-w-[250px] p-4 bg-[#FDD40A1A] text-sm border-2 rounded-xl">
             <span>Note</span>
-            <ul className="list-disc list-inside text-xs text-gray-700">
+            <ul className="list-disc text-[13px] text-gray-700 px-3">
               <li>Matt Finish window will have a frosty window.</li>
               <li>Any pouch with window will reduce the shelf life of the product as metalized layer is removed.</li>
             </ul>
           </div>
-          
         </div>
       </div>
       <div className="ml:hidden z-50 fixed bg-white left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
-        <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
+        {/* <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
           <div className="text-[#03172B80]">Price</div>
           <div className="font-semibold"> {cartItem.price || 0}</div>
-        </div>
-        <Link isDisabled={!selectedMaterial} href={sizeRouteUrl}>
-          <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
-            Next
-          </Button>
+        </div> */}
+        <Link href={sizeRouteUrl} onClick={handleNextClick} className='flex items-center gap-2 px-5 py-2 font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200'>
+          Next
         </Link>
       </div>
+
+      {/* Warning Modal */}
+      <Modal isOpen={showWarning} onClose={() => setShowWarning(false)}>
+        <ModalContent>
+          <ModalHeader>Selection Required</ModalHeader>
+          <ModalBody className="pb-6">
+            <p>Please select a material before proceeding.</p>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

@@ -264,7 +264,7 @@ export default function Cart() {
               <Card className="shadow-lg rounded-xl overflow-hidden border border-gray-100 relative">
                 {/* Animated corner accent */}
                 <motion.div 
-                  className="absolute -top-2 -right-2 w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full opacity-20"
+                  className="absolute -top-2 -right-2 w-16 h-16 bg-gradient-to-br from-blue-300 to-purple-100 rounded-full opacity-20"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 4 }}
                 />
@@ -311,8 +311,8 @@ export default function Cart() {
                             
                             Design: {cartItem.design_number || "N/A"}
                           </div>
-                          <div className="text-right">
-                            <p className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">₹{itemPrice}/unit</p>
+                          <div className="text-right" >
+                            <p className="text-sm font-bold bg-gradient-to-r from-blue-800 to-purple-900 bg-clip-text text-transparent">₹{itemPrice}/unit</p>
                           </div>
                         </div>
                         
@@ -518,7 +518,7 @@ export default function Cart() {
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button
                         color="primary"
-                        className="w-full mt-6 px-6 font-bold bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md"
+                        className="w-full flex items-center gap-2 px-4 py-2 font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200"
                         onClick={()=>router.push('/auth/signin')}
                       >
                         Please login to checkout

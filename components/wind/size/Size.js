@@ -8,6 +8,10 @@ import {
   cn,
   Image,
   Link,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
 } from "@nextui-org/react";
 import { LuCheck } from "react-icons/lu";
 import axios from "axios";
@@ -15,7 +19,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useRouter } from "next/navigation";
 import { LuArrowLeft } from "react-icons/lu";
-
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const DEFAULT_IMAGE = "/size.png"; // Define default image constant
@@ -27,6 +30,7 @@ export default function Size() {
   const [hoveredItem, setHoveredItem] = useState(null); 
   const [isImageChanging, setIsImageChanging] = useState(false);
   const [defaultImage, setDefaultImage] = useState(ALL_SIZE_IMAGES); // Changed to use all sizes image as default
+  const [showWarning, setShowWarning] = useState(false); // State for warning popup
 
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
@@ -101,6 +105,14 @@ export default function Size() {
 
   const handleMouseEnter = (item) => {
     setHoveredItem(item);
+  };
+
+  // Handle next button click
+  const handleNextClick = (e) => {
+    if (groupSelected.length === 0) {
+      e.preventDefault(); // Prevent navigation
+      setShowWarning(true); // Show warning popup
+    }
   };
 
   // Get current image to display with proper fallback
@@ -282,9 +294,9 @@ export default function Size() {
               </Button>
             </div>
             <Link
-                isDisabled={groupSelected.length === 0}
                 href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}
-                className='px-5 py-2 mb-4 rounded-lg font-medium text-white transition-all bg-[#143761] hover:bg-[#0f2a4d] cursor-pointer'
+                onClick={handleNextClick}
+                className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'
               >
               Next
             </Link>
@@ -306,7 +318,7 @@ export default function Size() {
 
         <div className="flex flex-col max-w-[300px] min-w-[250px] gap-3 p-4 bg-[#FDD40A1A] text-sm border-1 rounded-xl">
           <span>Note</span>
-          <ol className="list-disc list-inside text-xs text-gray-700 ">
+          <ol className="list-disc px-3 text-[13px] text-gray-700 ">
             <li>The size indicated is as per coffee beans and different products have
               different weights, so we request you to order physical samples to verify the
               sizes.
@@ -319,20 +331,25 @@ export default function Size() {
         </div>
        
       </div>
-      <div className="ml:hidden z-50 fixed left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[14px]">
-        <div className="flex flex-col md:hidden text-xs items-start leading-[16px] justify-start">
-          <div className="text-[#03172B80]">Price</div>
-          <div className="font-semibold">{cartItem.price}</div>
-        </div>
+      <div className="ml:hidden z-50 fixed left-0 bottom-0 border flex items-center md:justify-end justify-between w-full px-[30px] py-[10px] bg-white">
         <Link
-          isDisabled={groupSelected.length === 0}
+          className='px-5 py-2 mb-4 rounded-lg text-white transition-all font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 cursor-pointer'
           href={`quantity?size_id=${groupSelected[0]?.packaging_type_size_id}`}
+          onClick={handleNextClick}
         >
-          <Button className="text-xs w-[88px] font-medium bg-[#143761] rounded-md text-white h-[38px]">
-            Next
-          </Button>
+          Next
         </Link>
       </div>
+
+      {/* Warning Modal */}
+      <Modal isOpen={showWarning} onClose={() => setShowWarning(false)}>
+        <ModalContent>
+          <ModalHeader>Selection Required</ModalHeader>
+          <ModalBody className="pb-6">
+            <p>Please select a size before proceeding.</p>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
