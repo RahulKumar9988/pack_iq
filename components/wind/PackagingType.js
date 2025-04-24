@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart, clearCart } from "@/redux/features/cart/cartSlice";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // Get this from environment variables
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -58,9 +59,10 @@ export default function PackagingType() {
   const [isLoading, setIsLoading] = useState(true);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [selectedCardId, setSelectedCardId] = useState(null);
-
+  
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
+  const router = useRouter();
 
   // Memoize the API call function
   const getPackagingType = useCallback(async () => {
@@ -95,8 +97,9 @@ export default function PackagingType() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPackagingType]);
 
-  // Handle card click
-  const handleCardClick = useCallback((item, index) => {
+  // Handle card click to select the item and navigate
+  const handleSelectAndNavigate = useCallback((item, index) => {
+    // Add to cart
     dispatch(
       addToCart({
         packaging_id: item.packaging_id,
@@ -104,17 +107,23 @@ export default function PackagingType() {
         image: item.packaging_image_url,
       })
     );
+    
+    // Show selection animation
     setSelectedCardId(item.packaging_id);
     
-    // Reset the selection after animation completes
+    // Navigate to the material page
+    const materialUrl = `/${item.name.toLowerCase().replace(/\s+/g, "-")}/material`;
+    router.push(materialUrl);
+    
+    // Reset the selection after animation completes (though navigation will happen)
     setTimeout(() => {
       setSelectedCardId(null);
     }, 800);
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   // Create a truncated description for cards
   const getTruncatedDescription = useCallback((description) => {
-    return description.split(' ').slice(0,15).join(' ') + '...';
+    return description.split(' ').slice(0,25).join(' ') + '...';
   }, []);
 
   // Loading skeleton
@@ -157,17 +166,23 @@ export default function PackagingType() {
               whileHover={{ translateY: -5 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              className="h-full"
+              className="h-full cursor-pointer"
+              onClick={() => handleSelectAndNavigate(item, index)}
             >
               <Card
                 shadow="sm"
-                className="bg-gradient-to-br from-white to-blue-50 border border-gray-200 p-3 sm:p-4 h-full w-full scrollbar-hide overflow-y-auto relative"
+                className={`bg-gradient-to-br from-white to-blue-50 border ${isSelected ? 'border-[#E45971]' : 'border-gray-200'} p-3 sm:p-4 h-full w-full scrollbar-hide overflow-y-auto relative`}
                 isPressable
               >
                 <CardBody className="p-0">
                   <div className="h-full flex flex-col gap-3 sm:gap-5 items-center sm:justify-around pt-2 relative">
                     <div className="relative w-24 sm:w-auto flex-shrink-0">
-                      <motion.div>
+                      <motion.div
+                        animate={isSelected ? {
+                          scale: [1, 1.1, 1],
+                          transition: { duration: 0.6 }
+                        } : {}}
+                      >
                         <Image
                           src={item.packaging_image_url}
                           className="object-contain"
@@ -197,8 +212,6 @@ export default function PackagingType() {
                       </span>
                     </div>
                   </div>
-                  
-                  
                 </CardBody>
               </Card>
             </motion.div>
@@ -211,7 +224,8 @@ export default function PackagingType() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute inset-0 backdrop-blur-lg bg-[#e4f1ff]/90 z-10 p-4 sm:p-6 flex flex-col justify-between rounded-lg overflow-hidden"
+                  className="absolute inset-0 backdrop-blur-lg bg-[#e4f1ff]/90 z-10 p-4 sm:p-6 flex flex-col justify-between rounded-lg overflow-hidden cursor-pointer"
+                  onClick={() => handleSelectAndNavigate(item, index)}
                 >
                   {/* Decorative circles in the overlay */}
                   <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#E45971]/10 rounded-full"></div>
@@ -236,12 +250,13 @@ export default function PackagingType() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="w-full sm:w-auto"
+                        onClick={(e) => {
+                          e.stopPropagation(); // This prevents double-triggering the parent click
+                          handleSelectAndNavigate(item, index);
+                        }}
                       >
                         <Button
-                          as="a"
-                          href={`/${item.name.toLowerCase().replace(/\s+/g, "-")}/material`}
-                          onClick={() => handleCardClick(item, index)}
-                          className="bg-[#253670] text-white px-4 sm:px-6 py-2 rounded-full  sm:w-auto"
+                          className="bg-[#253670] text-white px-4 sm:px-6 py-2 rounded-full sm:w-auto"
                         >
                           Select
                         </Button>

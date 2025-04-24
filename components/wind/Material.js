@@ -185,9 +185,18 @@ export default function Material() {
           <div className="text-[#03172B80]">Price</div>
           <div className="font-semibold"> {cartItem.price || 0}</div>
         </div> */}
+        <Button 
+          onClick={handleBack}
+          className="bg-blue-50 hover:bg-gray-100 text-[#253670] px-2 border-1 border-[#143761]"
+          startContent={<LuArrowLeft size={20} />}
+        >
+          Back
+        </Button>
+        
         <Link href={sizeRouteUrl} onClick={handleNextClick} className='flex items-center gap-2 px-5 py-2 font-bold bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200'>
           Next
         </Link>
+        
       </div>
 
       {/* Warning Modal */}
