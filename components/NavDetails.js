@@ -19,7 +19,7 @@ export default function NavDetails({ content }) {
     return (
       <div className="flex justify-between w-full px-6 md:px-0">
         <div className="leading-none flex flex-col max-mobile:gap-[6px] mobile:gap-4">
-          <div className={`${poppins.className} text-xl max-mobile:font-medium mobile:text-[26px]`}>
+          <div className={`text-xl max-mobile:font-medium mobile:text-[26px]`}>
             Page Details
           </div>
         </div>

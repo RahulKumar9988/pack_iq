@@ -662,11 +662,12 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                   )}
                 </div>
               </div>
+              
 
               {/* CTA Section */}
               <div className="flex flex-col sm:flex-row gap-3 pt-6 mt-4 border-t border-gray-200">
                 <Button
-                  className="group relative bg-gradient-to-r from-[#143761] to-[#2a5a8f] hover:from-[#0e2d4e] hover:to-[#143761] text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
+                  className="group relative bg-gradient-to-r from-[#0b2949] to-indigo-800 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
                   onClick={() => router.push('/packaging-type')}
                 >
                   <span className="relative z-10">Customize Your Kit</span>
@@ -737,55 +738,55 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                       </svg>
                     </button>
                     
-                    {/* Trio of images with left image (previous) */}
-{/* Trio of images with left image (previous) */}
-{product.thumbnails.length > 1 && (
-  <div 
-    className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
-    onClick={() => setSelectedImage(prevIndex)}
-  >
-    <Image 
-      src={product.thumbnails[prevIndex]} 
-      alt={`${product.name} - Previous`}
-      fill
-      sizes="240px"
-      className="object-contain p-2"
-    />
-  </div>
-)}
+                      {/* Trio of images with left image (previous) */}
+                      {/* Trio of images with left image (previous) */}
+                      {product.thumbnails.length > 1 && (
+                        <div 
+                          className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
+                          onClick={() => setSelectedImage(prevIndex)}
+                        >
+                          <Image 
+                            src={product.thumbnails[prevIndex]} 
+                            alt={`${product.name} - Previous`}
+                            fill
+                            sizes="240px"
+                            className="object-contain p-2"
+                          />
+                        </div>
+                      )}
 
-{/* Main center image (current) */}
-<div className="h-96 sm:h-128 w-80 sm:w-112 relative rounded-lg overflow-hidden z-10 transition-all">
-  <Image 
-    src={product.thumbnails[selectedImage]} 
-    alt={`${product.name} - Image ${selectedImage + 1}`}
-    fill
-    priority
-    sizes="(max-width: 740px) 820px, 848px"
-    className="object-contain p-2 transition-transform duration-300 hover:scale-105"
-  />
-  
-  {/* Image counter indicator */}
-  <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
-    {selectedImage + 1}/{product.thumbnails.length}
-  </div>
-</div>
+                      {/* Main center image (current) */}
+                      <div className="h-96 sm:h-128 w-80 sm:w-112 relative rounded-lg overflow-hidden z-10 transition-all">
+                        <Image 
+                          src={product.thumbnails[selectedImage]} 
+                          alt={`${product.name} - Image ${selectedImage + 1}`}
+                          fill
+                          priority
+                          sizes="(max-width: 740px) 820px, 848px"
+                          className="object-contain p-2 transition-transform duration-300 hover:scale-105"
+                        />
+                        
+                        {/* Image counter indicator */}
+                        <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
+                          {selectedImage + 1}/{product.thumbnails.length}
+                        </div>
+                      </div>
 
-{/* Trio of images with right image (next) */}
-{product.thumbnails.length > 1 && (
-  <div 
-    className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
-    onClick={() => setSelectedImage(nextIndex)}
-  >
-    <Image 
-      src={product.thumbnails[nextIndex]} 
-      alt={`${product.name} - Next`}
-      fill
-      sizes="240px"
-      className="object-contain p-2"
-    />
-  </div>
-)}
+                      {/* Trio of images with right image (next) */}
+                      {product.thumbnails.length > 1 && (
+                        <div 
+                          className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
+                          onClick={() => setSelectedImage(nextIndex)}
+                        >
+                          <Image 
+                            src={product.thumbnails[nextIndex]} 
+                            alt={`${product.name} - Next`}
+                            fill
+                            sizes="240px"
+                            className="object-contain p-2"
+                          />
+                        </div>
+                      )}
                     
                     {/* Right arrow */}
                     <button 
@@ -843,6 +844,35 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
               </div>
             </div>
 
+            <div className="flex flex-col md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
+              <div className="flex-shrink-0">
+                {/* Using a placeholder image since real image paths won't work here */}
+                <img
+                  src="/samplekit.webp" // Replace with actual image path
+                  alt="Packaging Sample Kit"
+                  className="object-cover h-96 w-96"
+                />
+              </div>
+              
+              <div className="flex-1 ml-8 max-w-lg">
+                <h1 className="text-4xl font-bold text-indigo-900 mb-4">
+                  You want to test the packaging first?
+                </h1>
+                
+                <p className="text-gray-700 mb-6">
+                  You want everything to fit with your new packaging. Take your time 
+                  to look at your packaging samples and try out to fill your product. 
+                  That way you're guaranteed to find the perfect material and the 
+                  right size.
+                </p>
+                
+                <button className='flex items-center gap-2 px-5 py-4 font-semibold bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200' onClick={() => router.push('/free-sample')}>
+                  GET A FREE SAMPLE KIT
+                </button>
+              </div>
+            </div>
+
+            
           {/* Recommended Products section */}
           <div className="mt-10">
             <h2 className="text-xl sm:text-2xl font-bold text-[#143761] mb-4 sm:mb-6">Recommended Products</h2>

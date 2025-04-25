@@ -3,15 +3,15 @@ import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Button, Image, Link, Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
 import axios from "axios";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuArrowLeft, LuCheck } from "react-icons/lu";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
+// const poppins = Poppins({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700", "800", "900"],
+// });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -98,7 +98,7 @@ export default function Material() {
   return (
     <>
       <div
-        className={`${poppins.className} flex max-mobile:flex-col h-full justify-between max-mobile:max-w-screen-mobile gap-5 mb-[72px]  bg-[#]`}
+        className={`flex max-mobile:flex-col h-full justify-between max-mobile:max-w-screen-mobile gap-5 mb-[72px]  bg-[#]`}
       >
         <div className="grid max-mobile:grid-cols-1 ml:grid-cols-2 w-full ml:w-4/5 gap-5 flex-col h-fit">
           {materials.map((ele, i) => {
