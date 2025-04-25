@@ -37,6 +37,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
     const [quantities, setQuantities] = useState([]);
     const [addons, setAddons] = useState([]);
     
+    const [carouselSelectedImage, setCarouselSelectedImage] = useState(0);
     const [selectedMaterial, setSelectedMaterial] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState("");
@@ -216,6 +217,11 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
 
     const prevIndex = selectedImage === 0 ? product?.thumbnails?.length - 1 : selectedImage - 1;
     const nextIndex = selectedImage === product?.thumbnails?.length - 1 ? 0 : selectedImage + 1;
+
+    // Calculate carousel navigation indices
+    const carouselPrevIndex = carouselSelectedImage === 0 ? product?.thumbnails?.length - 1 : carouselSelectedImage - 1;
+    const carouselNextIndex = carouselSelectedImage === product?.thumbnails?.length - 1 ? 0 : carouselSelectedImage + 1;
+
     if (!product?.thumbnails?.length) return null;
 
     // Helper function to get size ID from either format
@@ -313,7 +319,11 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                 {/* Navigation arrows with improved design */}
                 <div className="flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
                   <button 
-                    onClick={() => setSelectedImage(prev => prev === 0 ? product.thumbnails.length - 1 : prev - 1)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedImage(prevIndex);
+                  }}
                     className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                     aria-label="Previous image"
                   >
@@ -322,7 +332,11 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                     </svg>
                   </button>
                   <button 
-                    onClick={() => setSelectedImage(prev => prev === product.thumbnails.length - 1 ? 0 : prev + 1)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedImage(nextIndex);
+                    }}
                     className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                     aria-label="Next image"
                   >
@@ -729,7 +743,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                     
                     {/* Left arrow */}
                     <button 
-                      onClick={() => setSelectedImage(prevIndex)}
+                        onClick={() => setCarouselSelectedImage(carouselPrevIndex)}
                       className="absolute left-0 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                       aria-label="Previous image"
                     >
@@ -738,16 +752,16 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                       </svg>
                     </button>
                     
-                      {/* Trio of images with left image (previous) */}
+                      
                       {/* Trio of images with left image (previous) */}
                       {product.thumbnails.length > 1 && (
                         <div 
                           className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
-                          onClick={() => setSelectedImage(prevIndex)}
+                          onClick={() => setCarouselSelectedImage(carouselPrevIndex)}
                         >
                           <Image 
-                            src={product.thumbnails[prevIndex]} 
-                            alt={`${product.name} - Previous`}
+                            src={product.thumbnails[carouselPrevIndex]} 
+                            alt={`${product.name} - Previous`}  
                             fill
                             sizes="240px"
                             className="object-contain p-2"
@@ -758,17 +772,17 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                       {/* Main center image (current) */}
                       <div className="h-96 sm:h-128 w-80 sm:w-112 relative rounded-lg overflow-hidden z-10 transition-all">
                         <Image 
-                          src={product.thumbnails[selectedImage]} 
-                          alt={`${product.name} - Image ${selectedImage + 1}`}
+                          src={product.thumbnails[carouselSelectedImage]} 
+                          alt={`${product.name} - Image ${carouselSelectedImage  + 1}`}
                           fill
                           priority
-                          sizes="(max-width: 740px) 820px, 848px"
-                          className="object-contain p-2 transition-transform duration-300 hover:scale-105"
+                          sizes="(max-width: 940px) 920px, 948px"
+                          className="object-cover p-2 transition-transform duration-300 hover:scale-105"
                         />
                         
                         {/* Image counter indicator */}
                         <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
-                          {selectedImage + 1}/{product.thumbnails.length}
+                        {carouselSelectedImage + 1}/{product.thumbnails.length}
                         </div>
                       </div>
 
@@ -790,7 +804,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                     
                     {/* Right arrow */}
                     <button 
-                      onClick={() => setSelectedImage(nextIndex)}
+                       onClick={() => setCarouselSelectedImage(carouselNextIndex)}
                       className="absolute right-0 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                       aria-label="Next image"
                     >
@@ -803,58 +817,28 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                   {/* Thumbnails row */}
                   <div className="relative mt-6">
                     {/* Improved scroll indicators */}
-                    <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full pointer-events-none z-10">
+                    <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2  pointer-events-none z-10">
                       <div className="bg-gradient-to-r from-white via-white/80 to-transparent w-8 h-20"></div>
                       <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-8 h-20"></div>
                     </div>
                     
-                    <div 
-                      ref={scrollRef}
-                      className="flex gap-3 overflow-x-auto justify-center py-2 px-1 snap-x snap-mandatory scroll-smooth hide-scrollbar"
-                      role="region" 
-                      aria-label="Product image thumbnails"
-                    >
-                      {product.thumbnails.map((thumbnail, index) => (
-                        <button 
-                          key={index}
-                          data-index={index} 
-                          className={`min-w-16 w-16 h-16 border flex-shrink-0 snap-center rounded-md overflow-hidden ${
-                            selectedImage === index 
-                              ? 'border-[#143761] ring-2 ring-blue-200' 
-                              : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
-                          }`}
-                          onClick={() => setSelectedImage(index)}
-                          aria-label={`View product image ${index + 1} of ${product.thumbnails.length}`}
-                          aria-pressed={selectedImage === index}
-                        >
-                          <div className="relative w-full h-full">
-                            <Image 
-                              src={thumbnail} 
-                              alt="" 
-                              fill
-                              sizes="64px"
-                              className="object-contain p-1"
-                            />
-                          </div>
-                        </button>
-                      ))}
-                    </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
+            <div className="flex flex-col gap-5 md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
               <div className="flex-shrink-0">
                 {/* Using a placeholder image since real image paths won't work here */}
                 <img
                   src="/samplekit.webp" // Replace with actual image path
                   alt="Packaging Sample Kit"
-                  className="object-cover h-96 w-96"
+                  className="md:object-cover h-96 w-96 object-contain"
                 />
               </div>
               
-              <div className="flex-1 ml-8 max-w-lg">
+              <div className="flex-1 max-w-lg">
                 <h1 className="text-4xl font-bold text-black mb-4">
                   You want to test the packaging first?
                 </h1>
@@ -866,7 +850,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                   right size.
                 </p>
                 
-                <button className='flex items-center gap-2 px-5 py-4 font-semibold bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200' onClick={() => router.push('/free-sample')}>
+                <button className='flex items-center gap-2 px-5 py-4 font-light bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200' onClick={() => router.push('/free-sample')}>
                   GET A FREE SAMPLE KIT
                 </button>
               </div>
