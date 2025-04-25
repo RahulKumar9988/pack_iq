@@ -739,7 +739,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                   </h3>
                   
                   {/* Main carousel display */}
-                  <div className="flex items-center justify-center gap-4 px-10 relative h-80 sm:h-96">
+                  <div className="flex items-center justify-center gap-4 px-10 relative">
                     
                     {/* Left arrow */}
                     <button 
@@ -770,14 +770,15 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                       )}
 
                       {/* Main center image (current) */}
-                      <div className="h-96 sm:h-128 w-80 sm:w-112 relative rounded-lg overflow-hidden z-10 transition-all">
+                      <div className="h-96 sm:h-[70vh] w-80 sm:w-96 relative rounded-lg overflow-hidden z-10 transition-all">
+                        
                         <Image 
                           src={product.thumbnails[carouselSelectedImage]} 
                           alt={`${product.name} - Image ${carouselSelectedImage  + 1}`}
                           fill
                           priority
                           sizes="(max-width: 940px) 920px, 948px"
-                          className="object-cover p-2 transition-transform duration-300 hover:scale-105"
+                          className="object-fill p-2 transition-transform duration-300"
                         />
                         
                         {/* Image counter indicator */}
@@ -790,10 +791,10 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                       {product.thumbnails.length > 1 && (
                         <div 
                           className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
-                          onClick={() => setSelectedImage(nextIndex)}
+                          onClick={() => setCarouselSelectedImage(carouselNextIndex)}
                         >
                           <Image 
-                            src={product.thumbnails[nextIndex]} 
+                            src={product.thumbnails[carouselNextIndex]} 
                             alt={`${product.name} - Next`}
                             fill
                             sizes="240px"
@@ -804,7 +805,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                     
                     {/* Right arrow */}
                     <button 
-                       onClick={() => setCarouselSelectedImage(carouselNextIndex)}
+                       onClick={() => setCarouselSelectedImage(carouselPrevIndex)}
                       className="absolute right-0 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
                       aria-label="Next image"
                     >
@@ -821,8 +822,6 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                       <div className="bg-gradient-to-r from-white via-white/80 to-transparent w-8 h-20"></div>
                       <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-8 h-20"></div>
                     </div>
-                    
-                    
                   </div>
                 </div>
               </div>
