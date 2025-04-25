@@ -703,7 +703,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                     </svg>
                     Info & Details
                   </h3>
-                  <div className="text-gray-700 space-y-3">
+                  <div className="text-gray-900 space-y-3">
                     <p className="leading-relaxed md:text-4xl text-3xl font-extrabold">Everything you need to know about {product.name}</p>
                     <p className="leading-relaxed ">{product.description}</p>
                   </div>
