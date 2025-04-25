@@ -165,11 +165,9 @@ export default function Products() {
 
   const BestSellingBadge = () => {
     return (
-      <motion.div
-        className="absolute top-2 -right-2 z-50"
-      >
+      <div className="absolute top-2 -right-2 z-50 pointer-events-none">
         <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20" />
-      </motion.div>
+      </div>
     );
   };
 
@@ -187,7 +185,7 @@ export default function Products() {
         onClick={() => navigateToProductDetail(product.packaging_id)}
         onMouseEnter={() => setIsHovering(index)}
         onMouseLeave={() => setIsHovering(null)}
-        className="flex flex-col justify-between rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full"
+        className="flex flex-col justify-between rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full relative"
       >
         {/* Badge for standup pouches */}
         {isStandupPouch && <BestSellingBadge />}
@@ -226,8 +224,8 @@ export default function Products() {
           
           {/* Animated button on hover */}
           <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            // whileHover={{ scale: 1.03 }}
+            // whileTap={{ scale: 0.97 }}
             className={`mt-2 w-full py-2 text-sm font-bold text-white 'bg-gradient-to-r bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-md transition-colors`}
           >
             View Details
