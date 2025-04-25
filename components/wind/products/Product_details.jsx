@@ -862,7 +862,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                 <p className="text-gray-700 mb-6">
                   You want everything to fit with your new packaging. Take your time 
                   to look at your packaging samples and try out to fill your product. 
-                  That way you're guaranteed to find the perfect material and the 
+                  That way you are guaranteed to find the perfect material and the 
                   right size.
                 </p>
                 
