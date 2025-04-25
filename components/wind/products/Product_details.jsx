@@ -696,7 +696,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
           {/* About Products section */}
             <div className="mt-20 mb-16">
               <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-                <div className="w-full text-center bg-white p-6">
+                <div className="w-full text-center bg-white ">
                   <h3 className="text-2xl font-semibold text-[#143761] mb-4 flex justify-center items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className=" h-8 w-8 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -705,7 +705,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                   </h3>
                   <div className="text-gray-700 space-y-3">
                     <p className="leading-relaxed text-4xl font-extrabold">Everything you need to know about {product.name}</p>
-                    <p className="leading-relaxed">{product.description}</p>
+                    <p className="leading-relaxed ">{product.description}</p>
                   </div>
                 </div>
                 <ImageComparisonFeature 
