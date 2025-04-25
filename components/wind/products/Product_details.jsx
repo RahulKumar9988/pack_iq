@@ -855,7 +855,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
               </div>
               
               <div className="flex-1 ml-8 max-w-lg">
-                <h1 className="text-4xl font-bold text-indigo-900 mb-4">
+                <h1 className="text-4xl font-bold text-black mb-4">
                   You want to test the packaging first?
                 </h1>
                 
