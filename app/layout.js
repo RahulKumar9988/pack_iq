@@ -5,7 +5,7 @@ import MobileNav from "@/components/MobileNav";
 import Footer from "@/components/Footer";
 import HomepageNavbar from "@/components/Navbar";
 import StoreProvider from "./(products)/StoreProvider";
-import NextTopLoader from 'nextjs-toploader';
+
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 

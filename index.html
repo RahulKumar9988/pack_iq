@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <h2>qucik text</h2>
+        
+        <div>
+            <button class="rep">call me</button>
+            <button class="rep"> thanks</button>
+            <button class="rep">hi</button>
+            <button class="rep">hellow</button>
+        </div>
+
+        <div id="messagebox"></div>
+        
+    </div>
+    
+    <script>
+        
+        document.querySelectorAll('.rep').forEach(buttton =>{
+            buttton.addEventListener('click', () =>{
+                const messagebox = document.getElementById('messagebox');
+                const span = document.createElement('span');
+                span.textContent = buttton.textContent + " ";
+
+                // Remove the reply when clicked
+4350
+                span.addEventListener('click', () => {
+                    messagebox.removeChild(span);
+                });
+
+                messagebox.appendChild(span);
+            })
+        })
+        
+    </script>
+</body>
+</html>

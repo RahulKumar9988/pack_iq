@@ -4,10 +4,10 @@
   import axios from "axios";
   import Image from "next/image";
   import { useParams, useRouter } from "next/navigation";
-  import Recomended_product from "@/components/Recomended_product";
   import { useDispatch } from "react-redux";
   import { addToCart } from "@/redux/features/cart/cartSlice";
-  import Recomend_Scleton from "@/components/Recomend_Scleton";
+  import Recomend_Scleton from "@/components/Recomend_Scleton"
+  import Carousel from "@/components/Carousel ";
   import {
     SparklesIcon,
     ArrowsPointingOutIcon,
@@ -732,99 +732,16 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
               />
                 
                 {/* Carousel-style Gallery with center-focused layout */}
-                <div className="relative overflow-hidden rounded-xl py-8 ">
-                  <h3 className="text-lg font-semibold text-[#000000] mb-4 flex justify-center items-center">
-                    
-                    <h1 className="text-3xl text-center font-bold">This is what your Doypack could look like.</h1>
-                  </h3>
+                <Carousel
+                  images={product.thumbnails}
+                  altPrefix={`${product.name} - Image`}
+                  title="This is what your Doypack could look like"
+                  selectedImage={carouselSelectedImage}
+                  setSelectedImage={setCarouselSelectedImage}
+                  />
                   
-                  {/* Main carousel display */}
-                  <div className="flex items-center justify-center gap-4 px-10 relative">
-                    
-                    {/* Left arrow */}
-                    <button 
-                        onClick={() => setCarouselSelectedImage(carouselPrevIndex)}
-                      className="absolute left-0 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
-                      aria-label="Previous image"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M15 18l-6-6 6-6"/>
-                      </svg>
-                    </button>
-                    
-                      
-                      {/* Trio of images with left image (previous) */}
-                      {product.thumbnails.length > 1 && (
-                        <div 
-                          className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
-                          onClick={() => setCarouselSelectedImage(carouselPrevIndex)}
-                        >
-                          <Image 
-                            src={product.thumbnails[carouselPrevIndex]} 
-                            alt={`${product.name} - Previous`}  
-                            fill
-                            sizes="240px"
-                            className="object-contain p-2"
-                          />
-                        </div>
-                      )}
-
-                      {/* Main center image (current) */}
-                      <div className="h-96 sm:h-[70vh] w-80 sm:w-96 relative rounded-lg overflow-hidden z-10 transition-all">
-                        
-                        <Image 
-                          src={product.thumbnails[carouselSelectedImage]} 
-                          alt={`${product.name} - Image ${carouselSelectedImage  + 1}`}
-                          fill
-                          priority
-                          sizes="(max-width: 940px) 920px, 948px"
-                          className="object-fill p-2 transition-transform duration-300"
-                        />
-                        
-                        {/* Image counter indicator */}
-                        <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
-                        {carouselSelectedImage + 1}/{product.thumbnails.length}
-                        </div>
-                      </div>
-
-                      {/* Trio of images with right image (next) */}
-                      {product.thumbnails.length > 1 && (
-                        <div 
-                          className="hidden sm:block h-72 w-60 relative rounded-lg overflow-hidden opacity-70 hover:opacity-80 transition-all cursor-pointer"
-                          onClick={() => setCarouselSelectedImage(carouselNextIndex)}
-                        >
-                          <Image 
-                            src={product.thumbnails[carouselNextIndex]} 
-                            alt={`${product.name} - Next`}
-                            fill
-                            sizes="240px"
-                            className="object-contain p-2"
-                          />
-                        </div>
-                      )}
-                    
-                    {/* Right arrow */}
-                    <button 
-                       onClick={() => setCarouselSelectedImage(carouselPrevIndex)}
-                      className="absolute right-0 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
-                      aria-label="Next image"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M9 18l6-6-6-6"/>
-                      </svg>
-                    </button>
-                  </div>
-                  
-                  {/* Thumbnails row */}
-                  <div className="relative mt-6">
-                    {/* Improved scroll indicators */}
-                    <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2  pointer-events-none z-10">
-                      <div className="bg-gradient-to-r from-white via-white/80 to-transparent w-8 h-20"></div>
-                      <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-8 h-20"></div>
-                    </div>
-                  </div>
                 </div>
-              </div>
+
             </div>
 
             <div className="flex flex-col gap-5 md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
@@ -856,11 +773,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
             </div>
 
             
-          {/* Recommended Products section */}
-          <div className="mt-10">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#143761] mb-4 sm:mb-6">Recommended Products</h2>
-            <Recomended_product />
-          </div>
+          
         </div>
       </div>
     );
