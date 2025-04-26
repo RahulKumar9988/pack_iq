@@ -724,6 +724,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
                   </div>
                 </div>
                 <ImageComparisonFeature 
+                title={product.name}
                 beforeImage='/lable.webp' // You can use product images from your state
                 afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
                 beforeText="Bye, labels..."
