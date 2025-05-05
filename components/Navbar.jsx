@@ -23,7 +23,7 @@ import {
   Server,
   TagUser,
   Scale,
-} from "./Icons.jsx";
+} from "lucide-react";
 import BagLogo from "@/public/BagLogo.jsx";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -31,6 +31,13 @@ import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
 import { getUserDetails } from "@/app/action/getUserDetails.js";
 import { FiUser } from "react-icons/fi";
+import dynamic from 'next/dynamic';
+
+// Dynamically import PackagingSolutions with no SSR to avoid hydration issues
+const PackagingSolutions = dynamic(
+  () => import('./wind/navbar/PackagingSolutions.jsx'),
+  { ssr: false }
+);
 
 // Memoize icons using a constant object instead of a function
 const ICONS = {
@@ -45,14 +52,128 @@ const ICONS = {
   user: <TagUser className="text-danger" fill="currentColor" size={30} />,
 };
 
-
+// Create a dropdown for Industries
+const IndustriesDropdown = () => {
+  return (
+    <Dropdown>
+      <NavbarItem className="w-full">
+        <DropdownTrigger className="w-full">
+          <Button
+            disableRipple
+            className="w-full max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm flex justify-center"
+            endContent={ICONS.chevron}
+            radius="sm"
+            variant="light"
+          >
+            Industries
+          </Button>
+        </DropdownTrigger>
+      </NavbarItem>
+      <DropdownMenu
+        aria-label="Industries"
+        className=""
+        itemClasses={{
+          base: "gap-4",
+        }}
+      >
+        <DropdownItem 
+          key="coffee" 
+          as={Link}
+          href="/industries/coffee"
+          className="cursor-pointer w-full"
+        >
+          Coffee
+        </DropdownItem>
+        <DropdownItem 
+          key="sweets" 
+          as={Link}
+          href="/industries/sweets"
+          className="cursor-pointer w-full"
+        >
+          Sweets
+        </DropdownItem>
+        <DropdownItem 
+          key="cbd" 
+          as={Link}
+          href="/industries/cbd"
+          className="cursor-pointer w-full"
+        >
+          CBD
+        </DropdownItem>
+        <DropdownItem 
+          key="cosmetics" 
+          as={Link}
+          href="/industries/cosmetics"
+          className="cursor-pointer w-full"
+        >
+          Cosmetics
+        </DropdownItem>
+        <DropdownItem 
+          key="supplements" 
+          as={Link}
+          href="/industries/supplements"
+          className="cursor-pointer w-full"
+        >
+          Supplements
+        </DropdownItem>
+        <DropdownItem 
+          key="tobacco" 
+          as={Link}
+          href="/industries/tobacco-filters"
+          className="cursor-pointer w-full"
+        >
+          Tobacco & Filters
+        </DropdownItem>
+        <DropdownItem 
+          key="food" 
+          as={Link}
+          href="/industries/food"
+          className="cursor-pointer w-full"
+        >
+          Food
+        </DropdownItem>
+        <DropdownItem 
+          key="fashion" 
+          as={Link}
+          href="/industries/fashion"
+          className="cursor-pointer w-full"
+        >
+          Fashion
+        </DropdownItem>
+        <DropdownItem 
+          key="tea" 
+          as={Link}
+          href="/industries/tea"
+          className="cursor-pointer w-full"
+        >
+          Tea
+        </DropdownItem>
+        <DropdownItem 
+          key="spices" 
+          as={Link}
+          href="/industries/spices"
+          className="cursor-pointer w-full"
+        >
+          Spices
+        </DropdownItem>
+        <DropdownItem 
+          key="petfood" 
+          as={Link}
+          href="/industries/petfood"
+          className="cursor-pointer w-full"
+        >
+          Petfood
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  );
+};
 
 export default function HomepageNavbar() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector(state => state.auth);
   const router = useRouter();
   const userDetails = getUserDetails();
-  
   
   // Add state to track if component is mounted to prevent hydration issues
   const [isMounted, setIsMounted] = useState(false);
@@ -66,7 +187,6 @@ export default function HomepageNavbar() {
   const handleProfileClick = useCallback(() => {
     router.push('/auth/signin');
   }, [router]);
-
 
   const handleLogout = useCallback( async () => {
     const result = await Logout();
@@ -102,11 +222,13 @@ export default function HomepageNavbar() {
         className="flex gap-0 sm:gap-10 xs:gap-2 max-sm:text-sm"
         justify="center"
       >
-        <NavbarItem>
-          <NextUILink href="/" as={Link} color="foreground" className="max-sm:text-sm">
-            Home
-          </NextUILink>
-        </NavbarItem>
+        
+        {/* Packaging Solutions dropdown */}
+        <PackagingSolutions />
+        
+        {/* Industries dropdown */}
+        <IndustriesDropdown />
+
         <Dropdown>
           <NavbarItem className="w-full">
             <DropdownTrigger className="w-full">
@@ -172,12 +294,6 @@ export default function HomepageNavbar() {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        
-        <NavbarItem>
-          <NextUILink href="/contact" as={Link} color="foreground" className="max-sm:text-sm">
-            Contact Us
-          </NextUILink>
-        </NavbarItem>
         <NavbarItem>
           <NextUILink href="/blog" as={Link} color="foreground" className="max-sm:text-sm">
             Blogs

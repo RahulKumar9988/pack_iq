@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "packiqbackend.setstatetech.com",
+        hostname: "packiq.setstatetech.com",
         port: "",
         pathname: "/**", // This allows all paths on packiro.com
       },
