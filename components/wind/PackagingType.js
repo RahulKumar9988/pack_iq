@@ -201,6 +201,8 @@ const BestSellingBadge = () => {
                 shadow="sm"
                 className={`bg-gradient-to-br from-white to-blue-50 border ${isSelected ? 'border-[#E45971]' : 'border-gray-200'} p-3 sm:p-4 h-full w-full scrollbar-hide overflow-y-auto relative`}
                 isPressable
+                onClick={() => handleSelectAndNavigate(item, index)}
+
               >
                 <CardBody className="p-0">
                   <div className="h-full flex flex-col gap-3 sm:gap-5 items-center sm:justify-around pt-2 relative">
