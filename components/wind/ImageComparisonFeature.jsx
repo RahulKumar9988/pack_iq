@@ -109,7 +109,7 @@ const ImageComparisonFeature = ({
               onClick={handleFlip}
             >
               {/* Front Side (Before) */}
-              <div className={`absolute w-full h-full rounded-2xl backface-hidden border-1 shadow-2xl overflow-hidden transform-style-3d transition-all duration-500 ${isHovered && !isFlipped ? 'scale-105' : ''}`}>
+              <div className={`absolute w-full h-full rounded-2xl backface-hidden border-1 shadow-2xl overflow-hidden transform-style-3d transition-all duration-500 ${isHovered && !isFlipped ? '' : ''}`}>
                 {/* Card content */}
                 <div className="absolute inset-0 bg-slate-50 text-white">
                   {/* Header */}

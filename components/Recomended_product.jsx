@@ -77,7 +77,25 @@ export default function RecommendedProducts() {
     try {
       const response = await axios.get(`${baseUrl}/api/v1/resources/packaging-type`);
       if (response.status === 200) {
-        const responseData = response.data.data.slice(0, productsPerPage).map((ele) => ({
+        let responseData = response.data.data;
+        
+        // Find standup pouch and move it to the first position
+        const standupPouchIndex = responseData.findIndex(
+          (item) => item.name.toLowerCase().includes("standup pouch") || 
+                   item.name.toLowerCase().includes("stand up pouch") ||
+                   item.name.toLowerCase().includes("stand-up pouch")
+        );
+        
+        if (standupPouchIndex !== -1) {
+          // Remove standup pouch from its current position
+          const standupPouch = responseData[standupPouchIndex];
+          responseData.splice(standupPouchIndex, 1);
+          // Add it to the beginning of the array
+          responseData = [standupPouch, ...responseData];
+        }
+        
+        // Take only the first 'productsPerPage' items
+        const displayedProducts = responseData.slice(0, productsPerPage).map((ele) => ({
           packaging_id: ele.packaging_id,
           icon: ele.packaging_image_icon_url,
           description: ele.description,
@@ -86,7 +104,8 @@ export default function RecommendedProducts() {
           packaging_image_url: ele.packaging_image_url,
           quantity: ele.minimum_qty,
         }));
-        setProductList(responseData);
+        
+        setProductList(displayedProducts);
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
@@ -94,6 +113,17 @@ export default function RecommendedProducts() {
       setLoading(false);
     }
   }
+
+  const BestSellingBadge = () => {
+    return (
+      <motion.div
+        className="absolute -top-2 -right-2 z-20"
+      >
+        <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20" />
+      </motion.div>
+    );
+  };
+
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
@@ -118,6 +148,7 @@ export default function RecommendedProducts() {
           {productList.map((product, index) => {
             const isHovered = hoveredItem === index;
             const truncatedDescription = getTruncatedDescription(product.description);
+            const isStandupPouch = product.name.toLowerCase().includes("standup pouch");
             
             return (
               <div
@@ -127,6 +158,8 @@ export default function RecommendedProducts() {
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => navigateToProductDetail(product.packaging_id)}
               >
+                {isStandupPouch && <BestSellingBadge />}
+
                 {/* Decorative elements */}
                 <DecorativeElements position="top-3 right-3" />
                 <DecorativeElements position="bottom-6 left-8" />
@@ -149,10 +182,10 @@ export default function RecommendedProducts() {
                       <div className="flex-1 flex items-center justify-center w-full relative mb-4">
                         <motion.div
                           animate={{ 
-                            boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0.1)" 
+                            boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0)" 
                           }}
                           transition={{ duration: 0.3 }}
-                          className="rounded-full bg-white p-3 border border-gray-100 relative"
+                          className=" relative"
                         >
                           <Image
                             src={product.packaging_image_url}
