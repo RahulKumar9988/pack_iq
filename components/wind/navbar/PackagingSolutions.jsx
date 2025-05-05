@@ -124,13 +124,13 @@ const PackagingSolutions = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center text-base font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200 focus:outline-none group"
       >
-        <span className="pr-1">Packaging Solutions</span>
+        <span className="pr-1 text-blue-900">Packaging Solutions</span>
         <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {/* Enhanced Dropdown Menu */}
       {isOpen && (
-        <div className="absolute z-50 mt-4 bg-white rounded-xl shadow-xl overflow-hidden w-[900px] border border-gray-100 transition-all duration-200 animate-fadeIn">
+        <div className="absolute z-50 mt-4 bg-white rounded-xl shadow-xl overflow-hidden w-[900px] border-1 border-gray-100 transition-all duration-200 animate-fadeIn">
           <div className="flex">
             {/* Left Column - Menu Items with flexbox layout */}
             <div className="w-3/5 flex">
@@ -175,7 +175,7 @@ const PackagingSolutions = () => {
               {/* Materials column */}
               <div className="w-1/2">
                 <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
-                  <h3 className="font-bold text-lg text-gray-800">Materials</h3>
+                  <h3 className="font-bold text-lg text-blue-900">Materials</h3>
                 </div>
                 <div className="overflow-y-auto max-h-[500px] py-2">
                   {isLoading ? (
