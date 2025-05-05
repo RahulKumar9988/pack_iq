@@ -1,271 +1,269 @@
-import { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronDown } from 'lucide-react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-// Define the base URL with a fallback
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.yoursite.com";
+// Fallback images in case the API data doesn't include images
+const fallbackPackagingImages = {
+  "Stand-up pouch": "https://images.pexels.com/photos/4464821/pexels-photo-4464821.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Flat bottom pouch": "https://images.pexels.com/photos/6692160/pexels-photo-6692160.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Flat pouch": "https://images.pexels.com/photos/7180795/pexels-photo-7180795.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Flow pack": "https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Rollstock": "https://images.pexels.com/photos/4466524/pexels-photo-4466524.jpeg?auto=compress&cs=tinysrgb&w=600"
+};
 
-export default function PackagingSolutions() {
-  const router = useRouter();
+const fallbackMaterialImages = {
+  "Transparent Toni": "https://images.pexels.com/photos/3943748/pexels-photo-3943748.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Metallised Martha": "https://images.pexels.com/photos/5871217/pexels-photo-5871217.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Robust Robin": "https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "Biobased Ben": "https://images.pexels.com/photos/4039606/pexels-photo-4039606.jpeg?auto=compress&cs=tinysrgb&w=600"
+};
+
+const PackagingSolutions = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [packagingTypes, setPackagingTypes] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Fetch data on component mount
-  useEffect(() => {
-    getPackagingTypes();
-    getMaterials();
-  }, []);
-
-  // Fetch packaging types from the API
-  const getPackagingTypes = async () => {
+  const router = useRouter();
+  
+  // Base URL for API calls
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+  
+  // Get packaging types from API
+  const getPackagingTypes = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}/api/v1/resources/packaging-type`);
-      if (response.ok) {
-        const data = await response.json();
-        const responseData = data.data.map((ele) => ({
+      const response = await axios.get(
+        `${baseUrl}/api/v1/resources/packaging-type`
+      );
+      if (response.status === 200) {
+        const responseData = response.data.data.map((ele) => ({
           id: ele.packaging_id,
-          icon: ele.packaging_image_icon_url,
-          // description: ele.description,
           name: ele.name,
-          time: "4-7 weeks",
-          minimumQty: ele.minimum_qty,
+          description: ele.description,
+          icon: ele.packaging_image_icon_url,
           imageUrl: ele.packaging_image_url,
-          quantity: ele.minimum_qty,
+          minimumQty: ele.minimum_qty,
+          isNew: false, // You can set this conditionally if your API provides this info
+          time: "4-7 weeks",
+          quantity: ele.minimum_qty
         }));
         setPackagingTypes(responseData);
       }
     } catch (error) {
-      console.error("Error fetching packaging types:", error.message);
+      console.error(error.response ? error.response.data : error.message);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // Fetch materials from the API
-  const getMaterials = async () => {
+  }, [baseUrl]);
+  
+  // Get materials from API
+  const getMaterials = useCallback(async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}/api/v1/resources/material`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.status === 200) {
-          const responseData = data.data.map((ele) => ({
-            id: ele.material_id,
-            imageUrl: ele.material_image_url || "/Material.png",
-            name: ele.name,
-            description: ele.description,
-            price: "₹" + ele.price,
-          }));
-          setMaterials(responseData);
-        }
+      const response = await axios.get(`${baseUrl}/api/v1/resources/material`);
+      if (response.data.status === 200) {
+        const responseData = response.data.data.map((ele) => ({
+          id: ele.material_id,
+          name: ele.name,
+          description: ele.description,
+          imageUrl: ele.material_image_url || "/Material.png",
+          //price: "₹" + ele.price,
+          isBestseller: false, // You can set this conditionally if your API provides this info
+          createdAt: ele.createdAt,
+          updatedAt: ele.updatedAt || "",
+          deleteFlag: ele.delete_flag
+        }));
+        setMaterials(responseData);
       }
     } catch (error) {
-      console.error("Error fetching materials:", error.message);
+      console.error(error.response ? error.response.data : error.message);
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  // Handle navigation to detail pages
+  }, [baseUrl]);
+  
+  // Fetch data on component mount
+  useEffect(() => {
+    getPackagingTypes();
+    getMaterials();
+    
+    // Handle closing dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.packaging-dropdown')) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [getPackagingTypes, getMaterials]);
+  
+  // Handle navigation
   const handleNavigate = (itemId, type) => {
-    if (type === "packaging") {
-      router.push(`/products/${itemId}`);
-    } else {
-      router.push(`/`);
-    }
+    console.log(`Navigating to ${type} with ID: ${itemId}`);
     setIsOpen(false);
+    // Implement actual navigation logic here
+    router.push(`/products/${itemId}`);
   };
-
-  // Fallback images in case the API data doesn't include images
-  const fallbackPackagingImages = {
-    "Stand-up pouch": "/packaging-images/standup-pouch.png",
-    "Flat bottom pouch": "/packaging-images/flat-bottom-pouch.png",
-    "Flat pouch": "/packaging-images/flat-pouch.png",
-    "Flow pack": "/packaging-images/flow-pack.png",
-    "Rollstock": "/packaging-images/rollstock.png",
+  
+  // Get image from API data or fallback
+  const getItemImage = (item, type) => {
+    if (type === 'packaging') {
+      return item.imageUrl || fallbackPackagingImages[item.name] || fallbackPackagingImages["Stand-up pouch"];
+    } else {
+      return item.imageUrl || fallbackMaterialImages[item.name] || fallbackMaterialImages["Transparent Toni"];
+    }
   };
-
-  const fallbackMaterialImages = {
-    "Transparent Toni": "/material-images/transparent-toni.png",
-    "Metallised Martha": "/material-images/metallised-martha.png",
-    "Robust Robin": "/material-images/robust-robin.png",
-    "Biobased Ben": "/material-images/biobased-ben.png",
-  };
-
-  // Generate placeholder packaging types when API data is not available
-  const placeholderPackagingTypes = [
-    { id: "standup", name: "Stand-up pouch", isNew: false },
-    { id: "flatbottom", name: "Flat bottom pouch", isNew: false },
-    { id: "flat", name: "Flat pouch", isNew: false },
-    { id: "flowpack", name: "Flow pack", isNew: false },
-    { id: "rollstock", name: "Rollstock", isNew: true },
-  ];
-
-  // Generate placeholder materials when API data is not available
-  const placeholderMaterials = [
-    { id: "toni", name: "Transparent Toni", isBestseller: false },
-    { id: "martha", name: "Metallised Martha", isBestseller: true },
-    { id: "robin", name: "Robust Robin", isBestseller: false },
-    { id: "ben", name: "Biobased Ben", isBestseller: false },
-  ];
 
   return (
-    <div className="relative inline-block w-full">
+    <div className="relative inline-block packaging-dropdown">
       {/* Dropdown Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-        className="flex items-center text-base font-medium text-gray-800 hover:text-gray-600 focus:outline-none"
+        className="flex items-center text-base font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200 focus:outline-none group"
       >
-        <span>Packaging Solutions</span>
-        <ChevronDown className="w-4 h-4 ml-1" />
+        <span className="pr-1">Packaging Solutions</span>
+        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* Dropdown Menu */}
+      {/* Enhanced Dropdown Menu */}
       {isOpen && (
-        <div className=" absolute z-50 mt-2 w-screen max-w-2xl bg-white rounded-md shadow-lg overflow-hidden">
+        <div className="absolute z-50 mt-4 bg-white rounded-xl shadow-xl overflow-hidden w-[900px] border border-gray-100 transition-all duration-200 animate-fadeIn">
           <div className="flex">
-            {/* Right Column - Preview */}
-            <div className="w-1/2 bg-gray-50 p-4 flex items-center justify-center">
+            {/* Left Column - Menu Items with flexbox layout */}
+            <div className="w-3/5 flex">
+              {/* Packaging Types column */}
+              <div className="w-1/2 border-r border-gray-100">
+                <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+                  <h3 className="font-bold text-lg text-gray-800">Packaging Types</h3>
+                </div>
+                <div className="overflow-y-auto max-h-[500px] py-2">
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-32">
+                      <div className="animate-pulse flex space-x-4">
+                        <div className="flex-1 space-y-4 py-1">
+                          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    packagingTypes.map((item) => (
+                      <div
+                        key={item.id}
+                        className="px-6 py-3 hover:bg-blue-50 cursor-pointer group transition-all duration-200 border-l-2 border-transparent hover:border-blue-500"
+                        onMouseEnter={() => setActiveItem({ type: 'packaging', item })}
+                        onClick={() => handleNavigate(item.id, 'packaging')}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="group-hover:text-blue-600 transition-colors duration-200">{item.name}</span>
+                          {item.isNew && (
+                            <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
+                              New
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* Materials column */}
+              <div className="w-1/2">
+                <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+                  <h3 className="font-bold text-lg text-gray-800">Materials</h3>
+                </div>
+                <div className="overflow-y-auto max-h-[500px] py-2">
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-32">
+                      <div className="animate-pulse flex space-x-4">
+                        <div className="flex-1 space-y-4 py-1">
+                          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    materials.map((item) => (
+                      <div
+                        key={item.id}
+                        className="px-6 py-3 hover:bg-blue-50 cursor-pointer group transition-all duration-200 border-l-2 border-transparent hover:border-blue-500"
+                        onMouseEnter={() => setActiveItem({ type: 'material', item })}
+                        //onClick={() => handleNavigate(item.id, 'material')}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="group-hover:text-blue-600 transition-colors duration-200">{item.name}</span>
+                          {item.isBestseller && (
+                            <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
+                              Bestseller
+                            </span>
+                          )}
+                          <span className="text-sm text-gray-500">{item.price}</span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Enhanced Preview */}
+            <div className="w-2/5 bg-gradient-to-br from-gray-50 to-white p-6 flex items-center justify-center">
               {activeItem ? (
-                <div className="text-center">
-                  <div className="h-48 w-48 mx-auto mb-4 flex items-center justify-center">
+                <div className="text-center transition-opacity duration-300 ease-in-out">
+                  <div className="h-56 w-56 mx-auto mb-6 flex items-center justify-center overflow-hidden rounded-lg shadow-md border border-gray-200 bg-white p-4 transition-all duration-300 hover:shadow-lg">
                     <img
-                      src={
-                        activeItem.type === "packaging"
-                          ? activeItem.item.imageUrl ||
-                            fallbackPackagingImages[activeItem.item.name] ||
-                            "/api/placeholder/200/200"
-                          : activeItem.item.imageUrl ||
-                            fallbackMaterialImages[activeItem.item.name] ||
-                            "/api/placeholder/200/200"
-                      }
+                      src={getItemImage(activeItem.item, activeItem.type)}
                       alt={activeItem.item.name}
-                      className="max-h-full max-w-full object-contain"
+                      className="max-h-full max-w-full object-contain transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <h3 className="font-semibold text-lg">{activeItem.item.name}</h3>
+                  <h3 className="font-semibold text-xl text-gray-800 mb-2" 
+                    onClick={() => handleNavigate(activeItem.item.id, activeItem.type)}
+                  >{activeItem.item.name}</h3>
                   {activeItem.item.description && (
-                    <p className="text-sm text-gray-600 mt-1">{activeItem.item.description}</p>
+                    <p className="text-start text-sm text-gray-600 mt-2 max-w-xs mx-auto leading-relaxed">
+                      {activeItem.item.description}
+                    </p>
                   )}
                 </div>
               ) : (
-                <div className="text-center">
-                  <div className="h-48 w-48 mx-auto mb-4 flex items-center justify-center">
+                <div className="text-center transition-opacity duration-300 ease-in-out">
+                  <div className="h-56 w-56 mx-auto mb-6 flex items-center justify-center overflow-hidden rounded-lg shadow-md border border-gray-200 bg-white p-4">
                     <img
-                      src="/api/placeholder/200/200"
+                      src="https://images.pexels.com/photos/1546333/pexels-photo-1546333.jpeg?auto=compress&cs=tinysrgb&w=600"
                       alt="Hover over options to preview"
                       className="max-h-full max-w-full object-contain opacity-50"
                     />
                   </div>
-                  <p className="text-gray-500">Hover over options to preview</p>
+                  <h3 className="font-semibold text-xl text-gray-800 mb-2">Select an option</h3>
+                  <p className="text-sm text-gray-500 max-w-xs mx-auto leading-relaxed">
+                    Hover over an option on the left to preview packaging solutions and materials
+                  </p>
                 </div>
               )}
             </div>
-
-            {/* Left Column - Menu Items */}
-            <div className="w-full py-2 flex border-r border-gray-200">
-              <div className="flex  flex-col h-full w-full border-r border-gray-200">
-                <div className="px-4 py-3 w-full border-b border-gray-200">
-                  <h3 className="font-semibold text-lg text-gray-800">Packaging Shapes</h3>
-                </div>
-                <div className="max-h-64 overflow-y-auto">
-                  {packagingTypes.length > 0
-                    ? packagingTypes.map((item) => (
-                        <div
-                          key={item.id}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
-                          onMouseEnter={() => setActiveItem({ type: "packaging", item })}
-                          onClick={() => handleNavigate(item.id, "packaging")}
-                        >
-                          <span>{item.name}</span>
-                          {item.name.toLowerCase().includes("rollstock") && (
-                            <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
-                              New
-                            </span>
-                          )}
-                        </div>
-                      ))
-                    : placeholderPackagingTypes.map((item) => (
-                        <div
-                          key={item.id}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
-                          onMouseEnter={() =>
-                            setActiveItem({
-                              type: "packaging",
-                              item: {
-                                name: item.name,
-                                imageUrl: fallbackPackagingImages[item.name],
-                              },
-                            })
-                          }
-                          onClick={() => router.push(`/packaging-solutions/${item.id}`)}
-                        >
-                          <span>{item.name}</span>
-                          {item.isNew && (
-                            <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
-                              New
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col h-full w-full border-l border-gray-200">
-                <div className="px-4 py-3 border-b border-t border-gray-200">
-                  <h3 className="font-semibold text-lg text-gray-800">Material</h3>
-                </div>
-                <div className="max-h-64 overflow-y-auto">
-                  {materials.length > 0
-                    ? materials.map((item) => (
-                        <div
-                          key={item.id}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
-                          onMouseEnter={() => setActiveItem({ type: "material", item })}
-                          onClick={() => handleNavigate(item.id, "material")}
-                        >
-                          <span>{item.name}</span>
-                          {item.name === "Metallised Martha" && (
-                            <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
-                              Bestseller
-                            </span>
-                          )}
-                        </div>
-                      ))
-                    : placeholderMaterials.map((item) => (
-                        <div
-                          key={item.id}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
-                          onMouseEnter={() =>
-                            setActiveItem({
-                              type: "material",
-                              item: {
-                                name: item.name,
-                                imageUrl: fallbackMaterialImages[item.name],
-                                // description: item.name.split(" ")[1],
-                              },
-                            })
-                          }
-                          
-                        >
-                          <span>{item.name}</span>
-                          {item.isBestseller && (
-                            <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
-                              Bestseller
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                </div>
-              </div>
-            </div>
-
-            
+          </div>
+          
+          {/* Footer with links or call to action */}
+          <div className="bg-gray-50 border-t border-gray-100 p-4 flex justify-between items-center">
+            <p className="text-sm text-gray-500">Explore our complete range of packaging solutions</p>
+            <button 
+              className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200"
+              onClick={() => router.push('/products')}
+            >
+              View All Options →
+            </button>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
+
+export default PackagingSolutions;

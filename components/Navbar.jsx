@@ -28,7 +28,7 @@ import BagLogo from "@/public/BagLogo.jsx";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice.js";
-import {logout as Logout} from '@/app/action/loginAction.js';
+import { logout as Logout } from '@/app/action/loginAction.js';
 import { getUserDetails } from "@/app/action/getUserDetails.js";
 import { FiUser } from "react-icons/fi";
 import dynamic from 'next/dynamic';
@@ -39,130 +39,138 @@ const PackagingSolutions = dynamic(
   { ssr: false }
 );
 
-// Memoize icons using a constant object instead of a function
+// Memoize icons using a constant object
 const ICONS = {
-  chevron: <ChevronDown fill="currentColor" size={16} />,
-  scale: <Scale className="text-warning" fill="currentColor" size={30} />,
-  lock: <Lock className="text-success" fill="currentColor" size={30} />,
-  activity: (
-    <Activity className="text-secondary" fill="currentColor" size={30} />
-  ),
-  flash: <Flash className="text-primary" fill="currentColor" size={30} />,
-  server: <Server className="text-success" fill="currentColor" size={30} />,
-  user: <TagUser className="text-danger" fill="currentColor" size={30} />,
+  chevron: <ChevronDown size={16} />,
+  scale: <Scale className="text-warning" size={30} />,
+  lock: <Lock className="text-success" size={30} />,
+  activity: <Activity className="text-secondary" size={30} />,
+  flash: <Flash className="text-primary" size={30} />,
+  server: <Server className="text-success" size={30} />,
+  user: <TagUser className="text-danger" size={30} />,
 };
 
-// Create a dropdown for Industries
+// Industries dropdown component
 const IndustriesDropdown = () => {
   return (
     <Dropdown>
-      <NavbarItem className="w-full">
-        <DropdownTrigger className="w-full">
+      <NavbarItem>
+        <DropdownTrigger>
           <Button
             disableRipple
-            className="w-full max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm flex justify-center"
+            className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
             endContent={ICONS.chevron}
             radius="sm"
             variant="light"
           >
-            Industries
+            Industrys Solution
           </Button>
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu
         aria-label="Industries"
-        className=""
+        className="w-64"
+        itemClasses={{
+          base: "gap-4",
+        }}
+      >
+        {[
+          { key: "coffee", label: "Coffee" },
+          { key: "sweets", label: "Sweets" },
+          { key: "cbd", label: "CBD" },
+          { key: "cosmetics", label: "Cosmetics" },
+          { key: "supplements", label: "Supplements" },
+          { key: "tobacco", label: "Tobacco & Filters" },
+          { key: "food", label: "Food" },
+          { key: "fashion", label: "Fashion" },
+          { key: "tea", label: "Tea" },
+          { key: "spices", label: "Spices" },
+          { key: "petfood", label: "Petfood" },
+        ].map(item => (
+          <DropdownItem 
+            key={item.key} 
+            as={Link}
+            href={`/industries/${item.key}`}
+            className="cursor-pointer w-full"
+          >
+            {item.label}
+          </DropdownItem>
+        ))}
+      </DropdownMenu>
+    </Dropdown>
+  );
+};
+
+// Products dropdown component
+const ProductsDropdown = () => {
+  return (
+    <Dropdown>
+      <NavbarItem>
+        <DropdownTrigger>
+          <Button
+            disableRipple
+            className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
+            endContent={ICONS.chevron}
+            radius="sm"
+            variant="light"
+          >
+            Products
+          </Button>
+        </DropdownTrigger>
+      </NavbarItem>
+      <DropdownMenu
+        aria-label="Product features"
+        className="w-64"
         itemClasses={{
           base: "gap-4",
         }}
       >
         <DropdownItem 
-          key="coffee" 
+          key="all-products" 
+          startContent={ICONS.scale}
           as={Link}
-          href="/industries/coffee"
+          href="/products"
           className="cursor-pointer w-full"
         >
-          Coffee
+          All Products
         </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  );
+};
+
+// Shop By dropdown component
+const ShopByDropdown = () => {
+  return (
+    <Dropdown>
+      <NavbarItem>
+        <DropdownTrigger>
+          <Button
+            disableRipple
+            className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
+            endContent={ICONS.chevron}
+            radius="sm"
+            variant="light"
+          >
+            Shop By
+          </Button>
+        </DropdownTrigger>
+      </NavbarItem>
+      <DropdownMenu
+        aria-label="Shop By features"
+        className="w-64"
+        itemClasses={{
+          base: "gap-4",
+        }}
+      >
         <DropdownItem 
-          key="sweets" 
+          key="packaging-type" 
+          startContent={ICONS.scale}
           as={Link}
-          href="/industries/sweets"
+          href="/packaging-type"
           className="cursor-pointer w-full"
         >
-          Sweets
-        </DropdownItem>
-        <DropdownItem 
-          key="cbd" 
-          as={Link}
-          href="/industries/cbd"
-          className="cursor-pointer w-full"
-        >
-          CBD
-        </DropdownItem>
-        <DropdownItem 
-          key="cosmetics" 
-          as={Link}
-          href="/industries/cosmetics"
-          className="cursor-pointer w-full"
-        >
-          Cosmetics
-        </DropdownItem>
-        <DropdownItem 
-          key="supplements" 
-          as={Link}
-          href="/industries/supplements"
-          className="cursor-pointer w-full"
-        >
-          Supplements
-        </DropdownItem>
-        <DropdownItem 
-          key="tobacco" 
-          as={Link}
-          href="/industries/tobacco-filters"
-          className="cursor-pointer w-full"
-        >
-          Tobacco & Filters
-        </DropdownItem>
-        <DropdownItem 
-          key="food" 
-          as={Link}
-          href="/industries/food"
-          className="cursor-pointer w-full"
-        >
-          Food
-        </DropdownItem>
-        <DropdownItem 
-          key="fashion" 
-          as={Link}
-          href="/industries/fashion"
-          className="cursor-pointer w-full"
-        >
-          Fashion
-        </DropdownItem>
-        <DropdownItem 
-          key="tea" 
-          as={Link}
-          href="/industries/tea"
-          className="cursor-pointer w-full"
-        >
-          Tea
-        </DropdownItem>
-        <DropdownItem 
-          key="spices" 
-          as={Link}
-          href="/industries/spices"
-          className="cursor-pointer w-full"
-        >
-          Spices
-        </DropdownItem>
-        <DropdownItem 
-          key="petfood" 
-          as={Link}
-          href="/industries/petfood"
-          className="cursor-pointer w-full"
-        >
-          Petfood
+          Packaging Type
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -183,149 +191,95 @@ export default function HomepageNavbar() {
     setIsMounted(true);
   }, []);
 
-  // Memoize navigation handlers to prevent unnecessary re-creation
+  // Memoize navigation handlers
   const handleProfileClick = useCallback(() => {
     router.push('/auth/signin');
   }, [router]);
 
-  const handleLogout = useCallback( async () => {
+  const handleLogout = useCallback(async () => {
     const result = await Logout();
     if(result.success){
       dispatch(logout());
       router.push('/');
-    }else{
-      // console.log(result.error);  
     }
   }, [dispatch, router]);
 
-  // Prevent rendering on server-side to avoid hydration mismatches
+  // Prevent rendering on server-side
   if (!isMounted) {
     return null;
   }
 
   return (
     <Navbar
-      className="bg-transparent"
+      className="bg-white shadow-sm h-20"
       classNames={{
-        wrapper: "max-w-full bg-transparent px-16 max-xs:gap-2",
+        wrapper: "max-w-full px-4 md:px-8 lg:px-16",
+        content: "gap-4",
       }}
       isBlurred={false}
       position="sticky"
       shouldHideOnScroll
     >
-      <NavbarBrand className="sm:min-w-[87.5px] max-sm:min-w-[60px]">
-        <NextUILink href="/" as={Link} prefetch>
-          <Image src="/productNavLogo.png" alt="Logo" height={52} width={87.5} />
-        </NextUILink>
-      </NavbarBrand>
-      <NavbarContent
-        className="flex gap-0 sm:gap-10 xs:gap-2 max-sm:text-sm"
-        justify="center"
-      >
-        
-        {/* Packaging Solutions dropdown */}
-        <PackagingSolutions />
-        
-        {/* Industries dropdown */}
-        <IndustriesDropdown />
+      {/* Logo section */}
+      <NavbarContent className="basis-1/5 sm:basis-1/6" justify="start">
+        <NavbarBrand as={Link} href="/" className="gap-3">
+          <Image 
+            src="/productNavLogo.png" 
+            alt="PackIQ Logo" 
+            width={87.5} 
+            height={52} 
+            className="object-contain"
+          />
+        </NavbarBrand>
+      </NavbarContent>
 
-        <Dropdown>
-          <NavbarItem className="w-full">
-            <DropdownTrigger className="w-full">
-              <Button
-                disableRipple
-                className="w-full max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm flex justify-center"
-                endContent={ICONS.chevron}
-                radius="sm"
-                variant="light"
-              >
-                Products
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="Product features"
-            className=""
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            <DropdownItem 
-              key="all-products" 
-              startContent={ICONS.scale}
-              as={Link}
-              href="/products"
-              className="cursor-pointer w-full"
-            >
-              All Product
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-
-        <Dropdown>
-          <NavbarItem className="w-full">
-            <DropdownTrigger className="w-full">
-              <Button
-                disableRipple
-                className="w-full max-sm:gap-0 bg-transparent data-[hover=true]:bg-transparent p-0 text-medium max-sm:text-sm flex justify-center"
-                endContent={ICONS.chevron}
-                radius="sm"
-                variant="light"
-              >
-                Shop By
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="Shop By features"
-            className=""
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            <DropdownItem 
-              key="packaging-type" 
-              startContent={ICONS.scale}
-              as={Link}
-              href="/packaging-type"
-              className="cursor-pointer w-full"
-            >
-              Packaging Type
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+      {/* Navigation links */}
+      <NavbarContent className="hidden md:flex basis-3/5 justify-center gap-8" justify="center">
         <NavbarItem>
-          <NextUILink href="/blog" as={Link} color="foreground" className="max-sm:text-sm">
+          <PackagingSolutions />
+        </NavbarItem>
+        <NavbarItem>
+          <IndustriesDropdown />
+        </NavbarItem>
+        <NavbarItem>
+          <ProductsDropdown />
+        </NavbarItem>
+        <NavbarItem>
+          <ShopByDropdown />
+        </NavbarItem>
+        <NavbarItem>
+          <NextUILink href="/blog" as={Link} color="foreground" className="text-base font-medium">
             Blogs
           </NextUILink>
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end" className="flex-grow-0 sm:gap-10">
-        <NavbarItem className="lg:flex hidden">
-          <NextUILink href="/cart" as={Link} className="flex flex-col pt-4 text-[12px] text-slate-500">
+      {/* User actions section */}
+      <NavbarContent className="basis-1/5 sm:basis-1/6" justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <NextUILink href="/cart" as={Link} className="flex flex-col items-center justify-center">
             <BagLogo size={24} fontWeight={0.7} color="black" />
-            Bag
+            <span className="text-xs text-slate-500">Bag</span>
           </NextUILink>
         </NavbarItem>
         
-        <NavbarItem className="flex-col gap-2 text-[12px]">
+        <NavbarItem>
           {auth.isAuthenticated ? (
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
-              <div className="w-14 h-14 rounded-full border-4 border-white bg-white overflow-hidden">
-                {userDetails?.user?.user_image_url ? (
-                  <img 
-                    src={userDetails.user.user_image_url} 
-                    className="w-full h-full object-cover"
-                    alt="Profile"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-indigo-100 flex items-center justify-center">
-                    <FiUser className="w-8 h-8 text-indigo-600" />
-                  </div>
-                )}
-              </div>
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-white overflow-hidden cursor-pointer">
+                  {userDetails?.user?.user_image_url ? (
+                    <img 
+                      src={userDetails.user.user_image_url} 
+                      className="w-full h-full object-cover"
+                      alt="Profile"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-indigo-100 flex items-center justify-center">
+                      <FiUser className="w-6 h-6 text-indigo-600" />
+                    </div>
+                  )}
+                </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions">
                 <DropdownItem 
