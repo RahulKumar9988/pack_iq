@@ -257,6 +257,7 @@ const PackagingSolutions = () => {
               className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200"
               onClick={() => router.push('/products')}
             >
+              
               View All Options →
             </button>
           </div>
