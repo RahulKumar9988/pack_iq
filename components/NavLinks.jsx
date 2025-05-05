@@ -263,7 +263,7 @@ export default function NavLinks() {
           </NextUILink>
         </NavbarItem> */}
       </NavbarContent>
-      <button className="border-1 shadow-md px-5 py-3 rounded-2xl border-blue-500 text-blue-900">Configure Packaging</button>
+      <button className="border-1 shadow-md px-5 py-2 rounded-2xl border-blue-900 text-blue-900">Configure Packaging</button>
     </Navbar>
   );
 }
