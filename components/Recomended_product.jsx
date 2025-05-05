@@ -176,6 +176,8 @@ export default function RecommendedProducts() {
                     shadow="sm"
                     className="bg-gradient-to-br from-white to-blue-50 border border-gray-200 h-full w-full relative overflow-visible"
                     isPressable
+                    onClick={() => navigateToProductDetail(product.packaging_id)}
+
                   >
                     <CardBody className="flex flex-col items-center justify-between p-4">
                       {/* Image centered and emphasized */}
