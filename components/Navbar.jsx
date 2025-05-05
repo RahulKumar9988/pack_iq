@@ -132,7 +132,6 @@ const ProductsDropdown = () => {
           href="/products"
           className="cursor-pointer w-full"
         >
-          
           All Products
         </DropdownItem>
       </DropdownMenu>
