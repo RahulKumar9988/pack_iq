@@ -165,7 +165,7 @@ export default function Products() {
 
   const BestSellingBadge = () => {
     return (
-      <div className="absolute top-2 -right-2 z-50 pointer-events-none">
+      <div className="absolute top-2 -right-2 z-40 pointer-events-none">
         <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20" />
       </div>
     );
