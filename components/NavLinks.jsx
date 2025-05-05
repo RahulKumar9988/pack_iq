@@ -63,7 +63,7 @@ const IndustriesDropdown = () => {
             radius="sm"
             variant="light"
           >
-            Industrys Solution
+            Industry Solutions
           </Button>
         </DropdownTrigger>
       </NavbarItem>
@@ -213,7 +213,7 @@ export default function NavLinks() {
     <Navbar
       className="bg-white shadow-sm h-20"
       classNames={{
-        wrapper: "max-w-full px-4 md:px-8 lg:px-16",
+        wrapper: "max-w-full px-4 md:px-8 lg:px-20",
         content: "gap-4",
       }}
       isBlurred={false}
@@ -229,15 +229,15 @@ export default function NavLinks() {
         </NavbarItem>
         <NavbarItem>
           <NextUILink href="/" as={Link} color="foreground" className="text-base font-medium text-blue-900">
-            How To Ordeer
+            How To Order
           </NextUILink>
         </NavbarItem>
         <NavbarItem>
           <IndustriesDropdown />
         </NavbarItem>
         <NavbarItem>
-          <NextUILink href="/" as={Link} color="foreground" className="text-blue-900 text-base font-medium">
-            Inspiration
+          <NextUILink href="/inspirations" as={Link} color="foreground" className="text-blue-900 text-base font-medium">
+            Inspirations
           </NextUILink>
         </NavbarItem>
         <NavbarItem>
@@ -246,7 +246,7 @@ export default function NavLinks() {
           </NextUILink>
         </NavbarItem>
         <NavbarItem>
-          <NextUILink href="/" as={Link} color="foreground" className=" text-blue-900 text-base font-medium">
+          <NextUILink href="/free-sample" as={Link} color="foreground" className=" text-blue-900 text-base font-medium">
             Free Sample
           </NextUILink>
         </NavbarItem>
@@ -263,7 +263,7 @@ export default function NavLinks() {
           </NextUILink>
         </NavbarItem> */}
       </NavbarContent>
-      <button className="border-1 shadow-md px-5 py-2 rounded-2xl border-blue-900 text-blue-900">Configure Packaging</button>
+      <button className="border-1 shadow-md px-5 py-2 rounded-2xl border-blue-900 text-blue-900" onClick={()=>router.push('/packaging-type')}>Configure Packaging</button>
     </Navbar>
   );
 }

@@ -12,18 +12,18 @@ const fallbackPackagingImages = {
   "Rollstock": "https://images.pexels.com/photos/4466524/pexels-photo-4466524.jpeg?auto=compress&cs=tinysrgb&w=600"
 };
 
-const fallbackMaterialImages = {
-  "Transparent Toni": "https://images.pexels.com/photos/3943748/pexels-photo-3943748.jpeg?auto=compress&cs=tinysrgb&w=600",
-  "Metallised Martha": "https://images.pexels.com/photos/5871217/pexels-photo-5871217.jpeg?auto=compress&cs=tinysrgb&w=600",
-  "Robust Robin": "https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=600",
-  "Biobased Ben": "https://images.pexels.com/photos/4039606/pexels-photo-4039606.jpeg?auto=compress&cs=tinysrgb&w=600"
-};
+// const fallbackMaterialImages = {
+//   "Transparent Toni": "https://images.pexels.com/photos/3943748/pexels-photo-3943748.jpeg?auto=compress&cs=tinysrgb&w=600",
+//   "Metallised Martha": "https://images.pexels.com/photos/5871217/pexels-photo-5871217.jpeg?auto=compress&cs=tinysrgb&w=600",
+//   "Robust Robin": "https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=600",
+//   "Biobased Ben": "https://images.pexels.com/photos/4039606/pexels-photo-4039606.jpeg?auto=compress&cs=tinysrgb&w=600"
+// };
 
 const PackagingSolutions = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [packagingTypes, setPackagingTypes] = useState([]);
-  const [materials, setMaterials] = useState([]);
+  // const [materials, setMaterials] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   
@@ -59,35 +59,35 @@ const PackagingSolutions = () => {
   }, [baseUrl]);
   
   // Get materials from API
-  const getMaterials = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`${baseUrl}/api/v1/resources/material`);
-      if (response.data.status === 200) {
-        const responseData = response.data.data.map((ele) => ({
-          id: ele.material_id,
-          name: ele.name,
-          description: ele.description,
-          imageUrl: ele.material_image_url || "/Material.png",
-          //price: "₹" + ele.price,
-          isBestseller: false, // You can set this conditionally if your API provides this info
-          createdAt: ele.createdAt,
-          updatedAt: ele.updatedAt || "",
-          deleteFlag: ele.delete_flag
-        }));
-        setMaterials(responseData);
-      }
-    } catch (error) {
-      console.error(error.response ? error.response.data : error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [baseUrl]);
+  // const getMaterials = useCallback(async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/api/v1/resources/material`);
+  //     if (response.data.status === 200) {
+  //       const responseData = response.data.data.map((ele) => ({
+  //         id: ele.material_id,
+  //         name: ele.name,
+  //         description: ele.description,
+  //         imageUrl: ele.material_image_url || "/Material.png",
+  //         //price: "₹" + ele.price,
+  //         isBestseller: false, // You can set this conditionally if your API provides this info
+  //         createdAt: ele.createdAt,
+  //         updatedAt: ele.updatedAt || "",
+  //         deleteFlag: ele.delete_flag
+  //       }));
+  //       setMaterials(responseData);
+  //     }
+  //   } catch (error) {
+  //     console.error(error.response ? error.response.data : error.message);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, [baseUrl]);
   
   // Fetch data on component mount
   useEffect(() => {
     getPackagingTypes();
-    getMaterials();
+    // getMaterials();
     
     // Handle closing dropdown when clicking outside
     const handleClickOutside = (event) => {
@@ -98,7 +98,7 @@ const PackagingSolutions = () => {
     
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [getPackagingTypes, getMaterials]);
+  }, [getPackagingTypes]);
   
   // Handle navigation
   const handleNavigate = (itemId, type) => {
@@ -130,12 +130,12 @@ const PackagingSolutions = () => {
 
       {/* Enhanced Dropdown Menu */}
       {isOpen && (
-        <div className="absolute z-50 mt-4 bg-white rounded-xl shadow-xl overflow-hidden w-[900px] border-1 border-gray-100 transition-all duration-200 animate-fadeIn">
+        <div className="absolute z-50 mt-4 bg-white rounded-xl shadow-xl overflow-hidden w-[800px] border-1 border-gray-100 transition-all duration-200 animate-fadeIn">
           <div className="flex">
             {/* Left Column - Menu Items with flexbox layout */}
-            <div className="w-3/5 flex">
+            <div className="w-full flex">
               {/* Packaging Types column */}
-              <div className="w-1/2 border-r border-gray-100">
+              <div className=" border-r border-gray-100">
                 <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
                   <h3 className="font-bold text-lg text-gray-800">Packaging Types</h3>
                 </div>
@@ -173,7 +173,7 @@ const PackagingSolutions = () => {
               </div>
 
               {/* Materials column */}
-              <div className="w-1/2">
+              {/* <div className="w-1/2">
                 <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
                   <h3 className="font-bold text-lg text-blue-900">Materials</h3>
                 </div>
@@ -209,11 +209,11 @@ const PackagingSolutions = () => {
                     ))
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Right Column - Enhanced Preview */}
-            <div className="w-2/5 bg-gradient-to-br from-gray-50 to-white p-6 flex items-center justify-center">
+            <div className="w-full bg-gradient-to-br from-gray-50 to-white p-6 flex items-center justify-center">
               {activeItem ? (
                 <div className="text-center transition-opacity duration-300 ease-in-out">
                   <div className="h-56 w-56 mx-auto mb-6 flex items-center justify-center overflow-hidden rounded-lg shadow-md border border-gray-200 bg-white p-4 transition-all duration-300 hover:shadow-lg">
@@ -221,6 +221,7 @@ const PackagingSolutions = () => {
                       src={getItemImage(activeItem.item, activeItem.type)}
                       alt={activeItem.item.name}
                       className="max-h-full max-w-full object-contain transition-transform duration-500 hover:scale-105"
+                      loading='lazy'
                     />
                   </div>
                   <h3 className="font-semibold text-xl text-gray-800 mb-2" 
