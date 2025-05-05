@@ -53,7 +53,7 @@ export const LayoutGrid = ({ cards }) => {
   };
 
   return (
-    <div ref={containerRef} className="mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 px-28 py-10 relative">
+    <div ref={containerRef} className="mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 px-5 md:px-28 py-10 relative">
       {cards.map((card, i) => (
         <div
           key={card.id}
@@ -62,7 +62,7 @@ export const LayoutGrid = ({ cards }) => {
           }`}
           onClick={() => handleClick(card.id)}
           style={{ 
-            transitionDelay: `${i * 0.1}s`,
+            transitionDelay: `${i * 0.01}s`,
           }}
         >
           <motion.div
