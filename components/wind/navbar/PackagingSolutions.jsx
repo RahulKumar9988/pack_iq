@@ -41,7 +41,7 @@ const PackagingSolutions = () => {
         const responseData = response.data.data.map((ele) => ({
           id: ele.packaging_id,
           name: ele.name,
-          description: ele.description,
+          //description: ele.description,
           icon: ele.packaging_image_icon_url,
           imageUrl: ele.packaging_image_url,
           minimumQty: ele.minimum_qty,
@@ -257,7 +257,7 @@ const PackagingSolutions = () => {
               className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200"
               onClick={() => router.push('/products')}
             >
-              
+
               View All Options →
             </button>
           </div>
