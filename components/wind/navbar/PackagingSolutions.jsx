@@ -237,14 +237,14 @@ const PackagingSolutions = () => {
                 <div className="text-center transition-opacity duration-300 ease-in-out">
                   <div className="h-56 w-56 mx-auto mb-6 flex items-center justify-center overflow-hidden rounded-lg shadow-md border border-gray-200 bg-white p-4">
                     <img
-                      src="https://images.pexels.com/photos/1546333/pexels-photo-1546333.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      src="/pack/xl.png"
                       alt="Hover over options to preview"
                       className="max-h-full max-w-full object-contain opacity-50"
                     />
                   </div>
                   <h3 className="font-semibold text-xl text-gray-800 mb-2">Select an option</h3>
                   <p className="text-sm text-gray-500 max-w-xs mx-auto leading-relaxed">
-                    Hover over an option on the left to preview packaging solutions and materials
+                    Hover over an option on the left to preview packaging
                   </p>
                 </div>
               )}
