@@ -5,7 +5,7 @@ const PackagingAchievements = () => {
   return (
     <div className="flex flex-col gap-10 w-full">
           <div className="flex justify-between items-center">
-            <div className="w-full font-semibold text-[#143761] text-[32px] text-center">
+            <div className="w-full font-semibold text-[#143761] text-3xl md:text-4xl text-center">
               Why we are best in packaging industry?
             </div>
             {/* <div className="flex gap-2 xs:hidden">

@@ -9,6 +9,7 @@ import TestimonialSection from "./TestimonialSection";
 import FAQ from "./FAQ";
 import PackagingAchievements from "./PackagingAchievements ";
 import Recomended_product from "@/components/Recomended_product";
+import Partner from "./Partner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function Homepage() {
         <Recomended_product />
       </div>
       <PackagingAchievements/>
-
+      <Partner/>
       {/* <Innovations/> */}
       {/* <Quality_section/> */}
       {/* <Innovations/> */}

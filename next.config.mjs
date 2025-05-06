@@ -26,6 +26,12 @@ const nextConfig = {
         port: "",
         pathname: "/**", // This allows all paths on packiro.com
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000", // optional if you're using a specific port
+        pathname: "/uploads/packaging_type_images/**",
+      },
     ],
   },
 };
