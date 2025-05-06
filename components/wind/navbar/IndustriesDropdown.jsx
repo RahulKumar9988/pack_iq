@@ -19,9 +19,9 @@ import {
   ChevronDown,
   Lock,
   Activity,
-  Flash,
+  Zap,
   Server,
-  TagUser,
+  Tag,
   Scale,
 } from "./Icons.jsx";
 import BagLogo from "@/public/BagLogo.jsx";
@@ -31,7 +31,7 @@ import { logout } from "@/redux/auth/authSlice.js";
 import {logout as Logout} from '@/app/action/loginAction.js';
 import { getUserDetails } from "@/app/action/getUserDetails.js";
 import { FiUser } from "react-icons/fi";
-import PackagingSolutions from "./PackagingSolutions.jsx";
+import PackagingSolutions from "./PackagingSolutions";
 
 // Memoize icons using a constant object instead of a function
 const ICONS = {
@@ -41,9 +41,9 @@ const ICONS = {
   activity: (
     <Activity className="text-secondary" fill="currentColor" size={30} />
   ),
-  flash: <Flash className="text-primary" fill="currentColor" size={30} />,
+  flash: <Zap className="text-primary" fill="currentColor" size={30} />,
   server: <Server className="text-success" fill="currentColor" size={30} />,
-  user: <TagUser className="text-danger" fill="currentColor" size={30} />,
+  user: <Tag className="text-danger" fill="currentColor" size={30} />,
 };
 
 // Create a dropdown for Industries

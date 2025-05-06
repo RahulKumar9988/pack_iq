@@ -21,7 +21,7 @@ import {
   Activity,
   Flash,
   Server,
-  TagUser,
+  Tag,
   Scale,
 } from "lucide-react";
 import BagLogo from "@/public/BagLogo.jsx";
@@ -48,7 +48,7 @@ const ICONS = {
   activity: <Activity className="text-secondary" size={30} />,
   flash: <Flash className="text-primary" size={30} />,
   server: <Server className="text-success" size={30} />,
-  user: <TagUser className="text-danger" size={30} />,
+  user: <Tag className="text-danger" size={30} />,
 };
 
 export default function HomepageNavbar() {

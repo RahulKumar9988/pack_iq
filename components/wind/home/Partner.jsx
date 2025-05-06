@@ -3,30 +3,30 @@ import Image from 'next/image';
 
 // Brand logo data with real company names and customizable sizes
 const brandLogos = [
-  { name: "Microsoft", src: "/partner/Akira-01.svg", size: "lg" },
-  { name: "Google", src: "/partner/Amalfarm-01.svg", size: "lg" },
-  { name: "Amazon", src: "/partner/Anavrin-01.svg", size: "lg" },
-  { name: "Apple", src: "/partner/Anmol-01.svg", size: "lg" },
-  { name: "Facebook", src: "/partner/Antu Valley-01.svg", size: "lg" },
-  { name: "Netflix", src: "/partner/Atosh.svg", size: "lg" },
-  { name: "Tesla", src: "/partner/Blue Tea-01.svg", size: "lg" },
-  { name: "IBM", src: "/partner/Cafoco-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Devil You-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Dr. Moreen-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Ganguram-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Gupta Brothers-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/JayShree tea-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Kamlah Gold-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Know Your Chai-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Luxmi Tea-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Makaibari Tea-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Manomoy-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Meri Chai-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Patri-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Scooby Chew-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Tea Box-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Teavilla-01.svg", size: "lg" },
-  { name: "Samsung", src: "/partner/Vayu-01.svg", size: "lg" },
+  {  src: "/partner/Akira-01.svg", size: "lg" },
+  {  src: "/partner/Amalfarm-01.svg", size: "lg" },
+  {  src: "/partner/Anavrin-01.svg", size: "lg" },
+  {  src: "/partner/Anmol-01.svg", size: "lg" },
+  {  src: "/partner/Antu Valley-01.svg", size: "lg" },
+  {  src: "/partner/Blue Tea-01.svg", size: "lg" },
+  {  src: "/partner/Atosh.svg", size: "lg" },
+  {  src: "/partner/Cafoco-01.svg", size: "lg" },
+  {  src: "/partner/Devil You-01.svg", size: "lg" },
+  {  src: "/partner/Dr. Moreen-01.svg", size: "lg" },
+  {  src: "/partner/Ganguram-01.svg", size: "lg" },
+  { src: "/partner/Gupta Brothers-01.svg", size: "lg" },
+  {  src: "/partner/JayShree tea-01.svg", size: "lg" },
+  { src: "/partner/Kamlah Gold-01.svg", size: "lg" },
+  {  src: "/partner/Know Your Chai-01.svg", size: "lg" },
+  {  src: "/partner/Luxmi Tea-01.svg", size: "lg" },
+  {  src: "/partner/Makaibari Tea-01.svg", size: "lg" },
+  {  src: "/partner/Manomoy-01.svg", size: "lg" },
+  {  src: "/partner/Meri Chai-01.svg", size: "lg" },
+  {  src: "/partner/Patri-01.svg", size: "lg" },
+  {  src: "/partner/Scooby Chew-01.svg", size: "lg" },
+  {  src: "/partner/Tea Box-01.svg", size: "lg" },
+  {  src: "/partner/Teavilla-01.svg", size: "lg" },
+  {  src: "/partner/Vayu-01.svg", size: "lg" },
 
 
 ];
@@ -59,7 +59,7 @@ export default function Partners() {
         <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 items-center justify-items-center transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
           {brandLogos.map((logo, index) => (
             <div 
-            //   key={logo.name}
+              key={logo.src}
               className={`hover:border-1 flex items-center justify-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 ${sizeClasses[logo.size]}`}
               style={{ 
                 animationDelay: `${index * 150}ms`,
@@ -68,7 +68,7 @@ export default function Partners() {
             >
               <Image
                 src={logo.src}
-                alt={`${logo.name} logo`}
+                alt={`logo`}
                 width={200}
                 height={80}
                 className="w-full h-auto object-contain"

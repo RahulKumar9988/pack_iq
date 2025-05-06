@@ -2,7 +2,6 @@
 import React, { useMemo, useCallback, useState, useEffect } from "react";
 import {
   Navbar,
-  NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link as NextUILink,
@@ -11,26 +10,22 @@ import {
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
-  Avatar,
-  Image,
 } from "@nextui-org/react";
 import Link from "next/link";
 import {
   ChevronDown,
   Lock,
   Activity,
-  Flash,
+  Zap,
   Server,
-  TagUser,
+  Tag,
   Scale,
 } from "lucide-react";
-import BagLogo from "@/public/BagLogo.jsx";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice.js";
 import { logout as Logout } from '@/app/action/loginAction.js';
 import { getUserDetails } from "@/app/action/getUserDetails.js";
-import { FiUser } from "react-icons/fi";
 import dynamic from 'next/dynamic';
 
 // Dynamically import PackagingSolutions with no SSR to avoid hydration issues
@@ -45,9 +40,9 @@ const ICONS = {
   scale: <Scale className="text-warning" size={30} />,
   lock: <Lock className="text-success" size={30} />,
   activity: <Activity className="text-secondary" size={30} />,
-  flash: <Flash className="text-primary" size={30} />,
+  flash: <Zap className="text-primary" size={30} />,
   server: <Server className="text-success" size={30} />,
-  user: <TagUser className="text-danger" size={30} />,
+  user: <Tag className="text-danger" size={30} />,
 };
 
 // Industries dropdown component
