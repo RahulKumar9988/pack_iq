@@ -104,6 +104,7 @@ export default function HomepageNavbar() {
               width={140} // increased width
               height={140} // increased height
               className="object-contain scale-125"
+              loading="lazy"
             />
           </div>
         </div>

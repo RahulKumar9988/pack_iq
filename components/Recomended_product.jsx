@@ -181,20 +181,20 @@ export default function RecommendedProducts() {
                   >
                     <CardBody className="flex flex-col items-center justify-between p-4">
                       {/* Image centered and emphasized */}
-                      <div className="flex-1 flex items-center justify-center w-full relative mb-4">
+                      <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
                         <motion.div
                           animate={{ 
                             boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0)" 
                           }}
                           transition={{ duration: 0.3 }}
-                          className=" relative"
+                          className=" relative "
                         >
                           <Image
                             src={product.packaging_image_url}
-                            className="object-contain"
+                            className="object-cover"
                             alt={product.name}
-                            width={120}
-                            height={120}
+                            width={260}
+                            height={260}
                             priority={index < 2}
                             loading={index < 2 ? "eager" : "lazy"}
                           />
@@ -203,7 +203,7 @@ export default function RecommendedProducts() {
 
                       {/* Text content at bottom */}
                       <div className="w-full text-center">
-                        <h3 className="text-base font-semibold mb-1 line-clamp-1">{product.name}</h3>
+                        <h3 className="text-xl font-semibold mb-1 line-clamp-1">{product.name}</h3>
                         <p className="text-xs text-gray-600 mb-2 line-clamp-2">{truncatedDescription}</p>
                         <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
                           <span>Min Qty: </span>
@@ -246,14 +246,14 @@ export default function RecommendedProducts() {
                           <Image
                             src={product.packaging_image_url}
                             alt={product.name}
-                            width={140}
-                            height={140}
-                            className="object-contain"
+                            width={265}
+                            height={265}
+                            className="object-cover"
                           />
                         </div>
                         
                         {/* Content at the bottom */}
-                        <div className="space-y-3">
+                        <div className="space-y-0">
                           <h3 className="text-xl font-bold text-[#253670] text-center">{product.name}</h3>
                           <p className="text-sm text-gray-700 line-clamp-3">{product.description}</p>
                           
