@@ -14,9 +14,9 @@ function PackagingInspirationsSection() {
           {/* Left Column */}
           <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8">
             <div className="relative inline-block">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 leading-tight break-words">
+              <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 leading-tight break-words">
                 Discover Your <br />
-                <span className="text-blue-600 mt-1 sm:mt-2 lg:mt-3 bg-gradient-to-r from-blue-900 to-cyan-400 bg-clip-text text-transparent">Packaging Vision</span>
+                <span className=" text-blue-600 mt-1 sm:mt-2 lg:mt-3 bg-gradient-to-r from-blue-900 to-cyan-400 bg-clip-text text-transparent">Packaging Vision</span>
               </h2>
               <Sparkles className="absolute top-1 sm:top-2 md:top-3 lg:top-4 right-2 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-amber-400" />
             </div>
