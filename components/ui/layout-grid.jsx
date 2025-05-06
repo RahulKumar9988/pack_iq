@@ -59,7 +59,7 @@ export const LayoutGrid = ({ cards }) => {
           key={card.id}
           className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] cursor-pointer rounded-xl overflow-hidden transition-all duration-500 ${
             isInView[card.id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-          }`}
+          }`} 
           onClick={() => handleClick(card.id)}
           style={{ 
             transitionDelay: `${i * 0.01}s`,

@@ -96,23 +96,23 @@ export default function HomepageNavbar() {
         shouldHideOnScroll
       >
         {/* Logo section */}
-        <NavbarContent className="" justify="start">
-          <NavbarBrand as={Link} href="/" className="gap-3">
+        <div className="bg-red-100 " justify="start">
+          <div onClick={()=> router.push('/')} className=" cursor-pointer gap-3">
             <Image 
               src="/productNavLogo.png" 
               alt="PackIQ Logo" 
               width={140} // increased width
               height={140} // increased height
-              className="object-contain"
+              className="object-contain scale-125"
             />
-          </NavbarBrand>
-        </NavbarContent>
+          </div>
+        </div>
 
         {/* User actions section */}
         <NavbarContent className=" gap-5 " justify="center">
           <NavbarItem className="hidden lg:flex">
             <NextUILink href="/cart" as={Link} className="flex flex-col items-center justify-center">
-              <BagLogo size={30} fontWeight={0.7} color="#00008B" />
+              <BagLogo size={40} fontWeight={0.7} color="#00008B" />
             </NextUILink>
           </NavbarItem>
           
@@ -164,8 +164,8 @@ export default function HomepageNavbar() {
             ) : (
               <Button
                 onClick={handleProfileClick}
-                className="bg-[#2f4158] hover:bg-blue-800 text-white font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                size="sm"
+                className="bg-[#143761] hover:bg-blue-950 text-white font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                size="md"
               >
                 Login
               </Button>
