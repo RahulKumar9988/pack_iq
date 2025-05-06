@@ -23,18 +23,11 @@ export default function Homepage() {
         </p>
         <Recomended_product />
       </div>
-
-      <Innovations/>
-      <div className="mt-10 px-4 sm:px-8 md:px-20">
-        <p className="text-[24px] sm:text-[28px] md:text-[32px] font-medium text-center md:text-start text-[#143761]">
-          Shop by popularity
-        </p>
-        <Recomended_product />
-      </div>
-
       <PackagingAchievements/>
-      <Quality_section/>
-      <Innovations/>
+
+      {/* <Innovations/> */}
+      {/* <Quality_section/> */}
+      {/* <Innovations/> */}
       <TestimonialSection/>
       <FAQ/>
       
