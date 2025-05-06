@@ -26,7 +26,7 @@ export default function Homepage() {
       </div>
       <PackagingAchievements/>
       <Partner/>
-      {/* <Innovations/> */}
+      <Innovations/>
       {/* <Quality_section/> */}
       {/* <Innovations/> */}
       <TestimonialSection/>
