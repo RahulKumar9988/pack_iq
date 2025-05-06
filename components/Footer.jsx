@@ -34,9 +34,9 @@ const Footer = () => {
     {
       title: "Services",
       items: [
-        { name: "Configure Packaging", href: "/profile" },
+        { name: "Configure Packaging", href: "/packaging-type" },
         { name: "Bulk Order", href: "/profile" },
-        { name: "Custom Packaging", href: "/profile" },
+        { name: "Custom Packaging", href: "/poducts" },
       ],
     },
     {
