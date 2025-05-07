@@ -19,7 +19,7 @@ import {
   ChevronDown,
   Lock,
   Activity,
-  Flash,
+  Zap,
   Server,
   Tag,
   Scale,
@@ -46,7 +46,7 @@ const ICONS = {
   scale: <Scale className="text-warning" size={30} />,
   lock: <Lock className="text-success" size={30} />,
   activity: <Activity className="text-secondary" size={30} />,
-  flash: <Flash className="text-primary" size={30} />,
+  flash: <Zap className="text-primary" size={30} />,
   server: <Server className="text-success" size={30} />,
   user: <Tag className="text-danger" size={30} />,
 };

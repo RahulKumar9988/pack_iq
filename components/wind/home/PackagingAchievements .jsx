@@ -8,10 +8,7 @@ const PackagingAchievements = () => {
             <div className="w-full font-semibold text-[#143761] text-3xl md:text-4xl text-center">
               Why we are best in packaging industry?
             </div>
-            {/* <div className="flex gap-2 xs:hidden">
-              <HiOutlineArrowLeft className="text-slate-500" />
-              <HiOutlineArrowRight />
-            </div> */}
+            
           </div>
           <div className="w-full  flex flex-wrap justify-center gap-5 max-sm:gap-2 max-lg:gap-4">
             <div className="flex gap-5 max-md:gap-2 max-xs:hidden">

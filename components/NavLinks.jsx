@@ -236,7 +236,7 @@ export default function NavLinks() {
           </NextUILink>
         </NavbarItem>
         <NavbarItem>
-          <NextUILink href="/" as={Link} color="foreground" className="text-blue-900 text-base font-medium">
+          <NextUILink href="/design-help" as={Link} color="foreground" className="text-blue-900 text-base font-medium">
             Design help
           </NextUILink>
         </NavbarItem>
