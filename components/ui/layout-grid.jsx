@@ -104,7 +104,7 @@ export const LayoutGrid = ({ cards }) => {
 
           {/* Card content overlay */}
           <motion.div
-            className="absolute inset-0 z-10 flex flex-col justify-end p-6 bg-gradient-to-b from-transparent to-[#00000031]"
+            className="absolute inset-0 z-10 flex flex-col justify-end p-6 bg-gradient-to-b from-transparent to-[#00000011]"
             animate={{
               opacity: selected === null || selected === card.id ? 1 : 0,
             }}

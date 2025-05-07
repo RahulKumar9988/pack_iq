@@ -33,7 +33,7 @@ export function ThreeDMarqueeDemo() {
 
   ];
   return (
-    <div className="mx-auto w-full h-full rounded-3xl p-2 bg-blue-50">
+    <div className="mx-auto w-full h-full rounded-3xl p-2">
       <ThreeDMarquee images={images} />
     </div>
   );
