@@ -10,8 +10,6 @@ export default function HeroSection({ inter }) {
   return (
     <div className="flex flex-col w-full h-full top-20">
       <div className="h-full">
-        {/* Mobile Hero Section */}
-        
         <div className="flex flex-col items-center gap-8 xs:hidden px-[30px] pt-0 max-w-[629px] relative overflow-hidden">
           {/* Floating background elements */}
           <div className="flex flex-col items-center gap-8 xs:hidden px-[30px] pt-0 max-w-[629px]">

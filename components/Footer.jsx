@@ -12,22 +12,22 @@ const Footer = () => {
         { 
           name: "Facebook", 
           href: "https://facebook.com", 
-          icon: <FaFacebookF className="text-white text-sm" />
+          icon: <FaFacebookF className="text-white group-hover:scale-110 transition-transform duration-300" />
         },
         { 
           name: "Instagram", 
           href: "https://instagram.com", 
-          icon: <FaInstagram className="text-white text-sm" />
+          icon: <FaInstagram className="text-white group-hover:scale-110 transition-transform duration-300" />
         },
         { 
           name: "LinkedIn", 
           href: "https://linkedin.com", 
-          icon: <FaLinkedinIn className="text-white text-sm" />
+          icon: <FaLinkedinIn className="text-white group-hover:scale-110 transition-transform duration-300" />
         },
         { 
           name: "Twitter", 
           href: "https://twitter.com", 
-          icon: <FaXTwitter className="text-white text-sm" />
+          icon: <FaXTwitter className="text-white group-hover:scale-110 transition-transform duration-300" />
         },
       ],
     },
@@ -36,7 +36,7 @@ const Footer = () => {
       items: [
         { name: "Configure Packaging", href: "/packaging-type" },
         { name: "Bulk Order", href: "/profile" },
-        { name: "Custom Packaging", href: "/poducts" },
+        { name: "Custom Packaging", href: "/products" },
       ],
     },
     {
@@ -64,18 +64,21 @@ const Footer = () => {
   const contactInfo = [
     { icon: <MdEmail className="text-[#143761]" size={20} />, text: "support@packiq.com" },
     { icon: <FaPhoneAlt className="text-[#143761]" size={18} />, text: "+91 1234567890" },
-    { icon: <IoLocationSharp className="text-[#143761]" size={20} />, text: "kolkata west bengal india" },
+    { icon: <IoLocationSharp className="text-[#143761]" size={20} />, text: "Kolkata, West Bengal, India" },
   ];
 
   return (
     <footer className="w-full">
+      {/* Top Accent Bar */}
+      <div className="h-2 bg-gradient-to-r from-[#143761] to-[#143761]"></div>
+      
       {/* Main Footer Section */}
-      <div className="bg-[#F3F5F7] text-[#143761]">
-        <div className="lg:px-[100px] px-6 md:px-10 py-12">
+      <div className="bg-gradient-to-b from-[#ffffff] to-[#72b2ff3f] text-[#143761]">
+        <div className="lg:px-24 px-6 md:px-10 py-16">
           {/* Logo and Contact Info */}
-          <div className="flex flex-col md:flex-row gap-10 mb-10">
+          <div className="flex flex-col md:flex-row gap-16 mb-12">
             <div className="w-full md:w-1/3">
-              <div className="mb-6">
+              <div className="mb-6 transform hover:scale-105 transition-transform duration-300">
                 <Image
                   src="/productNavLogo.png"
                   alt="PackIQ Logo"
@@ -84,15 +87,18 @@ const Footer = () => {
                   className="h-auto w-auto"
                 />
               </div>
-              <p className="text-gray-700 mb-6">
+              <p className="text-gray-700 mb-8 leading-relaxed">
                 PackIQ provides innovative packaging solutions for businesses of all sizes. 
-                From custom designs to eco-friendly materials, we have everything you need.
+                From custom designs to eco-friendly materials, we have everything you need 
+                to make your products stand out.
               </p>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-5">
                 {contactInfo.map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    {item.icon}
-                    <span className="text-gray-700">{item.text}</span>
+                  <div key={index} className="flex items-center gap-3 group hover:translate-x-1 transition-all duration-300 cursor-pointer">
+                    <div className="p-2 bg-white rounded-full shadow-md group-hover:shadow-lg group-hover:bg-[#F3F5F7] transition-all duration-300">
+                      {item.icon}
+                    </div>
+                    <span className="text-gray-700 font-medium">{item.text}</span>
                   </div>
                 ))}
               </div>
@@ -106,7 +112,7 @@ const Footer = () => {
                 
                 return (
                   <div key={index} className="flex flex-col gap-6">
-                    <h3 className="font-semibold text-lg border-b border-gray-300 pb-2">
+                    <h3 className="font-bold text-lg border-b-2 border-[#143761] pb-2 inline-block">
                       {section.title}
                     </h3>
                     <div className="flex flex-col gap-4 text-gray-700">
@@ -114,9 +120,10 @@ const Footer = () => {
                         <a
                           key={itemIndex}
                           href={item.href || "#"}
-                          className="hover:text-blue-700 transition-colors duration-200 flex items-center gap-2"
+                          className="hover:text-[#143761] transition-colors duration-200 flex items-center gap-2 group"
                         >
-                          <span className="hover:translate-x-1 transition-transform duration-200">
+                          <span className="w-0 h-0.5 bg-[#143761] group-hover:w-3 transition-all duration-300"></span>
+                          <span className="group-hover:translate-x-1 transition-transform duration-200">
                             {item.name}
                           </span>
                         </a>
@@ -128,32 +135,35 @@ const Footer = () => {
             </div>
           </div>
 
+          
+
           {/* Social Media Section */}
-          <div className="border-t border-gray-300 pt-8 mt-8">
-            <h3 className="font-semibold text-lg mb-6">Connect With Us</h3>
-            <div className="flex gap-4">
-              {footerLinks[0].items.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.href}
-                  aria-label={item.name}
-                  className="bg-[#143761] hover:bg-[#FF6B35] p-3 rounded-full transition-colors duration-300"
-                >
-                  {item.icon}
-                </a>
-              ))}
+          <div className="border-t border-gray-300 pt-10 mt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <h3 className="font-bold text-lg">Connect With Us</h3>
+              <div className="flex gap-4">
+                {footerLinks[0].items.map((item, index) => (
+                  <a
+                    key={index}
+                    href={item.href}
+                    aria-label={item.name}
+                    className="bg-[#143761] hover:bg-[#143761] p-3 rounded-full shadow-md hover:shadow-lg transform hover:scale-110 transition-all duration-300 group"
+                  >
+                    {item.icon}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Section */}
-      <div className="w-full text-center bg-[#E3E7EB] text-[#143761]">
-        <div className=" py-5 px-6">
-          <span className="text-sm text-center">
+      <div className="w-full text-center bg-[#3590ff3f] text-black border-t-1 border-black">
+        <div className="py-6 px-6 flex flex-col md:flex-row justify-center items-center">
+          <span className="text-sm">
             Copyright © {new Date().getFullYear()} PackIQ. All rights reserved.
           </span>
-
         </div>
       </div>
     </footer>

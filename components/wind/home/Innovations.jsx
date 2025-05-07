@@ -37,7 +37,7 @@ function PackagingInspirationsSection() {
             <div className="pt-2 sm:pt-4 w-fit hidden sm:block">
               <button 
               onClick={()=> router.push("/inspirations")}
-                className="bg-gradient-to-r from-blue-950 to-cyan-800 hover:from-blue-950 hover:to-cyan-900 text-white font-semibold py-3 sm:py-4 px-6 sm:px-10 rounded-full inline-flex items-center gap-2 sm:gap-3 transition-all duration-300 shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl text-sm sm:text-base"
+                className="bg-gradient-to-r from-blue-950 to-cyan-800 hover:from-blue-950 hover:to-cyan-9 00 text-white font-semibold py-3 sm:py-4 px-6 sm:px-10 rounded-full inline-flex items-center gap-2 sm:gap-3 transition-all duration-300 shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl text-sm sm:text-base"
               >
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                 Explore Inspirations
