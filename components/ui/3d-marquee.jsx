@@ -51,6 +51,7 @@ export const ThreeDMarquee = ({
                       src={image}
                       alt={`Image ${imageIndex + 1}`}
                       className="  rounded-lg object-contain ring ring-gray-950/5 hover:shadow-2xl"
+                      loading="lazy"
                       width={970}
                       height={700} />
                   </div>
