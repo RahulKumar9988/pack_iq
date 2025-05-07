@@ -70,7 +70,7 @@ const Footer = () => {
   return (
     <footer className="w-full">
       {/* Top Accent Bar */}
-      <div className="h-2 bg-gradient-to-r from-[#143761] to-[#143761]"></div>
+      
       
       {/* Main Footer Section */}
       <div className="bg-gradient-to-b from-[#ffffff] to-[#72b2ff3f] text-[#143761]">
