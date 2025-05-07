@@ -84,7 +84,7 @@ export function Design_help() {
         <div>
           <p
             className="mb-4 text-sm font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-            Once all assets are submitted, we'll schedule a phone consultation with you.
+            Once all assets are submitted we will schedule a phone consultation with you.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <img
