@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 const InfiniteScrollImages = () => {
   // Sample images (replace with your actual image paths)
   const images = [
-    '/Rectangle21.png',
-    '/Rectangle20.png',
-    '/Rectangle22.png',
-    '/Rectangle23.png',
+    '/pack/all items.png',
+    '/pack/all items.png',
+    '/pack/all items.png',
+    '/pack/all items.png',
 ];
 
   return (

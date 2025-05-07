@@ -1,8 +1,41 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LayoutGrid } from "../components/ui/layout-grid";
 
 export default function LayoutGridDemo() {
+  const [inspirations, setInspirations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // Fetch inspirations from the backend
+  useEffect(() => {
+    const fetchInspirations = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+        const response = await fetch(`${baseUrl}/api/v1/inspiration`);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch inspirations: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.status === 200 && Array.isArray(result.data)) {
+          setInspirations(result.data);
+        } else {
+          throw new Error("Invalid data format received from API");
+        }
+      } catch (err) {
+        console.error("Error fetching inspirations:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInspirations();
+  }, []);
+
   // Add a scroll listener to enable parallax effect
   useEffect(() => {
     // Function to handle parallax scroll effect
@@ -36,134 +69,71 @@ export default function LayoutGridDemo() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Convert backend data to card format
+  const inspirationCards = inspirations.map((inspiration, index) => {
+    return {
+      id: inspiration.inspiration_id,
+      content: <InspirationCard inspiration={inspiration} />,
+      className: index % 3 === 0 ? "md:col-span-2" : "col-span-1",
+      thumbnail: inspiration.inspiration_image_url,
+    };
+  });
+
+  if (loading) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center">
+        <div className="text-red-500">Error loading inspirations: {error}</div>
+      </div>
+    );
+  }
+
   return (
-    <div className=" w-full "> 
+    <div className="w-full"> 
       <div className="h-full flex items-center justify-center text-start">
         <div className="">
           <div className="animate-bounce mt-16 font-bold text-black text-5xl">↓</div>
         </div>
       </div>
-      <LayoutGrid cards={cards} />
+      {inspirationCards.length > 0 ? (
+        <LayoutGrid cards={inspirationCards} />
+      ) : (
+        <div className="w-full h-64 flex items-center justify-center">
+          <div className="text-gray-500">No inspirations found</div>
+        </div>
+      )}
     </div>
   );
 }
 
-const SkeletonOne = () => {
+const InspirationCard = ({ inspiration }) => {
+  // Extract date for display
+  const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = new Date(inspiration.inspiration_date_time).toLocaleDateString(undefined, dateOptions);
+  
+  // Function to safely render HTML from the backend
+  const createMarkup = (html) => {
+    return { __html: html };
+  };
+
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        House in the woods
+        {inspiration.inspiration_title}
       </p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        A serene and tranquil retreat, this house in the woods offers a peaceful
-        escape from the hustle and bustle of city life.
+      <p className="font-normal text-base text-white opacity-80 mt-2">
+        {formattedDate}
       </p>
+      <div className="font-normal text-base my-4 max-w-lg text-neutral-100"
+           dangerouslySetInnerHTML={createMarkup(inspiration.inspiration_description)}>
+      </div>
     </div>
   );
 };
-
-const SkeletonTwo = () => {
-  return (
-    <div>
-      <p className="font-bold md:text-4xl text-xl text-white">
-        House above the clouds
-      </p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Perched high above the world, this house offers breathtaking views and a
-        unique living experience. It&apos;s a place where the sky meets home,
-        and tranquility is a way of life.
-      </p>
-    </div>
-  );
-};
-
-const SkeletonThree = () => {
-  return (
-    <div>
-      <p className="font-bold md:text-4xl text-xl text-white">
-        Greens all over
-      </p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        A house surrounded by greenery and nature&apos;s beauty. It&apos;s the
-        perfect place to relax, unwind, and enjoy life.
-      </p>
-    </div>
-  );
-};
-
-const SkeletonFour = () => {
-  return (
-    <div>
-      <p className="font-bold md:text-4xl text-xl text-white">
-        Rivers are serene
-      </p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        A house by the river is a place of peace and tranquility. It&apos;s the
-        perfect place to relax, unwind, and enjoy life.
-      </p>
-    </div>
-  );
-};
-
-const cards = [
-  {
-    id: 1,
-    content: <SkeletonOne />,
-    className: "md:col-span-2",
-    thumbnail:
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 2,
-    content: <SkeletonTwo />,
-    className: "col-span-1",
-    thumbnail:
-      "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 3,
-    content: <SkeletonThree />,
-    className: "col-span-1",
-    thumbnail:
-      "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 4,
-    content: <SkeletonFour />,
-    className: "md:col-span-2",
-    thumbnail:
-      "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 5,
-    content: <SkeletonOne />,
-    className: "md:col-span-2",
-    thumbnail:
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 6,
-    content: <SkeletonTwo />,
-    className: "col-span-1",
-    thumbnail:
-      "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 7,
-    content: <SkeletonThree />,
-    className: "col-span-1",
-    thumbnail:
-      "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 8,
-    content: <SkeletonFour />,
-    className: "md:col-span-2",
-    thumbnail:
-      "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-];

@@ -206,7 +206,7 @@ export default function NavLinks() {
 
   return (
     <Navbar
-      className="bg-white shadow-sm h-20"
+      className="bg-white shadow-sm h-16"
       classNames={{
         wrapper: "max-w-full px-4 md:px-8 lg:px-20",
         content: "gap-4",

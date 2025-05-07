@@ -5,10 +5,10 @@ import Image from 'next/image';
 const InfiniteScrollImages = () => {
   // Sample images (replace with your actual image paths)
   const images = [
-    '/Rectangle20.png',
-    '/Rectangle21.png',
-    '/Rectangle23.png',
-    '/Rectangle22.png',
+    '/pack/all items.png',
+    '/pack/all items.png',
+    '/pack/all items.png',
+    '/pack/all items.png',
 ];
 
   return (

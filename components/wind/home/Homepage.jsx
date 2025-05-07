@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import HeroSection from "./Herosection";
-// import ShopByBusinessApproach from "./ShopByBusinessApproach";
-import Quality_section from "./Quality_section";
 import Innovations from "./Innovations";
 import TestimonialSection from "./TestimonialSection";
 import FAQ from "./FAQ";
