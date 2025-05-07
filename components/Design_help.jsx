@@ -195,7 +195,7 @@ export function Design_help() {
   return (
     <div className="relative w-full overflow-clip ">
       <Timeline data={data} />
-      <h1 className="md:text-4xl text-xl font-bold text-center">LET'S GET STARTED!</h1>
+      <h1 className="md:text-4xl text-xl font-bold text-center">SO GET STARTED!</h1>
       <div className="flex flex-col items-center justify-center ">
       <button className="bg-blue-900 text-white px-2 md:px-10 py-2 rounded-3xl mt-4 hover:bg-blue-700 transition duration-300 mb-5">   
         Order Design for Me
