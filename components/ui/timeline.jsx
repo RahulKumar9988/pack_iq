@@ -68,7 +68,7 @@ export const Timeline = ({
             src="/pack/all items.png"
             alt="design for me packaging samples"
             fill
-            className="object-contain"
+            className="object-cover"
             loading="lazy"
           />
         </div>

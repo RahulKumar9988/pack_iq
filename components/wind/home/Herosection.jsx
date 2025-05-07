@@ -32,14 +32,14 @@ export default function HeroSection({ inter }) {
               </div>
               <div className="flex gap-5">
                 <Button
-                  className={ `flex justify-center items-center border-[#143761] border-1 bg-transparent rounded-[4px] font-normal text-[#143761] text-sm px-2`}
+                  className={ `flex justify-center rounded-full items-center border-[#143761] border-1 bg-transparent font-normal text-[#143761] text-sm px-2`}
                   variant="bordered"
                   onClick={()=>router.push('/free-sample')}
                 >
                   Get sample products
                 </Button>
                 <Button
-                  className={` flex justify-center items-center border-[#143761] border-1 bg-transparent rounded-[4px] font-normal px-2 text-sm gap-2 bg-[#143761] text-white`}
+                  className={` flex justify-center items-center border-[#143761] border-1 bg-transparent rounded-full font-normal px-2 text-sm gap-2 bg-[#143761] text-white`}
                   onClick={()=> router.push('/packaging-type')}
                 >
                   Customize now <GoArrowUpRight />
@@ -70,11 +70,11 @@ export default function HeroSection({ inter }) {
               </div>
             </div>
             <div className="flex gap-5">
-              <Button className="flex justify-center items-center gap-2 bg-[#143761] rounded-[4px] font-semibold text-base text-white" onClick={()=> router.push('/packaging-type')}>
+              <Button className="flex justify-center items-center gap-2 bg-[#143761] rounded-full font-semibold text-base text-white" onClick={()=> router.push('/packaging-type')}>
                 Customize now <GoArrowUpRight />
               </Button>
               <Button
-                className="flex justify-center items-center gap-2 border-[#143761] border-1 bg-transparent rounded-[4px] font-semibold text-[#143761] text-base"
+                className="flex justify-center items-center gap-2 border-[#143761] border-1 bg-transparent rounded-full font-semibold text-[#143761] text-base"
                 onClick={()=>router.push('/free-sample')}
                 variant="bordered"
               >

@@ -7,8 +7,6 @@ function PackagingInspirationsSection() {
   return (
     <div className="h-full relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-12 ">
       {/* Background elements */}
-      
-      
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
           {/* Left Column */}
@@ -39,7 +37,7 @@ function PackagingInspirationsSection() {
             <div className="pt-2 sm:pt-4 w-fit">
               <button 
               onClick={()=> router.push("/inspirations")}
-                className="bg-gradient-to-r from-blue-800 to-cyan-400 hover:from-blue-900 hover:to-cyan-500 text-white font-semibold py-3 sm:py-4 px-6 sm:px-10 rounded-xl inline-flex items-center gap-2 sm:gap-3 transition-all duration-300 shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl text-sm sm:text-base"
+                className="bg-gradient-to-r from-blue-800 to-cyan-800 hover:from-blue-900 hover:to-cyan-500 text-white font-semibold py-3 sm:py-4 px-6 sm:px-10 rounded-full inline-flex items-center gap-2 sm:gap-3 transition-all duration-300 shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl text-sm sm:text-base"
               >
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                 Explore Inspirations
@@ -50,72 +48,7 @@ function PackagingInspirationsSection() {
 
           {/* Right Column - For larger screens */}
           <div className="w-full lg:w-1/2 mt-8 lg:mt-0 hidden sm:block">
-            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-              <div className="absolute -top-20 -right-20 w-48 sm:w-56 lg:w-64 h-48 sm:h-56 lg:h-64 bg-gradient-to-r from-cyan-100 to-blue-100 rounded-full opacity-30" />
-              
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-4 sm:mb-6 lg:mb-8 relative z-10">
-                <Box className="inline-block w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 mr-2 text-blue-600 -mt-1" />
-                Packaging Excellence
-              </h3>
-              
-              <div className="space-y-4 sm:space-y-5 lg:space-y-6 relative z-10">
-                {/* Cards */}
-                <div className="flex gap-3 sm:gap-4 items-start group bg-gradient-to-r from-white to-blue-50 p-3 sm:p-4 rounded-xl cursor-pointer hover:translate-x-2 transition-transform">
-                  <div className="p-2 sm:p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors flex-shrink-0">
-                    <Package className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-bold text-slate-800 mb-1 sm:mb-2">Structural Design</h4>
-                    <p className="text-sm sm:text-base text-slate-600">Smart packaging solutions with enhanced durability</p>
-                    <div className="mt-2 sm:mt-3 flex gap-2">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full opacity-50" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-3 sm:gap-4 items-start group bg-gradient-to-r from-white to-emerald-50 p-3 sm:p-4 rounded-xl cursor-pointer hover:translate-x-2 transition-transform">
-                  <div className="p-2 sm:p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors flex-shrink-0">
-                    <Recycle className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-bold text-slate-800 mb-1 sm:mb-2">Eco Solutions</h4>
-                    <p className="text-sm sm:text-base text-slate-600">Biodegradable materials & sustainable practices</p>
-                    <div className="mt-2 sm:mt-3 flex gap-2">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-600 rounded-full opacity-50" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-3 sm:gap-4 items-start group bg-gradient-to-r from-white to-purple-50 p-3 sm:p-4 rounded-xl cursor-pointer hover:translate-x-2 transition-transform">
-                  <div className="p-2 sm:p-3 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors flex-shrink-0">
-                    <PenTool className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-purple-600" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-bold text-slate-800 mb-1 sm:mb-2">Brand Artistry</h4>
-                    <p className="text-sm sm:text-base text-slate-600">Custom designs that tell your brand story</p>
-                    <div className="mt-2 sm:mt-3 flex gap-2">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-600 rounded-full opacity-50" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Trust Badge */}
-              <div className="mt-6 sm:mt-8 relative bg-gradient-to-br from-blue-600 to-cyan-500 p-0.5 rounded-xl overflow-hidden">
-                <div className="bg-white rounded-xl p-3 sm:p-4 flex items-center justify-center gap-2 sm:gap-3">
-                  <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
-                  <span className="text-xs sm:text-sm font-semibold text-slate-800">
-                    Trusted by 5,000+ Global Brands
-                  </span>
-                </div>
-              </div>
-            </div>
+            <img src="/pack/all items.png" alt="" className='rounded-2xl' />
           </div>
 
           {/* Right Column - Mobile version */}

@@ -179,7 +179,7 @@ function FAQ() {
           {/* Buttons */}
           <div className="flex sm:flex-row flex-col justify-center lg:justify-start gap-4">
             <Button
-              className="bg-gradient-to-r from-[#0A7CFF] to-[#46E3FF] text-white flex items-center gap-3 px-6 py-6 rounded-md text-lg border-none hover:shadow-lg transition-all"
+              className="bg-gradient-to-r from-[#0A7CFF] to-[#46E3FF] text-white flex items-center rounded-full gap-3 px-6 py-6 text-lg border-none hover:shadow-lg transition-all"
               onClick={()=> router.push('/packaging-type')}
             >
               Customize now
@@ -187,7 +187,7 @@ function FAQ() {
             </Button>
             <Button
               variant="bordered"
-              className="flex items-center gap-3 px-6 py-6 border-2 border-white rounded-md text-lg text-white hover:bg-white/10 transition-all"
+              className="flex items-center gap-3 px-6 py-6 border-2 border-white rounded-full text-lg text-white hover:bg-white/10 transition-all"
               onClick={()=>router.push('/free-sample')}
             >
               Get sample products
