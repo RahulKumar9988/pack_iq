@@ -69,7 +69,7 @@ export const Timeline = ({
             alt="design for me packaging samples"
             fill
             className="object-contain"
-            priority={true}
+            loading="lazy"
           />
         </div>
       </div>
