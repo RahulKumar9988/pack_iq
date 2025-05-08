@@ -1,58 +1,54 @@
 "use client"
 import { Button } from '@nextui-org/react';
-import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoArrowUpRight } from 'react-icons/go';
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 function FAQ() {
-  const router  = useRouter();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const router = useRouter();
   const [expandedQuestions, setExpandedQuestions] = useState({});
   const [visibleQuestions, setVisibleQuestions] = useState(5);
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const questions = [
-    {
-      id: 1,
-      question: "What materials do you use for packaging?",
-      answer: "We use a variety of sustainable materials including recycled cardboard, biodegradable plastics, and eco-friendly inks. All our packaging solutions are designed with environmental impact in mind."
-    },
-    {
-      id: 2,
-      question: "How long does the customization process take?",
-      answer: "The customization timeline typically ranges from 2-4 weeks depending on the complexity of your design and material requirements. Rush orders can be accommodated for an additional fee."
-    },
-    {
-      id: 3,
-      question: "Do you offer international shipping?",
-      answer: "Yes, we ship our packaging solutions worldwide. International shipping rates and delivery times vary by location. Please contact our support team for specific details."
-    },
-    {
-      id: 4,
-      question: "What is the minimum order quantity?",
-      answer: "Our minimum order quantity starts at 500 units for standard packaging solutions. For custom designs, the minimum may vary based on complexity and materials."
-    },
-    {
-      id: 5,
-      question: "Can I request samples before placing a bulk order?",
-      answer: "Absolutely! We offer sample kits for all our standard packaging solutions. For custom designs, we provide digital mockups first, followed by physical samples upon approval."
-    },
-    {
-      id: 6,
-      question: "What file formats do you accept for custom designs?",
-      answer: "We accept AI, EPS, PDF, and high-resolution PSD files. Our design team can also work with you to create custom designs from scratch."
-    },
-    {
-      id: 7,
-      question: "Do you offer design services?",
-      answer: "Yes, our in-house design team can help create custom packaging solutions tailored to your brand. We offer everything from simple modifications to completely custom designs."
-    },
-    {
-      id: 8,
-      question: "What are your payment terms?",
-      answer: "We require a 50% deposit to begin production, with the remaining balance due before shipping. We accept credit cards, bank transfers, and PayPal."
-    }
-  ];
+  useEffect(() => {
+    const fetchFAQs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${baseUrl}/api/v1/faqs`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch FAQs');
+        }
+        
+        const result = await response.json();
+        
+        if (result.status === 200 && result.data) {
+          // Map the API response to match our component's expected format
+          const formattedQuestions = result.data.map(faq => ({
+            id: faq.faq_id,
+            question: faq.question,
+            answer: faq.answer
+          }));
+          
+          setQuestions(formattedQuestions);
+        } else {
+          throw new Error('Invalid response format');
+        }
+      } catch (err) {
+        console.error('Error fetching FAQs:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFAQs();
+  }, []);
 
   const toggleQuestion = (id) => {
     setExpandedQuestions(prev => ({
@@ -96,7 +92,7 @@ function FAQ() {
               <div>
                 looking for? Feel free to{" "}
                 <a href="/contact">
-                <span  className="text-[#0A7CFF] font-medium cursor-pointer hover:underline transition-all">
+                <span className="text-[#0A7CFF] font-medium cursor-pointer hover:underline transition-all">
                   contact us
                 </span>
                 </a>
@@ -113,37 +109,51 @@ function FAQ() {
 
             {/* Questions List */}
             <div className="relative flex flex-col items-center gap-4 w-full">
-              {questions.slice(0, visibleQuestions).map((item) => (
-                <div
-                  className="flex flex-col bg-white shadow-lg rounded-lg w-full sm:w-3/4 lg:w-3/5 overflow-hidden border border-gray-100 hover:border-blue-100 transition-all"
-                  key={item.id}
-                >
-                  <div
-                    className="flex justify-between items-center p-4 md:p-5 cursor-pointer"
-                    onClick={() => toggleQuestion(item.id)}
-                  >
-                    <div className="font-medium text-base md:text-lg text-[#143761]">
-                      {item.question}
-                    </div>
-                    <span className="text-[#0A7CFF] text-xl md:text-2xl">
-                      {expandedQuestions[item.id] ? (
-                        <FiMinusCircle size={24} />
-                      ) : (
-                        <FiPlusCircle size={24} />
-                      )}
-                    </span>
-                  </div>
-                  
-                  {expandedQuestions[item.id] && (
-                    <div className="p-4 pt-0 md:p-5 md:pt-0 text-[#676D79] text-sm md:text-base border-t border-gray-100 bg-gradient-to-r from-white to-[#f8f9ff]">
-                      {item.answer}
-                    </div>
-                  )}
+              {loading ? (
+                <div className="flex justify-center items-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0A7CFF]"></div>
                 </div>
-              ))}
+              ) : error ? (
+                <div className="text-red-500 text-center py-4">
+                  Error loading FAQs: {error}
+                </div>
+              ) : questions.length === 0 ? (
+                <div className="text-[#676D79] text-center py-4">
+                  No FAQs available at the moment.
+                </div>
+              ) : (
+                questions.slice(0, visibleQuestions).map((item) => (
+                  <div
+                    className="flex flex-col bg-white shadow-lg rounded-lg w-full sm:w-3/4 lg:w-3/5 overflow-hidden border border-gray-100 hover:border-blue-100 transition-all"
+                    key={item.id}
+                  >
+                    <div
+                      className="flex justify-between items-center p-4 md:p-5 cursor-pointer"
+                      onClick={() => toggleQuestion(item.id)}
+                    >
+                      <div className="font-medium text-base md:text-lg text-[#143761]">
+                        {item.question}
+                      </div>
+                      <span className="text-[#0A7CFF] text-xl md:text-2xl">
+                        {expandedQuestions[item.id] ? (
+                          <FiMinusCircle size={24} />
+                        ) : (
+                          <FiPlusCircle size={24} />
+                        )}
+                      </span>
+                    </div>
+                    
+                    {expandedQuestions[item.id] && (
+                      <div className="p-4 pt-0 md:p-5 md:pt-0 text-[#676D79] text-sm md:text-base border-t border-gray-100 bg-gradient-to-r from-white to-[#f8f9ff]">
+                        {item.answer}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
 
               {/* Load More Button */}
-              {visibleQuestions < questions.length && (
+              {!loading && !error && visibleQuestions < questions.length && (
                 <div className="flex justify-center w-full mt-4">
                   <Button
                     onClick={loadMoreQuestions}
@@ -158,7 +168,6 @@ function FAQ() {
           </div>
         </div>
       </div>
-
       {/* CTA Section */}
       <div className="relative flex lg:flex-row flex-col justify-between items-center bg-gradient-to-r from-[#0A2D5E] to-[#143761] px-6 md:px-12 lg:px-32 py-12 overflow-hidden">
         {/* Decorative elements */}

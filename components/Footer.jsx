@@ -73,7 +73,7 @@ const Footer = () => {
       
       
       {/* Main Footer Section */}
-      <div className="bg-gradient-to-b from-[#ffffff] to-[#72b2ff3f] text-[#143761]">
+      <div className="bg-gradient-to-b from-[#ffffff] to-[#72b1ff13] text-[#143761]">
         <div className="lg:px-24 px-6 md:px-10 py-16">
           {/* Logo and Contact Info */}
           <div className="flex flex-col md:flex-row gap-16 mb-12">
