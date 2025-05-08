@@ -84,7 +84,7 @@ export default function HomepageNavbar() {
   }
 
   return (
-    <div className="w-full shadow-sm bg-blue-50">
+    <div className="w-full shadow-sm ">
       <Navbar
         className=" shadow-sm h-20"
         classNames={{
