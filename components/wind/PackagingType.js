@@ -63,7 +63,7 @@ export default function PackagingType() {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
-
+  console.log(cartItem); 
   // Memoize the API call function
   const getPackagingType = useCallback(async () => {
     setIsLoading(true);
@@ -81,6 +81,8 @@ export default function PackagingType() {
           minimum_qty: ele.minimum_qty,
           packaging_image_url: ele.packaging_image_url,
           quantity: ele.minimum_qty,
+          addition_type:ele.addition_type,
+
         }));
         setProductList(responseData);
       }
@@ -120,6 +122,7 @@ export default function PackagingType() {
         packaging_id: item.packaging_id,
         name: item.name,
         image: item.packaging_image_url,
+        addition_type:item.addition_type,
       })
     );
     

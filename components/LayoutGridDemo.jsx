@@ -6,24 +6,23 @@ export default function LayoutGridDemo() {
   const [inspirations, setInspirations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Fetch inspirations from the backend
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  // Fetch inspirations from the API
   useEffect(() => {
     const fetchInspirations = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+        setLoading(true);
         const response = await fetch(`${baseUrl}/api/v1/inspiration`);
         
         if (!response.ok) {
-          throw new Error(`Failed to fetch inspirations: ${response.status}`);
+          throw new Error(`Failed to fetch inspirations. Status: ${response.status}`);
         }
         
-        const result = await response.json();
-        
-        if (result.status === 200 && Array.isArray(result.data)) {
-          setInspirations(result.data);
+        const data = await response.json();
+        if (data.status === 200 && data.data) {
+          setInspirations(data.data);
         } else {
-          throw new Error("Invalid data format received from API");
+          throw new Error("Invalid response format");
         }
       } catch (err) {
         console.error("Error fetching inspirations:", err);
@@ -36,7 +35,7 @@ export default function LayoutGridDemo() {
     fetchInspirations();
   }, []);
 
-  // Add a scroll listener to enable parallax effect
+  // Add a scroll listener for parallax effect
   useEffect(() => {
     // Function to handle parallax scroll effect
     const handleScroll = () => {
@@ -69,28 +68,52 @@ export default function LayoutGridDemo() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Convert backend data to card format
-  const inspirationCards = inspirations.map((inspiration, index) => {
-    return {
-      id: inspiration.inspiration_id,
-      content: <InspirationCard inspiration={inspiration} />,
-      className: index % 3 === 0 ? "md:col-span-2" : "col-span-1",
-      thumbnail: inspiration.inspiration_image_url,
-    };
-  });
+  // Generate cards from API data
+  const generateCards = () => {
+    if (!inspirations || inspirations.length === 0) {
+      return [];
+    }
 
+    return inspirations.map((inspiration, index) => {
+      // Determine column span based on index (similar to your original pattern)
+      const className = index % 3 === 0 ? "md:col-span-2" : "col-span-1";
+      
+      return {
+        id: inspiration.inspiration_id,
+        content: (
+          <div>
+            <p className="font-bold md:text-4xl text-xl text-white">
+              {inspiration.inspiration_title}
+            </p>
+            <p className="font-normal text-base text-white"></p>
+            <div className="font-normal text-base my-4 max-w-lg text-neutral-200">
+              {inspiration.inspiration_description ? (
+                <div dangerouslySetInnerHTML={{ __html: inspiration.inspiration_description }} />
+              ) : (
+                <p>No description available</p>
+              )}
+            </div>
+          </div>
+        ),
+        className: className,
+        thumbnail: inspiration.inspiration_image_url,
+      };
+    });
+  };
+
+  // Display loading, error, or content
   if (loading) {
     return (
-      <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin h-10 w-10 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-2xl">Loading inspirations...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="w-full h-64 flex items-center justify-center">
-        <div className="text-red-500">Error loading inspirations: {error}</div>
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-2xl text-red-500">Error: {error}</div>
       </div>
     );
   }
@@ -102,38 +125,7 @@ export default function LayoutGridDemo() {
           <div className="animate-bounce mt-16 font-bold text-black text-5xl">↓</div>
         </div>
       </div>
-      {inspirationCards.length > 0 ? (
-        <LayoutGrid cards={inspirationCards} />
-      ) : (
-        <div className="w-full h-64 flex items-center justify-center">
-          <div className="text-gray-500">No inspirations found</div>
-        </div>
-      )}
+      <LayoutGrid cards={generateCards()} />
     </div>
   );
 }
-
-const InspirationCard = ({ inspiration }) => {
-  // Extract date for display
-  const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedDate = new Date(inspiration.inspiration_date_time).toLocaleDateString(undefined, dateOptions);
-  
-  // Function to safely render HTML from the backend
-  const createMarkup = (html) => {
-    return { __html: html };
-  };
-
-  return (
-    <div>
-      <p className="font-bold md:text-4xl text-xl text-white">
-        {inspiration.inspiration_title}
-      </p>
-      <p className="font-normal text-base text-white opacity-80 mt-2">
-        {formattedDate}
-      </p>
-      <div className="font-normal text-base my-4 max-w-lg text-neutral-100"
-           dangerouslySetInnerHTML={createMarkup(inspiration.inspiration_description)}>
-      </div>
-    </div>
-  );
-};

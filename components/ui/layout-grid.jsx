@@ -57,7 +57,7 @@ export const LayoutGrid = ({ cards }) => {
       {cards.map((card, i) => (
         <div
           key={card.id}
-          className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] rounded-xl overflow-hidden transition-all duration-300 ${
+          className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
             isInView[card.id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
           }`} 
           // onClick={() => handleClick(card.id)}
@@ -104,7 +104,7 @@ export const LayoutGrid = ({ cards }) => {
 
           {/* Card content overlay */}
           <motion.div
-            className="absolute inset-0 z-10 flex flex-col justify-end p-6 bg-gradient-to-b from-transparent to-[#00000011]"
+            className="absolute inset-0 z-10 flex flex-col justify-end p-6 bg-gradient-to-b from-transparent to-black/60"
             animate={{
               opacity: selected === null || selected === card.id ? 1 : 0,
             }}

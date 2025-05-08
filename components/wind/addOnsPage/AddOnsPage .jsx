@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Package, Zap, Recycle, Sparkles, Image as ImageIcon, ArrowLeft } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/redux/hooks';
-import { addAddon } from '@/redux/features/cart/cartSlice';
+import { addAddon, removeAddon, updateAddons } from '@/redux/features/cart/cartSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -12,75 +12,113 @@ const AddOnsPage = () => {
   const params = useParams();
   const [hoveredAddon, setHoveredAddon] = useState(null);
   const [activePreview, setActivePreview] = useState('default');
-  const [addons, setAddons] = useState([]);
+  const [selectedAddons, setSelectedAddons] = useState([]);
+  const [optionalAddons, setOptionalAddons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [dataFetched, setDataFetched] = useState(false); // Flag to track if data has been fetched
+  const [additionType, setAdditionType] = useState(0); // Default addition type is 0
   const cartItem = useAppSelector((state) => state?.cart?.item);
+  const cartAddons = useAppSelector((state) => state?.cart?.item?.addons || []);
   const router = useRouter();
   const dispatch = useDispatch();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   
   // Define a mapping of icons to use based on addition title keywords
   const getIconNameForAddon = (title) => {
-    const titleLower = title.toLowerCase();
+    const titleLower = title?.toLowerCase() || '';
     if (titleLower.includes('zipper')) return 'zap';
     if (titleLower.includes('recycl') || titleLower.includes('sustain')) return 'recycle';
     // Default icon name
     return 'package';
   };
 
-  // Fetch addons only once when component mounts
+  // Format addon data from API response
+  const formatAddonData = (addonData) => {
+    return {
+      id: addonData.additions_id.toString(),
+      name: addonData.additions_title,
+      description: addonData.additions_desc,
+      recommended: addonData.additions_id === 1, // Example logic - adjust as needed
+      iconName: getIconNameForAddon(addonData.additions_title),
+      image: addonData.additions_image
+    };
+  };
+
+  // Format selected addon data from API response (different structure)
+  const formatSelectedAddonData = (addonData) => {
+    return {
+      id: addonData.additionsId.additions_id.toString(),
+      name: addonData.additionsId.additions_title,
+      description: addonData.additionsId.additions_desc,
+      recommended: addonData.additionsId.additions_id === 1, // Example logic - adjust as needed
+      iconName: getIconNameForAddon(addonData.additionsId.additions_title),
+      image: addonData.additionsId.additions_image
+    };
+  };
+
+  // Fetch addons when component mounts
   useEffect(() => {
     if (!cartItem.packaging_id) {
       router.back();
       return;
     }
 
-    // Only fetch data if it hasn't been fetched yet
-    if (!dataFetched) {
-      const fetchAddons = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get(`${baseUrl}/api/v1/resources/list-additions/${cartItem.packaging_id}`);
+    const fetchAddons = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `${baseUrl}/api/v1/resources/list-additions/${cartItem.packaging_id}?addition_type=${cartItem.addition_type}`
+        );        
+        console.log("API Response:", response.data);
+        
+        if (response.data.status === 200) {
+          // Get addition type from cart item
+          const additionTypeFromCart = cartItem.addition_type || 0;
+          setAdditionType(additionTypeFromCart);
           
-          if (response.data.status === 200) {
-            // Map backend data to the format expected by the component
-            const formattedAddons = response.data.data.map(addon => ({
-              id: addon.additionsId.additions_id.toString(),
-              name: addon.additionsId.additions_title,
-              description: addon.additionsId.additions_desc,
-              recommended: addon.additionsId.additions_id === 1, // Example logic - you can adjust as needed
-              iconName: getIconNameForAddon(addon.additionsId.additions_title),
-              image: addon.additionsId.additions_image
+          // Process selected additions (always selected)
+          const formattedSelectedAddons = response.data.data.selected_addition?.map(formatSelectedAddonData) || [];
+          setSelectedAddons(formattedSelectedAddons);
+          
+          // Process optional additions (only for addition_type 1)
+          let formattedOptionalAddons = [];
+          if (additionTypeFromCart === 1 && response.data.data.get_all_additions) {
+            // Format the get_all_additions array directly
+            formattedOptionalAddons = response.data.data.get_all_additions.map(addon => ({
+              id: addon.additions_id.toString(),
+              name: addon.additions_title,
+              description: addon.additions_desc,
+              recommended: addon.additions_id === 1, // Example logic - adjust as needed
+              iconName: getIconNameForAddon(addon.additions_title),
+              image: addon.additions_image
             }));
             
-            setAddons(formattedAddons);
-            setDataFetched(true); // Mark data as fetched
-            
-            // Automatically add all addons to cart when they are loaded
-            formattedAddons.forEach(addon => {
-              dispatch(addAddon(addon));
-            });
-            
-            // Set the last addon as active preview if any exist
-            if (formattedAddons.length > 0) {
-              setActivePreview(formattedAddons[formattedAddons.length - 1].id);
-            }
-          } else {
-            setError('Failed to fetch addons');
+            // Filter out duplicates from selected_addition
+            const selectedIds = new Set(formattedSelectedAddons.map(addon => addon.id));
+            formattedOptionalAddons = formattedOptionalAddons.filter(addon => !selectedIds.has(addon.id));
           }
-        } catch (err) {
-          console.error('Error fetching addons:', err);
-          setError('Error connecting to server');
-        } finally {
-          setLoading(false);
+          setOptionalAddons(formattedOptionalAddons);
+          
+          // Set the first selected addon as active preview if any exist
+          if (formattedSelectedAddons.length > 0) {
+            setActivePreview(formattedSelectedAddons[0].id);
+          }
+          
+          // Initialize cart addons with selected addons
+          dispatch(updateAddons(formattedSelectedAddons));
+        } else {
+          setError('Failed to fetch addons');
         }
-      };
-    
-      fetchAddons();
-    }
-  }, [cartItem.packaging_id, baseUrl, dataFetched, router, dispatch]);
+      } catch (err) {
+        console.error('Error fetching addons:', err);
+        setError('Error connecting to server');
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchAddons();
+  }, [cartItem.packaging_id, cartItem.addition_type, baseUrl, router, dispatch]);
 
   // Separate useEffect for handling URL validation
   useEffect(() => {
@@ -108,6 +146,24 @@ const AddOnsPage = () => {
     setActivePreview(id);
   };
 
+  const handleToggleOptionalAddon = (addon) => {
+    // Check if addon is already in cart
+    const isAddonInCart = isAddonSelected(addon.id);
+    
+    if (isAddonInCart) {
+      dispatch(removeAddon(addon.id));
+    } else {
+      dispatch(addAddon(addon));
+    }
+    
+    // Log current state after toggle for debugging
+    console.log(`Toggle addon ${addon.id}: ${isAddonInCart ? 'removed' : 'added'}`);
+  };
+
+  const isAddonSelected = (addonId) => {
+    return cartAddons.some(addon => addon.id === addonId);
+  };
+
   const navigateToSummary = () => {
     router.push('/summary');
   };
@@ -123,7 +179,8 @@ const AddOnsPage = () => {
       return '/pack/all size.png';
     }
     
-    const selectedAddonObj = addons.find(addon => addon.id === activePreview);
+    const allAddons = [...selectedAddons, ...optionalAddons];
+    const selectedAddonObj = allAddons.find(addon => addon.id === activePreview);
     return selectedAddonObj ? selectedAddonObj.image : '/pack/all size.png';
   };
 
@@ -132,7 +189,7 @@ const AddOnsPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-500  rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-12 h-12 border-4 border-blue-500 rounded-full animate-spin mx-auto mb-4" />
           <p className="text-blue-900 font-medium">Loading add-ons...</p>
         </div>
       </div>
@@ -156,6 +213,14 @@ const AddOnsPage = () => {
     );
   }
 
+  // Calculate total addons count
+  const totalSelectedAddons = selectedAddons.length + optionalAddons.filter(addon => isAddonSelected(addon.id)).length;
+
+  console.log("Selected addons:", selectedAddons);
+  console.log("Optional addons:", optionalAddons);
+  console.log("Addition type:", additionType);
+  console.log("Cart addons:", cartAddons);
+
   return (
     <div className="min-h-screen text-blue-900 relative">
       <div className="max-w-6xl mx-auto relative z-10">
@@ -163,7 +228,7 @@ const AddOnsPage = () => {
         <div className="bg-white fixed bottom-0 left-0 w-full border-t shadow-md p-4 z-50 md:relative md:mt-1 md:shadow-none md:border-t-0 md:p-0">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
             <div className="text-sm text-gray-700">
-              All {addons.length} add-ons included
+              {totalSelectedAddons} add-ons selected
             </div>
             <div className='flex gap-10 '>
               <button
@@ -207,10 +272,14 @@ const AddOnsPage = () => {
         <div className="flex flex-col md:flex-row flex-wrap gap-6 md:gap-8">
           {/* Left side - Add-on selection */}
           <div className="w-full md:flex-1 space-y-8 md:space-y-12">
-            <section className="space-y-4 sm:space-y-6">
-              {addons.length > 0 ? (
+            {/* Render selected addons (always fixed/selected) */}
+            {selectedAddons.length > 0 && (
+              <section className="space-y-4 sm:space-y-6">
+                <h2 className="text-lg font-semibold text-[#143761]">
+                  Selected Add-ons
+                </h2>
                 <div className="space-y-3 sm:space-y-4">
-                  {addons.map(addon => {
+                  {selectedAddons.map(addon => {
                     const isHovered = hoveredAddon === addon.id;
                     const isActive = activePreview === addon.id;
                     const IconComponent = getIconComponent(addon.iconName);
@@ -249,11 +318,9 @@ const AddOnsPage = () => {
                                 <h3 className="font-semibold text-sm sm:text-base text-blue-900">
                                   {addon.name}
                                 </h3>
-                                {addon.recommended && (
-                                  <span className="px-2 py-0.5 text-xs font-medium text-blue-900 bg-blue-100 rounded-full border border-blue-200">  
-                                    Recommended
-                                  </span>
-                                )}
+                                <span className="px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 rounded-full border border-green-200">  
+                                  Included
+                                </span>
                               </div>
                               <p className="text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2">
                                 {addon.description}
@@ -265,12 +332,97 @@ const AddOnsPage = () => {
                     );
                   })}
                 </div>
-              ) : (
-                <div className="p-4 text-center text-gray-500 border border-gray-200 rounded-lg">
-                  No add-ons available for this packaging type
+              </section>
+            )}
+
+            {/* Render optional addons (only for addition_type 1) */}
+            {additionType === 1 && optionalAddons.length > 0 && (
+              <section className="space-y-4 sm:space-y-6">
+                <h2 className="text-lg font-semibold text-[#143761]">
+                  Optional Add-ons
+                </h2>
+                <div className="space-y-3 sm:space-y-4">
+                  {optionalAddons.map(addon => {
+                    const isHovered = hoveredAddon === addon.id;
+                    const isActive = activePreview === addon.id;
+                    const isSelected = isAddonSelected(addon.id);
+                    const IconComponent = getIconComponent(addon.iconName);
+                    
+                    return (
+                      <div
+                        key={addon.id}
+                        onMouseEnter={() => setHoveredAddon(addon.id)}
+                        onMouseLeave={() => setHoveredAddon(null)}
+                        className={`shadow-xs rounded-xl transition-all transform cursor-pointer ${
+                          isActive 
+                            ? 'border-2 border-blue-200 scale-102' 
+                            : isHovered
+                              ? 'border-2 border-blue-300'
+                              : 'border-2 border-blue-200'
+                        } ${isHovered ? 'shadow-md' : ''}`}
+                      >
+                        <div className="p-4 sm:p-6 relative overflow-hidden">
+                          <div className="absolute top-0 right-0 p-2">
+                            {isSelected && <Sparkles className="w-5 h-5 text-blue-500" />}
+                          </div>
+                          <div className="flex items-start gap-3 sm:gap-4">
+                            {/* Checkbox/toggle control */}
+                            <div 
+                              onClick={() => handleToggleOptionalAddon(addon)}
+                              className={`w-5 h-5 sm:w-6 sm:h-6 rounded-lg border-2 flex-shrink-0 mt-1 transition-all ${
+                                isSelected
+                                  ? 'bg-blue-500 border-blue-500 shadow-md shadow-blue-500/30'
+                                  : 'bg-white border-gray-300'
+                              }`}
+                            >
+                              {isSelected && (
+                                <svg className="w-5 h-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              )}
+                            </div>
+                            {/* Content section */}
+                            <div className="flex-grow">
+                              <div 
+                                className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2"
+                                onClick={() => handleAddonClick(addon.id)}
+                              >
+                                <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
+                                <h3 className="font-semibold text-sm sm:text-base text-blue-900">
+                                  {addon.name}
+                                </h3>
+                                {addon.recommended && (
+                                  <span className="px-2 py-0.5 text-xs font-medium text-blue-900 bg-blue-100 rounded-full border border-blue-200">  
+                                    Recommended
+                                  </span>
+                                )}
+                              </div>
+                              <p 
+                                className="text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2"
+                                onClick={() => handleAddonClick(addon.id)}
+                              >
+                                {addon.description}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
-            </section>
+              </section>
+            )}
+
+            {/* No addons message */}
+            {selectedAddons.length === 0 && (additionType !== 1 || optionalAddons.length === 0) && (
+              <div className="p-4 text-center text-gray-500 border border-gray-200 rounded-lg">
+                No add-ons available for this packaging type
+              </div>
+            )}
           </div>
           
           {/* Right side - Preview image (hidden on mobile) */}

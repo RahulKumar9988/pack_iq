@@ -269,12 +269,12 @@ const Summary = () => {
                   Additions:
                 </div>
                 <div className="w-2/3 p-4 flex justify-between items-center">
-                  <span className="text-gray-800">
+                  <span className="text-gray-800 flex ">
                     {cartItem.addons ? (
                       Array.isArray(cartItem.addons) ? 
                         cartItem.addons.map((addon, idx) => (
                           <Badge key={idx} color="primary" variant="flat" className="mr-2 mb-1">
-                            {addon.name}
+                            {addon.name},
                           </Badge>
                         )) : 
                         typeof cartItem.addons === 'object' ? 

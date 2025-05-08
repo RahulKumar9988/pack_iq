@@ -202,3 +202,8 @@ body {
   50% { transform: translateX(4px); }
 }
 
+
+.card-container.in-view {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
