@@ -2,7 +2,18 @@
   import Image from 'next/image';
 
   // Brand logo data with real company names and customizable sizes
-  const brandLogos = [
+  const brandLogos = [  
+    { src: "/partner/Wasted-01.svg", size: "lg" },
+    { src: "/partner/Meghalaya Collectives-01.svg", size: "lg" },
+    { src: "/partner/Chaizup-01.svg", size: "lg" },
+    { src: "/partner/Autralian Tea-01.svg", size: "lg" },
+    { src: "/partner/Sindharam-01.svg", size: "lg" },
+    { src: "/partner/Petbuffet-01.svg", size: "lg" },
+    { src: "/partner/PuchkaMan-01.svg", size: "lg" },
+    { src: "/partner/Cityflo-01.svg", size: "lg" },
+    { src: "/partner/Pakad-01.svg", size: "lg" },
+    { src: "/partner/chowman-01.svg", size: "lg" },
+
     { src: "/partner/Akira-01.svg", size: "lg" },
     { src: "/partner/Amalfarm-01.svg", size: "lg" },
     { src: "/partner/Anavrin-01.svg", size: "lg" },
