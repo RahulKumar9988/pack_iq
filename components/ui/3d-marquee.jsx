@@ -24,10 +24,10 @@ export const ThreeDMarquee = ({
             style={{
               transform: "rotateX(55deg) rotateY(0deg) rotateZ(-45deg)",
             }}
-            className="relative top-96 right-[50%] grid size-full origin-top-left grid-cols-4 gap-8 transform-3d">
+            className="relative top-96 right-[50%] grid size-full origin-top-left grid-cols-5 gap-8 transform-3d">
             {chunks.map((subarray, colIndex) => (
               <motion.div
-                animate={{ y: colIndex % 2 === 0 ? 100 : -100 }}
+                animate={{ y: colIndex % 2 === 0 ? 100 : 100 }}
                 transition={{
                   duration: colIndex % 2 === 0 ? 10 : 15,
                   repeat: Infinity,
@@ -52,8 +52,10 @@ export const ThreeDMarquee = ({
                       alt={`Image ${imageIndex + 1}`}
                       className="  rounded-lg object-contain ring ring-gray-950/5 hover:shadow-2xl"
                       loading="lazy"
-                      width={970}
-                      height={700} />
+                      width={900}
+                      height={200}
+                      objectFit="cover"
+                      />
                   </div>
                 ))}
               </motion.div>

@@ -204,6 +204,7 @@ function FAQ() {
               alt="Packaging Design"
               width={708}
               height={346}
+              loading='lazy'
               className="rounded-lg w-full h-auto object-cover"
             />
           </div>

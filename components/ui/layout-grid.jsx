@@ -57,7 +57,7 @@ export const LayoutGrid = ({ cards }) => {
       {cards.map((card, i) => (
         <div
           key={card.id}
-          className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
+          className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] rounded-xl overflow-hidden transition-all duration-300 ${
             isInView[card.id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
           }`} 
           // onClick={() => handleClick(card.id)}
