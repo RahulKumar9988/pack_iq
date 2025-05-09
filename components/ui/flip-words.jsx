@@ -1,4 +1,3 @@
-"use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -6,17 +5,23 @@ import { cn } from "@/lib/utils";
 export const FlipWords = ({
   words,
   duration = 2000,
-  className
+  className,
+  onWordChange  // New callback prop to notify parent component of word changes
 }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // thanks for the fix Julian - https://github.com/Julian-AT
   const startAnimation = useCallback(() => {
     const word = words[words.indexOf(currentWord) + 1] || words[0];
     setCurrentWord(word);
+    
+    // Notify parent component about the word change
+    if (onWordChange) {
+      onWordChange(word);
+    }
+    
     setIsAnimating(true);
-  }, [currentWord, words]);
+  }, [currentWord, words, onWordChange]);
 
   useEffect(() => {
     if (!isAnimating)
@@ -25,8 +30,15 @@ export const FlipWords = ({
       }, duration);
   }, [isAnimating, duration, startAnimation]);
 
+  // Call onWordChange with initial word when component mounts
+  useEffect(() => {
+    if (onWordChange) {
+      onWordChange(currentWord);
+    }
+  }, []);
+
   return (
-    (<AnimatePresence
+    <AnimatePresence
       onExitComplete={() => {
         setIsAnimating(false);
       }}>
@@ -57,7 +69,6 @@ export const FlipWords = ({
           className
         )}
         key={currentWord}>
-        {/* edit suggested by Sajal: https://x.com/DewanganSajal */}
         {currentWord.split(" ").map((word, wordIndex) => (
           <motion.span
             key={word + wordIndex}
@@ -85,6 +96,6 @@ export const FlipWords = ({
           </motion.span>
         ))}
       </motion.div>
-    </AnimatePresence>)
+    </AnimatePresence>
   );
 };
