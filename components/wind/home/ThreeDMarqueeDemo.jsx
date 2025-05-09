@@ -2,7 +2,7 @@ import React from "react";
 
 const ThreeDMarqueeDemo = () => {
   return (
-    <div className="relative mx-auto h-full w-full">
+    <div className="relative mx-auto h-full w-full ml-20">
       {/* Table image */}
 
       {/* Coffee bag image (absolute positioned) */}
