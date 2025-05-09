@@ -18,7 +18,7 @@ const ThreeDMarqueeDemo = () => {
       />
 
       <img
-        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png"
+        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-monument-blend-packiro.png"
         alt="Coffee Bag"
         className="absolute top-[0px] left-[55%]  transform -translate-x-1/2 w-[200px] 
                     transition-transform duration-300 ease-in-out 
@@ -27,7 +27,7 @@ const ThreeDMarqueeDemo = () => {
 
       {/*row 2st */}
       <img
-        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png"
+        src="/pack/standbodenbeutel-inspiration-zma-supplements-verpackung-m.png"
         alt="Coffee Bag"
         className="absolute top-[240px] left-[65%]  transform -translate-x-1/2 w-[160px] 
                     transition-transform duration-300 ease-in-out 
@@ -43,7 +43,7 @@ const ThreeDMarqueeDemo = () => {
       />
 
       <img
-        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png"
+        src="/pack/standbodenbeutel-inspiration-zma-supplements-verpackung-m.png"
         alt="Coffee Bag"
         className="absolute top-[10px] left-[38%]  transform -translate-x-1/2 w-[210px] 
                     transition-transform duration-300 ease-in-out 
@@ -53,23 +53,23 @@ const ThreeDMarqueeDemo = () => {
 
       {/*row 1st */}
       <img
-        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png"
+        src="/pack/standbodenbeutel-inspiration-zma-supplements-verpackung-m.png"
         alt="Coffee Bag"
-        className="absolute top-[250px] left-[46%]  transform -translate-x-1/2 w-[170px] 
+        className="absolute top-[270px] left-[46%]  transform -translate-x-1/2 w-[160px] 
                     transition-transform duration-300 ease-in-out 
                   hover:scale-105"
       />
       
       <img
-        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png"
+        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-monument-blend-packiro.png"
         alt="Coffee Bag"
         className="absolute top-[170px] left-[30%]  transform -translate-x-1/2 w-[180px] 
-                    transition-transform duration-300 ease-in-out 
+                    transition-transform duration-300 ease-in-out rotate-y-120 
                   hover:scale-105"
       />
 
       <img
-        src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png"
+        src="/pack/standbodenbeutel-inspiration-multiprotein-collagen-supplements-verpackung-m.png"
         alt="Coffee Bag"
         className="absolute top-[40px] left-[17%]  transform -translate-x-1/2 w-[210px] 
                     transition-transform duration-300 ease-in-out 
