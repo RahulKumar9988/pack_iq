@@ -2,10 +2,11 @@ import React from "react";
 import { Button } from "@nextui-org/react";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
-
+import { FlipWords } from "../../../components/ui/flip-words";
 function Hero_text() {
   const router = useRouter();
-
+  const words = ["Solution", "Standup", "Rounded", "Rollon","Flat","Flow"]
+  
   return (
     <div className="h-full w-full">
         <div className="flex flex-col items-center gap-8 xs:hidden max-w-[629px] relative overflow-hidden">
@@ -56,7 +57,7 @@ function Hero_text() {
               <div className="text-[51px] max-md:text-2xl max-lg:text-[40px] max-ml:text-[30px] leading-[60px] max-md:leading-7 max-lg:leading-[45px] max-ml:leading-[35px]">
                 <div className="font-bold text-[#143761]">Eco-Friendly</div>
                 <div className="font-medium text-[#000000]">
-                  Packaging Solutions
+                  Packaging <FlipWords words={words} /> <br />
                 </div>
               </div>
               <div className="font-medium text-[#03172BB0] text-base max-md:text-sm">
