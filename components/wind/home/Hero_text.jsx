@@ -3,12 +3,13 @@ import { Button } from "@nextui-org/react";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { FlipWords } from "../../../components/ui/flip-words";
+import { NumberTickerDemo } from "./NumberTickerDemo";
 function Hero_text() {
   const router = useRouter();
   const words = ["Solution", "Standup", "Rounded", "Rollon","Flat","Flow"]
   
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full ">
         <div className="flex flex-col items-center gap-8 xs:hidden max-w-[629px] relative overflow-hidden">
           {/* Floating background elements */}
           <div className="flex flex-col items-center gap-8 xs:hidden  pt-0 max-w-[629px]">
@@ -47,7 +48,8 @@ function Hero_text() {
         
 
         {/* Desktop Hero Section */}
-        <div className="hidden items-center  bg-cover bg-center mobile:px-5 xs:px-8 w-full md:flex h-full"
+        <div
+          className="hidden md:flex md:flex-col justify-center gap-10 items-center bg-cover bg-center w-full h-full"
         >
           <div className="flex flex-col gap-[60px] max-xs:hidden w-full px-10">
             <div className="flex flex-col gap-5 max-md:gap-1 max-lg:gap-3 max-ml:gap-2 uppercase">
@@ -77,6 +79,13 @@ function Hero_text() {
                 Get sample products
               </Button>
             </div>
+          </div>
+
+          <div className=" flex justify-around w-full items-center text-center">
+          <NumberTickerDemo text={"Our Partners"}/>
+          <NumberTickerDemo text={"Quantities"}/>
+          <NumberTickerDemo text={"Customers"}/>
+
           </div>
         </div>
       </div>
