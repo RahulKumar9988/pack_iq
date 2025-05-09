@@ -51,11 +51,11 @@ function Hero_text() {
         >
           <div className="flex flex-col gap-[60px] max-xs:hidden w-full px-10">
             <div className="flex flex-col gap-5 max-md:gap-1 max-lg:gap-3 max-ml:gap-2 uppercase">
-              <div className="font-medium text-[#143761] text-sm">
+              <div className="font-medium text-[#143761] text-xl">
                 A Sustainable Approach
               </div>
               <div className="text-[51px] max-md:text-2xl max-lg:text-[40px] max-ml:text-[30px] leading-[60px] max-md:leading-7 max-lg:leading-[45px] max-ml:leading-[35px]">
-                <div className="font-bold text-[#143761]">Eco-Friendly</div>
+                <div className="font-bold text-[60px] text-[#143761]">Eco-Friendly</div>
                 <div className="font-medium text-[#000000]">
                   Packaging <FlipWords words={words} /> <br />
                 </div>
