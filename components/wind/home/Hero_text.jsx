@@ -19,9 +19,9 @@ function Hero_text() {
                 </div>
                 <div className="text-[51px] text-center max-md:text-2xl max-lg:text-[40px] max-ml:text-[30px] leading-[60px] max-md:leading-7 max-lg:leading-[45px] max-ml:leading-[35px]">
                   <span className="font-bold text-[#143761]">Eco-Friendly </span>
-                  <span className="font-medium text-[#000000]">
-                    Packaging Solutions
-                  </span>
+                  <div className="font-medium text-[#000000]">
+                    Packaging <FlipWords words={words} /> <br />
+                  </div>
                 </div>
                 <div className="font-normal text-[#03172BB0] text-base text-center max-md:text-sm">
                   Discover innovative and sustainable packaging options that reduce

@@ -26,9 +26,9 @@ export default function LinkedPortraitGallery() {
   };
 
   return (
-    <div className="relative w-full h-full bg-white p-8">
+    <div className="relative w-full h-full bg-white  md:p-8">
       {/* Call to Action Section with FlipWords */}
-      <div className="mb-12 text-center hidden">
+      <div className=" text-center hidden">
         <h2 className="text-4xl font-bold mb-4">
           Eco-Friendly Packaging <FlipWords 
             words={words} 
@@ -54,7 +54,7 @@ export default function LinkedPortraitGallery() {
           </svg>
         </div>
         
-        <div className="flex flex-wrap justify-center gap-10">
+        <div className="flex flex-wrap justify-center gap-10 ">
           {/* Main featured image (changes with flip words) */}
           <div className="relative mt-10">
             <div className={`${colorMapping[currentWord] || "bg-yellow-400"} rounded-full w-64 h-80 flex items-center justify-center transition-colors duration-500`}>
@@ -79,7 +79,7 @@ export default function LinkedPortraitGallery() {
           </div>
           
           {/* Right column portraits - these will swap positions when word changes */}
-          <div className="flex flex-col gap-10">
+          <div className="hidden md:flex md:flex-col md:gap-10">
             {/* Top right portrait */}
             <div className={`${colorMapping[currentWord] || "bg-yellow-400"} rounded-full w-40 h-45 flex items-center justify-center transition-colors duration-500`}>
               <img 

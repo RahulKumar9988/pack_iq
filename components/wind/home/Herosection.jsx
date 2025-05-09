@@ -6,9 +6,9 @@ import PortraitGallery from "./PortraitGallery";
 export default function HeroSection({ inter }) {
 
   return (
-    <div className="rounded-3xl flex justify-between w-full h-[80vh] overflow-hidden  mt-24">
+    <div className="rounded-3xl flex flex-col md:flex-row justify-between w-full h-[100dvh] md:h-[80vh] overflow-hidden mt-5 md:mt-24">
       <Hero_text/>
-      <div className="hidden md:block w-full h-full relative overflow-hidden">
+      <div className=" w-full h-full relative overflow-hidden">
       {/* <ThreeDMarqueeDemo /> */} 
         <PortraitGallery/>
       </div>
