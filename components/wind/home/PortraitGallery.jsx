@@ -12,7 +12,7 @@ export default function PortraitGallery() {
         </div>
         
         {/* First portrait (left) */}
-        <div className="relative">
+        <div className="relative mt-10">
           <div className="bg-yellow-400 rounded-full w-64 h-80 flex items-center justify-center">
             <img 
               src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png" 
@@ -47,7 +47,7 @@ export default function PortraitGallery() {
           
           {/* Bottom right portrait */}
           <div className="relative">
-            <div className="bg-blue-300 rounded-full w-40 h-70  flex items-center justify-center">
+            <div className="bg-blue-300 rounded-full w-40 h-60  flex items-center  justify-center">
               <img 
                 src="/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png" 
                 alt="Woman with glasses smiling" 
