@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar, Button, Textarea, Card, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
+import React, { useState, useEffect, useRef } from 'react';
+import { Avatar, Button, Textarea, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAppSelector } from '@/redux/hooks';
 import { getUserDetails } from '@/app/action/getUserDetails';
 import { useRouter } from 'next/navigation';
 
 const TestimonialSection = () => {
   const [testimonials, setTestimonials] = useState([]);
-  const [displayedCount, setDisplayedCount] = useState(6);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newTestimonial, setNewTestimonial] = useState('');
@@ -23,6 +23,12 @@ const TestimonialSection = () => {
   const userDetails = isAuthenticated ? getUserDetails() : null;
   const userId = userDetails?.user?.user_id;
   const router = useRouter();
+  
+  // Refs for scroll animation
+  const scrollerRef = useRef(null);
+  const scrollContentRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [needsClone, setNeedsClone] = useState(true);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -52,8 +58,32 @@ const TestimonialSection = () => {
     fetchTestimonials();
   }, [apiBaseUrl, submitSuccess]);
 
-  const loadMore = () => {
-    setDisplayedCount(prevCount => Math.min(prevCount + 3, testimonials.length));
+  // Clone testimonials for infinite scroll effect
+  useEffect(() => {
+    if (testimonials.length > 0 && scrollContentRef.current && needsClone) {
+      const scrollerContent = Array.from(scrollContentRef.current.children);
+      
+      // Only clone if we haven't already
+      if (scrollerContent.length === testimonials.length) {
+        scrollerContent.forEach(item => {
+          const clone = item.cloneNode(true);
+          scrollContentRef.current.appendChild(clone);
+        });
+        setNeedsClone(false); // Prevent re-cloning on re-renders
+        
+        // Start animation once clones are created
+        startAnimation();
+      }
+    }
+  }, [testimonials, needsClone]);
+
+  const startAnimation = () => {
+    if (scrollContentRef.current) {
+      // Reset animation if already there
+      scrollContentRef.current.classList.remove('animate-scroll');
+      void scrollContentRef.current.offsetWidth; // Force reflow
+      scrollContentRef.current.classList.add('animate-scroll');
+    }
   };
 
   const handleOpenModal = () => {
@@ -102,6 +132,7 @@ const TestimonialSection = () => {
       // Clear the form and close modal
       setNewTestimonial('');
       setSubmitSuccess(true);
+      setNeedsClone(true); // Need to re-clone after adding new testimonial
       
       // Close modal after successful submission
       setTimeout(() => {
@@ -117,6 +148,8 @@ const TestimonialSection = () => {
     }
   };
 
+  
+
   if (loading && testimonials.length === 0) {
     return (
       <div className="flex justify-center items-center bg-[#F5F5F7] py-16">
@@ -129,7 +162,20 @@ const TestimonialSection = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center bg-[#] py-16">
+    <div className="flex flex-col justify-center items-center bg-[#F5F5F7] py-16">
+      {/* Add CSS for animation */}
+      <style jsx global>{`
+        @keyframes scroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        
+        .animate-scroll {
+          animation: scroll 45s linear infinite;
+        }
+        
+      `}</style>
+      
       <h2 className="text-center font-semibold text-[#143761] text-3xl mb-8">
         Accelerating Innovations In<br />Packaging
       </h2>
@@ -156,7 +202,7 @@ const TestimonialSection = () => {
               <h3 className="text-xl font-semibold text-[#143761]">Share Your Experience</h3>
             </ModalHeader>
             <ModalBody className="py-6">
-              <form onSubmit={handleSubmitTestimonial}>
+              <div>
                 <Textarea
                   placeholder="Write your testimonial here..."
                   value={newTestimonial}
@@ -177,7 +223,7 @@ const TestimonialSection = () => {
                     Your testimonial was submitted successfully!
                   </div>
                 )}
-              </form>
+              </div>
             </ModalBody>
             <ModalFooter className="border-t pt-4">
               <Button 
@@ -209,38 +255,38 @@ const TestimonialSection = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials.slice(0, displayedCount).map((testimonial) => (
-                <div
-                  key={testimonial.review_id}
-                  className="flex flex-col bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex items-center mb-4">
-                    <Avatar 
-                      className="w-12 h-12 mr-4" 
-                      src={testimonial.user?.user_image_url || `https://i.pravatar.cc/150?u=${testimonial.review_id}`} 
-                    />
-                    <div>
-                      <h3 className="font-medium text-base">{testimonial.user?.user_name || 'Anonymous'}</h3>
-                      <p className="text-gray-500 text-sm">{new Date(testimonial.createdAt).toLocaleDateString()}</p>
+            {/* Horizontal scrolling testimonials */}
+            <div 
+              className="relative w-full overflow-hidden mb-8"
+              ref={scrollerRef}
+              onMouseEnter={() => setIsPaused(false)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              <div 
+                ref={scrollContentRef}
+                className={`flex ${isPaused ? '' : 'animate-scroll'}`}
+                style={{ width: 'fit-content' }}
+              >
+                {testimonials.map((testimonial) => (
+                  <div
+                    key={testimonial.review_id}
+                    className="flex-shrink-0 w-80 bg-white rounded-xl shadow-md p-6 mx-3 hover:shadow-lg transition-shadow"
+                  >
+                    <div className="flex items-center mb-4">
+                      <Avatar 
+                        className="w-12 h-12 mr-4" 
+                        src={testimonial.user?.user_image_url || `https://i.pravatar.cc/150?u=${testimonial.review_id}`} 
+                      />
+                      <div>
+                        <h3 className="font-medium text-base">{testimonial.user?.user_name || 'Anonymous'}</h3>
+                        <p className="text-gray-500 text-sm">{new Date(testimonial.createdAt).toLocaleDateString()}</p>
+                      </div>
                     </div>
+                    <p className="text-gray-700">{testimonial.description}</p>
                   </div>
-                  <p className="text-gray-700 flex-grow">{testimonial.description}</p>
-                </div>
-              ))}
-            </div>
-            
-            {displayedCount < testimonials.length && (
-              <div className="flex justify-center mt-10">
-                <Button 
-                  onClick={loadMore} 
-                  className="bg-transparent border border-[#143761] text-[#143761] rounded-full px-8 py-2 hover:bg-[#f0f7ff] transition-colors"
-                  startContent={<span className="mr-1">+</span>}
-                >
-                  Load more
-                </Button>
+                ))}
               </div>
-            )}
+            </div>
           </>
         )}
       </div>
