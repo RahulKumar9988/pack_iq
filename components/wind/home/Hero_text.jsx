@@ -45,7 +45,6 @@ function Hero_text() {
               </div>
             </div>
           </div>
-        
 
         {/* Desktop Hero Section */}
         <div

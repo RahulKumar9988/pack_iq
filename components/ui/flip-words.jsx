@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export const FlipWords = ({
   words,
-  duration = 1000,
+  duration = 2000,
   className
 }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
