@@ -7,7 +7,7 @@ import React from 'react';
 function Page() {
   const router = useRouter();
   return (
-    <div className="w-full flex flex-col items-center px-4 sm:px-6 md:px-12 py-12">
+    <div className="w-full flex flex-col items-center px-4 sm:px-6 md:mt-32 md:px-12 py-12">
       <div className="max-w-screen-xl w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-16 md:gap-32">
         {/* Left Section - Heading */}
         <div className="text-center md:text-left md:w-1/2">

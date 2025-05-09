@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'react-quill/dist/quill.snow.css';
-
 @font-face {
   font-family: 'Helvetica';
   src: url('/font/Helvetica.ttf') format('truetype');
@@ -26,7 +24,6 @@ body {
   box-sizing: border-box;
   font-family: 'Helvetica', sans-serif !important;
 }
-
 
 
 .hover-scale {
