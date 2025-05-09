@@ -206,9 +206,9 @@ export default function NavLinks() {
 
   return (
     <Navbar
-      className="bg-white shadow-sm h-16"
+      className="bg-white shadow-sm h-16 px-10"
       classNames={{
-        wrapper: "max-w-full px-4 md:px-8 lg:px-20",
+        wrapper: "max-w-full ",
         content: "gap-4",
       }}
       isBlurred={false}
@@ -218,7 +218,7 @@ export default function NavLinks() {
       
 
       {/* Navigation links */}
-      <NavbarContent className="hidden md:flex basis-3/5 justify-center gap-8   " justify="center">
+      <NavbarContent className="hidden md:flex basis-3/5 justify-center gap-8 " justify="start">
         <NavbarItem>
           <PackagingSolutions />
         </NavbarItem>

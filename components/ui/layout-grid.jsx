@@ -57,12 +57,12 @@ export const LayoutGrid = ({ cards }) => {
       {cards.map((card, i) => (
         <div
           key={card.id}
-          className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
+          className={`card-container ${card.className || ""} relative h-96 md:h-[40rem] cursor-pointer rounded-xl overflow-hidden  ${
             isInView[card.id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
           }`} 
           // onClick={() => handleClick(card.id)}
           style={{ 
-            transitionDelay: `${i * 0.01}s`,
+            // transitionDelay: `${i * 0.01}s`,
           }}
         >
           <motion.div
@@ -78,14 +78,14 @@ export const LayoutGrid = ({ cards }) => {
               transformOrigin: 'center',
               transformStyle: 'preserve-3d',
               transform: isInView[card.id] ? 'translateZ(0)' : 'translateZ(-50px)',
-              transition: 'transform 1s ease-out, opacity 1s ease-out'
+              // transition: 'transform 1s ease-out, opacity 1s ease-out'
             }}
             animate={{
               opacity: selected === null || selected === card.id ? 1 : 0.3,
               scale: selected === card.id ? 1 : 1,
               filter: selected === card.id ? "brightness(100%)" : "brightness(80%)",
             }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            // transition={{ duration: 0.5, ease: "easeIn" }}
             layout
           >
             {/* Parallax effect for the image */}
@@ -96,7 +96,7 @@ export const LayoutGrid = ({ cards }) => {
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 transform: isInView[card.id] ? 'translateY(0)' : 'translateY(50px)',
-                transition: 'transform 1.2s ease-out',
+                // transition: 'transform 1.2s ease-in',
                 opacity: isInView[card.id] ? 1 : 0,
               }}
             />
@@ -108,7 +108,7 @@ export const LayoutGrid = ({ cards }) => {
             animate={{
               opacity: selected === null || selected === card.id ? 1 : 0,
             }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            // transition={{ duration: 0.5, ease: "easeIn" }}
           >
             <motion.div
               className="relative z-20 transform"
@@ -117,11 +117,11 @@ export const LayoutGrid = ({ cards }) => {
                 y: isInView[card.id] ? 0 : 50, 
                 opacity: isInView[card.id] ? 1 : 0,
               }}
-              transition={{ 
-                duration: 0.8, 
-                delay: i * 0.1,
-                ease: "easeOut"
-              }}
+              // transition={{ 
+              //   duration: 0.8, 
+              //   delay: i * 0.1,
+              //   ease: "easeIn"
+              // }}
             >
               {card.content}
             </motion.div>
@@ -134,7 +134,7 @@ export const LayoutGrid = ({ cards }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              // transition={{ duration: 0.5, ease: "easeIn" }}
               //onClick={(e) => {
               //  e.stopPropagation();
               //  setSelected(null);

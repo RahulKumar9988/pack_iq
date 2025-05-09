@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
           {/* 🔹 Navbar for Desktop */}
         
         <div className="flex flex-col flex-grow w-full items-center">
-          <div className="hidden sm:block w-full  px-10">
+          <div className="hidden sm:block w-full fixed z-50">
             <HomepageNavbar/>    
           </div>
           {/* 🔹 Mobile Navigation (Only for Small Screens) */}

@@ -77,7 +77,7 @@ function FAQ() {
           </div>
 
           {/* FAQ Content */}
-          <div className="z-50 flex flex-col items-center gap-8 px-4 w-full max-w-7xl mx-auto">
+          <div className="z-40 flex flex-col items-center gap-8 px-4 w-full max-w-7xl mx-auto">
             {/* Title with Gradient */}
             <h1 className="font-bold text-3xl text-center md:text-4xl lg:text-5xl bg-gradient-to-r from-[#143761] to-[#0A7CFF] bg-clip-text text-transparent">
               Frequently Asked Questions

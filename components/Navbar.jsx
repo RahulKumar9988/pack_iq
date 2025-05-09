@@ -84,33 +84,33 @@ export default function HomepageNavbar() {
   }
 
   return (
-    <div className="w-full shadow-sm ">
+    <div className="w-full  ">
       <Navbar
-        className=" shadow-sm h-20"
+        className=" shadow-sm h-15 px-10 "
         classNames={{
-          wrapper: "max-w-full px-4 md:px-8 lg:px-16",
-          content: "gap-1",
+          wrapper: "max-w-full",
+          content: "",
         }}
         isBlurred={false}
         position="sticky"
         shouldHideOnScroll
       >
         {/* Logo section */}
-        <div className="" justify="start">
-          <div onClick={()=> router.push('/')} className=" cursor-pointer gap-3">
+        <div className=" bg-red-200" justify="start">
+          <div onClick={()=> router.push('/')} className="cursor-pointer gap-3">
             <Image 
               src="/productNavLogo.png" 
               alt="PackIQ Logo" 
               width={140} // increased width
               height={140} // increased height
-              className="object-contain scale-125"
+              className="object-contain scale-x-110"
               loading="lazy"
             />
           </div>
         </div>
 
         {/* User actions section */}
-        <NavbarContent className=" gap-5 " justify="center">
+        <div className=" gap-5 flex " justify="end">
           <NavbarItem className="hidden lg:flex">
             <NextUILink href="/cart" as={Link} className="flex flex-col items-center justify-center">
               <BagLogo size={40} fontWeight={0.7} color="#00008B" />
@@ -172,9 +172,9 @@ export default function HomepageNavbar() {
               </Button>
             )}
           </NavbarItem>
-        </NavbarContent>
+        </div>
       </Navbar>
-      <NavLinks className="hidden md:flex" />
+      <NavLinks className="hidden md:flex " />
 
     </div>
   );
