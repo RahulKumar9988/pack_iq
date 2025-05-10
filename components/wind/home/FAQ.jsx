@@ -128,7 +128,7 @@ function FAQ() {
                     key={item.id}
                   >
                     <div
-                      className="flex justify-between items-center p-4 md:p-5 cursor-pointer"
+                      className="flex justify-between items-center p-4 md:py-2 md:px-3 cursor-pointer"
                       onClick={() => toggleQuestion(item.id)}
                     >
                       <div className="font-medium text-base md:text-lg text-[#143761]">
@@ -144,7 +144,7 @@ function FAQ() {
                     </div>
                     
                     {expandedQuestions[item.id] && (
-                      <div className="p-4 pt-0 md:p-5 md:pt-0 text-[#676D79] text-sm md:text-base border-t border-gray-100 bg-gradient-to-r from-white to-[#f8f9ff]">
+                      <div className="p-4 pt-0  md:pt-0 text-[#676D79] text-sm md:text-base border-t border-gray-100 bg-gradient-to-r from-white to-[#f8f9ff]">
                         {item.answer}
                       </div>
                     )}
