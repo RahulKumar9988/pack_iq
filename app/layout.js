@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import HomepageNavbar from "@/components/Navbar";
 import StoreProvider from "./(products)/StoreProvider";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import TopLoader from '../components/TopLoader';
 
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
@@ -20,6 +21,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${dmSans.className} scrollbar-hide w-full flex flex-col h-screen bg-[#]`}>
         <SmoothScrollProvider>
+        <TopLoader />
+
           <StoreProvider>
             {/* 🔹 Navbar for Desktop */}
           <div className="flex flex-col flex-grow w-full items-center">
@@ -31,7 +34,6 @@ export default function RootLayout({ children }) {
               <MobileNav />
             </div>
               {/* 🔹 Main Content */}
-              
               <div className=" scrollbar-hide flex justify-center flex-grow w-full md:mt-28 ">
                 {children}
               </div>
