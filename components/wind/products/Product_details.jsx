@@ -889,16 +889,16 @@ import { useAppSelector } from "@/redux/hooks";
                   
                   {/* Carousel-style Gallery with center-focused layout */}
                   {product.sliderGalleryImages && product.sliderGalleryImages.length > 0 && (
-            <div className="bg-white rounded-lg shadow">
-              <Carousel
-                images={product.sliderGalleryImages}
-                altPrefix={`${product.name} - Slider Image`}
-                title={`This is what your ${product.name} could look like`}
-                selectedImage={sliderSelectedImage}
-                setSelectedImage={setSliderSelectedImage}
-              />
-            </div>
-          )}
+                    <div className="bg-white rounded-lg shadow">
+                      <Carousel
+                        images={product.sliderGalleryImages}
+                        altPrefix={`${product.name} - Slider Image`}
+                        title={`This is what your ${product.name} could look like`}
+                        selectedImage={sliderSelectedImage}
+                        setSelectedImage={setSliderSelectedImage}
+                      />
+                    </div>
+                  )}
                     
                   </div>
 

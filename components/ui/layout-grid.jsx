@@ -65,11 +65,7 @@ export const LayoutGrid = ({ cards }) => {
               className="relative z-20 transform"
               initial={{ y: 0, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              // transition={{ 
-              //   duration: 0.8, 
-              //   delay: i * 0.1,
-              //   ease: "easeOut"
-              // }}
+              
             >
               {card.content}
             </motion.div>

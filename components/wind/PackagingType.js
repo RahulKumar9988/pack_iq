@@ -217,7 +217,7 @@ export default function PackagingType() {
                       ></p>
                     </div>
                     
-                    <div className="flex justify-between items-center mt-3 sm:mt-4">
+                    <div onClick={() => handleSelectAndNavigate(item, index)} className="flex justify-between items-center mt-3 sm:mt-4">
                       <Image
                         src={item.packaging_image_url}
                         alt={item.name}
@@ -225,6 +225,7 @@ export default function PackagingType() {
                         height={120}
                         className="object-contain sm:block"
                         loading="lazy"
+                        
                       />
                       
                       <motion.div

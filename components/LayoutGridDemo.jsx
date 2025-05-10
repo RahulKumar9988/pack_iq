@@ -48,7 +48,7 @@ export default function LayoutGridDemo() {
         const cardCenter = cardTop + (card.offsetHeight / 2);
         
         // Calculate parallax offset (move slower than scroll)
-        const parallaxOffset = (cardCenter - viewportHeight / 2) * 0.15;
+        const parallaxOffset = (cardCenter - viewportHeight / 2) * 0;
         
         // Apply parallax effect to the background image
         const bgImage = card.querySelector('.bg-cover');

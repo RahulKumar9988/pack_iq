@@ -72,7 +72,7 @@ export default function RootLayout({ children }) {
             </div>}>
               <SmoothScrollProvider>
                 {/* Main Content with proper padding/margin to account for fixed header */}
-                <div className="w-full flex justify-center flex-grow md:mt-24 sm:mt-16 mt-2">
+                <div className="w-full flex justify-center flex-grow md:mt-28 sm:mt-16 mt-2">
                   {children}
                 </div>
                 
