@@ -36,11 +36,12 @@ export default function RootLayout({ children }) {
             <div className=" scrollbar-hide flex justify-center flex-grow w-full md:mt-28 ">
                 {children}
               </div>
+              {/* 🔹 Footer */} 
+            <Footer />
           </SmoothScrollProvider>
           </div>
 
-          {/* 🔹 Footer */} 
-          <Footer />
+          
           </StoreProvider>
       </body>
     </html>
