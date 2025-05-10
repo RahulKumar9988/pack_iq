@@ -120,11 +120,6 @@ export default function LayoutGridDemo() {
 
   return (
     <div className="w-full"> 
-      <div className="h-full flex items-center justify-center text-start">
-        <div className="">
-          <div className="animate-bounce mt-16 font-bold text-black text-5xl">↓</div>
-        </div>
-      </div>
       <LayoutGrid cards={generateCards()} />
     </div>
   );
