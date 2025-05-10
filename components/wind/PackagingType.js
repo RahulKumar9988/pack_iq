@@ -77,7 +77,6 @@ export default function PackagingType() {
           icon: ele.packaging_image_icon_url,
           description: ele.description,
           name: ele.name,
-          time: "4-7 weeks",
           minimum_qty: ele.minimum_qty,
           packaging_image_url: ele.packaging_image_url,
           quantity: ele.minimum_qty,
@@ -232,27 +231,12 @@ const BestSellingBadge = () => {
                   {/* Text content at bottom */}
                   <div className="w-full text-center">
                     <h3 className="text-xl font-semibold mb-1 line-clamp-1">{item.name}</h3>
-                    {/* <p
-                      className="text-gray-600 text-sm sm:text-base leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: truncatedDescription }}
-                    ></p> */}
-
-                    {/* <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                      <span>Min Qty: </span>
-                      <span className="font-medium">{product.quantity}</span> 
-                    </div> */}
+                    
                   </div>
                   
                   {/* Always visible detail button with hover effect */}
                   <div className="absolute bottom-3 right-3 z-10">
-                    {/* <Button
-                      isIconOnly
-                      className={`${isHovered ? 'bg-[#E45971]' : 'bg-gray-300'} text-white shadow-md hover:bg-[#d34663] transition-colors duration-200`}
-                      size="sm"
-                      radius="full"
-                    >
-                      <LuArrowRight size={16} />
-                    </Button> */}
+                    
                   </div>
                 </CardBody>
 

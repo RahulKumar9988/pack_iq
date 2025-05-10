@@ -20,9 +20,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${dmSans.className} scrollbar-hide w-full flex flex-col h-screen bg-[#]`}>
-        <SmoothScrollProvider>
-        <TopLoader />
-
+        <TopLoader/>
           <StoreProvider>
             {/* 🔹 Navbar for Desktop */}
           <div className="flex flex-col flex-grow w-full items-center">
@@ -33,17 +31,17 @@ export default function RootLayout({ children }) {
             <div className="block sm:hidden w-full">
               <MobileNav />
             </div>
-              {/* 🔹 Main Content */}
-              <div className=" scrollbar-hide flex justify-center flex-grow w-full md:mt-28 ">
+          <SmoothScrollProvider>
+            {/* 🔹 Main Content */}
+            <div className=" scrollbar-hide flex justify-center flex-grow w-full md:mt-28 ">
                 {children}
               </div>
-
+          </SmoothScrollProvider>
           </div>
 
           {/* 🔹 Footer */} 
           <Footer />
           </StoreProvider>
-        </SmoothScrollProvider>
       </body>
     </html>
   );

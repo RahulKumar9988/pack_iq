@@ -96,7 +96,7 @@ export default function HomepageNavbar() {
         shouldHideOnScroll
       >
         {/* Logo section */}
-        <div className=" bg-red-200" justify="start">
+        <div className="" justify="start">
           <div onClick={()=> router.push('/')} className="cursor-pointer gap-3">
             <Image 
               src="/productNavLogo.png" 
