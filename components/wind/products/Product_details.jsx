@@ -709,7 +709,7 @@ import { useAppSelector } from "@/redux/hooks";
                               </li>
                             ))
                           ) : (
-                            <li className="p-3 text-center text-gray-500">No default addons available</li>
+                            <li className=" text-center text-gray-500">No default addons available</li>
                           )}
                         </ul>
 
