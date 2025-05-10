@@ -1,48 +1,86 @@
-
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import MobileNav from "@/components/MobileNav";
-import Footer from "@/components/Footer";
-import HomepageNavbar from "@/components/Navbar";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import StoreProvider from "./(products)/StoreProvider";
-import SmoothScrollProvider from "@/components/SmoothScrollProvider";
-import TopLoader from '../components/TopLoader';
 
+// Simple loading placeholders
+const NavbarPlaceholder = () => <div className="h-16 bg-white shadow-sm w-full"></div>;
+const LoadingSpinner = () => <div className="w-full h-6 bg-gray-100"></div>;
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+// Dynamic imports with loading fallbacks
+const TopLoader = dynamic(() => import('../components/TopLoader'), { 
+  ssr: false,
+  loading: () => <LoadingSpinner />
+});
+
+const HomepageNavbar = dynamic(() => import("@/components/Navbar"), {
+  ssr: true,
+  loading: () => <NavbarPlaceholder />
+});
+
+const MobileNav = dynamic(() => import("@/components/MobileNav"), {
+  ssr: false,
+  loading: () => <NavbarPlaceholder />
+});
+
+const Footer = dynamic(() => import("@/components/Footer"), {
+  loading: () => <div className="h-20 bg-gray-100 w-full"></div>
+});
+
+const SmoothScrollProvider = dynamic(() => import("@/components/SmoothScrollProvider"), {
+  ssr: false
+});
+
+// Optimize font loading
+const dmSans = DM_Sans({ 
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  weight: ['400', '500', '700'],
+  adjustFontFallback: true
+});
 
 export const metadata = {
   title: "Packiq Ecommerce - Home",
   description: "An Ecommerce Website for Packaging",
+  viewport: "width=device-width, initial-scale=1.0",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${dmSans.className} scrollbar-hide w-full flex flex-col h-screen bg-[#]`}>
-        <TopLoader/>
-          <StoreProvider>
-            {/* 🔹 Navbar for Desktop */}
+      <body className={`${dmSans.className} w-full flex flex-col h-screen`}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <TopLoader />
+        </Suspense>
+        
+        <StoreProvider>
           <div className="flex flex-col flex-grow w-full items-center">
+            {/* Desktop Navigation */}
             <div className="hidden sm:block w-full fixed z-50">
-              <HomepageNavbar/>    
+              <HomepageNavbar />
             </div>
-            {/* 🔹 Mobile Navigation (Only for Small Screens) */}
+            
+            {/* Mobile Navigation */}
             <div className="block sm:hidden w-full">
               <MobileNav />
             </div>
-          <SmoothScrollProvider>
-            {/* 🔹 Main Content */}
-            <div className=" scrollbar-hide flex justify-center flex-grow w-full md:mt-28 ">
-                {children}
-              </div>
-              {/* 🔹 Footer */} 
-            <Footer />
-          </SmoothScrollProvider>
+            
+            <Suspense fallback={<div className="w-full h-screen flex items-center justify-center">
+              <div className="animate-pulse h-10 w-10 bg-blue-200 rounded-full"></div>
+            </div>}>
+              <SmoothScrollProvider>
+                {/* Main Content with proper padding/margin to account for fixed header */}
+                <div className="w-full flex justify-center flex-grow md:mt-24 sm:mt-16 mt-2">
+                  {children}
+                </div>
+                
+                <Footer />
+              </SmoothScrollProvider>
+            </Suspense>
           </div>
-
-          
-          </StoreProvider>
+        </StoreProvider>
       </body>
     </html>
   );

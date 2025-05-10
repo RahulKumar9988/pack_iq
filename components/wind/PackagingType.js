@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Card, CardBody, Button } from "@nextui-org/react";
 import axios from "axios";
 import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { addToCart, clearCart } from "@/redux/features/cart/cartSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -11,48 +11,30 @@ import { useRouter } from "next/navigation";
 // Get this from environment variables
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-// Decorative elements component
-const DecorativeElements = ({ position }) => {
-  return (
-    <div className={`absolute ${position} z-0 pointer-events-none`}>
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0.7 }}
-        animate={{ 
-          scale: [0.8, 1, 0.8],
-          opacity: [0.7, 1, 0.7]
-        }}
-        transition={{ 
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {/* <LuSparkles className="text-[#E45971] opacity-60" size={16} /> */}
-      </motion.div>
-    </div>
-  );
-};
+// Simplified decorative elements - reduced animations
+const DecorativeElements = React.memo(({ position }) => (
+  <div className={`absolute ${position} z-0 pointer-events-none`} />
+));
 
-// Circle background decoration
-const CircleDecoration = ({ size, position, color, delay }) => {
-  return (
-    <motion.div 
-      className={`absolute ${position} rounded-full bg-${color} opacity-30 z-0 pointer-events-none`}
-      style={{ width: size, height: size }}
-      initial={{ scale: 0.6, opacity: 0 }}
-      animate={{ 
-        scale: [0.6, 1, 0.6],
-        opacity: [0, 0.3, 0]
-      }}
-      transition={{ 
-        duration: 4,
-        delay: delay,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
+// Optimized and simplified circle decoration
+const CircleDecoration = React.memo(({ size, position, color }) => (
+  <div 
+    className={`absolute ${position} rounded-full bg-${color} opacity-20 z-0 pointer-events-none`}
+    style={{ width: size, height: size }}
+  />
+));
+
+// Memoized best selling badge
+const BestSellingBadge = React.memo(() => (
+  <div className="absolute -top-2 -right-2 z-20">
+    <img 
+      src="/best-seller-icon.png" 
+      alt="Best Seller" 
+      className="w-20 h-20" 
+      loading="lazy" 
     />
-  );
-};
+  </div>
+));
 
 export default function PackagingType() {
   const [productList, setProductList] = useState([]);
@@ -61,18 +43,16 @@ export default function PackagingType() {
   const [selectedCardId, setSelectedCardId] = useState(null);
   
   const dispatch = useAppDispatch();
-  const cartItem = useAppSelector((state) => state?.cart?.item);
   const router = useRouter();
-  console.log(cartItem); 
-  // Memoize the API call function
+  
+  // Fetch data with optimized error handling
   const getPackagingType = useCallback(async () => {
-    setIsLoading(true);
     try {
       const response = await axios.get(
         `${baseUrl}/api/v1/resources/packaging-type`
       );
       if (response.status === 200) {
-        const responseData = response.data.data.map((ele) => ({
+        return response.data.data.map((ele) => ({
           packaging_id: ele.packaging_id,
           icon: ele.packaging_image_icon_url,
           description: ele.description,
@@ -80,98 +60,83 @@ export default function PackagingType() {
           minimum_qty: ele.minimum_qty,
           packaging_image_url: ele.packaging_image_url,
           quantity: ele.minimum_qty,
-          addition_type:ele.addition_type,
-
+          addition_type: ele.addition_type,
         }));
-        setProductList(responseData);
       }
+      return [];
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
-    } finally {
-      setIsLoading(false);
+      return [];
     }
   }, []);
 
   useEffect(() => {
     const fetchAndSortData = async () => {
-      await getPackagingType();
-      // Sort productList to put Standup Pouch first, then sort the rest
-      setProductList(prev => {
-        const standupPouch = prev.find(item => item.name.toLowerCase().includes("standup pouch"));
-        const otherItems = prev.filter(item => !item.name.toLowerCase().includes("standup pouch"));
-        
-        // Sort other items by name
-        const sortedOthers = [...otherItems].sort((a, b) => a.name.localeCompare(b.name));
-        
-        // Return array with Standup Pouch first, then the rest
-        return standupPouch ? [standupPouch, ...sortedOthers] : sortedOthers;
-      });
+      setIsLoading(true);
+      const data = await getPackagingType();
+      
+      // Sort data - standup pouch first, then alphabetical
+      const standupPouch = data.find(item => 
+        item.name.toLowerCase().includes("standup pouch")
+      );
+      const others = data.filter(item => 
+        !item.name.toLowerCase().includes("standup pouch")
+      ).sort((a, b) => a.name.localeCompare(b.name));
+      
+      setProductList(standupPouch ? [standupPouch, ...others] : others);
+      setIsLoading(false);
     };
     
     fetchAndSortData();
     dispatch(clearCart());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getPackagingType]);
+  }, [getPackagingType, dispatch]);
 
-  // Handle card click to select the item and navigate
-  const handleSelectAndNavigate = useCallback((item, index) => {
-    // Add to cart
+  // Memoize handler function
+  const handleSelectAndNavigate = useCallback((item) => {
     dispatch(
       addToCart({
         packaging_id: item.packaging_id,
         name: item.name,
         image: item.packaging_image_url,
-        addition_type:item.addition_type,
+        addition_type: item.addition_type,
       })
     );
     
-    // Show selection animation
     setSelectedCardId(item.packaging_id);
     
-    // Navigate to the material page
     const materialUrl = `/${item.name.toLowerCase().replace(/\s+/g, "-")}/material`;
     router.push(materialUrl);
     
-    // Reset the selection after animation completes (though navigation will happen)
     setTimeout(() => {
       setSelectedCardId(null);
     }, 800);
   }, [dispatch, router]);
 
-  // Create a truncated description for cards
+  // Memoize truncation function
   const getTruncatedDescription = useCallback((description) => {
-    return description.split(' ').slice(0,50).join(' ') + '...';
+    return description.split(' ').slice(0, 50).join(' ') + '...';
   }, []);
 
-  // Loading skeleton
+  // Memoized loading skeleton
+  const loadingSkeleton = useMemo(() => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-[72px]">
+      {[1, 2, 3, 4].map((index) => (
+        <div key={index} className="h-[320px] sm:h-[394px] bg-gray-100 rounded-lg relative overflow-hidden">
+          <div className="absolute top-3 left-3 w-16 h-16 rounded-full bg-gray-200"></div>
+          <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-gray-200"></div>
+          <div className="absolute bottom-14 left-4 w-24 h-4 bg-gray-200"></div>
+          <div className="absolute bottom-8 left-4 w-20 h-4 bg-gray-200"></div>
+        </div>
+      ))}
+    </div>
+  ), []);
+
   if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-[72px]">
-        {[1, 2, 3, 4].map((index) => (
-          <div key={index} className="h-[320px] sm:h-[394px] animate-pulse bg-gray-100 rounded-lg relative overflow-hidden">
-            <div className="absolute top-3 left-3 w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-gray-200 animate-pulse"></div>
-            <div className="absolute top-3 right-3 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-gray-200 animate-pulse"></div>
-            <div className="absolute bottom-14 left-4 w-24 sm:w-32 h-4 bg-gray-200 animate-pulse"></div>
-            <div className="absolute bottom-8 left-4 w-20 sm:w-24 h-4 bg-gray-200 animate-pulse"></div>
-          </div>
-        ))}
-      </div>
-    );
+    return loadingSkeleton;
   }
 
-  // Updated BestSellingBadge component with image
-const BestSellingBadge = () => {
   return (
-    <motion.div
-      className="absolute -top-2 -right-2 z-20"
-    >
-      <img src="/best-seller-icon.png" alt="Best Seller" className="w-20 h-20" />
-    </motion.div>
-  );
-};
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-[72px] scrollbar-hide">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-[72px]">
       {productList.map((item, index) => {
         const isHovered = hoveredItem === index;
         const isSelected = selectedCardId === item.packaging_id;
@@ -181,16 +146,15 @@ const BestSellingBadge = () => {
         return (
           <div
             key={item.packaging_id || index}
-            className="h-[320px] sm:h-[394px] relative group"
+            className="h-[320px] sm:h-[394px] relative"
             onMouseEnter={() => setHoveredItem(index)}
             onMouseLeave={() => setHoveredItem(null)}
           >
             {isStandupPouch && <BestSellingBadge />}
-            {/* Decorative elements */}
+            
+            {/* Simplified decorative elements */}
             <DecorativeElements position="top-3 right-3" />
-            <DecorativeElements position="bottom-6 left-8" />
-            <CircleDecoration size="70px" position="top-1 right-1" color="pink-200" delay={0} />
-            <CircleDecoration size="40px" position="bottom-4 left-4" color="blue-200" delay={1.5} />
+            <CircleDecoration size="70px" position="top-1 right-1" color="pink-200" />
             
             <motion.div
               whileHover={{ translateY: -5 }}
@@ -200,50 +164,32 @@ const BestSellingBadge = () => {
               onClick={() => handleSelectAndNavigate(item, index)}
             >
               <Card
-                shadow="sm"
-                className={`bg-gradient-to-br from-white to-blue-50 border ${isSelected ? 'border-[#E45971]' : 'border-gray-200'} p-3 sm:p-4 h-full w-full scrollbar-hide overflow-y-auto relative`}
+                className={`bg-gradient-to-br from-white to-blue-50 border ${isSelected ? 'border-[#E45971]' : 'border-gray-200'} p-3 sm:p-4 h-full w-full overflow-y-auto relative`}
                 isPressable
-                onClick={() => handleSelectAndNavigate(item, index)}
-
               >
                 <CardBody className="flex flex-col items-center justify-between p-4">
-                  {/* Image centered and emphasized */}
+                  {/* Optimized Image loading */}
                   <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
-                    <motion.div
-                      animate={{ 
-                        boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0)" 
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className=" relative "
-                    >
-                      <Image
-                        src={item.packaging_image_url}
-                        className="object-cover"
-                        alt={item.name}
-                        width={260}
-                        height={260}
-                        priority={index < 2}
-                        loading={index < 2 ? "eager" : "lazy"}
-                      />
-                    </motion.div>
+                    <Image
+                      src={item.packaging_image_url}
+                      className="object-cover"
+                      alt={item.name}
+                      width={260}
+                      height={260}
+                      priority={index < 2}
+                      loading={index < 2 ? "eager" : "lazy"}
+                    />
                   </div>
 
-                  {/* Text content at bottom */}
+                  {/* Text content */}
                   <div className="w-full text-center">
                     <h3 className="text-xl font-semibold mb-1 line-clamp-1">{item.name}</h3>
-                    
-                  </div>
-                  
-                  {/* Always visible detail button with hover effect */}
-                  <div className="absolute bottom-3 right-3 z-10">
-                    
                   </div>
                 </CardBody>
-
               </Card>
             </motion.div>
             
-            {/* Full Description Overlay - Show on hover on desktop, and on tap on mobile */}
+            {/* Description Overlay - shown on hover */}
             <AnimatePresence>
               {isHovered && (
                 <motion.div
@@ -254,7 +200,6 @@ const BestSellingBadge = () => {
                   className="absolute inset-0 backdrop-blur-lg bg-[#e4f1ff]/90 z-10 p-4 sm:p-6 flex flex-col justify-between rounded-lg overflow-hidden cursor-pointer"
                   onClick={() => handleSelectAndNavigate(item, index)}
                 >
-                  {/* Decorative circles in the overlay */}
                   <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#E45971]/10 rounded-full"></div>
                   <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-200/30 rounded-full"></div>
                   
@@ -274,6 +219,7 @@ const BestSellingBadge = () => {
                         width={120}
                         height={120}
                         className="object-contain sm:block"
+                        loading="lazy"
                       />
                       
                       <motion.div
@@ -281,7 +227,7 @@ const BestSellingBadge = () => {
                         whileTap={{ scale: 0.95 }}
                         className="w-full sm:w-auto"
                         onClick={(e) => {
-                          e.stopPropagation(); // This prevents double-triggering the parent click
+                          e.stopPropagation();
                           handleSelectAndNavigate(item, index);
                         }}
                       >
@@ -299,28 +245,6 @@ const BestSellingBadge = () => {
           </div>
         );
       })}
-      
-      {/* Global animation styles */}
-      <style jsx global>{`
-        @keyframes ping-once {
-          0% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.5);
-            opacity: 0.5;
-          }
-          100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-        
-        .animate-ping-once {
-          animation: ping-once 0.8s cubic-bezier(0, 0, 0.2, 1);
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,9 +1,7 @@
 "use client";
-import React, { useMemo, useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Navbar,
-  NavbarBrand,
-  NavbarContent,
   NavbarItem,
   Link as NextUILink,
   Button,
@@ -11,59 +9,39 @@ import {
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
-  Avatar,
   Image,
 } from "@nextui-org/react";
 import Link from "next/link";
-import {
-  ChevronDown,
-  Lock,
-  Activity,
-  Zap,
-  Server,
-  Tag,
-  Scale,
-} from "lucide-react";
+import { ChevronDown, FiUser } from "lucide-react";
 import BagLogo from "@/public/BagLogo.jsx";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice.js";
 import { logout as Logout } from '@/app/action/loginAction.js';
 import { getUserDetails } from "@/app/action/getUserDetails.js";
-import { FiUser } from "react-icons/fi";
 import dynamic from 'next/dynamic';
-import NavLinks from "./NavLinks.jsx";
 
-// Dynamically import PackagingSolutions with no SSR to avoid hydration issues
-const PackagingSolutions = dynamic(
-  () => import('./wind/navbar/PackagingSolutions.jsx'),
-  { ssr: false }
-);
-
-// Memoize icons using a constant object
-const ICONS = {
-  chevron: <ChevronDown size={16} />,
-  scale: <Scale className="text-warning" size={30} />,
-  lock: <Lock className="text-success" size={30} />,
-  activity: <Activity className="text-secondary" size={30} />,
-  flash: <Zap className="text-primary" size={30} />,
-  server: <Server className="text-success" size={30} />,
-  user: <Tag className="text-danger" size={30} />,
-};
+// Dynamically import with loading fallback
+const NavLinks = dynamic(() => import("./NavLinks.jsx"), {
+  ssr: false,
+  loading: () => <div className="h-10"></div>,
+});
 
 export default function HomepageNavbar() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector(state => state.auth);
   const router = useRouter();
-  const userDetails = getUserDetails();
-  
-  // Add state to track if component is mounted to prevent hydration issues
+  const [userDetails, setUserDetails] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Ensure component only renders on client-side
+  // Fetch user details only when needed
   useEffect(() => {
+    if (auth.isAuthenticated) {
+      const details = getUserDetails();
+      setUserDetails(details);
+    }
     setIsMounted(true);
-  }, []);
+  }, [auth.isAuthenticated]);
 
   // Memoize navigation handlers
   const handleProfileClick = useCallback(() => {
@@ -71,48 +49,56 @@ export default function HomepageNavbar() {
   }, [router]);
 
   const handleLogout = useCallback(async () => {
-    const result = await Logout();
-    if(result.success){
-      dispatch(logout());
-      router.push('/');
+    try {
+      const result = await Logout();
+      if(result.success){
+        dispatch(logout());
+        router.push('/');
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
     }
   }, [dispatch, router]);
 
+  // Handle logo click with useCallback
+  const handleLogoClick = useCallback(() => {
+    router.push('/');
+  }, [router]);
+
   // Prevent rendering on server-side
   if (!isMounted) {
-    return null;
+    return <div className="h-15"></div>; // Return empty placeholder with height
   }
 
   return (
-    <div className="w-full  ">
+    <div className="w-full">
       <Navbar
-        className=" shadow-sm h-15 px-10 "
+        className="shadow-sm h-15 px-10"
         classNames={{
           wrapper: "max-w-full",
-          content: "",
         }}
         isBlurred={false}
         position="sticky"
         shouldHideOnScroll
       >
         {/* Logo section */}
-        <div className="" justify="start">
-          <div onClick={()=> router.push('/')} className="cursor-pointer gap-3">
+        <div>
+          <div onClick={handleLogoClick} className="cursor-pointer">
             <Image 
               src="/productNavLogo.png" 
               alt="PackIQ Logo" 
-              width={140} // increased width
-              height={140} // increased height
-              className="object-contain scale-x-110"
-              loading="lazy"
+              width={140}
+              height={80}
+              className="object-contain"
+              loading="eager"
             />
           </div>
         </div>
 
         {/* User actions section */}
-        <div className=" gap-5 flex " justify="end">
+        <div className="gap-5 flex">
           <NavbarItem className="hidden lg:flex">
-            <NextUILink href="/cart" as={Link} className="flex flex-col items-center justify-center">
+            <NextUILink href="/cart" as={Link} className="flex items-center justify-center">
               <BagLogo size={40} fontWeight={0.7} color="#00008B" />
             </NextUILink>
           </NavbarItem>
@@ -121,12 +107,13 @@ export default function HomepageNavbar() {
             {auth.isAuthenticated ? (
               <Dropdown placement="bottom-end">
                 <DropdownTrigger>
-                  <div className="w-15 h-12 rounded-full border-1 border-blue-950 overflow-hidden cursor-pointer">
+                  <div className="w-12 h-12 rounded-full border border-blue-950 overflow-hidden cursor-pointer">
                     {userDetails?.user?.user_image_url ? (
                       <img 
                         src={userDetails.user.user_image_url} 
                         className="w-full h-full object-cover"
                         alt="Profile"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-full h-full bg-indigo-100 flex items-center justify-center">
@@ -136,28 +123,13 @@ export default function HomepageNavbar() {
                   </div>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions">
-                  <DropdownItem 
-                    key="profile" 
-                    as={Link} 
-                    href="/profile"
-                    className="cursor-pointer w-full "
-                  >
+                  <DropdownItem key="profile" as={Link} href="/profile">
                     My Profile
                   </DropdownItem>
-                  <DropdownItem 
-                    key="orders" 
-                    as={Link}
-                    href="/orders-history"
-                    className="cursor-pointer w-full"
-                  >
+                  <DropdownItem key="orders" as={Link} href="/orders-history">
                     My Orders
                   </DropdownItem>
-                  <DropdownItem 
-                    key="logout" 
-                    color='warning' 
-                    onClick={handleLogout}
-                    className="cursor-pointer w-full"
-                  >
+                  <DropdownItem key="logout" color="warning" onClick={handleLogout}>
                     Logout
                   </DropdownItem>
                 </DropdownMenu>
@@ -174,8 +146,8 @@ export default function HomepageNavbar() {
           </NavbarItem>
         </div>
       </Navbar>
-      <NavLinks className="hidden md:flex " />
-
+      
+      <NavLinks className="hidden md:flex" />
     </div>
   );
 }
