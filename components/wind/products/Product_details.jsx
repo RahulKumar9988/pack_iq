@@ -658,7 +658,7 @@ import { useAppSelector } from "@/redux/hooks";
                     <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
                       <PlusCircleIcon className="w-5 h-5 text-blue-500" />
                       Custom Add-Ons
-                      <span className="text-gray-500 font-normal text-sm">(optional)</span>
+                      <span className="text-gray-500 font-normal text-sm">(default addons are already selected)</span>
                     </label>
                     <button
                       type="button"
