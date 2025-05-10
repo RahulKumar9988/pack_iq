@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
             </div>
               {/* 🔹 Main Content */}
               
-              <div className=" scrollbar-hide flex justify-center flex-grow w-full">
+              <div className=" scrollbar-hide flex justify-center flex-grow w-full md:mt-28 ">
                 {children}
               </div>
 

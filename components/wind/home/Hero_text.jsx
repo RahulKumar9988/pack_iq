@@ -10,7 +10,7 @@ function Hero_text() {
   const words = ["Solution", "Standup", "Rounded", "Rollon", "Flat", "Flow"];
   
   return (
-    <div className="w-full pt-4 sm:pt-8 md:pt-12 md:mt-20">
+    <div className="w-full pt-4 sm:pt-8  md:mt-20">
       {/* Unified Hero Section for All Devices */}
       <div className="flex flex-col justify-center items-center w-full">
         {/* Hero Content */}
