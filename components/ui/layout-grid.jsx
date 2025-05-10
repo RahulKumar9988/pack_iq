@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 export const LayoutGrid = ({ cards }) => {
   const [selected, setSelected] = useState(null);
@@ -14,15 +14,8 @@ export const LayoutGrid = ({ cards }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
   
   // Pre-calculate all transformations outside the render loop
-  const yOffsets = cards.map((_, index) => {
-    return useTransform(scrollYProgress, [0, 1], [0, 0 + index * 0]);
-  });
 
   const getGridClasses = (index) => {
     const patterns = [
@@ -63,7 +56,6 @@ export const LayoutGrid = ({ cards }) => {
                 backgroundImage: card.thumbnail ? `url(${card.thumbnail})` : "none",
                 backgroundSize: 'cover',
                 filter: selected === card.id ? "brightness(100%)" : "brightness(90%)",
-                y: yOffsets[index]
               }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-20" />
