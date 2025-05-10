@@ -204,7 +204,11 @@ export default function RecommendedProducts() {
                       {/* Text content at bottom */}
                       <div className="w-full text-center">
                         <h3 className="text-xl font-semibold mb-1 line-clamp-1">{product.name}</h3>
-                        <p className="text-xs text-gray-600 mb-2 line-clamp-2">{truncatedDescription}</p>
+                        <p
+                          className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: truncatedDescription }}
+                        ></p>
+
                         <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
                           <span>Min Qty: </span>
                           <span className="font-medium">{product.quantity}</span>
