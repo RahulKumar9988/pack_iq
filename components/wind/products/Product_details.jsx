@@ -32,7 +32,7 @@ import { useAppSelector } from "@/redux/hooks";
     const params = useParams();
     const dispatch = useDispatch();
     const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); 
     const [selectedImage, setSelectedImage] = useState(0);
     const scrollRef = useRef(null);
     // Form states
@@ -45,7 +45,7 @@ import { useAppSelector } from "@/redux/hooks";
     const [selectedMaterial, setSelectedMaterial] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState("");
-    const [selectedAddon, setSelectedAddon] = useState("");
+    const [selectedAddons, setSelectedAddons] = useState([]);
     const [selectedSizeId, setSelectedSizeId] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isDropdownOpenSize, setIsDropdownOpenSize] = useState(false);
@@ -91,7 +91,7 @@ import { useAppSelector } from "@/redux/hooks";
       if (selectedQuantity) {
         setAddonDisabled(false);
       } else {
-        setSelectedAddon("");
+        setSelectedAddons("");
         setAddonDisabled(true);
       }
     }, [selectedQuantity]);
@@ -285,15 +285,19 @@ import { useAppSelector } from "@/redux/hooks";
         });
       }
       
-      // Add the selected optional addon if one is selected
-      const selectedAddonItem = addons.find(a => a.additionsId?.additions_id?.toString() === selectedAddon && a.checked === 0);
-      if (selectedAddonItem) {
-        addonsForCart.push({
-          id: selectedAddonItem.additionsId.additions_id,
-          name: selectedAddonItem.additionsId.additions_title,
-          description: selectedAddonItem.additionsId.additions_desc,
-          image: selectedAddonItem.additionsId.additions_image,
-          checked: 0
+      // Add all selected optional addons (checked=0)
+      if (selectedAddons.length > 0) {
+        selectedAddons.forEach(addonId => {
+          const selectedAddonItem = addons.find(a => a.additionsId?.additions_id?.toString() === addonId && a.checked === 0);
+          if (selectedAddonItem) {
+            addonsForCart.push({
+              id: selectedAddonItem.additionsId.additions_id,
+              name: selectedAddonItem.additionsId.additions_title,
+              description: selectedAddonItem.additionsId.additions_desc,
+              image: selectedAddonItem.additionsId.additions_image,
+              checked: 0
+            });
+          }
         });
       }
     
@@ -311,7 +315,7 @@ import { useAppSelector } from "@/redux/hooks";
         price: price,
         design_number: selectedQuantityItem?.design_number,
         addition_type: product.addition_type,
-        // Include both default and optional selected addons
+        // Include both default and all selected optional addons
         addons: addonsForCart
       };
     
@@ -662,11 +666,35 @@ import { useAppSelector } from "@/redux/hooks";
                       onClick={() => !addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
                       disabled={addonDisabled}
                     >
-                      <span className={!selectedAddon ? "text-gray-500" : "text-gray-800"}>
-                        {"Default addition"}
-                        {selectedAddon && `+${
-                           addons.find(a => a.additionsId.additions_id.toString() ===   selectedAddon)?.additionsId.additions_title }`
-                        }
+                      <span className="text-gray-800 truncate max-w-full">
+                        {(() => {
+                          // Get names of all default add-ons
+                          const defaultAddonNames = Array.isArray(addons) 
+                            ? addons
+                                .filter(addon => addon.checked === 1)
+                                .map(addon => addon.additionsId?.additions_title || '')
+                                .filter(name => name)
+                            : [];
+                            
+                          // Get names of all selected optional add-ons
+                          const selectedAddonNames = Array.isArray(selectedAddons) && Array.isArray(addons)
+                            ? selectedAddons
+                                .map(addonId => {
+                                  const addon = addons.find(a => a.additionsId?.additions_id?.toString() === addonId);
+                                  return addon?.additionsId?.additions_title || '';
+                                })
+                                .filter(name => name) // Filter out any empty names
+                            : [];
+                          
+                          // Combine all add-on names
+                          const allSelectedNames = [...defaultAddonNames, ...selectedAddonNames];
+                          
+                          if (allSelectedNames.length === 0) {
+                            return <span className="text-gray-500">Select additions</span>;
+                          } else {
+                            return allSelectedNames.join(', ');
+                          }
+                        })()}
                       </span>
                       <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
                     </button>
@@ -709,7 +737,7 @@ import { useAppSelector } from "@/redux/hooks";
                               </li>
                             ))
                           ) : (
-                            <li className=" text-center text-gray-500">No default addons available</li>
+                            <li className="p-3 text-center text-gray-500">No default addons available</li>
                           )}
                         </ul>
 
@@ -718,48 +746,70 @@ import { useAppSelector } from "@/redux/hooks";
                         </div>
                         
                         <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
-                          {/* Optional addons (checked = 0) */}
+                          {/* Optional addons (checked = 0) with multiple selection */}
                           {Array.isArray(addons) && addons.filter(addon => addon.checked === 0).length > 0 ? (
-                            addons.filter(addon => addon.checked === 0).map((addon) => (
-                              <li
-                                key={addon?.additionsId?.additions_id || `addon-${Math.random()}`}
-                                className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
-                                  addon?.additionsId?.additions_id?.toString() === selectedAddon 
-                                    ? 'bg-blue-50/30' 
-                                    : 'hover:bg-gray-50'
-                                }`}
-                                onClick={() => {
-                                  setSelectedAddon(addon?.additionsId?.additions_id?.toString());
-                                  setIsDropdownOpenAddon(false);
-                                }}
-                              >
-                                <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
-                                  {addon?.additionsId?.additions_image ? (
-                                    <Image 
-                                      src={addon.additionsId.additions_image} 
-                                      alt={addon.additionsId.additions_title || 'Addon image'} 
-                                      fill
-                                      className="object-cover"
-                                    />
-                                  ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                      <PhotoIcon className="w-5 h-5 text-gray-400" />
+                            addons.filter(addon => addon.checked === 0).map((addon) => {
+                              const addonId = addon?.additionsId?.additions_id?.toString();
+                              const isSelected = selectedAddons.includes(addonId);
+                              
+                              return (
+                                <li
+                                  key={addonId || `addon-${Math.random()}`}
+                                  className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
+                                    isSelected ? 'bg-blue-50/30' : 'hover:bg-gray-50'
+                                  }`}
+                                  onClick={() => {
+                                    if (isSelected) {
+                                      // Remove from selection if already selected
+                                      setSelectedAddons(selectedAddons.filter(id => id !== addonId));
+                                    } else {
+                                      // Add to selection if not already selected
+                                      setSelectedAddons([...selectedAddons, addonId]);
+                                    }
+                                  }}
+                                >
+                                  <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
+                                    {addon?.additionsId?.additions_image ? (
+                                      <Image 
+                                        src={addon.additionsId.additions_image} 
+                                        alt={addon.additionsId.additions_title || 'Addon image'} 
+                                        fill
+                                        className="object-cover"
+                                      />
+                                    ) : (
+                                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                        <PhotoIcon className="w-5 h-5 text-gray-400" />
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex-1">
+                                    <p className="font-medium text-gray-800">{addon?.additionsId?.additions_title || 'Unnamed addon'}</p>
+                                    <p className="text-xs text-gray-500 mt-1">{addon?.additionsId?.additions_desc || 'No description available'}</p>
+                                  </div>
+                                  {isSelected ? (
+                                    <div className="flex items-center">
+                                      <CheckCircleIcon className="w-5 h-5 text-green-600 ml-2 shrink-0" />
                                     </div>
+                                  ) : (
+                                    <div className="w-5 h-5 border-2 border-gray-300 rounded-full ml-2 shrink-0" />
                                   )}
-                                </div>
-                                <div className="flex-1">
-                                  <p className="font-medium text-gray-800">{addon?.additionsId?.additions_title || 'Unnamed addon'}</p>
-                                  <p className="text-xs text-gray-500 mt-1">{addon?.additionsId?.additions_desc || 'No description available'}</p>
-                                </div>
-                                {addon?.additionsId?.additions_id?.toString() === selectedAddon && (
-                                  <CheckCircleIcon className="w-5 h-5 text-green-600 ml-2 shrink-0" />
-                                )}
-                              </li>
-                            ))
+                                </li>
+                              );
+                            })
                           ) : (
                             <li className="p-3 text-center text-gray-500">No optional addons available</li>
                           )}
                         </ul>
+                        
+                        {/* <div className="p-3 border-t border-gray-100 flex justify-end">
+                          <button
+                            type="button"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                            onClick={() => setIsDropdownOpenAddon(false)}
+                          >
+                            Apply Selection
+                          </button>
+                        </div> */}
                       </div>
                     )}
                   </div>
