@@ -148,38 +148,27 @@ import { useAppSelector } from "@/redux/hooks";
         setMaterials(materialsRes.data?.data || []);
         setSizes(sizesRes.data?.data || []);
         
+        // Fetch addons with the correct URL
         const addonsRes = await axios.get(
-          `${baseUrl}/api/v1/resources/list-additions/${packagingId}?addition_type=${additionType}`
+          `${baseUrl}/api/v1/resources/list-additions/${packagingId}`
         );
         
         console.log('Addons API response:', addonsRes.data);
         
-        // Handle different response structures
-        const responseData = addonsRes.data?.data;
-    
-        const additions = Array.isArray(responseData?.get_all_additions)
-          ? responseData.get_all_additions
-          : [];
-    
-        const selected = Array.isArray(responseData?.selected_addition)
-          ? responseData.selected_addition
-          : [];
-    
-        // Combine data from both arrays into addonData
-        const addonData = [...additions, ...selected];
-    
-        console.log('Final combined addon data:', addonData);
-        
-        // Update state with the combined data
-        setAddons(addonData);
-        
-        // If you need to perform operations after state update, use useEffect in your component
-        // React state updates don't immediately reflect in the next line of code
-        
-        return addonData; // Return the combined data if needed elsewhere
+        // The API response is already in the format we need
+        // where each addon has a 'checked' property (1 for default, 0 for optional)
+        if (addonsRes.data.status === 200 && Array.isArray(addonsRes.data.data)) {
+          setAddons(addonsRes.data.data);
+          return addonsRes.data.data;
+        } else {
+          console.error('Unexpected addon response format:', addonsRes.data);
+          setAddons([]);
+          return [];
+        }
       } catch (error) {
         console.error("Form options error:", error);
         console.error("Error details:", error.response || error.message);
+        setAddons([]);
         return [];
       }
     }
@@ -274,28 +263,45 @@ import { useAppSelector } from "@/redux/hooks";
       // Find the selected items from their respective arrays
       const selectedMaterialItem = materials.find(m => m.material_id.toString() === selectedMaterial);
       const selectedSizeItem = sizes.find(s => (s.size_id || s.sizeId?.size_id).toString() === selectedSize);
-
       const selectedQuantityItem = quantities.find(q => q.quantity_id.toString() === selectedQuantity);
-      const selectedAddonItem = addons.find(a => a.additionsId.additions_id.toString() === selectedAddon);
       
       // Get proper price from selected quantity
       const price = selectedQuantityItem?.price || product.price;
       
-      // Create proper addon object format as expected by Cart component
-      let addonFormatted = null;
+      // Create the addons array for cart - include both default (checked=1) and selected optional addons
+      let addonsForCart = [];
+      
+      // Add all default addons (checked=1)
+      const defaultAddons = addons.filter(addon => addon.checked === 1);
+      if (defaultAddons.length > 0) {
+        defaultAddons.forEach(addon => {
+          addonsForCart.push({
+            id: addon.additionsId.additions_id,
+            name: addon.additionsId.additions_title,
+            description: addon.additionsId.additions_desc,
+            image: addon.additionsId.additions_image,
+            checked: 1
+          });
+        });
+      }
+      
+      // Add the selected optional addon if one is selected
+      const selectedAddonItem = addons.find(a => a.additionsId?.additions_id?.toString() === selectedAddon && a.checked === 0);
       if (selectedAddonItem) {
-        addonFormatted = {
+        addonsForCart.push({
           id: selectedAddonItem.additionsId.additions_id,
           name: selectedAddonItem.additionsId.additions_title,
           description: selectedAddonItem.additionsId.additions_desc,
-        };
+          image: selectedAddonItem.additionsId.additions_image,
+          checked: 0
+        });
       }
-
+    
       const cartItem = {
         packaging_id: product.packaging_id,
         name: product.name,
         image: product.packaging_image_url,
-        material: selectedMaterialItem?.name || "test",
+        material: selectedMaterialItem?.name || "default",
         material_id: selectedMaterial,
         size_id: selectedSize,
         packaging_type_size_id: selectedSizeId,
@@ -304,19 +310,13 @@ import { useAppSelector } from "@/redux/hooks";
         packaging_type_size_quantity_id: selectedQuantity,
         price: price,
         design_number: selectedQuantityItem?.design_number,
-        addition_type:product.addition_type,
-        // Format addons correctly for cart component
-        addons: selectedAddonItem ? [{
-          id: selectedAddonItem.additionsId.additions_id,
-          name: selectedAddonItem.additionsId.additions_title,
-          description: selectedAddonItem.additionsId.additions_desc,
-          image: selectedAddonItem.additionsId.additions_image
-        }] : []
+        addition_type: product.addition_type,
+        // Include both default and optional selected addons
+        addons: addonsForCart
       };
-
-      console.log(cartItem);
+    
+      console.log("Adding to cart:", cartItem);
       
-
       // Dispatch to Redux store
       dispatch(addToCart(cartItem));
       
@@ -659,13 +659,13 @@ import { useAppSelector } from "@/redux/hooks";
                     <button
                       type="button"
                       className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                      onClick={() =>!addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
+                      onClick={() => !addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
                       disabled={addonDisabled}
                     >
                       <span className={!selectedAddon ? "text-gray-500" : "text-gray-800"}>
-                        {selectedAddon 
-                          ? addons.find(a => a.additionsId.additions_id.toString() === selectedAddon)?.additionsId.additions_title 
-                          : "Enhance your package"
+                        {"Default addition"}
+                        {selectedAddon && `+${
+                           addons.find(a => a.additionsId.additions_id.toString() ===   selectedAddon)?.additionsId.additions_title }`
                         }
                       </span>
                       <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
@@ -673,9 +673,54 @@ import { useAppSelector } from "@/redux/hooks";
 
                     {isDropdownOpenAddon && (
                       <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
+                        <div className="mb-2 p-3 border-b border-gray-100">
+                          <h4 className="font-medium text-blue-800">Default Add-ons</h4>
+                        </div>
+                        
                         <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
-                          {Array.isArray(addons) && addons.length > 0 ? (
-                            addons.map((addon) => (
+                          {/* Default addons (checked = 1) */}
+                          {Array.isArray(addons) && addons.filter(addon => addon.checked === 1).length > 0 ? (
+                            addons.filter(addon => addon.checked === 1).map((addon) => (
+                              <li
+                                key={addon?.additionsId?.additions_id || `addon-${Math.random()}`}
+                                className="flex items-center gap-4 p-3 bg-blue-50/30"
+                              >
+                                <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
+                                  {addon?.additionsId?.additions_image ? (
+                                    <Image 
+                                      src={addon.additionsId.additions_image} 
+                                      alt={addon.additionsId.additions_title || 'Addon image'} 
+                                      fill
+                                      className="object-cover"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                      <PhotoIcon className="w-5 h-5 text-gray-400" />
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex-1">
+                                  <p className="font-medium text-gray-800">{addon?.additionsId?.additions_title || 'Unnamed addon'}</p>
+                                  <p className="text-xs text-gray-500 mt-1">{addon?.additionsId?.additions_desc || 'No description available'}</p>
+                                </div>
+                                <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full border border-green-200">
+                                  Included
+                                </span>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="p-3 text-center text-gray-500">No default addons available</li>
+                          )}
+                        </ul>
+
+                        <div className="mt-2 mb-2 p-3 border-t border-b border-gray-100">
+                          <h4 className="font-medium text-blue-800">Optional Add-ons</h4>
+                        </div>
+                        
+                        <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
+                          {/* Optional addons (checked = 0) */}
+                          {Array.isArray(addons) && addons.filter(addon => addon.checked === 0).length > 0 ? (
+                            addons.filter(addon => addon.checked === 0).map((addon) => (
                               <li
                                 key={addon?.additionsId?.additions_id || `addon-${Math.random()}`}
                                 className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
@@ -712,7 +757,7 @@ import { useAppSelector } from "@/redux/hooks";
                               </li>
                             ))
                           ) : (
-                            <li className="p-3 text-center text-gray-500">No addons available</li>
+                            <li className="p-3 text-center text-gray-500">No optional addons available</li>
                           )}
                         </ul>
                       </div>

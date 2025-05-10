@@ -12,19 +12,22 @@ import { useRouter } from "next/navigation";
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 // Simplified decorative elements - reduced animations
+// DecorativeElements component
 const DecorativeElements = React.memo(({ position }) => (
   <div className={`absolute ${position} z-0 pointer-events-none`} />
 ));
+DecorativeElements.displayName = 'DecorativeElements';
 
-// Optimized and simplified circle decoration
+// CircleDecoration component
 const CircleDecoration = React.memo(({ size, position, color }) => (
   <div 
     className={`absolute ${position} rounded-full bg-${color} opacity-20 z-0 pointer-events-none`}
     style={{ width: size, height: size }}
   />
 ));
+CircleDecoration.displayName = 'CircleDecoration';
 
-// Memoized best selling badge
+// BestSellingBadge component
 const BestSellingBadge = React.memo(() => (
   <div className="absolute -top-2 -right-2 z-20">
     <img 
@@ -35,6 +38,8 @@ const BestSellingBadge = React.memo(() => (
     />
   </div>
 ));
+BestSellingBadge.displayName = 'BestSellingBadge';
+
 
 export default function PackagingType() {
   const [productList, setProductList] = useState([]);
