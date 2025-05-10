@@ -20,10 +20,14 @@
     PhotoIcon
   } from '@heroicons/react/24/outline';
 import ImageComparisonFeature from "../ImageComparisonFeature";
+import { useAppSelector } from "@/redux/hooks";
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  
+  
 
   export default function ProductDetail() {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const cartItem = useAppSelector((state) => state?.cart?.item);
     const router = useRouter();
     const params = useParams();
     const dispatch = useDispatch();
@@ -133,21 +137,50 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
       }
     }
 
-    async function fetchFormOptions(packagingId) {
+    async function fetchFormOptions(packagingId, additionType = 0) {
       try {
         // Fetch materials and sizes in parallel
-        const [materialsRes, sizesRes, addonsRes] = await Promise.all([
+        const [materialsRes, sizesRes] = await Promise.all([
           axios.get(`${baseUrl}/api/v1/resources/material`),
-          axios.get(`${baseUrl}/api/v1/resources/list-packaging-type-size/${packagingId}`),
-          axios.get(`${baseUrl}/api/v1/resources/list-additions/${packagingId}`),
+          axios.get(`${baseUrl}/api/v1/resources/list-packaging-type-size/${packagingId}`)
         ]);
-
+    
         setMaterials(materialsRes.data?.data || []);
         setSizes(sizesRes.data?.data || []);
-        setAddons(addonsRes.data?.data || []);
-
+        
+        const addonsRes = await axios.get(
+          `${baseUrl}/api/v1/resources/list-additions/${packagingId}?addition_type=${additionType}`
+        );
+        
+        console.log('Addons API response:', addonsRes.data);
+        
+        // Handle different response structures
+        const responseData = addonsRes.data?.data;
+    
+        const additions = Array.isArray(responseData?.get_all_additions)
+          ? responseData.get_all_additions
+          : [];
+    
+        const selected = Array.isArray(responseData?.selected_addition)
+          ? responseData.selected_addition
+          : [];
+    
+        // Combine data from both arrays into addonData
+        const addonData = [...additions, ...selected];
+    
+        console.log('Final combined addon data:', addonData);
+        
+        // Update state with the combined data
+        setAddons(addonData);
+        
+        // If you need to perform operations after state update, use useEffect in your component
+        // React state updates don't immediately reflect in the next line of code
+        
+        return addonData; // Return the combined data if needed elsewhere
       } catch (error) {
         console.error("Form options error:", error);
+        console.error("Error details:", error.response || error.message);
+        return [];
       }
     }
 
@@ -271,6 +304,7 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
         packaging_type_size_quantity_id: selectedQuantity,
         price: price,
         design_number: selectedQuantityItem?.design_number,
+        addition_type:product.addition_type,
         // Format addons correctly for cart component
         addons: selectedAddonItem ? [{
           id: selectedAddonItem.additionsId.additions_id,
@@ -279,6 +313,9 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
           image: selectedAddonItem.additionsId.additions_image
         }] : []
       };
+
+      console.log(cartItem);
+      
 
       // Dispatch to Redux store
       dispatch(addToCart(cartItem));
@@ -298,484 +335,494 @@ import ImageComparisonFeature from "../ImageComparisonFeature";
     const currentSize = sizes.find(s => getSizeId(s)?.toString() === selectedSize?.toString());
 
     return (
-      <div className="w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 bg-[#]">
-        {/* Main content container with responsive max width */}
-        <div className="mx-auto">
-          {/* Product grid with improved professional styling */}
-          <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-            {/* Image Gallery - Enhanced for professional appearance */}
-            <div className="w-full flex flex-col gap-4 h-full">
-              {/* Main product image with subtle zoom effect */}
-              <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md group">
-                <Image 
-                  src={product.thumbnails[selectedImage]} 
-                  alt={`${product.name} - Image ${selectedImage + 1}`} 
-                  fill
-                  loading="lazy"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
-                  className="object-contain transition-transform duration-300 group-hover:scale-102"
-                />
-                
-                {/* Navigation arrows with improved design */}
-                <div className="flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
-                  <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setSelectedImage(prevIndex);
-                  }}
-                    className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
-                    aria-label="Previous image"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M15 18l-6-6 6-6"/>
-                    </svg>
-                  </button>
-                  <button 
+        <div className="w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 bg-[#]">
+          {/* Main content container with responsive max width */}
+          <div className="mx-auto">
+            {/* Product grid with improved professional styling */}
+            <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+              {/* Image Gallery - Enhanced for professional appearance */}
+              <div className="w-full flex flex-col gap-4 h-full">
+                {/* Main product image with subtle zoom effect */}
+                <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md group">
+                  <Image 
+                    src={product.thumbnails[selectedImage]} 
+                    alt={`${product.name} - Image ${selectedImage + 1}`} 
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
+                    className="object-contain transition-transform duration-300 group-hover:scale-102"
+                  />
+                  
+                  {/* Navigation arrows with improved design */}
+                  <div className="flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
+                    <button 
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setSelectedImage(nextIndex);
+                      setSelectedImage(prevIndex);
                     }}
-                    className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
-                    aria-label="Next image"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 18l6-6-6-6"/>
-                    </svg>
-                  </button>
-                </div>
-                
-                {/* Image counter indicator with improved design */}
-                <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
-                  {selectedImage + 1}/{product.thumbnails.length}
-                </div>
-              </div>
-              
-              {/* Thumbnails row - professionally styled */}
-              <div className="relative mt-2">
-                {/* Improved scroll indicators */}
-                <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full pointer-events-none z-10">
-                  <div className="bg-gradient-to-r from-white via-white/80 to-transparent w-8 h-20"></div>
-                  <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-8 h-20"></div>
-                </div>
-                
-                <div 
-                  className="flex gap-3 overflow-x-auto py-2 px-1 snap-x snap-mandatory scroll-smooth hide-scrollbar"
-                  role="region" 
-                  aria-label="Product image thumbnails"
-                >
-                  {product.thumbnails.map((thumbnail, index) => (
-                    <button 
-                      key={index} 
-                      className={`min-w-16 w-16 h-16 border flex-shrink-0 snap-center${
-                        selectedImage === index 
-                          ? 'border-[#143761] ' 
-                          : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
-                      }`}
-                      onClick={() => setSelectedImage(index)}
-                      aria-label={`View product image ${index + 1} of ${product.thumbnails.length}`}
-                      aria-pressed={selectedImage === index}
+                      className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
+                      aria-label="Previous image"
                     >
-                      <div className="relative w-full h-full">
-                        <Image 
-                          src={thumbnail} 
-                          alt="" 
-                          fill
-                          sizes="64px"
-                          className="object-contain p-1"
-                        />
-                      </div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                      </svg>
                     </button>
-                  ))}
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedImage(nextIndex);
+                      }}
+                      className="bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition-all opacity-80 hover:opacity-100"
+                      aria-label="Next image"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Image counter indicator with improved design */}
+                  <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
+                    {selectedImage + 1}/{product.thumbnails.length}
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-5 p-6 md:p-8 bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-gray-100 rounded-xl shadow-lg">
-              {/* Product Header Section */}
-              <div className="space-y-3">
-                <h1 className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#143761] to-[#2a5a8f] bg-clip-text text-transparent mb-2">
-                  {product.name}
-                </h1>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                  {product.description}
-                </p>
-              </div>
-
-              {/* Selection Sections */}
-              <div className="space-y-6 flex-grow">
-                {/* Material Select */}
-                <div className="flex flex-col gap-2">
-                  <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
-                    <SparklesIcon className="w-5 h-5 text-blue-500" />
-                    Material Selection
-                  </label>
-                  <button 
-                    className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
-                    type="button"
-                    disabled={materialDisabled}
+                
+                {/* Thumbnails row - professionally styled */}
+                <div className="relative mt-2">
+                  {/* Improved scroll indicators */}
+                  <div className="sm:hidden flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full pointer-events-none z-10">
+                    <div className="bg-gradient-to-r from-white via-white/80 to-transparent w-8 h-20"></div>
+                    <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-8 h-20"></div>
+                  </div>
+                  
+                  <div 
+                    className="flex gap-3 overflow-x-auto py-2 px-1 snap-x snap-mandatory scroll-smooth hide-scrollbar"
+                    role="region" 
+                    aria-label="Product image thumbnails"
                   >
-                    {selectedMaterial ? (
-                      <div className="flex items-center gap-3">
-                        <div className="relative h-8 w-8 overflow-hidden rounded-lg border border-gray-200">
-                          <img 
-                            src={materials.find(m => m.material_id.toString() === selectedMaterial)?.material_image_url} 
+                    {product.thumbnails.map((thumbnail, index) => (
+                      <button 
+                        key={index} 
+                        className={`min-w-16 w-16 h-16 border flex-shrink-0 snap-center${
+                          selectedImage === index 
+                            ? 'border-[#143761] ' 
+                            : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
+                        }`}
+                        onClick={() => setSelectedImage(index)}
+                        aria-label={`View product image ${index + 1} of ${product.thumbnails.length}`}
+                        aria-pressed={selectedImage === index}
+                      >
+                        <div className="relative w-full h-full">
+                          <Image 
+                            src={thumbnail} 
                             alt="" 
-                            className="h-full w-full object-cover" 
+                            fill
+                            sizes="64px"
+                            className="object-contain p-1"
                           />
                         </div>
-                        <span className="font-medium text-gray-800">
-                          {materials.find(m => m.material_id.toString() === selectedMaterial)?.name || selectedMaterial}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-gray-500">Choose material</span>
-                    )}
-                    <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                  </button>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-                  {isDropdownOpen && (
-                    <div className="relative animate-fade-in">
-                      <ul className="absolute top-1 left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 max-h-60 overflow-y-auto z-20">
-                        {materials.map((material) => (
-                          <li
-                            key={material.material_id}
-                            className={`flex items-center gap-3 p-3 cursor-pointer transition-colors ${
-                              material.material_id.toString() === selectedMaterial 
-                                ? 'bg-blue-50/50' 
-                                : 'hover:bg-gray-50'
-                            }`}
-                            onClick={() => {
-                              setSelectedMaterial(material.material_id.toString()); 
-                              setIsDropdownOpen(false);
-                            }}
-                          >
-                            <div className="h-10 w-10 rounded-lg border border-gray-200 overflow-hidden">
-                              <img src={material.material_image_url} alt="" className="h-full w-full object-cover" />
-                            </div>
-                            <div>
-                              <span className="font-medium text-gray-800">{material.name}</span>
-                              <p className="text-xs text-gray-500 mt-1">{material.description}</p>
-                            </div>
-                            {material.material_id.toString() === selectedMaterial && (
-                              <CheckCircleIcon className="w-5 h-5 text-green-600 ml-auto shrink-0" />
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+              <div className="flex flex-col gap-5 p-6 md:p-8 bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-gray-100 rounded-xl shadow-lg">
+                {/* Product Header Section */}
+                <div className="space-y-3">
+                  <h1 className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#143761] to-[#2a5a8f] bg-clip-text text-transparent mb-2">
+                    {product.name}
+                  </h1>
+                  <p
+                    className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  ></p>
+
                 </div>
 
-                {/* Size Select */}
-                <div className="flex flex-col gap-2 relative">
-                  <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
-                    <ArrowsPointingOutIcon className="w-5 h-5 text-blue-500" />
-                    Size Options
-                  </label>
-                  <button
-                    type="button"
-                    className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                    onClick={() =>!sizeDisabled && setIsDropdownOpenSize(!isDropdownOpenSize)}
-                    disabled={sizeDisabled}
-                  >
-                    <span className={!currentSize ? "text-gray-500" : "text-gray-800"}>
-                      {currentSize 
-                        ? `${getSizeName(currentSize)} (${getVolume(currentSize)})`
-                        : "Select size"
-                      }
-                    </span>
-                    <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                  </button>
+                {/* Selection Sections */}
+                <div className="space-y-6 flex-grow">
+                  {/* Material Select */}
+                  <div className="flex flex-col gap-2">
+                    <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
+                      <SparklesIcon className="w-5 h-5 text-blue-500" />
+                      Material Selection
+                    </label>
+                    <button 
+                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+                      type="button"
+                      disabled={materialDisabled}
+                    >
+                      {selectedMaterial ? (
+                        <div className="flex items-center gap-3">
+                          <div className="relative h-8 w-8 overflow-hidden rounded-lg border border-gray-200">
+                            <img 
+                              src={materials.find(m => m.material_id.toString() === selectedMaterial)?.material_image_url} 
+                              alt="" 
+                              className="h-full w-full object-cover" 
+                            />
+                          </div>
+                          <span className="font-medium text-gray-800">
+                            {materials.find(m => m.material_id.toString() === selectedMaterial)?.name || selectedMaterial}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-gray-500">Choose material</span>
+                      )}
+                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    </button>
 
-                  {isDropdownOpenSize && (
-                    <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
-                      <table className="w-full text-sm">
-                        <thead className="bg-blue-50/50">
-                          <tr>
-                            <th className="px-4 py-3 text-left font-semibold text-blue-800">Size</th>
-                            <th className="px-4 py-3 text-left font-semibold text-blue-800">Dimensions</th>
-                            <th className="px-4 py-3 text-left font-semibold text-blue-800">Volume</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {sizes.map((size) => (
-                            <tr 
-                              key={getSizeId(size)} 
-                              className={`hover:bg-gray-50 cursor-pointer transition-colors ${
-                                getSizeId(size)?.toString() === selectedSize?.toString() 
-                                  ? 'bg-blue-50/30' 
-                                  : ''
+                    {isDropdownOpen && (
+                      <div className="relative animate-fade-in">
+                        <ul className="absolute top-1 left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 max-h-60 overflow-y-auto z-20">
+                          {materials.map((material) => (
+                            <li
+                              key={material.material_id}
+                              className={`flex items-center gap-3 p-3 cursor-pointer transition-colors ${
+                                material.material_id.toString() === selectedMaterial 
+                                  ? 'bg-blue-50/50' 
+                                  : 'hover:bg-gray-50'
                               }`}
-                              onClick={() => handleSizeSelection(getSizeId(size))}
+                              onClick={() => {
+                                setSelectedMaterial(material.material_id.toString()); 
+                                setIsDropdownOpen(false);
+                              }}
                             >
-                              <td className="px-4 py-3 border-t border-gray-100">
-                                <div className="flex items-center">
-                                  <div className={`w-9 h-9 flex items-center justify-center border-2 rounded-lg mr-2 font-medium ${
-                                    getSizeId(size)?.toString() === selectedSize?.toString() 
-                                      ? 'border-blue-600 text-blue-700' 
-                                      : 'border-gray-200 text-gray-700'
-                                  }`}>
-                                    {getSizeName(size)}
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-4 py-3 border-t border-gray-100 font-medium text-gray-700">
-                                {getDimensions(size)}
-                              </td>
-                              <td className="px-4 py-3 border-t border-gray-100 font-semibold text-blue-700">
-                                {getVolume(size)}
-                              </td>
-                            </tr>
+                              <div className="h-10 w-10 rounded-lg border border-gray-200 overflow-hidden">
+                                <img src={material.material_image_url} alt="" className="h-full w-full object-cover" />
+                              </div>
+                              <div>
+                                <span className="font-medium text-gray-800">{material.name}</span>
+                                <p className="text-xs text-gray-500 mt-1">{material.description}</p>
+                              </div>
+                              {material.material_id.toString() === selectedMaterial && (
+                                <CheckCircleIcon className="w-5 h-5 text-green-600 ml-auto shrink-0" />
+                              )}
+                            </li>
                           ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
 
-                {/* Quantity Select */}
-                <div className="flex flex-col gap-2 relative">
-                  <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
-                    <TagIcon className="w-5 h-5 text-blue-500" />
-                    Quantity & Pricing
-                  </label>
-                  <button
-                    type="button"
-                    className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                    onClick={() =>!quantityDisabled && setIsDropdownOpenQuantity(!isDropdownOpenQuantity)}
-                    disabled={quantityDisabled}
-                  >
-                    <span className={!selectedQuantity || quantityDisabled ? "text-gray-500" : "text-gray-800"}>
-                      {selectedQuantity 
-                        ? `${quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity} units`
-                        : "Select quantity"
-                      }
-                    </span>
-                    <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                  </button>
+                  {/* Size Select */}
+                  <div className="flex flex-col gap-2 relative">
+                    <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
+                      <ArrowsPointingOutIcon className="w-5 h-5 text-blue-500" />
+                      Size Options
+                    </label>
+                    <button
+                      type="button"
+                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+                      onClick={() =>!sizeDisabled && setIsDropdownOpenSize(!isDropdownOpenSize)}
+                      disabled={sizeDisabled}
+                    >
+                      <span className={!currentSize ? "text-gray-500" : "text-gray-800"}>
+                        {currentSize 
+                          ? `${getSizeName(currentSize)} (${getVolume(currentSize)})`
+                          : "Select size"
+                        }
+                      </span>
+                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    </button>
 
-                  {isDropdownOpenQuantity && (
-                    <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
-                      <div className="max-h-64 overflow-y-auto">
+                    {isDropdownOpenSize && (
+                      <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
                         <table className="w-full text-sm">
-                          <thead className="bg-blue-50 sticky top-0">
+                          <thead className="bg-blue-50/50">
                             <tr>
-                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Qty</th>
-                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Discount</th>
-                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Unit Price</th>
-                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Total</th>
+                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Size</th>
+                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Dimensions</th>
+                              <th className="px-4 py-3 text-left font-semibold text-blue-800">Volume</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {quantities.map((qty) => (
+                            {sizes.map((size) => (
                               <tr 
-                                key={qty.quantity_id} 
+                                key={getSizeId(size)} 
                                 className={`hover:bg-gray-50 cursor-pointer transition-colors ${
-                                  qty.quantity_id.toString() === selectedQuantity 
+                                  getSizeId(size)?.toString() === selectedSize?.toString() 
                                     ? 'bg-blue-50/30' 
                                     : ''
                                 }`}
-                                onClick={() => {
-                                  setSelectedQuantity(qty.quantity_id.toString());
-                                  setIsDropdownOpenQuantity(false);
-                                }}
+                                onClick={() => handleSizeSelection(getSizeId(size))}
                               >
-                                <td className="px-4 py-3 border-t border-gray-100 font-medium text-gray-700">
-                                  {qty.quantity}
-                                </td>
                                 <td className="px-4 py-3 border-t border-gray-100">
-                                  {parseInt(qty.discount) > 0 ? (
-                                    <span className="px-2.5 py-1 bg-green-100 text-green-700 text-xs rounded-full font-bold">
-                                      {qty.discount}% OFF
-                                    </span>
-                                  ) : (
-                                    <span className="text-gray-400">-</span>
-                                  )}
+                                  <div className="flex items-center">
+                                    <div className={`w-9 h-9 flex items-center justify-center border-2 rounded-lg mr-2 font-medium ${
+                                      getSizeId(size)?.toString() === selectedSize?.toString() 
+                                        ? 'border-blue-600 text-blue-700' 
+                                        : 'border-gray-200 text-gray-700'
+                                    }`}>
+                                      {getSizeName(size)}
+                                    </div>
+                                  </div>
                                 </td>
-                                <td className="px-4 py-3 border-t border-gray-100 text-gray-600">
-                                  ₹{Number(qty.price).toFixed(2)}
+                                <td className="px-4 py-3 border-t border-gray-100 font-medium text-gray-700">
+                                  {getDimensions(size)}
                                 </td>
                                 <td className="px-4 py-3 border-t border-gray-100 font-semibold text-blue-700">
-                                  ₹{(Number(qty.price) * Number(qty.quantity)).toFixed(2)}
+                                  {getVolume(size)}
                                 </td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
 
-                {/* Addons Select */}
-                <div className="flex flex-col gap-2 relative">
-                  <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
-                    <PlusCircleIcon className="w-5 h-5 text-blue-500" />
-                    Custom Add-Ons
-                    <span className="text-gray-500 font-normal text-sm">(optional)</span>
-                  </label>
-                  <button
-                    type="button"
-                    className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                    onClick={() =>!addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
-                    disabled={addonDisabled}
-                  >
-                    <span className={!selectedAddon ? "text-gray-500" : "text-gray-800"}>
-                      {selectedAddon 
-                        ? addons.find(a => a.additionsId.additions_id.toString() === selectedAddon)?.additionsId.additions_title 
-                        : "Enhance your package"
-                      }
-                    </span>
-                    <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                  </button>
+                  {/* Quantity Select */}
+                  <div className="flex flex-col gap-2 relative">
+                    <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
+                      <TagIcon className="w-5 h-5 text-blue-500" />
+                      Quantity & Pricing
+                    </label>
+                    <button
+                      type="button"
+                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+                      onClick={() =>!quantityDisabled && setIsDropdownOpenQuantity(!isDropdownOpenQuantity)}
+                      disabled={quantityDisabled}
+                    >
+                      <span className={!selectedQuantity || quantityDisabled ? "text-gray-500" : "text-gray-800"}>
+                        {selectedQuantity 
+                          ? `${quantities.find(q => q.quantity_id.toString() === selectedQuantity)?.quantity} units`
+                          : "Select quantity"
+                        }
+                      </span>
+                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    </button>
 
-                  {isDropdownOpenAddon && (
-                    <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
-                      <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
-                        {addons.map((addon) => (
-                          <li
-                            key={addon.additionsId.additions_id}
-                            className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
-                              addon.additionsId.additions_id.toString() === selectedAddon 
-                                ? 'bg-blue-50/30' 
-                                : 'hover:bg-gray-50'
-                            }`}
-                            onClick={() => {
-                              setSelectedAddon(addon.additionsId.additions_id.toString());
-                              setIsDropdownOpenAddon(false);
-                            }}
-                          >
-                            <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
-                              {addon.additionsId.additions_image ? (
-                                <Image 
-                                  src={addon.additionsId.additions_image} 
-                                  alt={addon.additionsId.additions_title} 
-                                  fill
-                                  className="object-cover"
-                                />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                  <PhotoIcon className="w-5 h-5 text-gray-400" />
+                    {isDropdownOpenQuantity && (
+                      <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
+                        <div className="max-h-64 overflow-y-auto">
+                          <table className="w-full text-sm">
+                            <thead className="bg-blue-50 sticky top-0">
+                              <tr>
+                                <th className="px-4 py-3 text-left font-semibold text-blue-800">Qty</th>
+                                <th className="px-4 py-3 text-left font-semibold text-blue-800">Discount</th>
+                                <th className="px-4 py-3 text-left font-semibold text-blue-800">Unit Price</th>
+                                <th className="px-4 py-3 text-left font-semibold text-blue-800">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {quantities.map((qty) => (
+                                <tr 
+                                  key={qty.quantity_id} 
+                                  className={`hover:bg-gray-50 cursor-pointer transition-colors ${
+                                    qty.quantity_id.toString() === selectedQuantity 
+                                      ? 'bg-blue-50/30' 
+                                      : ''
+                                  }`}
+                                  onClick={() => {
+                                    setSelectedQuantity(qty.quantity_id.toString());
+                                    setIsDropdownOpenQuantity(false);
+                                  }}
+                                >
+                                  <td className="px-4 py-3 border-t border-gray-100 font-medium text-gray-700">
+                                    {qty.quantity}
+                                  </td>
+                                  <td className="px-4 py-3 border-t border-gray-100">
+                                    {parseInt(qty.discount) > 0 ? (
+                                      <span className="px-2.5 py-1 bg-green-100 text-green-700 text-xs rounded-full font-bold">
+                                        {qty.discount}% OFF
+                                      </span>
+                                    ) : (
+                                      <span className="text-gray-400">-</span>
+                                    )}
+                                  </td>
+                                  <td className="px-4 py-3 border-t border-gray-100 text-gray-600">
+                                    ₹{Number(qty.price).toFixed(2)}
+                                  </td>
+                                  <td className="px-4 py-3 border-t border-gray-100 font-semibold text-blue-700">
+                                    ₹{(Number(qty.price) * Number(qty.quantity)).toFixed(2)}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Addons Select */}
+                  <div className="flex flex-col gap-2 relative">
+                    <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
+                      <PlusCircleIcon className="w-5 h-5 text-blue-500" />
+                      Custom Add-Ons
+                      <span className="text-gray-500 font-normal text-sm">(optional)</span>
+                    </label>
+                    <button
+                      type="button"
+                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+                      onClick={() =>!addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
+                      disabled={addonDisabled}
+                    >
+                      <span className={!selectedAddon ? "text-gray-500" : "text-gray-800"}>
+                        {selectedAddon 
+                          ? addons.find(a => a.additionsId.additions_id.toString() === selectedAddon)?.additionsId.additions_title 
+                          : "Enhance your package"
+                        }
+                      </span>
+                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    </button>
+
+                    {isDropdownOpenAddon && (
+                      <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
+                        <ul className="max-h-52 overflow-y-auto divide-y divide-gray-100">
+                          {Array.isArray(addons) && addons.length > 0 ? (
+                            addons.map((addon) => (
+                              <li
+                                key={addon?.additionsId?.additions_id || `addon-${Math.random()}`}
+                                className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
+                                  addon?.additionsId?.additions_id?.toString() === selectedAddon 
+                                    ? 'bg-blue-50/30' 
+                                    : 'hover:bg-gray-50'
+                                }`}
+                                onClick={() => {
+                                  setSelectedAddon(addon?.additionsId?.additions_id?.toString());
+                                  setIsDropdownOpenAddon(false);
+                                }}
+                              >
+                                <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
+                                  {addon?.additionsId?.additions_image ? (
+                                    <Image 
+                                      src={addon.additionsId.additions_image} 
+                                      alt={addon.additionsId.additions_title || 'Addon image'} 
+                                      fill
+                                      className="object-cover"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                      <PhotoIcon className="w-5 h-5 text-gray-400" />
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                            <div className="flex-1">
-                              <p className="font-medium text-gray-800">{addon.additionsId.additions_title}</p>
-                              <p className="text-xs text-gray-500 mt-1">{addon.additionsId.additions_desc}</p>
-                            </div>
-                            {addon.additionsId.additions_id.toString() === selectedAddon && (
-                              <CheckCircleIcon className="w-5 h-5 text-green-600 ml-2 shrink-0" />
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-
-              {/* CTA Section */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-6 mt-4 border-t border-gray-200">
-                <Button
-                  className="group relative bg-gradient-to-r from-[#0b2949] to-indigo-800 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
-                  onClick={() => router.push('/packaging-type')}
-                >
-                  <span className="relative z-10">Customize Your Kit</span>
-                  <ArrowRightIcon className="w-5 h-5 ml-2 inline-block transform group-hover:translate-x-1 transition-transform" />
-                </Button>
-
-                <Button
-                  className={`relative font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform ${
-                    isAddToCartDisabled 
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
-                      : "bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white hover:scale-[1.02] shadow-lg hover:shadow-green-200/50"
-                  }`}
-                  onClick={handleAddToCart}
-                  disabled={isAddToCartDisabled}
-                >
-                  <span className="relative z-10">
-                    {isAddToCartDisabled ? 'Complete Selection' : 'Add to Cart'}
-                  </span>
-                  {!isAddToCartDisabled && (
-                    <ShoppingCartIcon className="w-5 h-5 ml-2 inline-block transform group-hover:translate-x-1 transition-transform" />
-                  )}
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* About Products section */}
-            <div className="mt-20 mb-16">
-              <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-                <div className="w-full text-center bg-white ">
-                  <h3 className="text-2xl font-semibold text-[#143761] mb-4 flex justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className=" h-8 w-8 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Info & Details
-                  </h3>
-                  <div className="text-gray-900 space-y-3">
-                    <p className="leading-relaxed md:text-4xl text-3xl font-extrabold">Everything you need to know about {product.name}</p>
-                    <p className="leading-relaxed ">{product.description}</p>
+                                <div className="flex-1">
+                                  <p className="font-medium text-gray-800">{addon?.additionsId?.additions_title || 'Unnamed addon'}</p>
+                                  <p className="text-xs text-gray-500 mt-1">{addon?.additionsId?.additions_desc || 'No description available'}</p>
+                                </div>
+                                {addon?.additionsId?.additions_id?.toString() === selectedAddon && (
+                                  <CheckCircleIcon className="w-5 h-5 text-green-600 ml-2 shrink-0" />
+                                )}
+                              </li>
+                            ))
+                          ) : (
+                            <li className="p-3 text-center text-gray-500">No addons available</li>
+                          )}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <ImageComparisonFeature 
-                title={product.name}
-                beforeImage='/lable.webp' // You can use product images from your state
-                afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
-                beforeText="Bye, labels..."
-                afterText="Hello, unique design!"
-                theme="light-blue"
-              />
                 
-                {/* Carousel-style Gallery with center-focused layout */}
-                <Carousel
-                  images={product.thumbnails}
-                  altPrefix={`${product.name} - Image`}
-                  title="This is what your Doypack could look like"
-                  selectedImage={carouselSelectedImage}
-                  setSelectedImage={setCarouselSelectedImage}
-                  />
-                  
+
+                {/* CTA Section */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-6 mt-4 border-t border-gray-200">
+                  <Button
+                    className="group relative bg-gradient-to-r from-[#0b2949] to-indigo-800 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
+                    onClick={() => router.push('/packaging-type')}
+                  >
+                    <span className="relative z-10">Customize Your Kit</span>
+                    <ArrowRightIcon className="w-5 h-5 ml-2 inline-block transform group-hover:translate-x-1 transition-transform" />
+                  </Button>
+
+                  <Button
+                    className={`relative font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform ${
+                      isAddToCartDisabled 
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
+                        : "bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white hover:scale-[1.02] shadow-lg hover:shadow-green-200/50"
+                    }`}
+                    onClick={handleAddToCart}
+                    disabled={isAddToCartDisabled}
+                  >
+                    <span className="relative z-10">
+                      {isAddToCartDisabled ? 'Complete Selection' : 'Add to Cart'}
+                    </span>
+                    {!isAddToCartDisabled && (
+                      <ShoppingCartIcon className="w-5 h-5 ml-2 inline-block transform group-hover:translate-x-1 transition-transform" />
+                    )}
+                  </Button>
                 </div>
-
+              </div>
             </div>
 
-            <div className="flex flex-col gap-5 md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
-              <div className="flex-shrink-0">
-                {/* Using a placeholder image since real image paths won't work here */}
-                <img
-                  src="/samplekit.webp" // Replace with actual image path
-                  alt="Packaging Sample Kit"
-                  className="md:object-cover h-96 w-96 object-contain"
+            {/* About Products section */}
+              <div className="mt-20 mb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+                  <div className="w-full text-center bg-white ">
+                    <h3 className="text-2xl font-semibold text-[#143761] mb-4 flex justify-center items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className=" h-8 w-8 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Info & Details
+                    </h3>
+                    <div className="text-gray-900 space-y-3">
+                      <p className="leading-relaxed md:text-4xl text-3xl font-extrabold">Everything you need to know about {product.name}</p>
+                      <p
+                        className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: product.description }}
+                      ></p>
+
+                    </div>
+                  </div>
+                  <ImageComparisonFeature 
+                  title={product.name}
+                  beforeImage='/lable.webp' // You can use product images from your state
+                  afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
+                  beforeText="Bye, labels..."
+                  afterText="Hello, unique design!"
+                  theme="light-blue"
                 />
-              </div>
-              
-              <div className="flex-1 max-w-lg">
-                <h1 className="text-4xl font-bold text-black mb-4">
-                  You want to test the packaging first?
-                </h1>
-                
-                <p className="text-gray-700 mb-6">
-                  You want everything to fit with your new packaging. Take your time 
-                  to look at your packaging samples and try out to fill your product. 
-                  That way you are guaranteed to find the perfect material and the 
-                  right size.
-                </p>
-                
-                <button className='flex items-center gap-2 px-5 py-4 font-light bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200' onClick={() => router.push('/free-sample')}>
-                  GET A FREE SAMPLE KIT
-                </button>
-              </div>
-            </div>
+                  
+                  {/* Carousel-style Gallery with center-focused layout */}
+                  <Carousel
+                    images={product.thumbnails}
+                    altPrefix={`${product.name} - Image`}
+                    title="This is what your Doypack could look like"
+                    selectedImage={carouselSelectedImage}
+                    setSelectedImage={setCarouselSelectedImage}
+                    />
+                    
+                  </div>
 
+              </div>
+
+              <div className="flex flex-col gap-5 md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
+                <div className="flex-shrink-0">
+                  {/* Using a placeholder image since real image paths won't work here */}
+                  <img
+                    src="/samplekit.webp" // Replace with actual image path
+                    alt="Packaging Sample Kit"
+                    className="md:object-cover h-96 w-96 object-contain"
+                  />
+                </div>
+                
+                <div className="flex-1 max-w-lg">
+                  <h1 className="text-4xl font-bold text-black mb-4">
+                    You want to test the packaging first?
+                  </h1>
+                  
+                  <p className="text-gray-700 mb-6">
+                    You want everything to fit with your new packaging. Take your time 
+                    to look at your packaging samples and try out to fill your product. 
+                    That way you are guaranteed to find the perfect material and the 
+                    right size.
+                  </p>
+                  
+                  <button className='flex items-center gap-2 px-5 py-4 font-light bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200' onClick={() => router.push('/free-sample')}>
+                    GET A FREE SAMPLE KIT
+                  </button>
+                </div>
+              </div>
+
+              
             
-          
+          </div>
         </div>
-      </div>
     );
   }
