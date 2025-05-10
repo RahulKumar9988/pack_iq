@@ -12,7 +12,7 @@ import {
   Image,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { ChevronDown, FiUser } from "lucide-react";
+import { ChevronDown, Zap } from "lucide-react";
 import BagLogo from "@/public/BagLogo.jsx";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -117,7 +117,7 @@ export default function HomepageNavbar() {
                       />
                     ) : (
                       <div className="w-full h-full bg-indigo-100 flex items-center justify-center">
-                        <FiUser className="w-6 h-6 text-indigo-600" />
+                        <Zap className="w-6 h-6 text-indigo-600" />
                       </div>
                     )}
                   </div>
