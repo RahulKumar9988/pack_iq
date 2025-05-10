@@ -141,7 +141,7 @@ export default function PackagingType() {
 
   // Create a truncated description for cards
   const getTruncatedDescription = useCallback((description) => {
-    return description.split(' ').slice(0,25).join(' ') + '...';
+    return description.split(' ').slice(0,50).join(' ') + '...';
   }, []);
 
   // Loading skeleton
@@ -207,45 +207,55 @@ const BestSellingBadge = () => {
                 onClick={() => handleSelectAndNavigate(item, index)}
 
               >
-                <CardBody className="p-0">
-                  <div className="h-full flex flex-col gap-3 sm:gap-5 items-center sm:justify-around pt-2 relative">
-                    <div className="relative w-24 sm:w-auto flex-shrink-0">
-                      <motion.div
-                        animate={isSelected ? {
-                          scale: [1, 1.1, 1],
-                          transition: { duration: 0.6 }
-                        } : {}}
-                      >
-                        <Image
-                          src={item.packaging_image_url}
-                          className="object-contain"
-                          alt={item.name}
-                          width={150}
-                          height={150}
-                          priority={index < 4}
-                          loading={index < 4 ? "eager" : "lazy"}
-                        />
-                      </motion.div>
-                      
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: isHovered ? 1 : 0 }}
-                        className="absolute -top-2 -right-2 bg-[#E45971] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold z-10"
-                      >
-                        
-                      </motion.div>
-                    </div>
+                <CardBody className="flex flex-col items-center justify-between p-4">
+                  {/* Image centered and emphasized */}
+                  <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
+                    <motion.div
+                      animate={{ 
+                        boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0)" 
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className=" relative "
+                    >
+                      <Image
+                        src={item.packaging_image_url}
+                        className="object-cover"
+                        alt={item.name}
+                        width={260}
+                        height={260}
+                        priority={index < 2}
+                        loading={index < 2 ? "eager" : "lazy"}
+                      />
+                    </motion.div>
+                  </div>
 
-                    <div className="flex flex-col items-center gap-2 sm:gap-3 justify-around text-center sm:text-left flex-1">
-                      <div className="text-base sm:text-2xl font-semibold">
-                        {item.name}
-                      </div>
-                      <span className="text-xs sm:text-sm line-clamp-3 text-gray-600">
-                        {truncatedDescription}
-                      </span>
-                    </div>
+                  {/* Text content at bottom */}
+                  <div className="w-full text-center">
+                    <h3 className="text-xl font-semibold mb-1 line-clamp-1">{item.name}</h3>
+                    {/* <p
+                      className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: truncatedDescription }}
+                    ></p> */}
+
+                    {/* <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                      <span>Min Qty: </span>
+                      <span className="font-medium">{product.quantity}</span> 
+                    </div> */}
+                  </div>
+                  
+                  {/* Always visible detail button with hover effect */}
+                  <div className="absolute bottom-3 right-3 z-10">
+                    {/* <Button
+                      isIconOnly
+                      className={`${isHovered ? 'bg-[#E45971]' : 'bg-gray-300'} text-white shadow-md hover:bg-[#d34663] transition-colors duration-200`}
+                      size="sm"
+                      radius="full"
+                    >
+                      <LuArrowRight size={16} />
+                    </Button> */}
                   </div>
                 </CardBody>
+
               </Card>
             </motion.div>
             
@@ -267,7 +277,10 @@ const BestSellingBadge = () => {
                   <div className="h-full flex flex-col justify-between relative z-10">
                     <div className="flex flex-col gap-3 sm:gap-4">
                       <h3 className="text-lg sm:text-xl font-bold text-[#253670]">{item.name}</h3>
-                      <p className="text-xs sm:text-sm text-gray-700 overflow-y-auto max-h-32 sm:max-h-48">{item.description}</p>
+                      <p
+                        className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: truncatedDescription }}
+                      ></p>
                     </div>
                     
                     <div className="flex justify-between items-center mt-3 sm:mt-4">

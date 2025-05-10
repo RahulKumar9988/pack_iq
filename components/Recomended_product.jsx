@@ -204,34 +204,34 @@ export default function RecommendedProducts() {
                       {/* Text content at bottom */}
                       <div className="w-full text-center">
                         <h3 className="text-xl font-semibold mb-1 line-clamp-1">{product.name}</h3>
-                        <p
+                        {/* <p
                           className="text-gray-600 text-sm sm:text-base leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: truncatedDescription }}
-                        ></p>
+                        ></p> */}
 
-                        <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                        {/* <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
                           <span>Min Qty: </span>
-                          <span className="font-medium">{product.quantity}</span>
-                        </div>
+                          <span className="font-medium">{product.quantity}</span> 
+                        </div> */}
                       </div>
                       
                       {/* Always visible detail button with hover effect */}
                       <div className="absolute bottom-3 right-3 z-10">
-                        <Button
+                        {/* <Button
                           isIconOnly
                           className={`${isHovered ? 'bg-[#E45971]' : 'bg-gray-300'} text-white shadow-md hover:bg-[#d34663] transition-colors duration-200`}
                           size="sm"
                           radius="full"
                         >
                           <LuArrowRight size={16} />
-                        </Button>
+                        </Button> */}
                       </div>
                     </CardBody>
                   </Card>
                 </motion.div>
                 
                 {/* Full Description Overlay - Only render when hovered */}
-                <AnimatePresence>
+                <AnimatePresence> 
                   {isHovered && (
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -257,9 +257,12 @@ export default function RecommendedProducts() {
                         </div>
                         
                         {/* Content at the bottom */}
-                        <div className="space-y-0">
+                        {/* <div className="space-y-0">
                           <h3 className="text-xl font-bold text-[#253670] text-center">{product.name}</h3>
-                          <p className="text-sm text-gray-700 line-clamp-3">{product.description}</p>
+                          <p
+                          className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: truncatedDescription }}
+                        ></p>
                           
                           <div className="flex justify-between items-center text-sm mt-2">
                             <span className="font-medium text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs">
@@ -267,7 +270,7 @@ export default function RecommendedProducts() {
                             </span>
                             <span className="font-medium text-purple-600">{product.price}</span>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </motion.div>
                   )}

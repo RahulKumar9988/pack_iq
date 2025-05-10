@@ -212,15 +212,15 @@ export default function Products() {
         </div>
 
         {/* Product details with better spacing and animations */}
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-2 p-4 border-1">
           <div className="font-medium text-sm sm:text-base text-gray-800 line-clamp-2 min-h-[2.5rem]">
             {product.name}
           </div>
           
-          <div className="mt-1 flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg text-xs sm:text-sm">
+          {/* <div className="mt-1 flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg text-xs sm:text-sm">
             <span className="text-gray-600 font-medium">Min Order:</span>
             <span className="text-blue-600 font-bold">{product.minimum_qty} units</span>
-          </div>
+          </div> */}
           
           {/* Animated button on hover */}
           <motion.button

@@ -783,7 +783,7 @@ import { useAppSelector } from "@/redux/hooks";
                   <Carousel
                     images={product.thumbnails}
                     altPrefix={`${product.name} - Image`}
-                    title="This is what your Doypack could look like"
+                    title={`This is what your ${product.name} could look like`}
                     selectedImage={carouselSelectedImage}
                     setSelectedImage={setCarouselSelectedImage}
                     />

@@ -77,10 +77,11 @@ export default function Carousel({
                       fill
                       loading="lazy"
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                      objectFit="contain"
                       className={`
-                        object-contain p-2
+                        p-2
                         transition-transform duration-700 ease-in-out
-                        ${current === index ? 'scale-150' : 'scale-95'}
+                        ${current === index ? 'scale-125' : 'scale-95'}
                       `}
                       style={{
                         transformOrigin: 'center',
