@@ -40,7 +40,7 @@ import { useAppSelector } from "@/redux/hooks";
     const [sizes, setSizes] = useState([]);
     const [quantities, setQuantities] = useState([]);
     const [addons, setAddons] = useState([]);
-    
+    const [sliderSelectedImage, setSliderSelectedImage] = useState(0);
     const [carouselSelectedImage, setCarouselSelectedImage] = useState(0);
     const [selectedMaterial, setSelectedMaterial] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
@@ -111,16 +111,29 @@ import { useAppSelector } from "@/redux/hooks";
             const galleryImages = productData.packaging_gallery?.map(
               item => item.packaging_gallery_image_url
             ) || [];
-
+    
+            // Create slider gallery images array
+            const sliderGalleryImages = productData.packaging_slider_gallery?.map(
+              item => item.slider_gallery_image
+            ) || [];
+            
             // Use main image as first, then gallery images
             const thumbnailImages = [
               productData.packaging_image_url,
               ...galleryImages
             ];
-
+            
+            // Create a separate array for slider gallery
+            // Include slider_image_url if available
+            const sliderImages = [
+              ...(productData.slider_image_url ? [productData.slider_image_url] : []),
+              ...sliderGalleryImages
+            ];
+            
             setProduct({
               ...productData,
               thumbnails: thumbnailImages,
+              sliderGalleryImages: sliderImages, // Store slider gallery images separately
             });
             
             // Once we have the product data, fetch all related options
@@ -817,7 +830,7 @@ import { useAppSelector } from "@/redux/hooks";
                 
 
                 {/* CTA Section */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-6 mt-4 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row gap-3 border-t border-gray-200">
                   <Button
                     className="group relative bg-gradient-to-r from-[#0b2949] to-indigo-800 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
                     onClick={() => router.push('/packaging-type')}
@@ -867,7 +880,7 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
                   <ImageComparisonFeature 
                   title={product.name}
-                  beforeImage='/lable.webp' // You can use product images from your state
+                  beforeImage={product.slider_image_url} // You can use product images from your state
                   afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
                   beforeText="Bye, labels..."
                   afterText="Hello, unique design!"
@@ -875,13 +888,17 @@ import { useAppSelector } from "@/redux/hooks";
                 />
                   
                   {/* Carousel-style Gallery with center-focused layout */}
-                  <Carousel
-                    images={product.thumbnails}
-                    altPrefix={`${product.name} - Image`}
-                    title={`This is what your ${product.name} could look like`}
-                    selectedImage={carouselSelectedImage}
-                    setSelectedImage={setCarouselSelectedImage}
-                    />
+                  {product.sliderGalleryImages && product.sliderGalleryImages.length > 0 && (
+            <div className="bg-white rounded-lg shadow">
+              <Carousel
+                images={product.sliderGalleryImages}
+                altPrefix={`${product.name} - Slider Image`}
+                title={`This is what your ${product.name} could look like`}
+                selectedImage={sliderSelectedImage}
+                setSelectedImage={setSliderSelectedImage}
+              />
+            </div>
+          )}
                     
                   </div>
 
