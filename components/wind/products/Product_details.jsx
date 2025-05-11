@@ -452,10 +452,22 @@ import { useAppSelector } from "@/redux/hooks";
                   <h1 className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#143761] to-[#2a5a8f] bg-clip-text text-transparent mb-2">
                     {product.name}
                   </h1>
-                  <p
-                    className="text-gray-600 text-sm sm:text-base leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: product.description }}
-                  ></p>
+                  {product.description
+                    .split('.')
+                    .filter(Boolean)
+                    .map((sentence, index) => {
+                      const trimmed = sentence.trim();
+                      const shortText = trimmed.length > 50 ? trimmed.slice(0, 100) + '...' : trimmed + '.';
+                      
+                      return (
+                        <p
+                          key={index}
+                          className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: shortText }}
+                        />
+                      );
+                    })}
+
 
                 </div>
 
@@ -871,20 +883,18 @@ import { useAppSelector } from "@/redux/hooks";
                     </h3>
                     <div className="text-gray-900 space-y-3">
                       <p className="leading-relaxed md:text-4xl text-3xl font-extrabold">Everything you need to know about {product.name}</p>
-                      <p
-                        className="text-gray-600 text-sm sm:text-base leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: product.description }}
-                      ></p>
 
                     </div>
                   </div>
                   <ImageComparisonFeature 
                   title={product.name}
+                  product_desc={product.description}
                   beforeImage={product.slider_image_url} // You can use product images from your state
                   afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
                   beforeText="Bye, labels..."
                   afterText="Hello, unique design!"
                   theme="light-blue"
+                  sliding_desc={product.slider_description}
                 />
                   
                   {/* Carousel-style Gallery with center-focused layout */}

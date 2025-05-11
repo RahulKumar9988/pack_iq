@@ -8,7 +8,9 @@ const ImageComparisonFeature = ({
   afterText = "Hello, unique design!",
   beforeDescription = "",
   afterDescription = "",
-  theme = "light-blue"
+  theme = "light-blue",
+  sliding_desc= "product details",
+  product_desc="product_desc"
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -90,9 +92,11 @@ const ImageComparisonFeature = ({
             </span>
             <div className={`absolute -bottom-2 left-0 w-full h-1 ${colors.primary} rounded-full transform origin-left transition-all duration-500 ease-out scale-x-0 group-hover:scale-x-100`}></div>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Printable to match your brand with stunning clarity and precision
-          </p>
+          <p
+            className="text-gray-600 text-sm sm:text-base leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: product_desc }}
+          ></p>
+
         </div>
         
         {/* Main card container */}
@@ -287,10 +291,11 @@ const ImageComparisonFeature = ({
         </div>
         
         {/* Additional info */}
-        <div className={`mt-16 text-center max-w-3xl mx-auto text-gray-600 transition-all duration-1000 ${fadeInClass} delay-500`}>
-          <p className="text-lg">
-            Labelled 08/15 packaging is a thing of the past! Print your designs on the entire surface of the {title} and optionally with unique special effects: Choose a natural paper look or go for transparent windows to visibly put your product in focus. Other wishes such as shimmering highlights are no problem. And all that without extra costs.
-          </p>
+        <div className={`mt-16 text-left px-10 mx-auto text-gray-600 transition-all duration-1000 ${fadeInClass} delay-500`}>
+          <p
+            className="text-gray-600 text-sm sm:text-base leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: sliding_desc }}
+          ></p>
         </div>
       </div>
       
