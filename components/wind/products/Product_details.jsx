@@ -126,7 +126,7 @@ import { useAppSelector } from "@/redux/hooks";
             // Create a separate array for slider gallery
             // Include slider_image_url if available
             const sliderImages = [
-              ...(productData.slider_image_url ? [productData.slider_image_url] : []),
+              //...(productData.slider_image_url ? [productData.slider_image_url] : []),
               ...sliderGalleryImages
             ];
             
@@ -899,11 +899,8 @@ import { useAppSelector } from "@/redux/hooks";
                       />
                     </div>
                   )}
-                    
                   </div>
-
               </div>
-
               <div className="flex flex-col gap-5 md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
                 <div className="flex-shrink-0">
                   {/* Using a placeholder image since real image paths won't work here */}
@@ -931,9 +928,6 @@ import { useAppSelector } from "@/redux/hooks";
                   </button>
                 </div>
               </div>
-
-              
-            
           </div>
         </div>
     );
