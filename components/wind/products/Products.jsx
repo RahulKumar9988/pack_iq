@@ -236,7 +236,7 @@ export default function Products() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-white to-gray-50 w-full max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 min-h-screen">
+    <div className="bg-gradient-to-b from-white to-gray-50 w-full max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 h-full">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

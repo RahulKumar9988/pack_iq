@@ -144,7 +144,7 @@ export default function RecommendedProducts() {
           No products found
         </div>
       ) : (
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
           {productList.map((product, index) => {
             const isHovered = hoveredItem === index;
             const truncatedDescription = getTruncatedDescription(product.description);
@@ -153,7 +153,7 @@ export default function RecommendedProducts() {
             return (
               <div
                 key={product.packaging_id || index}
-                className="h-96 relative cursor-pointer"
+                className=" relative cursor-pointer"
                 onMouseEnter={() => setHoveredItem(index)}
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => navigateToProductDetail(product.packaging_id)}
@@ -179,7 +179,7 @@ export default function RecommendedProducts() {
                     onClick={() => navigateToProductDetail(product.packaging_id)}
 
                   >
-                    <CardBody className="flex flex-col items-center justify-between p-4">
+                    <CardBody className=" flex flex-col items-center justify-between p-4">
                       {/* Image centered and emphasized */}
                       <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
                         <motion.div

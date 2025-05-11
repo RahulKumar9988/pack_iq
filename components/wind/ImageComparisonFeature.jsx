@@ -191,10 +191,10 @@ const ImageComparisonFeature = ({
                   </div>
                   
                   {/* Main image */}
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center" >
                     <div 
                       className={`relative w-4/5 h-4/5 rounded-lg overflow-hidden transition-all duration-500 transform ${isHovered && isFlipped ? 'scale-105' : ''}`}
-                      onClick={handleFlip} // Added onClick handler here too
+                      
                     >
                       <img 
                         src={afterImage} 
@@ -291,7 +291,7 @@ const ImageComparisonFeature = ({
         </div>
         
         {/* Additional info */}
-        <div className={`mt-16 text-left px-10 mx-auto text-gray-600 transition-all duration-1000 ${fadeInClass} delay-500`}>
+        <div className={`mt-16 md:text-left text-justify px-1 mx-auto text-gray-600 transition-all duration-1000 ${fadeInClass} delay-500`}>
           <p
             className="text-gray-600 text-sm sm:text-base leading-relaxed"
             dangerouslySetInnerHTML={{ __html: sliding_desc }}

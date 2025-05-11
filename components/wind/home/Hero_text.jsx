@@ -8,9 +8,9 @@ import { NumberTickerDemo } from "./NumberTickerDemo";
 function Hero_text() {
   const router = useRouter();
   const words = ["Solution", "Standup", "Rounded", "Rollon", "Flat", "Flow"];
-  
+
   return (
-    <div className="w-full pt-4 sm:pt-8 md:pt-12 md:px-6 md:mt-20">
+    <div className="w-full sm:pt-8 md:px-6 md:mt-10">
       {/* Unified Hero Section for All Devices */}
       <div className="flex flex-col justify-center items-center w-full">
         {/* Hero Content */}
