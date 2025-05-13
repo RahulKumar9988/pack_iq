@@ -14,6 +14,8 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
   const [userDetails, setUserDetails] = useState(null);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
+  console.log(cartItem.OrderHistory);
+  
   
   // First, get user details
   useEffect(() => {

@@ -50,34 +50,22 @@ export const Timeline = ({
     <div
       className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10"
       ref={containerRef}>
-      <div className="max-w-7xl bg-blue-50 mx-auto py-12 md:py-20 px-4 md:px-8 lg:px-10 rounded-lg">
+      <div className="max-w-7xl mx-auto py-12 md:py-20 px-4 md:px-8 lg:px-10 rounded-lg">
         <h2 className="text-3xl md:text-6xl font-bold mb-4 text-blue-950 dark:text-white">
-          DESIGN FOR ME
+          HOW TO ORDER ??
         </h2>
         <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base mb-2">
-          To get the look that matches your vision, we have a great program called <span className="font-bold">DESIGN FOR ME</span>.  
+        Get products into your customers' hands quickly, with no minimum order quantity and optional 24-hour turnaround time.  
         </p>
         <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base">
           You will work with one of our talented and experienced designers to create a great looking package for you. 
         </p>
       </div>
-      
-      <div className="w-full my-10 flex justify-center">
-        <div className="w-full max-w-7xl aspect-video relative">
-          <Image
-            src="/pack/all items.png"
-            alt="design for me packaging samples"
-            fill
-            className="object-cover"
-            loading="lazy"
-          />
-        </div>
-      </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20 md:pt-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-blue-950 dark:text-white">
+        {/* <h1 className="text-3xl md:text-4xl font-bold text-center text-blue-950 dark:text-white">
           HOW DESIGN FOR ME WORKS
-        </h1>
+        </h1> */}
         {data.map((item, index) => (
           <div key={index} className="flex justify-start pt-10 md:pt-10 md:gap-10">
             <div

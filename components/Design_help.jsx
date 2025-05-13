@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
+import { useRouter } from "next/navigation";
 
 export function Design_help() {
+  const router = useRouter();
   const data = [
     {
       title: "Order DESIGN FOR ME online",
@@ -197,8 +200,8 @@ export function Design_help() {
       <Timeline data={data} />
       <h1 className="md:text-4xl text-xl font-bold text-center">SO GET STARTED!</h1>
       <div className="flex flex-col items-center justify-center ">
-      <button className="bg-blue-900 text-white px-2 md:px-10 py-2 rounded-3xl mt-4 hover:bg-blue-700 transition duration-300 mb-5">   
-        Order Design for Me
+      <button onClick={() => router.push('/products')} className="bg-blue-900 text-white px-2 md:px-10 py-2 rounded-3xl mt-4 hover:bg-blue-700 transition duration-300 mb-5">   
+        Order Now
       </button>
       </div>
     </div>
