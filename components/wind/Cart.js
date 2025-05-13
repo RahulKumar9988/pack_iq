@@ -219,9 +219,20 @@ export default function Cart() {
   const handleDelete = () => {
     dispatch(clearCart());
     localStorage.removeItem('lastOrder');
-    console.log("Cart cleared successfully");
   };
 
+  const isCartEmpty = () => {
+    // If cartItem doesn't exist or is an empty object
+    if (!cartItem || Object.keys(cartItem).length === 0) return true;
+    
+    // Check if all relevant fields are empty
+    const hasEmptyValues = 
+      (!cartItem.packaging_id || cartItem.packaging_id === "") &&
+      (!cartItem.material_id || cartItem.material_id === "") &&
+      (!cartItem.name || cartItem.name === "");
+      
+    return hasEmptyValues;
+  };
   // Loading overlay component
   const LoadingOverlay = () => (
     <div className="fixed inset-0 bg-blue-50 bg-opacity-80 z-50 flex items-center justify-center">
@@ -246,7 +257,7 @@ export default function Cart() {
     setTotalPrice(calculatedTotalPricePerQuantity + calculatedGST);
   }, [itemPrice, cartItem.quantity]);
 
-  // console.log(cartItem, "cartItem");
+  console.log(cartItem, "cartItem");
   return (
     <div className="container mx-auto mb-20">
       {/* Product Details Section */}
@@ -257,7 +268,7 @@ export default function Cart() {
             
           </div>
           
-          {Object.keys(cartItem).length ? (
+          {!isCartEmpty ? (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -394,7 +405,6 @@ export default function Cart() {
                             </Button>
                           </Tooltip>
                         </motion.div>
-                        
                       </div>
                     </div>
                   </div>
@@ -466,7 +476,7 @@ export default function Cart() {
         </div>
 
         {/* Order Summary Section with enhanced styling */}
-        {Object.keys(cartItem).length ? (
+        {!isCartEmpty ? (
           <div className="w-full lg:w-2/5 lg:sticky lg:top-24 self-start">
             <div className="flex items-center mb-6">
               <h1 className="text-2xl font-bold text-gray-800">Order Summary</h1>

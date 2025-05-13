@@ -1,3 +1,5 @@
+// Updated RootLayout.js file
+
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
@@ -41,10 +43,16 @@ const dmSans = DM_Sans({
   adjustFontFallback: true
 });
 
+// Separated metadata and viewport exports
 export const metadata = {
-  title: "Packiq Ecommerce - Home",
+  title: "Packiq Ecommerce Home",
   description: "An Ecommerce Website for Packaging",
-  viewport: "width=device-width, initial-scale=1.0",
+};
+
+// Move viewport config to its own export as recommended by Next.js
+export const viewport = {
+  width: "device-width",
+  initialScale: 1.0,
 };
 
 export default function RootLayout({ children }) {
