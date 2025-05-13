@@ -12,7 +12,7 @@ function HowtoDesign() {
       content: (
         <div>
           <p className="mb-8 text-sm font-normal text-neutral-800 md:text-2xl dark:text-neutral-200">
-            Choose between two different styles of pouches or rollstock film—there's an option for everyone!
+            Choose between two different styles of pouches or rollstock film—there is an option for everyone!
           </p>
           <div className="grid grid-cols-2 gap-4">
             <img
@@ -104,7 +104,7 @@ function HowtoDesign() {
         <div>
           <div className="mb-6 text-sm md:text-lg">
             <p className="mb-4">
-              Upload the high resolution PDF file(s) and we'll print it using our HP Indigo press—you'll love the quality digital printing can achieve.
+              Upload the high resolution PDF file(s) and we all print it using our HP Indigo press—you all love the quality digital printing can achieve.
             </p>
             <p className="mb-4">
               If you are ordering multiple print designs (often called SKUs), we can produce them together in one order. Upload each PDF to create multiple line items in your cart.
@@ -205,7 +205,7 @@ function HowtoDesign() {
         <div>
           <div className="mb-6 text-sm md:text-lg">
             <p className="mb-4">
-              You'll immediately receive an initial order confirmation, so you can be confident your order was properly submitted.
+              You all immediately receive an initial order confirmation, so you can be confident your order was properly submitted.
             </p>
             <p className="mb-4">
               Then your artwork will make its way through our pre-press software to check your file to make sure it will be able to be printed.
@@ -220,7 +220,7 @@ function HowtoDesign() {
               PLEASE NOTE: Declining your order summary, making changes to artwork or specifications may postpone your ship date. Changes to artwork or specifications after production begins may incur additional charges.
             </p>
             <p className="mb-4">
-              Your order will ship by the date on your summary and you'll receive a confirmation with tracking information.
+              Your order will ship by the date on your summary and you all receive a confirmation with tracking information.
             </p>
           </div>
           
