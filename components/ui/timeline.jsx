@@ -55,7 +55,7 @@ export const Timeline = ({
           HOW TO ORDER ??
         </h2>
         <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base mb-2">
-        Get products into your customers' hands quickly, with no minimum order quantity and optional 24-hour turnaround time.  
+        Get products into your customer hands quickly, with no minimum order quantity and optional 24-hour turnaround time.  
         </p>
         <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base">
           You will work with one of our talented and experienced designers to create a great looking package for you. 
