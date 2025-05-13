@@ -218,6 +218,8 @@ export default function Cart() {
 
   const handleDelete = () => {
     dispatch(clearCart());
+    localStorage.removeItem('lastOrder');
+    console.log("Cart cleared successfully");
   };
 
   // Loading overlay component
@@ -244,7 +246,7 @@ export default function Cart() {
     setTotalPrice(calculatedTotalPricePerQuantity + calculatedGST);
   }, [itemPrice, cartItem.quantity]);
 
-  console.log(cartItem, "cartItem");
+  // console.log(cartItem, "cartItem");
   return (
     <div className="container mx-auto mb-20">
       {/* Product Details Section */}
@@ -392,6 +394,7 @@ export default function Cart() {
                             </Button>
                           </Tooltip>
                         </motion.div>
+                        
                       </div>
                     </div>
                   </div>

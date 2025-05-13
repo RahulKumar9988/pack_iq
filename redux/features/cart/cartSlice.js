@@ -23,6 +23,10 @@ export const CartSlice = createSlice({
     },
     clearCart: (state) => {
       state.item = initialState.item;
+      // Also clear localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('lastOrder');
+      }
     },
     addAddon: (state, action) => {
       // Check if addon already exists to avoid duplicates

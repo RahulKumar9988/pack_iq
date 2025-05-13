@@ -223,7 +223,7 @@ export default function NavLinks() {
           <PackagingSolutions />
         </NavbarItem>
         <NavbarItem>
-          <NextUILink href="/" as={Link} color="foreground" className="text-base font-medium text-blue-900">
+          <NextUILink href="/how-to-order" as={Link} color="foreground" className="text-base font-medium text-blue-900">
             How To Order
           </NextUILink>
         </NavbarItem>
