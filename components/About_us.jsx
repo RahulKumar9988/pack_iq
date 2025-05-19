@@ -91,12 +91,6 @@ function About_us() {
         </div>
       </div>
 
-      {/* Blog Section */}
-      <div className="w-full mt-20"> 
-        <p className="text-3xl font-bold text-start">Packiq Blogs</p>
-        <Blog_list limit={4}/>
-      </div>
-
       
     </div>
   );
