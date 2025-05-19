@@ -258,7 +258,6 @@ function HowtoDesign() {
              We will send a digital mockup for your final approval. Check your design layout, print
              placement, and pouch specs before we begin production.  
             </p>
-            
           </div>
           
           {/* <div className="grid grid-cols-2 gap-4">
@@ -342,7 +341,11 @@ function HowtoDesign() {
   
   return (
     <div className="relative w-full overflow-clip">
-      <Timeline data={data} />
+      
+      <Timeline data={data} heading="How to Order Flexible Packaging Online with PackIQ" subheading="Ordering custom-printed pouches has never been this easy. At PackIQ, we have designed a
+          simple, step-by-step online process that saves you time, reduces complexity, and gives
+          you full control — from design to delivery."/>
+      
       <h1 className="md:text-4xl text-xl font-bold text-center">SO GET STARTED!</h1>
       <div className="flex flex-col items-center justify-center">
         <button 

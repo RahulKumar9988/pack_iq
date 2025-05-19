@@ -4,6 +4,8 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 export const Timeline = ({
+  heading,
+  subheading,
   data = [
     {
       title: "Step 1",
@@ -52,12 +54,10 @@ export const Timeline = ({
       ref={containerRef}>
       <div className="max-w-7xl mx-auto py-12 md:py-20 px-4 md:px-8 lg:px-10 rounded-lg">
         <h2 className="text-3xl md:text-6xl font-bold mb-4 text-blue-950 dark:text-white">
-          How to Order Flexible Packaging Online with PackIQ
+          {heading}
         </h2>
         <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base mb-2">
-          Ordering custom-printed pouches has never been this easy. At PackIQ, we’ve designed a
-          simple, step-by-step online process that saves you time, reduces complexity, and gives
-          you full control — from design to delivery.
+          {subheading}
         </p>
         
       </div>
