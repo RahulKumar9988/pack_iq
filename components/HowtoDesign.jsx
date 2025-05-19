@@ -3,121 +3,42 @@
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import { useRouter } from "next/navigation";
+import RecommendedProducts from "./Recomended_product";
 
 function HowtoDesign() {
   const router = useRouter();
   const data = [
     {
-      title: "CHOOSE YOUR PRODUCT",
+      title: "Choose Your Pouch Style",
       content: (
-        <div>
+        <div className="w-full h-full">
           <p className="mb-8 text-sm font-normal text-neutral-800 md:text-2xl dark:text-neutral-200">
-            Choose between two different styles of pouches or rollstock film—there is an option for everyone!
+           Start by selecting the pouch format that best fits your product:
           </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Product option 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Product option 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Product option 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Product option 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
+          <div className="">
+            <RecommendedProducts/>
           </div>
+          <p className="text-sm md:text-lg">
+            We offer styles for everything from snacks and coffee to pet treats and cosmetics.
+          </p>
         </div>
       ),
     },
     {
-      title: "CREATE YOUR PRINT DESIGN",
+      title: "Choose Your Finish, Size, Quantity & Add-Ons",
       content: (
         <div>
           <div className="mb-6 text-sm md:text-lg">
+            <p className="text-sm md:text-lg">Customize your pouch to match your brand's personality:</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>12 stand-up pouch sizes</li>
-              <li>8 lay-flat standard pouch sizes</li>
-              <li>3 film materials</li>
-              <li>2 surface finishes</li>
-              <li>Push-to-close zipper</li>
-              <li>Hang hole (2 styles)</li>
-              <li>Tear notches</li>
-              <li>Production lead time (5 business days but can be expedited to as little as 1 business day)</li>
-              <li>No minimum order quantity</li>
+              <li><span className="font-bold">Finish:</span> Matte, gloss, metallic, and more</li>
+              <li><span className="font-bold">Size:</span> Multiple options available for different product volumes</li>
+              <li><span className="font-bold">Quantity:</span> Low MOQs to help you scale with ease</li>
+              <li><span className="font-bold">Add-Ons:</span> Zippers, valves, tear notches, and transparent windows.</li>
             </ul>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Design template 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Design template 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Design template 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Design template 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "UPLOAD YOUR FILES",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-              Upload the high resolution PDF file(s) and we all print it using our HP Indigo press—you all love the quality digital printing can achieve.
-            </p>
-            <p className="mb-4">
-              If you are ordering multiple print designs (often called SKUs), we can produce them together in one order. Upload each PDF to create multiple line items in your cart.
-            </p>
-            <p className="mb-4">
-              If each SKU has the same specifications (size, material, finish, zipper, hang hole, and tear notches) a multi-SKU discount will be applied to your shopping cart.
-            </p>
-            <p className="font-bold mb-4">
-              PLEASE NOTE: To be processed as multiple SKUs, all items must have identical pouch specifications. Quantities by SKU can vary. Different sizes or specs must be ordered separately.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <img
               src="/api/placeholder/500/500"
               alt="File upload example 1"
@@ -146,27 +67,67 @@ function HowtoDesign() {
               height={500}
               className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
             />
-          </div>
+          </div> */}
         </div>
       ),
     },
     {
-      title: "COMPLETE YOUR ORDER",
+      title: "Review Your Selection",
       content: (
         <div>
           <div className="mb-6 text-sm md:text-lg">
             <p className="mb-4">
-              Review your cart to confirm your selections, and enter your billing and shipping information.
+              Double-check your product configuration before moving forward. You will see pricing
+              updates live based on your choices
             </p>
+            
+          </div>
+          
+          {/* <div className="grid grid-cols-2 gap-4">
+            <img
+              src="/api/placeholder/500/500"
+              alt="File upload example 1"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="File upload example 2"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="File upload example 3"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="File upload example 4"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+          </div> */}
+        </div>
+      ),
+    },
+    {
+      title: "Login to Place Your Order",
+      content: (
+        <div>
+          <div className="mb-6 text-sm md:text-lg">
             <p className="mb-4">
-              We include FedEx Ground shipping with every order! This typically takes 2-5 days to arrive from our facility near Minneapolis, MN. Need your order faster? Upgrade to FedEx Express Saver, 2-Day, or Overnight!
-            </p>
-            <p className="mb-4">
-              Finally, enter your payment information. We accept Visa, Mastercard, American Express, Discover, E-check, or ACH payments.
+              Create an account or log in to complete your order securely. This helps you track your
+              order history and manage artwork files with ease.
             </p>
           </div>
          
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <img
               src="/api/placeholder/500/500"
               alt="Checkout process 1"
@@ -195,36 +156,23 @@ function HowtoDesign() {
               height={500}
               className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
             />
-          </div>
+          </div> */}
         </div>
       ),
     },
     {
-      title: "WHAT HAPPENS NEXT?",
+      title: "Our Customer Success Manager Will Get in Touch",
       content: (
         <div>
           <div className="mb-6 text-sm md:text-lg">
             <p className="mb-4">
-              You all immediately receive an initial order confirmation, so you can be confident your order was properly submitted.
+              Once your order is placed, a dedicated Customer Success Manager will contact you to
+              confirm details, answer questions, and guide you through the next steps.
             </p>
-            <p className="mb-4">
-              Then your artwork will make its way through our pre-press software to check your file to make sure it will be able to be printed.
-            </p>
-            <p className="font-bold mb-4">
-              PLEASE NOTE: We do not proofread for errors or omissions, or test barcodes, QR Codes, or web links.
-            </p>
-            <p className="mb-4">
-              Shortly after you will receive an Order summary email — THIS IS YOUR PROOF(S) to approve or decline. (If you do nothing your order will be moved into production in 12 hours) Or, you will receive a message letting you know if there is a problem with your files. Either way we will contact you.
-            </p>
-            <p className="font-bold mb-4">
-              PLEASE NOTE: Declining your order summary, making changes to artwork or specifications may postpone your ship date. Changes to artwork or specifications after production begins may incur additional charges.
-            </p>
-            <p className="mb-4">
-              Your order will ship by the date on your summary and you all receive a confirmation with tracking information.
-            </p>
+            
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <img
               src="/api/placeholder/500/500"
               alt="Order process 1"
@@ -253,10 +201,143 @@ function HowtoDesign() {
               height={500}
               className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
             />
-          </div>
+          </div> */}
         </div>
       ),
     },
+    {
+      title: "Upload Your Artwork",
+      content: (
+        <div>
+          <div className="mb-6 text-sm md:text-lg">
+            <p className="mb-4">
+              Upload your design file directly through your dashboard. If you need help, our in-house
+              design team is here to assist you.
+            </p>
+            
+          </div>
+          
+          {/* <div className="grid grid-cols-2 gap-4">
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 1"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 2"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 3"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 4"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+          </div> */}
+        </div>
+      ),
+    },{
+      title: "Review & Approve Your Digital Proof",
+      content: (
+        <div>
+          <div className="mb-6 text-sm md:text-lg">
+            <p className="mb-4">
+             We will send a digital mockup for your final approval. Check your design layout, print
+             placement, and pouch specs before we begin production.  
+            </p>
+            
+          </div>
+          
+          {/* <div className="grid grid-cols-2 gap-4">
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 1"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 2"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 3"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 4"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+          </div> */}
+        </div>
+      ),
+    },{
+      title: "Fast Production & Delivery",
+      content: (
+        <div>
+          <div className="mb-6 text-sm md:text-lg">
+            <p className="mb-4">
+             Once approved, we print and deliver your order with speed and precision — no plates or
+              cylinders required. Your custom packaging is on its way!
+            </p>
+            
+          </div>
+          
+          {/* <div className="grid grid-cols-2 gap-4">
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 1"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 2"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 3"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="/api/placeholder/500/500"
+              alt="Order process 4"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+          </div> */}
+        </div>
+      ),
+    }
   ];
   
   return (

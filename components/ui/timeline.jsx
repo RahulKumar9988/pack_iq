@@ -52,14 +52,14 @@ export const Timeline = ({
       ref={containerRef}>
       <div className="max-w-7xl mx-auto py-12 md:py-20 px-4 md:px-8 lg:px-10 rounded-lg">
         <h2 className="text-3xl md:text-6xl font-bold mb-4 text-blue-950 dark:text-white">
-          HOW TO ORDER ??
+          How to Order Flexible Packaging Online with PackIQ
         </h2>
         <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base mb-2">
-        Get products into your customer hands quickly, with no minimum order quantity and optional 24-hour turnaround time.  
+          Ordering custom-printed pouches has never been this easy. At PackIQ, we’ve designed a
+          simple, step-by-step online process that saves you time, reduces complexity, and gives
+          you full control — from design to delivery.
         </p>
-        <p className="text-neutral-900 dark:text-neutral-300 text-sm md:text-base">
-          You will work with one of our talented and experienced designers to create a great looking package for you. 
-        </p>
+        
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20 md:pt-10">
