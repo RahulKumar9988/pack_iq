@@ -29,7 +29,7 @@ function HowtoDesign() {
       content: (
         <div>
           <div className="mb-6 text-sm md:text-lg">
-            <p className="text-sm md:text-lg">Customize your pouch to match your brand's personality:</p>
+            <p className="text-sm md:text-lg">Customize your pouch to match your brands personality:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><span className="font-bold">Finish:</span> Matte, gloss, metallic, and more</li>
               <li><span className="font-bold">Size:</span> Multiple options available for different product volumes</li>
