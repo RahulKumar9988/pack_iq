@@ -1,12 +1,12 @@
 "use client"
 import React, { useState } from "react";
-import { Package, ArrowRight, CheckCircle, Gift, Mail, Phone, User, X } from "lucide-react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { Package, ArrowRight, CheckCircle, Mail, Phone, User } from "lucide-react";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function EnhancedFreeSample() {
   const [openFAQ, setOpenFAQ] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -15,23 +15,84 @@ export default function EnhancedFreeSample() {
   });
   const [hovered, setHovered] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Reset form
+    try {
+      // Format the data to match the API expectations
+      const formPayload = {
+        name: formData.name,
+        email: formData.email,
+        number: formData.phone, 
+        query: formData.query,
+        flag_type: "sample_product"
+      };
+      
+      // Send the form data to your API endpoint
+      const response = await fetch(`${baseUrl}/api/v1/contact-us/get-in-touch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formPayload),
+      });
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+      
+      // Reset the form on success
       setFormData({
         name: "",
         phone: "",
         email: "",
         query: "",
       });
-      // Show success popup instead of alert
-      setShowSuccessPopup(true);
-    }, 1500);
+      
+      // Show success toast message
+      toast.custom(
+        (t) => (
+          <div className={`${
+            t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex items-center`}>
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <CheckCircle className="h-6 w-6 text-green-500" />
+                  </div>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-gray-900">Success!</p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Your request has been submitted. You will get a free sample in 7 days!
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ),
+        { duration: 5000 }
+      );
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("Failed to submit your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -50,20 +111,23 @@ export default function EnhancedFreeSample() {
 
   return (
     <div className="relative w-full min-h-screen">
+      {/* Toast Container */}
+      <Toaster position="top-center" />
+      
       {/* Hero Section */}
       <div className="relative z-10 max-w-6xl mx-auto pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-6 text-center lg:text-left">
             <div className="top-0 left-1/2 absolute blur-[125px] w-full h-full transform -translate-x-1/2 opacity-60 overflow-hidden">
-            {/* Gradient Vectors */}
-            <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgba(10,124,255,0.5)] to-[rgba(10,124,255,0.2)]" />
-            <div className="top-[35%] right-[20%] bottom-[50%] left-[52%] absolute bg-gradient-to-bl from-[rgba(10,124,255,0.5)] to-[rgba(10,124,255,0.2)]" />
-            <div className="top-[32%] right-[48%] bottom-[50%] left-[19%] absolute bg-gradient-to-r from-[#46E3FF] to-[rgba(70,227,255,0.5)]" />
-            <div className="top-[50%] right-[48%] bottom-[28%] left-[19%] absolute bg-gradient-to-tr from-[#FF7847] to-[rgba(255,120,71,0.6)]" />
-            <div className="top-[50%] right-[19%] bottom-[25%] left-[52%] absolute bg-gradient-to-bl from-[rgba(0,223,223,0.4)] to-[rgba(0,223,223,0.1)]" />
-            <div className="top-[50%] right-[47%] bottom-[21%] left-[31%] absolute bg-gradient-to-r from-[rgba(119,51,255,0.6)] to-[rgba(119,51,255,0.3)]" />
-          </div>
+              {/* Gradient Vectors */}
+              <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgba(10,124,255,0.5)] to-[rgba(10,124,255,0.2)]" />
+              <div className="top-[35%] right-[20%] bottom-[50%] left-[52%] absolute bg-gradient-to-bl from-[rgba(10,124,255,0.5)] to-[rgba(10,124,255,0.2)]" />
+              <div className="top-[32%] right-[48%] bottom-[50%] left-[19%] absolute bg-gradient-to-r from-[#46E3FF] to-[rgba(70,227,255,0.5)]" />
+              <div className="top-[50%] right-[48%] bottom-[28%] left-[19%] absolute bg-gradient-to-tr from-[#FF7847] to-[rgba(255,120,71,0.6)]" />
+              <div className="top-[50%] right-[19%] bottom-[25%] left-[52%] absolute bg-gradient-to-bl from-[rgba(0,223,223,0.4)] to-[rgba(0,223,223,0.1)]" />
+              <div className="top-[50%] right-[47%] bottom-[21%] left-[31%] absolute bg-gradient-to-r from-[rgba(119,51,255,0.6)] to-[rgba(119,51,255,0.3)]" />
+            </div>
           
             <div className="inline-flex items-center py-1 px-3 bg-indigo-800 bg-opacity-90 rounded-full border border-indigo-400 mb-4">
               <span className="text-xs font-medium text-indigo-100">Free Sample Program</span>
@@ -202,54 +266,6 @@ export default function EnhancedFreeSample() {
           </div>
         </div>
       </div>
-      
-      {/* Success Popup - Improved for better positioning on all devices */}
-      {showSuccessPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto flex justify-center">
-          <div 
-            className="relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-w-md w-full animate-fadeIn m-4"
-            style={{
-              top: '50%',
-              transform: 'translateY(-50%)',
-              maxHeight: '90vh',
-              marginTop: 'auto',
-              marginBottom: 'auto'
-            }}
-          >
-            <button 
-              onClick={() => setShowSuccessPopup(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200"
-            >
-              <X size={20} />
-            </button>
-            
-            <div className="text-center space-y-4">
-              <div className="flex justify-center">
-                <div className="bg-green-100 p-3 rounded-full inline-flex">
-                  <CheckCircle size={32} className="text-green-500" />
-                </div>
-              </div>
-              
-              <h3 className="text-2xl font-bold text-gray-800">
-                Success!
-              </h3>
-              
-              <p className="text-gray-600">
-                Your request has been submitted. You will get a free sample in 7 days!
-              </p>
-              
-              <div className="pt-4">
-                <button
-                  onClick={() => setShowSuccessPopup(false)}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg font-medium transition-all duration-300"
-                >
-                  Great, thanks!
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
