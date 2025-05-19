@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 
 const ImageComparisonFeature = ({
@@ -100,7 +101,7 @@ const ImageComparisonFeature = ({
         </div>
         
         {/* Main card container */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-10">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-10 ">
           {/* 3D Flip Card */}
           <div 
             className={`relative w-full max-w-xl perspective-1000 transition-all duration-1000 ease-out ${fadeInClass} delay-200`}
@@ -128,16 +129,23 @@ const ImageComparisonFeature = ({
                   </div>
                   
                   {/* Main image */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div 
-                      className={`relative w-4/5 h-4/5 rounded-lg overflow-hidden transition-all duration-500 transform ${isHovered && !isFlipped ? 'scale-105' : ''}`}
+                  <div className="absolute inset-0 flex items-center justify-center" 
                       onClick={handleFlip} // Added onClick handler here too
+                  >
+                    <div 
+                      className={`relative w-4/5 h-4/5 rounded-lg overflow-hidden transition-all duration-500 transform ${isHovered && !isFlipped ? '' : ''}`}
                     >
                       <img 
-                        src={beforeImage} 
-                        alt={beforeText} 
-                        className="w-full h-full object-cover"
+                          className="w-full h-full object-contain scale-110"
                         onClick={handleFlip} // Added onClick handler on the image
+                      />
+                      <Image 
+                        src={beforeImage}  
+                        alt={beforeText} 
+                        fill
+                        loading="lazy"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
+                        className="object-contain transition-transform duration-300 group-hover:scale-102"
                       />
                       
                       {/* Decorative elements */}
@@ -193,14 +201,17 @@ const ImageComparisonFeature = ({
                   {/* Main image */}
                   <div className="absolute inset-0 flex items-center justify-center" >
                     <div 
-                      className={`relative w-4/5 h-4/5 rounded-lg overflow-hidden transition-all duration-500 transform ${isHovered && isFlipped ? 'scale-105' : ''}`}
+                      className={`relative w-4/5 h-4/5 rounded-lg overflow-hidden transition-all duration-500 transform ${isHovered && isFlipped ? '' : ''}`}
                       
                     >
-                      <img 
-                        src={afterImage} 
+                     <Image 
+                        src={afterImage}  
                         alt={afterText} 
-                        className="w-full h-full object-cover"
-                        onClick={handleFlip} // Added onClick handler on the image
+                        fill
+                        loading="lazy"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
+                        className="object-contain transition-transform duration-300 group-hover:scale-102"
+                        onClick={handleFlip}
                       />
                       
                       {/* Decorative elements */}

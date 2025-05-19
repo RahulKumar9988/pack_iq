@@ -891,8 +891,8 @@ import { useAppSelector } from "@/redux/hooks";
                   product_desc={product.description}
                   beforeImage={product.slider_image_url} // You can use product images from your state
                   afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
-                  beforeText="Bye, labels..."
-                  afterText="Hello, unique design!"
+                  beforeText="Hello, unique design!"
+                  afterText="Bye, labels..."
                   theme="light-blue"
                   sliding_desc={product.slider_description}
                 />
