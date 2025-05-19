@@ -13,12 +13,12 @@ export function Design_help() {
       content: (
         <div>
           <h1 className="text-xl font-bold text-neutral-800 md:text-2xl dark:text-neutral-200">
-             Don't Have a Design Yet? We've Got You
+             Don not Have a Design Yet? We have Got You
           </h1>
           <p
             className="mb-8 text-sm font-normal text-neutral-800 md:text-2xl dark:text-neutral-200">
             Our creative team helps small brands turn ideas into packaging that sells.
-            Whether you're starting from scratch or need help refining your look, we will design your
+            Whether you are starting from scratch or need help refining your look, we will design your
             pouch to match your vision — fast, affordably, and professionally
           </p>
           <div className="grid grid-cols-2 gap-4">
@@ -93,11 +93,11 @@ export function Design_help() {
       content: (
         <div>
           <h1 className="text-xl font-bold text-neutral-800 md:text-2xl dark:text-neutral-200">
-             Don't Have a Design Yet? We've Got You
+             Don not Have a Design Yet? We have Got You
           </h1>
           <p
             className="mb-4 text-sm font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-            : Beautiful, functional packaging helps your brand get noticed and builds instant
+             Beautiful, functional packaging helps your brand get noticed and builds instant
             trust with customers. But design doesn not have to be complicated or expensive. At PackIQ,
             we specialize in helping startups and growing brands create standout packaging with fullservice design support.
           </p>
@@ -135,7 +135,7 @@ export function Design_help() {
         content: (
           <div>
             <h1 className="text-xl font-bold text-neutral-800 md:text-2xl mb-6 dark:text-neutral-200">
-              Don't Have a Design Yet? We've Got You
+              Don not Have a Design Yet? We have Got You
             </h1>
             <ul className="list-disc pl-5 space-y-2 text-sm md:text-lg">
               <li> Custom packaging layout tailored to your pouch type</li>
@@ -208,7 +208,7 @@ export function Design_help() {
             </ul>
             
             <ul className=" pl-5 space-y-2 text-sm mt-5 md:text-lg">
-              <li>💡See What We've Designed</li>
+              <li>💡See What We have Designed</li>
               <li>A mini gallery or slider showing past design samples with brand name, pouch photo</li>
             </ul>
             
@@ -299,7 +299,7 @@ export function Design_help() {
               Ready to Design Packaging That Sells?
             </h2>
             <p className="text-indigo-100 text-sm md:text-base hidden md:block">
-              Let's bring your vision to life.
+              Let bring your vision to life.
             </p>
           </div>
           
