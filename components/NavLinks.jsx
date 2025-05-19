@@ -96,81 +96,81 @@ const IndustriesDropdown = () => {
   );
 };
 
-// Products dropdown component
-const ProductsDropdown = () => {
-  return (
-    <Dropdown>
-      <NavbarItem>
-        <DropdownTrigger>
-          <Button
-            disableRipple
-            className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
-            endContent={ICONS.chevron}
-            radius="sm"
-            variant="light"
-          >
-            Products
-          </Button>
-        </DropdownTrigger>
-      </NavbarItem>
-      <DropdownMenu
-        aria-label="Product features"
-        className="w-64"
-        itemClasses={{
-          base: "gap-4",
-        }}
-      >
-        <DropdownItem 
-          key="all-products" 
-          startContent={ICONS.scale}
-          as={Link}
-          href="/products"
-          className="cursor-pointer w-full"
-        >
-          All Products
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
-  );
-};
+// // Products dropdown component
+// const ProductsDropdown = () => {
+//   return (
+//     <Dropdown>
+//       <NavbarItem>
+//         <DropdownTrigger>
+//           <Button
+//             disableRipple
+//             className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
+//             endContent={ICONS.chevron}
+//             radius="sm"
+//             variant="light"
+//           >
+//             Products
+//           </Button>
+//         </DropdownTrigger>
+//       </NavbarItem>
+//       <DropdownMenu
+//         aria-label="Product features"
+//         className="w-64"
+//         itemClasses={{
+//           base: "gap-4",
+//         }}
+//       >
+//         <DropdownItem 
+//           key="all-products" 
+//           startContent={ICONS.scale}
+//           as={Link}
+//           href="/products"
+//           className="cursor-pointer w-full"
+//         >
+//           All Products
+//         </DropdownItem>
+//       </DropdownMenu>
+//     </Dropdown>
+//   );
+// };
 
-// Shop By dropdown component
-const ShopByDropdown = () => {
-  return (
-    <Dropdown>
-      <NavbarItem>
-        <DropdownTrigger>
-          <Button
-            disableRipple
-            className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
-            endContent={ICONS.chevron}
-            radius="sm"
-            variant="light"
-          >
-            Shop By
-          </Button>
-        </DropdownTrigger>
-      </NavbarItem>
-      <DropdownMenu
-        aria-label="Shop By features"
-        className="w-64"
-        itemClasses={{
-          base: "gap-4",
-        }}
-      >
-        <DropdownItem 
-          key="packaging-type" 
-          startContent={ICONS.scale}
-          as={Link}
-          href="/packaging-type"
-          className="cursor-pointer w-full"
-        >
-          Packaging Type
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
-  );
-};
+// // Shop By dropdown component
+// const ShopByDropdown = () => {
+//   return (
+//     <Dropdown>
+//       <NavbarItem>
+//         <DropdownTrigger>
+//           <Button
+//             disableRipple
+//             className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
+//             endContent={ICONS.chevron}
+//             radius="sm"
+//             variant="light"
+//           >
+//             Shop By
+//           </Button>
+//         </DropdownTrigger>
+//       </NavbarItem>
+//       <DropdownMenu
+//         aria-label="Shop By features"
+//         className="w-64"
+//         itemClasses={{
+//           base: "gap-4",
+//         }}
+//       >
+//         <DropdownItem 
+//           key="packaging-type" 
+//           startContent={ICONS.scale}
+//           as={Link}
+//           href="/packaging-type"
+//           className="cursor-pointer w-full"
+//         >
+//           Packaging Type
+//         </DropdownItem>
+//       </DropdownMenu>
+//     </Dropdown>
+//   );
+// };
 
 export default function NavLinks() {
   const dispatch = useAppDispatch();

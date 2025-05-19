@@ -165,6 +165,56 @@ export default function MobileNav() {
                   <li className="border-b">
                     <button 
                       className="w-full p-4 flex justify-between items-center"
+                      onClick={() => handleNavigation('/how-to-order')}
+                    >
+                      <div className="flex items-center">
+                        <span className="mr-2">🤔</span>
+                        <span>How to Order</span>
+                      </div>
+                    </button>
+
+                  </li>
+                
+                  <li className="border-b">
+                    <button 
+                      className="w-full p-4 flex justify-between items-center"
+                      onClick={() => handleNavigation('/inspirations')}
+                    >
+                      <div className="flex items-center">
+                        <span className="mr-2">💡</span>
+                        <span> Inspirations</span>
+                      </div>
+                    </button>
+
+                  </li>
+
+                  <li className="border-b">
+                  <button 
+                    className="w-full p-4 flex justify-between items-center"
+                    onClick={() => handleNavigation('/design-help')}
+                  >
+                    <div className="flex items-center">
+                      <span className="mr-2">💁‍♂️</span>
+                      <span> Design help</span>
+                    </div>
+                  </button>
+                  </li>
+
+                  <li className="border-b">
+                  <button 
+                    className="w-full p-4 flex justify-between items-center"
+                    onClick={() => handleNavigation('/free-sample')}
+                  >
+                    <div className="flex items-center">
+                      <span className="mr-2">💁‍♂️</span>
+                      <span> Free Sample</span>
+                    </div>
+                  </button>
+                  </li>
+                  
+                  <li className="border-b">
+                    <button 
+                      className="w-full p-4 flex justify-between items-center"
                       onClick={() => toggleExpand('products')}
                     >
                       <div className="flex items-center">
