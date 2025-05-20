@@ -84,13 +84,20 @@ const IndustriesDropdown = () => {
         ].map(item => (
           <DropdownItem 
             key={item.key} 
-            as={Link}
-            href={`/industries/${item.key}`}
+            // as={Link}
+            // href={`/industries/${item.key}`}
             className="cursor-pointer w-full"
           >
             {item.label}
           </DropdownItem>
         ))}
+       <DropdownItem
+        key="view-more"
+        href={'/Industry-page'}
+        className="text-blue-600 hover:underline font-medium"
+      >
+        View more
+      </DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
