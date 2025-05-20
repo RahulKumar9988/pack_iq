@@ -216,7 +216,7 @@ export default function Industry_page() {
           <div className={`transition-all duration-700 delay-100 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-center">Why Packaging Matters in the {industry} Industry</h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto text-center mb-8 sm:mb-12">
-              Packaging is more than just protection — it's your first impression. In the {industry.toLowerCase()} world, 
+              Packaging is more than just protection — it is your first impression. In the {industry.toLowerCase()} world, 
               design, freshness, and convenience influence buying decisions. Our solutions help you stand out on shelves and online.
             </p>
             
@@ -384,7 +384,7 @@ export default function Industry_page() {
             
             <div className="bg-blue-600 text-white p-5 sm:p-8 rounded-lg">
               <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="text-3xl sm:text-4xl font-serif mr-4 mb-3 md:mb-0">"</div>
+                <div className="text-3xl sm:text-4xl font-serif mr-4 mb-3 md:mb-0"></div>
                 <div>
                   <p className="text-base sm:text-lg mb-4">{currentIndustry.testimonial.quote}</p>
                   <div className="flex items-center">
@@ -407,7 +407,7 @@ export default function Industry_page() {
           <div className={`transition-all duration-700 delay-500 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Ready to Elevate Your {industry} Packaging?</h2>
             <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
-              Let us help bring your idea to life. Whether it's your first pouch or your next big launch, we're here to support you.
+              Let us help bring your idea to life. Whether it is your first pouch or your next big launch, we are here to support you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center group">
