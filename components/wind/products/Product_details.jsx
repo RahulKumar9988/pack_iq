@@ -22,9 +22,6 @@
 import ImageComparisonFeature from "../ImageComparisonFeature";
 import { useAppSelector } from "@/redux/hooks";
 
-  
-  
-
   export default function ProductDetail() {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const cartItem = useAppSelector((state) => state?.cart?.item);
@@ -42,7 +39,7 @@ import { useAppSelector } from "@/redux/hooks";
     const [addons, setAddons] = useState([]);
     const [sliderSelectedImage, setSliderSelectedImage] = useState(0);
     const [carouselSelectedImage, setCarouselSelectedImage] = useState(0);
-    const [selectedMaterial, setSelectedMaterial] = useState("");
+    const [selectedMaterial, setSelectedMaterial] = useState(null);
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState("");
     const [selectedAddons, setSelectedAddons] = useState([]);
@@ -151,40 +148,63 @@ import { useAppSelector } from "@/redux/hooks";
     }
 
     async function fetchFormOptions(packagingId, additionType = 0) {
-      try {
-        // Fetch materials and sizes in parallel
-        const [materialsRes, sizesRes] = await Promise.all([
-          axios.get(`${baseUrl}/api/v1/resources/material`),
-          axios.get(`${baseUrl}/api/v1/resources/list-packaging-type-size/${packagingId}`)
-        ]);
+  try {
+    // Fetch materials, sizes, and addons in parallel (single call each)
+    const [materialsRes, sizesRes, addonsRes] = await Promise.all([
+      axios.get(`${baseUrl}/api/v1/resources/list-materials/${packagingId}`),
+      axios.get(`${baseUrl}/api/v1/resources/list-packaging-type-size/${packagingId}`),
+      axios.get(`${baseUrl}/api/v1/resources/list-additions/${packagingId}`)
+    ]);
+
+    const materials = materialsRes.data?.data || [];
+    const sizes = sizesRes.data?.data || [];
     
-        setMaterials(materialsRes.data?.data || []);
-        setSizes(sizesRes.data?.data || []);
-        
-        // Fetch addons with the correct URL
-        const addonsRes = await axios.get(
-          `${baseUrl}/api/v1/resources/list-additions/${packagingId}`
-        );
-        
-        console.log('Addons API response:', addonsRes.data);
-        
-        // The API response is already in the format we need
-        // where each addon has a 'checked' property (1 for default, 0 for optional)
-        if (addonsRes.data.status === 200 && Array.isArray(addonsRes.data.data)) {
-          setAddons(addonsRes.data.data);
-          return addonsRes.data.data;
-        } else {
-          console.error('Unexpected addon response format:', addonsRes.data);
-          setAddons([]);
-          return [];
-        }
-      } catch (error) {
-        console.error("Form options error:", error);
-        console.error("Error details:", error.response || error.message);
-        setAddons([]);
-        return [];
-      }
+    // Log material data to see the actual structure
+    console.log('Materials API response:', materials);    
+    
+    // Set materials directly without duplication
+    setMaterials(materials);
+    setSizes(sizes);
+    
+    // Auto-select the first default material if available
+    const defaultMaterial = materials.find(material => material.checked === 1);
+    if (defaultMaterial) {
+      const materialId = defaultMaterial.materialId?.material_id || defaultMaterial.material_id || defaultMaterial.id;
+      setSelectedMaterial(materialId?.toString());
+      console.log('Auto-selected default material:', materialId);
+    } else if (materials.length > 0) {
+      // If no default material, select the first available material
+      const firstMaterial = materials[0];
+      const materialId = firstMaterial.materialId?.material_id || firstMaterial.material_id || firstMaterial.id;
+      setSelectedMaterial(materialId?.toString());
+      console.log('Auto-selected first material:', materialId);
     }
+    
+    console.log('Addons API response:', addonsRes.data);
+    
+    // Handle addons
+    if (addonsRes.data.status === 200 && Array.isArray(addonsRes.data.data)) {
+      const addons = addonsRes.data.data;
+      console.log('Addons data:', addons);
+      setAddons(addons);
+      return { materials, addons, sizes };
+    } else {
+      console.error('Unexpected addon response format:', addonsRes.data);
+      setAddons([]);
+      return { materials, addons: [], sizes };
+    }
+  } catch (error) {
+    console.error("Form options error:", error);
+    console.error("Error details:", error.response || error.message);
+    
+    // Set empty arrays on error
+    setMaterials([]);
+    setAddons([]);
+    setSizes([]);
+    setSelectedMaterial(null);
+    return { materials: [], addons: [], sizes: [] };
+  }
+}
 
     async function fetchQuantities(sizeId) {
       if (!sizeId) return;
@@ -272,77 +292,184 @@ import { useAppSelector } from "@/redux/hooks";
     const getVolume = (size) => size.filling_volume || size.sizeId?.filling_volume;
 
     const handleAddToCart = () => {
-      if (!product) return;
-      // Find the selected items from their respective arrays
-      const selectedMaterialItem = materials.find(m => m.material_id.toString() === selectedMaterial);
-      const selectedSizeItem = sizes.find(s => (s.size_id || s.sizeId?.size_id).toString() === selectedSize);
-      const selectedQuantityItem = quantities.find(q => q.quantity_id.toString() === selectedQuantity);
+  if (!product) return;
+  
+  // Find the selected items from their respective arrays
+  const selectedSizeItem = sizes.find(s => (s.size_id || s.sizeId?.size_id)?.toString() === selectedSize?.toString());
+  const selectedQuantityItem = quantities.find(q => q.quantity_id?.toString() === selectedQuantity?.toString());
+  
+  // Get proper price from selected quantity
+  const price = selectedQuantityItem?.price || product.price;
+  
+  // Handle single material selection
+  let selectedMaterialForCart = null;
+  
+  if (selectedMaterial && materials && materials.length > 0) {
+    // Find the selected material
+    const selectedMaterialItem = materials.find(material => {
+      const materialId = material.materialId?.material_id || material.material_id || material.id;
+      return materialId?.toString() === selectedMaterial?.toString();
+    });
+    
+    if (selectedMaterialItem) {
+      const materialId = selectedMaterialItem.materialId?.material_id || selectedMaterialItem.material_id || selectedMaterialItem.id;
+      const materialName = selectedMaterialItem.materialId?.name || selectedMaterialItem.name || selectedMaterialItem.material_name || selectedMaterialItem.title || selectedMaterialItem.material_title;
+      const materialDescription = selectedMaterialItem.materialId?.description || selectedMaterialItem.description || selectedMaterialItem.material_description || selectedMaterialItem.desc;
+      const materialImage = selectedMaterialItem.materialId?.material_image_url || selectedMaterialItem.material_image_url || selectedMaterialItem.image;
       
-      // Get proper price from selected quantity
-      const price = selectedQuantityItem?.price || product.price;
+      selectedMaterialForCart = {
+        id: materialId?.toString() || '',
+        name: materialName || 'No name',
+        description: materialDescription || 'No description available',
+        image: materialImage || '',
+        checked: selectedMaterialItem.checked || 0
+      };
       
-      // Create the addons array for cart - include both default (checked=1) and selected optional addons
-      let addonsForCart = [];
+      console.log("Selected material for cart:", selectedMaterialForCart);
+    }
+  }
+  
+  // If no material is selected, try to get a default material
+  if (!selectedMaterialForCart && materials && materials.length > 0) {
+    const defaultMaterial = materials.find(material => material.checked === 1);
+    
+    if (defaultMaterial) {
+      const materialId = defaultMaterial.materialId?.material_id || defaultMaterial.material_id || defaultMaterial.id;
+      const materialName = defaultMaterial.materialId?.name || defaultMaterial.name || defaultMaterial.material_name || defaultMaterial.title || defaultMaterial.material_title;
+      const materialDescription = defaultMaterial.materialId?.description || defaultMaterial.description || defaultMaterial.material_description || defaultMaterial.desc;
+      const materialImage = defaultMaterial.materialId?.material_image_url || defaultMaterial.material_image_url || defaultMaterial.image;
       
-      // Add all default addons (checked=1)
-      const defaultAddons = addons.filter(addon => addon.checked === 1);
-      if (defaultAddons.length > 0) {
-        defaultAddons.forEach(addon => {
-          addonsForCart.push({
-            id: addon.additionsId.additions_id,
-            name: addon.additionsId.additions_title,
-            description: addon.additionsId.additions_desc,
-            image: addon.additionsId.additions_image,
-            checked: 1
-          });
+      selectedMaterialForCart = {
+        id: materialId?.toString() || '',
+        name: materialName || `Material ${materialId}`,
+        description: materialDescription || 'No description available',
+        image: materialImage || '',
+        checked: 1
+      };
+      
+      console.log("Using default material for cart:", selectedMaterialForCart);
+    }
+  }
+  
+  // Handle Addons - Extract only actual addons (not materials)
+  let addonsForCart = [];
+  
+  if (addons && addons.length > 0) {
+    console.log("Processing addons:", addons);
+    
+    // Handle Default Addons (checked=1) - only those with additionsId (not materialId)
+    const defaultAddons = addons.filter(addon => addon.checked === 1 && addon.additionsId);
+    console.log("Default addons found:", defaultAddons);
+    
+    defaultAddons.forEach(addon => {
+      if (addon.additionsId && addon.additionsId.additions_id) {
+        addonsForCart.push({
+          id: addon.additionsId.additions_id?.toString() || '',
+          name: addon.additionsId.additions_title || 'No name',
+          description: addon.additionsId.additions_desc || 'No description available',
+          image: addon.additionsId.additions_image || '',
+          checked: 1
         });
       }
+    });
+    
+    // Handle Selected Optional Addons (checked=0) - only those with additionsId
+    if (selectedAddons && selectedAddons.length > 0) {
+      console.log("Selected addons:", selectedAddons);
       
-      // Add all selected optional addons (checked=0)
-      if (selectedAddons.length > 0) {
-        selectedAddons.forEach(addonId => {
-          const selectedAddonItem = addons.find(a => a.additionsId?.additions_id?.toString() === addonId && a.checked === 0);
-          if (selectedAddonItem) {
+      selectedAddons.forEach(addonId => {
+        const selectedAddonItem = addons.find(a => 
+          a.additionsId?.additions_id?.toString() === addonId?.toString()
+        );
+        
+        console.log("Found selected addon item:", selectedAddonItem);
+        
+        if (selectedAddonItem && selectedAddonItem.additionsId) {
+          const alreadyExists = addonsForCart.some(a => a.id === selectedAddonItem.additionsId.additions_id?.toString());
+          
+          if (!alreadyExists) {
             addonsForCart.push({
-              id: selectedAddonItem.additionsId.additions_id,
-              name: selectedAddonItem.additionsId.additions_title,
-              description: selectedAddonItem.additionsId.additions_desc,
-              image: selectedAddonItem.additionsId.additions_image,
-              checked: 0
+              id: selectedAddonItem.additionsId.additions_id?.toString() || '',
+              name: selectedAddonItem.additionsId.additions_title || 'No name',
+              description: selectedAddonItem.additionsId.additions_desc || 'No description available',
+              image: selectedAddonItem.additionsId.additions_image || '',
+              checked: selectedAddonItem.checked || 0
             });
           }
-        });
-      }
-    
-      const cartItem = {
-        packaging_id: product.packaging_id,
-        name: product.name,
-        image: product.packaging_image_url,
-        material: selectedMaterialItem?.name || "default",
-        material_id: selectedMaterial,
-        size_id: selectedSize,
-        packaging_type_size_id: selectedSizeId,
-        quantity: selectedQuantityItem?.quantity || "",
-        quantity_id: selectedQuantity,
-        packaging_type_size_quantity_id: selectedQuantity,
-        price: price,
-        design_number: selectedQuantityItem?.design_number,
-        addition_type: product.addition_type,
-        // Include both default and all selected optional addons
-        addons: addonsForCart
-      };
-    
-      console.log("Adding to cart:", cartItem);
-      
-      // Dispatch to Redux store
-      dispatch(addToCart(cartItem));
-      
-      // Also save to localStorage as backup
-      localStorage.setItem("lastOrder", JSON.stringify(cartItem));
-      
-      // Navigate to cart page
-      router.push("/cart");
+        }
+      });
+    }
+  }
+
+  console.log("Selected material for cart:", selectedMaterialForCart);
+  console.log("Final addons for cart:", addonsForCart);
+
+  // Create the cart item with proper structure
+  const cartItem = {
+    packaging_id: product.packaging_id,
+    name: product.name || '',
+    image: product.packaging_image_url || '',
+    material: selectedMaterialForCart, // Single material object
+    size_id: selectedSize,
+    packaging_type_size_id: selectedSizeId,
+    quantity: selectedQuantityItem?.quantity || "",
+    quantity_id: selectedQuantity,
+    packaging_type_size_quantity_id: selectedQuantity,
+    price: price || 0,
+    design_number: selectedQuantityItem?.design_number || '',
+    addons: addonsForCart // Array of addon objects
+  };
+
+  console.log("Adding to cart:", cartItem);
+  
+  // Validation before adding to cart
+  if (!selectedSize || !selectedQuantity) {
+    console.error("Missing required selections");
+    alert("Please select size and quantity before adding to cart");
+    return;
+  }
+  
+  // Validation for material selection
+  if (!selectedMaterialForCart) {
+    console.warn("No material selected");
+    alert("Please select a material before adding to cart");
+    return;
+  }
+  
+  // Dispatch to Redux store
+  dispatch(addToCart(cartItem));
+  
+  // Also save to localStorage as backup
+  try {
+    const cartItemForStorage = {
+      ...cartItem,
+      // Ensure all values are serializable
+      material: selectedMaterialForCart ? {
+        ...selectedMaterialForCart,
+        id: selectedMaterialForCart.id?.toString() || '',
+        name: selectedMaterialForCart.name || '',
+        description: selectedMaterialForCart.description || '',
+        image: selectedMaterialForCart.image || '',
+        checked: Number(selectedMaterialForCart.checked) || 0
+      } : null,
+      addons: addonsForCart.map(addon => ({
+        ...addon,
+        id: addon.id?.toString() || '',
+        name: addon.name || '',
+        description: addon.description || '',
+        image: addon.image || '',
+        checked: Number(addon.checked) || 0
+      }))
     };
+    
+    localStorage.setItem("lastOrder", JSON.stringify(cartItemForStorage));
+  } catch (error) {
+    console.error("Failed to save to localStorage:", error);
+  }
+  
+  // Navigate to cart page
+  router.push("/cart");
+};
 
     // Add to cart button is disabled if required fields are not selected
     const isAddToCartDisabled = !selectedMaterial || !selectedSize || !selectedQuantity;
@@ -473,69 +600,130 @@ import { useAppSelector } from "@/redux/hooks";
 
                 {/* Selection Sections */}
                 <div className="space-y-6 flex-grow">
-                  {/* Material Select */}
-                  <div className="flex flex-col gap-2">
-                    <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
-                      <SparklesIcon className="w-5 h-5 text-blue-500" />
-                      Material Selection
-                    </label>
-                    <button 
-                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                      onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
-                      type="button"
-                      disabled={materialDisabled}
-                    >
-                      {selectedMaterial ? (
-                        <div className="flex items-center gap-3">
-                          <div className="relative h-8 w-8 overflow-hidden rounded-lg border border-gray-200">
-                            <img 
-                              src={materials.find(m => m.material_id.toString() === selectedMaterial)?.material_image_url} 
-                              alt="" 
-                              className="h-full w-full object-cover" 
-                            />
-                          </div>
-                          <span className="font-medium text-gray-800">
-                            {materials.find(m => m.material_id.toString() === selectedMaterial)?.name || selectedMaterial}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-gray-500">Choose material</span>
-                      )}
-                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                    </button>
+                  {/* Material Select - Single Selection */}
+                  {/* Material Select - Single Selection */}
+<div className="flex flex-col gap-2 relative">
+  <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
+    <SparklesIcon className="w-5 h-5 text-blue-500" />
+    Material Selection
+    <span className="text-gray-500 font-normal text-sm">(select one material)</span>
+  </label>
+  
+  <button
+    type="button"
+    className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+    onClick={() => !materialDisabled && setIsDropdownOpen(!isDropdownOpen)}
+    disabled={materialDisabled}
+  >
+    <span className="text-gray-800 truncate max-w-full">
+      {(() => {
+        if (!selectedMaterial) {
+          return <span className="text-gray-500">Select a material</span>;
+        }
+        
+        // Find the selected material from all materials
+        const selectedMaterialItem = materials.find(material => {
+          const materialId = material.materialId?.material_id || material.material_id || material.id;
+          return materialId?.toString() === selectedMaterial?.toString();
+        });
+        
+        if (selectedMaterialItem) {
+          const materialName = selectedMaterialItem.materialId?.name || 
+                              selectedMaterialItem.name || 
+                              selectedMaterialItem.material_name || 
+                              selectedMaterialItem.title || 
+                              selectedMaterialItem.material_title || 
+                              `Material ${selectedMaterialItem.materialId?.material_id || selectedMaterialItem.material_id || selectedMaterialItem.id}` || 
+                              'Selected Material';
+          return materialName;
+        }
+        
+        return <span className="text-gray-500">Select a material</span>;
+      })()}
+    </span>
+    <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+  </button>
 
-                    {isDropdownOpen && (
-                      <div className="relative animate-fade-in">
-                        <ul className="absolute top-1 left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 max-h-60 overflow-y-auto z-20">
-                          {materials.map((material) => (
-                            <li
-                              key={material.material_id}
-                              className={`flex items-center gap-3 p-3 cursor-pointer transition-colors ${
-                                material.material_id.toString() === selectedMaterial 
-                                  ? 'bg-blue-50/50' 
-                                  : 'hover:bg-gray-50'
-                              }`}
-                              onClick={() => {
-                                setSelectedMaterial(material.material_id.toString()); 
-                                setIsDropdownOpen(false);
-                              }}
-                            >
-                              <div className="h-10 w-10 rounded-lg border border-gray-200 overflow-hidden">
-                                <img src={material.material_image_url} alt="" className="h-full w-full object-cover" />
-                              </div>
-                              <div>
-                                <span className="font-medium text-gray-800">{material.name}</span>
-                                <p className="text-xs text-gray-500 mt-1">{material.description}</p>
-                              </div>
-                              {material.material_id.toString() === selectedMaterial && (
-                                <CheckCircleIcon className="w-5 h-5 text-green-600 ml-auto shrink-0" />
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+  {isDropdownOpen && (
+    <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
+      <div className="mb-2 p-3 border-b border-gray-100">
+        <h4 className="font-medium text-blue-800">Available Materials</h4>
+      </div>
+      
+      <ul className="max-h-60 overflow-y-auto divide-y divide-gray-100">
+        {Array.isArray(materials) && materials.length > 0 ? (
+          materials.map((material) => {
+            const materialId = material?.materialId?.material_id || material?.material_id || material?.id;
+            const isSelected = selectedMaterial?.toString() === materialId?.toString();
+            const isDefault = material.checked === 1;
+            
+            return (
+              <li
+                key={materialId || `material-${Math.random()}`}
+                className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
+                  isSelected ? 'bg-blue-50 border-l-4 border-blue-500' : 'hover:bg-gray-50'
+                }`}
+                onClick={() => {
+                  setSelectedMaterial(materialId?.toString());
+                  setIsDropdownOpen(false); // Close dropdown after selection
+                }}
+              >
+                <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
+                  {material?.materialId?.material_image_url || material?.material_image_url || material?.image ? (
+                    <Image 
+                      src={material.materialId?.material_image_url || material.material_image_url || material.image} 
+                      alt={material.materialId?.name || material.name || 'Material image'} 
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                      <PhotoIcon className="w-5 h-5 text-gray-400" />
+                    </div>
+                  )}
+                </div>
+                
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-gray-800">
+                      {material?.materialId?.name || 
+                      material?.name || 
+                      material?.material_name || 
+                      material?.title || 
+                      material?.material_title || 
+                      `Material ${materialId}` || 
+                      'Unnamed material'}
+                    </p>
+                    {isDefault && (
+                      <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full border border-green-200">
+                        Default
+                      </span>
                     )}
                   </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {material?.materialId?.description || 
+                    material?.description || 
+                    material?.material_description || 
+                    material?.desc || 
+                    'No description available'}
+                  </p>
+                </div>
+                
+                {isSelected ? (
+                  <CheckCircleIcon className="w-5 h-5 text-blue-600 shrink-0" />
+                ) : (
+                  <div className="w-5 h-5 border-2 border-gray-300 rounded-full shrink-0" />
+                )}
+              </li>
+            );
+          })
+        ) : (
+          <li className="p-3 text-center text-gray-500">No materials available</li>
+        )}
+      </ul>
+    </div>
+  )}
+</div>
 
                   {/* Size Select */}
                   <div className="flex flex-col gap-2 relative">

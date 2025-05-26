@@ -97,7 +97,7 @@ export default function Order() {
             Material
           </span>
           <span className="text-gray-700 max-mobile:text-black max-mobile:text-sm max-mobile:font-medium">
-            : {displayData?.material || "N/A"}
+            : {displayData?.material?.name || displayData?.material || "N/A"}
           </span>
 
           <IoCheckmark className="self-center" />

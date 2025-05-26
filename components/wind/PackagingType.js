@@ -119,7 +119,7 @@ export default function PackagingType() {
 
   // Memoize truncation function
   const getTruncatedDescription = useCallback((description) => {
-    return description.split(' ').slice(0, 50).join(' ') + '...';
+    return description.split(' ').slice(0, 20).join(' ') + '...';
   }, []);
 
   // Memoized loading skeleton
@@ -171,6 +171,8 @@ export default function PackagingType() {
               <Card
                 className={`bg-gradient-to-br from-white to-blue-50 border ${isSelected ? 'border-[#E45971]' : 'border-gray-200'} p-3 sm:p-4 h-full w-full overflow-y-auto relative`}
                 isPressable
+                onClick={() => handleSelectAndNavigate(item, index)}
+
               >
                 <CardBody className="flex flex-col items-center justify-between p-4">
                   {/* Optimized Image loading */}

@@ -153,65 +153,74 @@ export default function Cart() {
 
   // Fixed handleSave function with order date
   async function handleSave() {
-    try {
-      setLoading(true);
-      
-      // Make sure we have valid selections
-      if (!value.size || !value.quantity) {
-        alert("Please select both size and quantity");
-        setLoading(false);
-        return;
-      }
-      
-      // Create payload with proper structure
-      const payload = {
-        user_id: userId,
-        packaging_id: parseInt(cartItem.packaging_id),
-        size_id: parseInt(value.size),
-        quantity_id: parseInt(value.quantity),
-        material_id: parseInt(cartItem.material_id),
-        payment_status_id: 1,
-        price: parseFloat(totalPrice),
-        additions_id: Array.isArray(cartItem.addons) ? 
-          cartItem.addons.map(addon => addon.additionsId?.additions_id || addon.id) : 
-          cartItem.addons ? [cartItem.addons.additionsId?.additions_id || cartItem.addons.id] : 
-          []
-      };
-      
-      const response = await axios.post(
-        `${baseUrl}/api/v1/order/create-order`,
-        payload
-      );
-      
-      if (response.status === 200 || response.status === 201) {
-        // Save order to localStorage with date
-        const orderWithDate = {
-          ...cartItem
-        };
-        localStorage.setItem('lastOrder', JSON.stringify(orderWithDate));
-        
-        // Navigate to the order page first, keeping the cart visible during transition
-        router.push("/order");
-        
-        // Set a delay before clearing the cart to ensure navigation has begun
-        // This ensures the cart remains visible during the transition
-        setTimeout(() => {
-          dispatch(clearCart());
-          setLoading(false);
-        }, 2000); // Give the navigation a moment to start
-      }
-    } catch (error) {
-      console.error("Order creation failed:", 
-        error?.response?.data || error.message
-      );
-      alert("Failed to create order. Please try again or contact support.");
+  try {
+    setLoading(true);
+    
+    // Make sure we have valid selections
+    if (!value.size || !value.quantity) {
+      alert("Please select both size and quantity");
       setLoading(false);
+      return;
     }
+    
+    // Create payload with proper structure
+    const payload = {
+      user_id: userId,
+      packaging_id: parseInt(cartItem.packaging_id),
+      size_id: parseInt(value.size),
+      quantity_id: parseInt(value.quantity),
+      // Fixed material_id handling
+      material_id: cartItem.material && cartItem.material.id 
+        ? [parseInt(cartItem.material.id)] 
+        : [],
+      payment_status_id: 1,
+      price: parseFloat(totalPrice),
+      // Fixed additions_id handling
+      additions_id: Array.isArray(cartItem.addons)
+        ? cartItem.addons
+            .filter(addon => addon.checked) // Only include checked addons
+            .map(addon => parseInt(addon.id))
+        : cartItem.addons && cartItem.addons.checked
+          ? [parseInt(cartItem.addons.id)]
+          : []
+    };
+
+    console.log('Payload being sent:', payload); // Debug log
+    
+    const response = await axios.post(
+      `${baseUrl}/api/v1/order/create-order`,
+      payload
+    );
+    
+    if (response.status === 200 || response.status === 201) {
+      // Save order to localStorage with date
+      const orderWithDate = {
+        ...cartItem
+      };
+      localStorage.setItem('lastOrder', JSON.stringify(orderWithDate));
+      
+      // Navigate to the order page first, keeping the cart visible during transition
+      router.push("/order");
+      
+      // Set a delay before clearing the cart to ensure navigation has begun
+      // This ensures the cart remains visible during the transition
+      setTimeout(() => {
+        dispatch(clearCart());
+        setLoading(false);
+      }, 2000); // Give the navigation a moment to start
+    }
+  } catch (error) {
+    console.error("Order creation failed:", 
+      error?.response?.data || error.message
+    );
+    alert("Failed to create order. Please try again or contact support.");
+    setLoading(false);
   }
+}
 
   // Modify the disabled logic to check the selection values instead of cart properties
   const isConfirmDisabled = !cartItem.packaging_id ||
-    !cartItem.material_id ||
+    !cartItem.material.id ||
     !value.size ||
     !value.quantity ||
     loading;
@@ -256,7 +265,7 @@ export default function Cart() {
     setTotalPrice(calculatedTotalPricePerQuantity + calculatedGST);
   }, [itemPrice, cartItem.quantity]);
 
-  console.log(cartItem, "cartItem");
+  // console.log(cartItem, "cartItem");
   return (
     <div className="container mx-auto mb-20">
       {/* Product Details Section */}
@@ -336,7 +345,7 @@ export default function Cart() {
                               transition={{ repeat: Infinity, duration: 3 }}
                             />
                             Material:  
-                            <span className="font-medium ml-1">{cartItem.material || "N/A"}</span>
+                            <span className="font-medium ml-1">{cartItem.material?.name || "N/A"}</span>
                           </div>
                           <p className="flex items-center gap-1">
                             <motion.div 
