@@ -694,11 +694,11 @@ import { useAppSelector } from "@/redux/hooks";
                       `Material ${materialId}` || 
                       'Unnamed material'}
                     </p>
-                    {isDefault && (
+                    {/* {isDefault && (
                       <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full border border-green-200">
                         Default
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
                     {material?.materialId?.description || 

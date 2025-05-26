@@ -14,7 +14,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
   const [userDetails, setUserDetails] = useState(null);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const cartItem = useAppSelector((state) => state?.cart?.item) || {};
-  console.log(cartItem.OrderHistory);
+  // console.log(cartItem.OrderHistory);
   
   
   // First, get user details
@@ -236,7 +236,7 @@ const OrderHistory = ({ limitOrders = false, maxOrders = 2 }) => {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4 mt-2 text-sm">
                       <div>
                         <span className="text-gray-500">Material:</span> 
-                        <span className="font-medium ml-1 text-gray-700">{order.materialId?.name || 'N/A'}</span>
+                        <span className="font-medium ml-1 text-gray-700">{order?.order_material?.[0]?.materialId?.name || "N/A"}</span>
                       </div>
                       <div>
                         <span className="text-gray-500">Size:</span> 
