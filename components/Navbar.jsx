@@ -73,7 +73,7 @@ export default function HomepageNavbar() {
   return (
     <div className="w-full">
       <Navbar
-        className="shadow-sm h-15 px-10"
+        className="shadow-sm h-22 px-10"
         classNames={{
           wrapper: "max-w-full",
         }}
@@ -82,18 +82,19 @@ export default function HomepageNavbar() {
         shouldHideOnScroll
       >
         {/* Logo section */}
-        <div>
+        <div className="flex items-center h-24"> {/* h-24 or match your Navbar height */}
           <div onClick={handleLogoClick} className="cursor-pointer">
             <Image 
               src="/productNavLogo.png" 
               alt="PackIQ Logo" 
               width={150}
               height={80}
-              className="object-contain"
+              className="object-cover"
               loading="eager"
             />
           </div>
         </div>
+
 
         {/* User actions section */}
         <div className="gap-5 flex">

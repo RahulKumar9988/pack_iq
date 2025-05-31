@@ -79,12 +79,12 @@ function FAQ() {
           {/* FAQ Content */}
           <div className="z-40 flex flex-col items-center gap-8 px-4 w-full max-w-7xl mx-auto">
             {/* Title with Gradient */}
-            <h1 className="font-bold text-3xl text-center md:text-4xl lg:text-5xl bg-gradient-to-r from-[#143761] to-[#0A7CFF] bg-clip-text text-transparent">
+            <h1 className="font-bold text-3xl text-center md:text-3xl lg:text-3xl bg-gradient-to-r from-[#143761] to-[#0A7CFF] bg-clip-text text-transparent">
               Frequently Asked Questions
             </h1>
 
             {/* Subtitle */}
-            <div className="flex flex-col items-center text-[#676D79] text-base text-center md:text-lg lg:text-xl">
+            <div className="flex flex-col items-center text-[#676D79] text-base text-center">
               <div>
                 Everything you need to know about our packaging solutions. Can&apos;t find
                 the answer you&apos;re

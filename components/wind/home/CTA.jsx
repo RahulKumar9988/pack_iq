@@ -20,9 +20,8 @@ function CTA() {
         {/* Left Section - Text & Buttons */}
         <div className="relative z-10 flex flex-col gap-6 font-bold text-white text-xl sm:text-center md:text-3xl lg:text-4xl xl:text-4xl lg:text-left leading-tight md:leading-snug lg:w-1/2">
           <div>
-            <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#A0C2FF] to-[#46E3FF]">Ready to pack your brand in style </p>
             <p className=' font-bold '>
-                Ready to build your Brand&apos;s Dream POUCH. <br /> 
+                Ready to build your Brand&apos;s Dream Pouch. <br /> 
             </p>
           </div>
 

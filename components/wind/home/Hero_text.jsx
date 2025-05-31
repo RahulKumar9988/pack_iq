@@ -17,18 +17,13 @@ function Hero_text() {
         <div className="flex flex-col items-center px-4 sm:px-6 md:px-10 w-full max-w-5xl">
           {/* Top Text Section */}
           <div className="flex flex-col items-center text-start gap-2 sm:gap-3 md:gap-5 uppercase w-full">
-            
             <div className="w-full">
-              <div className="font-bold bg-gradient-to-r from-[#143761] via-[#1e4a73] to-[#143761] bg-clip-text text-transparent text-2xl sm:text-4xl md:text-[40px] lg:text-[50px] leading-tight sm:leading-snug md:leading-[45px] lg:leading-[60px]">
+              <div className="bg-gradient-to-r from-[#143761] via-[#1e4a73] to-[#143761] bg-clip-text text-transparent text-2xl md:text-6xl font-bold lg:text-[50px] leading-tight sm:leading-snug md:leading-[45px] lg:leading-[60px]">
                 Turning Your Product Ideas Into{" "}
-                <span className="bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
+                <span className=" bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent italic">
                   Shelf-Stopping Packs
                 </span>
               </div>
-              
-              {/* <div className="font-medium text-[#000000] text-xl sm:text-3xl md:text-[30px] lg:text-[51px] leading-tight sm:leading-snug md:leading-[35px] lg:leading-[60px]">
-                Packaging <FlipWords words={words} />
-              </div> */}
             </div>
             
             <div className="hidden md:block font-normal text-[#000000] text-sm sm:text-base w-full max-w-4xl mt-2 sm:mt-0 normal-case text-start opacity-80">

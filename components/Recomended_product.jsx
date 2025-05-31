@@ -57,7 +57,7 @@ export default function RecommendedProducts() {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredItem, setHoveredItem] = useState(null);
-  const productsPerPage = 4;
+  const productsPerPage = 5;
 
   useEffect(() => {
     getPackagingType();
@@ -128,7 +128,7 @@ export default function RecommendedProducts() {
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
       {loading ? (
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-4 sm:gap-5 md:gap-6">
           {Array(productsPerPage)
             .fill(0)
             .map((_, index) => (
@@ -144,7 +144,7 @@ export default function RecommendedProducts() {
           No products found
         </div>
       ) : (
-        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-4 sm:gap-5 md:gap-6">
           {productList.map((product, index) => {
             const isHovered = hoveredItem === index;
             const truncatedDescription = getTruncatedDescription(product.description);
@@ -179,7 +179,7 @@ export default function RecommendedProducts() {
                     onClick={() => navigateToProductDetail(product.packaging_id)}
 
                   >
-                    <CardBody className=" flex flex-col items-center justify-between p-4">
+                    <CardBody className=" flex flex-col items-center justify-between py-4">
                       {/* Image centered and emphasized */}
                       <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
                         <motion.div
@@ -203,16 +203,7 @@ export default function RecommendedProducts() {
 
                       {/* Text content at bottom */}
                       <div className="w-full text-center">
-                        <h3 className="text-xl font-semibold mb-1 line-clamp-1">{product.name}</h3>
-                        {/* <p
-                          className="text-gray-600 text-sm sm:text-base leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: truncatedDescription }}
-                        ></p> */}
-
-                        {/* <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                          <span>Min Qty: </span>
-                          <span className="font-medium">{product.quantity}</span> 
-                        </div> */}
+                        <h3 className="text-lg font-semibold mb-1 ">{product.name}</h3>
                       </div>
                       
                       {/* Always visible detail button with hover effect */}
@@ -259,7 +250,7 @@ export default function RecommendedProducts() {
                         
                         {/* Text content at bottom */}
                       <div className="w-full text-center">
-                        <h3 className="text-xl font-semibold mb-1 line-clamp-1">{product.name}</h3>
+                        <h3 className="text-xl font-semibold">{product.name}</h3>
                         {/* <p
                           className="text-gray-600 text-sm sm:text-base leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: truncatedDescription }}

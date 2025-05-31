@@ -1,40 +1,38 @@
 import React from 'react';
 import { Sparkles, Package, Recycle, PenTool, Globe, ArrowRight, Palette, Leaf, Box } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Button } from "@nextui-org/react";
+import { GoArrowUpRight } from 'react-icons/go';
 
 function TestimonialSection() {
   const router = useRouter(); 
   return (
-    <div className="h-full relative bg-gradient-to-br from-white via-white to-indigo-100 py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-12 ">
+    <div className="rounded-3xl h-full relative bg-gradient-to-br from-blue-100 via-white to-indigo-100 py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-12 ">
       {/* Background elements */}
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
           {/* Left Column */}
           <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8">
             <div className="relative inline-block">
-              <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold text-slate-800 leading-tight break-words">
-                Experience it first   <br />
-                <span className=" text-blue-600 mt-1 sm:mt-2 lg:mt-3 bg-gradient-to-r from-blue-900 to-cyan-400 bg-clip-text text-transparent">request your free sample now!</span>
+              <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 leading-tight break-words">
+                Experience it first <br />
+                <span className=" text-blue-600 mt-1 sm:mt-2 lg:mt-3 bg-gradient-to-r from-blue-900 to-cyan-400 bg-clip-text text-transparent">request your free <span className='text-6xl italic'> sample now. </span> </span>
               </h2>
               <Sparkles className="absolute top-1 sm:top-2 md:top-3 lg:top-4 right-2 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-amber-400" />
             </div>
             
-            <p className="text-base sm:text-lg lg:text-xl text-slate-700/90 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-lg text-slate-700/90 leading-relaxed">
               To ensure your complete satisfaction, we offer complimentary sample kits for you to evaluate our products firsthand. Request your sample kit at your convenience, and allow us the opportunity to demonstrate the quality and care we put into every item. We look
               forward to serving you. 
             </p>
             
-            
-            
             <div className="pt-2 sm:pt-4 w-fit hidden sm:block">
-              <button 
-              onClick={()=> router.push("/free-sample")}
-                className="bg-gradient-to-r from-blue-150 border-2 to-cyan-100 hover:from-blue-150 hover:to-cyan-100 text-black font-semibold py-3 sm:py-4 px-6 sm:px-10 rounded-full inline-flex items-center gap-2 sm:gap-3 transition-all duration-300 shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl text-sm sm:text-base"
+              <Button 
+              className="flex justify-center items-center gap-2 bg-gradient-to-r from-[#143761] to-[#1e4a73] hover:from-[#1e4a73] hover:to-[#143761] rounded-full font-normal text-xl text-white px-4 py-2 w-full sm:w-auto transition-all duration-300"
+                onClick={() => router.push('/contact')}
               >
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-                GET FREE SAMPLE
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2" />
-              </button>
+                Contact Us <GoArrowUpRight />
+              </Button>
             </div>
           </div>
 

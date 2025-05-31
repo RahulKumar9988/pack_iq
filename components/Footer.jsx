@@ -78,12 +78,12 @@ const Footer = () => {
           {/* Logo and Contact Info */}
           <div className="flex flex-col md:flex-row gap-16 mb-12">
             <div className="w-full md:w-1/3">
-              <div className="mb-6 transform hover:scale-105 transition-transform duration-300">
+              <div className="mb-6 transform transition-transform duration-300">
                 <Image
-                  src="/productNavLogo.png"
+                  src="/pack/white_logo.png"
                   alt="PackIQ Logo"
-                  height={60}
-                  width={100}
+                  height={120}
+                  width={120}
                   className="h-auto w-auto"
                 />
               </div>
@@ -120,9 +120,9 @@ const Footer = () => {
                         <a
                           key={itemIndex}
                           href={item.href || "#"}
-                          className="hover:text-[#143761] transition-colors duration-200 flex items-center gap-2 group"
+                          className="hover:text-white transition-colors duration-200 flex items-center gap-2 group"
                         >
-                          <span className="w-0 h-0.5 bg-[#143761] group-hover:w-3 transition-all duration-300"></span>
+                          <span className="w-0 h-0.5 bg-white group-hover:w-3 transition-all duration-300"></span>
                           <span className="group-hover:translate-x-1 transition-transform duration-200">
                             {item.name}
                           </span>
@@ -159,7 +159,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="w-full text-center bg-[#3590ff3f] text-black border-t-1 border-black">
+      <div className="w-full text-center bg-[#1d274e] text-white border-t-1 border-black">
         <div className="py-6 px-6 flex flex-col md:flex-row justify-center items-center">
           <span className="text-sm">
             Copyright © {new Date().getFullYear()} PackIQ. All rights reserved.

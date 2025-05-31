@@ -194,17 +194,17 @@ export default function NavLinks() {
   }, []);
 
   // Memoize navigation handlers
-  const handleProfileClick = useCallback(() => {
-    router.push('/auth/signin');
-  }, [router]);
+  // const handleProfileClick = useCallback(() => {
+  //   router.push('/auth/signin');
+  // }, [router]);
 
-  const handleLogout = useCallback(async () => {
-    const result = await Logout();
-    if(result.success){
-      dispatch(logout());
-      router.push('/');
-    }
-  }, [dispatch, router]);
+  // const handleLogout = useCallback(async () => {
+  //   const result = await Logout();
+  //   if(result.success){
+  //     dispatch(logout());
+  //     router.push('/');
+  //   }
+  // }, [dispatch, router]);
 
   // Prevent rendering on server-side
   if (!isMounted) {
@@ -213,7 +213,7 @@ export default function NavLinks() {
 
   return (
     <Navbar
-      className="bg-white shadow-sm h-16 px-10"
+      className=" shadow-sm h-16 px-10"
       classNames={{
         wrapper: "max-w-full ",
         content: "gap-4",
@@ -225,7 +225,7 @@ export default function NavLinks() {
       
 
       {/* Navigation links */}
-      <NavbarContent className="hidden md:flex basis-3/5 justify-center gap-8 " justify="start">
+      <NavbarContent className=" hidden md:flex basis-3/5 justify-center gap-8 " justify="start">
         <NavbarItem>
           <PackagingSolutions />
         </NavbarItem>
