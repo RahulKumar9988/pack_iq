@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* [data-speed], [data-lag] {
+  will-change: transform;
+} */
+
+
 @font-face {
   font-family: 'Helvetica';
   src: url('/font/Helvetica.ttf') format('truetype');

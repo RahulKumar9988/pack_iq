@@ -12,17 +12,20 @@ export default function SmoothScrollProvider({ children }) {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    const smoother = ScrollSmoother.create({
-      wrapper: wrapperRef.current,
-      content: contentRef.current,
-      smooth: 1.2,
-      effects: true,
-    });
+  ScrollTrigger.normalizeScroll(true); // normalizes native scroll behavior
 
-    return () => {
-      smoother.kill();
-    };
-  }, []);
+  const smoother = ScrollSmoother.create({
+    wrapper: wrapperRef.current,
+    content: contentRef.current,
+    smooth: 1.2,
+    effects: false,
+  });
+
+  return () => {
+    smoother.kill();
+  };
+}, []);
+
 
   return (
     <div id="smooth-wrapper" ref={wrapperRef}>

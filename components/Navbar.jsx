@@ -87,7 +87,7 @@ export default function HomepageNavbar() {
             <Image 
               src="/productNavLogo.png" 
               alt="PackIQ Logo" 
-              width={140}
+              width={150}
               height={80}
               className="object-contain"
               loading="eager"

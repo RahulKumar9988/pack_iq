@@ -8,18 +8,17 @@ import FAQ from "./FAQ";
 import PackagingAchievements from "./PackagingAchievements ";
 import Recomended_product from "@/components/Recomended_product";
 import Partner from "./Partner";
+import CTA from "./CTA";
+import AdvancedQAContact from "./AdvancedQAContact";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Homepage() {
 
   return (
-    <div className="flex flex-col gap-5 mt-0 md:mt-0 w-full ">
+    <div className="flex flex-col gap-5 mt-0 md:mt-0 w-full  ">
       <HeroSection/>
-      <div className=" px-4 sm:px-8 md:px-20 ">
-        <p className="text-[24px] sm:text-[28px] md:text-[32px] font-medium text-center md:text-start text-[#143761]">
-          Shop by popularity
-        </p>
+      <div className=" px-4 sm:px-8 md:px-20 mt-20 ">
         <Recomended_product />
       </div>
       <PackagingAchievements/>
@@ -28,7 +27,9 @@ export default function Homepage() {
       {/* <Quality_section/> */}
       {/* <Innovations/> */}
       <TestimonialSection/>
+      <CTA/>
       <FAQ/>
+      <AdvancedQAContact/>
       
     </div>
   );

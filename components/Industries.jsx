@@ -103,7 +103,7 @@ export default function Industries() {
         </div>
       </div>
       <div className="px-5 md:px-20">
-        <p className="text-[28px] font-semibold">Shop by popularity</p>
+        <p className="text-[28px] font-semibold">Shop by popularity.</p>
         <Products/>
       </div>
     </div>

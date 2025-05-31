@@ -174,7 +174,7 @@ export default function RecommendedProducts() {
                 >
                   <Card
                     shadow="sm"
-                    className="bg-gradient-to-br from-white to-blue-50 border border-gray-200 h-full w-full relative overflow-visible"
+                    className="bg-gradient-to-br from-white to-blue-100 border border-gray-200 h-full w-full relative overflow-visible"
                     isPressable
                     onClick={() => navigateToProductDetail(product.packaging_id)}
 
@@ -246,16 +246,31 @@ export default function RecommendedProducts() {
                       
                       <div className="h-full flex flex-col p-6 relative z-10">
                         {/* Larger image at the top */}
+                        
                         <div className="flex-1 flex justify-center items-center mb-4">
                           <Image
                             src={product.packaging_image_url}
                             alt={product.name}
                             width={265}
                             height={265}
-                            className="object-cover"
+                            className="object-cover scale-110"
                           />
                         </div>
                         
+                        {/* Text content at bottom */}
+                      <div className="w-full text-center">
+                        <h3 className="text-xl font-semibold mb-1 line-clamp-1">{product.name}</h3>
+                        {/* <p
+                          className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: truncatedDescription }}
+                        ></p> */}
+
+                        {/* <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                          <span>Min Qty: </span>
+                          <span className="font-medium">{product.quantity}</span> 
+                        </div> */}
+                      </div>
+
                         {/* Content at the bottom */}
                         {/* <div className="space-y-0">
                           <h3 className="text-xl font-bold text-[#253670] text-center">{product.name}</h3>

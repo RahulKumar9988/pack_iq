@@ -73,7 +73,7 @@ const Footer = () => {
       
       
       {/* Main Footer Section */}
-      <div className="bg-gradient-to-b from-[#ffffff] to-[#72b1ff13] text-[#143761]">
+      <div className="bg-[#1d274e] text-white">
         <div className="lg:px-24 px-6 md:px-10 py-16">
           {/* Logo and Contact Info */}
           <div className="flex flex-col md:flex-row gap-16 mb-12">
@@ -87,7 +87,7 @@ const Footer = () => {
                   className="h-auto w-auto"
                 />
               </div>
-              <p className="text-gray-700 mb-8 leading-relaxed">
+              <p className="text-white mb-8 leading-relaxed">
                 PackIQ provides innovative packaging solutions for businesses of all sizes. 
                 From custom designs to eco-friendly materials, we have everything you need 
                 to make your products stand out.
@@ -98,7 +98,7 @@ const Footer = () => {
                     <div className="p-2 bg-white rounded-full shadow-md group-hover:shadow-lg group-hover:bg-[#F3F5F7] transition-all duration-300">
                       {item.icon}
                     </div>
-                    <span className="text-gray-700 font-medium">{item.text}</span>
+                    <span className="text-white font-medium">{item.text}</span>
                   </div>
                 ))}
               </div>
@@ -115,7 +115,7 @@ const Footer = () => {
                     <h3 className="font-bold text-lg border-b-2 border-[#143761] pb-2 inline-block">
                       {section.title}
                     </h3>
-                    <div className="flex flex-col gap-4 text-gray-700">
+                    <div className="flex flex-col gap-4 text-white">
                       {section.items.map((item, itemIndex) => (
                         <a
                           key={itemIndex}
