@@ -6,6 +6,9 @@
   will-change: transform;
 } */
 
+* {
+    scroll-behavior: smooth;
+}
 
 @font-face {
   font-family: 'Helvetica';
