@@ -14,11 +14,11 @@ function TestimonialSection() {
           {/* Left Column */}
           <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8">
             <div className="relative inline-block">
-              <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 leading-tight break-words">
-                Experience it first <br />
-                <span className=" text-blue-600 mt-1 sm:mt-2 lg:mt-3 bg-gradient-to-r from-blue-900 to-cyan-400 bg-clip-text text-transparent">request your free <span className='text-6xl italic'> sample now. </span> </span>
+              <h2 className="text-3xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-slate-900 leading-tight break-words">
+                Experience it first 
+                <p className=" text-blue-600 text-5xl bg-gradient-to-r from-blue-900 to-cyan-400 bg-clip-text text-transparent">request your free <br /> <span className='text-6xl'> sample now. </span> </p>
               </h2>
-              <Sparkles className="absolute top-1 sm:top-2 md:top-3 lg:top-4 right-2 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-amber-400" />
+              <Sparkles className="absolute left-full top-0 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-amber-400" />
             </div>
             
             <p className="text-base sm:text-lg lg:text-lg text-slate-700/90 leading-relaxed">
