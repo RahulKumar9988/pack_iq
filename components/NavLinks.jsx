@@ -213,7 +213,7 @@ export default function NavLinks() {
 
   return (
     <Navbar
-      className=" shadow-sm h-16 px-10"
+      className=" shadow-sm h-24 -z-30 mt-[-20px] px-10 "
       classNames={{
         wrapper: "max-w-full ",
         content: "gap-4",
@@ -225,7 +225,7 @@ export default function NavLinks() {
       
 
       {/* Navigation links */}
-      <NavbarContent className=" hidden md:flex basis-3/5 justify-center gap-8 " justify="start">
+      <NavbarContent className=" mt-5 hidden md:flex basis-3/5 justify-center gap-8 " justify="start">
         <NavbarItem>
           <PackagingSolutions />
         </NavbarItem>
@@ -270,7 +270,7 @@ export default function NavLinks() {
           </NextUILink>
         </NavbarItem> */}
       </NavbarContent>
-      <button className="border-1 shadow-md px-5 py-2 rounded-2xl border-blue-900 text-blue-900" onClick={()=>router.push('/packaging-type')}>Configure Packaging</button>
+      <button className="mt-5 border-1 shadow-md px-5 py-2 rounded-2xl border-blue-900 text-blue-900" onClick={()=>router.push('/packaging-type')}>Configure Packaging</button>
     </Navbar>
   );
 }

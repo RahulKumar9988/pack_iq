@@ -72,45 +72,38 @@ function Hero_text() {
               
               <motion.div 
                 variants={itemVariants}
-                className="font-normal text-[#374151] text-base sm:text-lg w-full max-w-4xl mt-6 sm:mt-4 normal-case text-start hidden md:block"
+                className="font-normal text-[#000000] text-base sm:text-lg w-full max-w-4xl mt-6 sm:mt-4 normal-case text-start hidden md:block"
               >
                 <ul className="space-y-4 sm:space-y-5 list-none">
                   <li className="leading-relaxed flex items-start">
-                    <div className="bg-gradient-to-r from-[#1d274e] to-[#1d274e] p-1 rounded-full mr-3 mt-1">
-                      <GoCheck className="text-white text-sm" />
-                    </div>
-                    <span>At Packiq, we inspire bold ideas, innovate smarter packaging solutions, and create designs that bring your brand to life.</span>
+                    
+                    <span>At Packiq, we <span className="text-xl font-semibold">inspire</span>  bold ideas,<span className="text-xl font-semibold">innovate</span>  smarter packaging solutions, and <span className="text-xl font-semibold">create</span>  designs that bring your brand to life.With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.</span>
                   </li>
                   
-                  <li className="leading-relaxed flex items-start">
-                    <div className="bg-gradient-to-r from-[#1d274e] to-[#1d274e] p-1 rounded-full mr-3 mt-1">
-                      <GoCheck className="text-white text-sm" />
-                    </div>
-                    <span>With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.</span>
-                  </li>
+                  {/*  */}
                   
                   <li className="leading-relaxed flex items-start">
-                    <div className="bg-gradient-to-r from-[#1d274e] to-[#1d274e] p-1 rounded-full mr-3 mt-1">
+                    {/* <div className="bg-gradient-to-r from-[#1d274e] to-[#1d274e] p-1 rounded-full mr-3 mt-1">
                       <GoCheck className="text-white text-sm" />
-                    </div>
-                    <span>Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.</span>
+                    </div> */}
+                    <span className="text-xl">Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.</span>
                   </li>
                 </ul>
               </motion.div>
               
               <motion.div 
                 variants={itemVariants}
-                className="flex flex-col sm:flex-row gap-3 sm:gap-5 w-full sm:w-auto justify-center"
+                className="flex flex-col sm:flex-row gap-3 sm:gap-5 w-full sm:w-auto justify-center  md:mt-5"
               >
                 <Button 
-                  className="flex justify-center items-center gap-2 bg-gradient-to-r from-[#1d274e] to-[#130827] hover:from-[#091528] hover:to-[#10052a] rounded-full font-medium text-base sm:text-lg text-white px-6 py-4 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/30"
+                  className="flex justify-center items-center gap-2 bg-gradient-to-r from-[#1d274e] to-[#130827] hover:from-[#091528] hover:to-[#10052a] rounded-full font-medium text-base sm:text-lg text-white px-6 py-6 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/30"
                   onClick={() => router.push('/packaging-type')}
                 >
                   Customize now <GoArrowUpRight className="text-lg" />
                 </Button>
                 
                 <Button
-                  className="flex justify-center items-center gap-2 border-2 border-[#3b82f6] bg-white hover:bg-gradient-to-r hover:from-[#1d274e] hover:to-[#0e071b] rounded-full font-medium text-[#3b82f6] hover:text-white text-base sm:text-lg px-6 py-4 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/20"
+                  className="flex justify-center items-center gap-2 border-2 border-[#3b82f6] bg-white hover:bg-gradient-to-r hover:from-[#1d274e] hover:to-[#0e071b] rounded-full font-medium text-[#3b82f6] hover:text-white text-base sm:text-lg px-6 py-6 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/20"
                   onClick={() => router.push('/free-sample')}
                   variant="bordered"
                 >
@@ -121,7 +114,7 @@ function Hero_text() {
           </div>
         </div>
       </div>
-      
+
     </div>
   );
 }
