@@ -89,7 +89,7 @@ const PackagingAchievements = () => {
         {/* Header Section */}
         <div className="text-center space-y-6">
           <div className="inline-block">
-            <h2 className="text-3xl md:text-4xl text-blue-950 font-semibold mb-4 leading-tight">
+            <h2 className="text-3xl md:text-6xl text-blue-950 font-semibold mb-4 leading-tight">
               The Packiq Advantage 
             </h2>
             <div className="text-xl md:text-2xl font-medium text-gray-600">
@@ -106,7 +106,7 @@ const PackagingAchievements = () => {
           {achievements.map((achievement) => (
             <div
               key={achievement.id}
-              className="group relative rounded-3xl border border-blue-200 bg-white/80 backdrop-blur-sm w-full max-w-80 h-72 mx-auto
+              className="group relative rounded-3xl border border-blue-200 bg-white/80 backdrop-blur-sm w-full max-w-80 h-64 mx-auto
                          transition-all duration-300 ease-out hover:shadow-lg hover:shadow-blue-100/50 hover:-translate-y-1
                          will-change-transform"
               onMouseEnter={() => handleMouseEnter(achievement.id)}
@@ -121,7 +121,7 @@ const PackagingAchievements = () => {
                   <img 
                     src={achievement.image} 
                     alt={achievement.alt} 
-                    className="w-32 h-32 object-cover"
+                    className="w-28 h-28 object-cover"
                     loading="lazy"
                     decoding="async"
                   /> 
