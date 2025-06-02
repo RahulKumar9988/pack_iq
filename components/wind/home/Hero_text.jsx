@@ -86,7 +86,7 @@ function Hero_text() {
                     {/* <div className="bg-gradient-to-r from-[#1d274e] to-[#1d274e] p-1 rounded-full mr-3 mt-1">
                       <GoCheck className="text-white text-sm" />
                     </div> */}
-                    <span className="text-xl">Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.</span>
+                    <span className="text-xl font-bold font-sans italic">Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.</span>
                   </li>
                 </ul>
               </motion.div>

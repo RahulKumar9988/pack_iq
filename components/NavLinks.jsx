@@ -252,11 +252,11 @@ export default function NavLinks() {
             Free Sample
           </NextUILink>
         </NavbarItem>
-        <NavbarItem>
+        {/* <NavbarItem>
           <NextUILink href="/products" as={Link} color="foreground" className=" text-blue-900 text-base font-medium">
             Products
           </NextUILink>
-        </NavbarItem>
+        </NavbarItem> */}
 
         {/* <NavbarItem>
           <ProductsDropdown />
