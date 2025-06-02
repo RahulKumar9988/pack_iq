@@ -174,7 +174,7 @@ export default function RecommendedProducts() {
                 >
                   <Card
                     shadow="sm"
-                    className="bg-gradient-to-br from-white to-blue-100 border border-gray-200 h-full w-full relative overflow-visible"
+                    className="bg-gradient-to-br from-indigo-100 to-blue-100 border border-gray-200 h-full w-full relative overflow-visible"
                     isPressable
                     onClick={() => navigateToProductDetail(product.packaging_id)}
 
@@ -234,7 +234,6 @@ export default function RecommendedProducts() {
                     >
                       {/* Decorative circles in the overlay */}
                       <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#E45971]/10 rounded-full"></div>
-                      <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-200/30 rounded-full"></div>
                       
                       <div className="h-full flex flex-col p-6 relative z-10">
                         {/* Larger image at the top */}
