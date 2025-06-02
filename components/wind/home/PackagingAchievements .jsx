@@ -90,7 +90,7 @@ const PackagingAchievements = () => {
         <div className="text-center space-y-6">
           <div className="inline-block">
             <h2 className="text-3xl md:text-6xl text-blue-950 font-semibold mb-4 leading-tight">
-              The Packiq Advantage 
+              The PackIQ Advantage 
             </h2>
             <div className="text-xl md:text-2xl font-medium text-gray-600">
               What Sets Us Apart ✨
