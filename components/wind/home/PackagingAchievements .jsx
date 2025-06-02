@@ -74,7 +74,7 @@ const PackagingAchievements = () => {
   }, []);
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-white via-white to-indigo-100 py-10 px-4">
+    <div className="relative overflow-hidden bg-gradient-to-br from-white via-white to-indigo-50 py-10 px-4">
       {/* Simplified background elements - removed expensive animations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30"></div>
