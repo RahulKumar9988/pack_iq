@@ -181,7 +181,7 @@ export default function RecommendedProducts() {
                   >
                     <CardBody className=" flex flex-col items-center justify-between py-4">
                       {/* Image centered and emphasized */}
-                      <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
+                      <div className=" overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
                         <motion.div
                           animate={{ 
                             boxShadow: isHovered ? "0 8px 32px rgba(228, 89, 113, 0.3)" : "0 4px 12px rgba(0, 0, 0, 0)" 
@@ -191,7 +191,7 @@ export default function RecommendedProducts() {
                         >
                           <Image
                             src={product.packaging_image_url}
-                            className="object-cover"
+                            className="object-cover "
                             alt={product.name}
                             width={260}
                             height={260}
@@ -201,10 +201,7 @@ export default function RecommendedProducts() {
                         </motion.div>
                       </div>
 
-                      {/* Text content at bottom */}
-                      <div className="w-full text-center">
-                        <h3 className="text-lg font-semibold mb-1 ">{product.name}</h3>
-                      </div>
+                      
                       
                       {/* Always visible detail button with hover effect */}
                       <div className="absolute bottom-3 right-3 z-10">
@@ -218,6 +215,10 @@ export default function RecommendedProducts() {
                         </Button> */}
                       </div>
                     </CardBody>
+                    {/* Text content at bottom */}
+                    <div className="w-full text-center bg-white p-2 rounded-b-xl">
+                      <h3 className="text-lg font-semibold mb-1 ">{product.name}</h3>
+                    </div>
                   </Card>
                 </motion.div>
                 
@@ -248,19 +249,6 @@ export default function RecommendedProducts() {
                           />
                         </div>
                         
-                        {/* Text content at bottom */}
-                      <div className="w-full text-center">
-                        <h3 className="text-xl font-semibold">{product.name}</h3>
-                        {/* <p
-                          className="text-gray-600 text-sm sm:text-base leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: truncatedDescription }}
-                        ></p> */}
-
-                        {/* <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                          <span>Min Qty: </span>
-                          <span className="font-medium">{product.quantity}</span> 
-                        </div> */}
-                      </div>
 
                         {/* Content at the bottom */}
                         {/* <div className="space-y-0">
@@ -277,6 +265,11 @@ export default function RecommendedProducts() {
                             <span className="font-medium text-purple-600">{product.price}</span>
                           </div>
                         </div> */}
+                      </div>
+                      
+                      {/* Text content at bottom */}
+                      <div className="w-full text-center bg-white p-2 rounded-b-xl">
+                        <h3 className="text-lg font-semibold mb-1 ">{product.name}</h3>
                       </div>
                     </motion.div>
                   )}
