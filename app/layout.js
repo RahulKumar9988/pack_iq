@@ -78,14 +78,14 @@ export default function RootLayout({ children }) {
             <Suspense fallback={<div className="w-full h-screen flex items-center justify-center">
               <div className="animate-pulse h-10 w-10 bg-blue-200 rounded-full"></div>
             </div>}>
-              <SmoothScrollProvider>
+              {/* <SmoothScrollProvider> */}
                 {/* Main Content with proper padding/margin to account for fixed header */}
                 <div className="w-full flex justify-center flex-grow md:mt-28 sm:mt-16 mt-2">
                   {children}
                 </div>
                 
                 <Footer />
-              </SmoothScrollProvider>
+              {/* </SmoothScrollProvider> */}
             </Suspense>
           </div>
         </StoreProvider>
