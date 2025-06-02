@@ -213,7 +213,7 @@ export default function NavLinks() {
 
   return (
     <Navbar
-      className=" shadow-sm h-24 -z-30 mt-[-25px] px-10 "
+      className=" shadow-sm h-24 -z-0 mt-[-20px] px-10 "
       classNames={{
         wrapper: "max-w-full ",
         content: "gap-4",

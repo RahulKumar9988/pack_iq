@@ -71,7 +71,7 @@ export default function HomepageNavbar() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full z-20">
       <Navbar
         className=" h-24 px-10"
         classNames={{
