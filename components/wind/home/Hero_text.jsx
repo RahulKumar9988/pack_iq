@@ -56,12 +56,12 @@ function Hero_text() {
               className="flex flex-col items-center text-start gap-2 sm:gap-3 md:gap-5 uppercase w-full"
             >
               <motion.div variants={itemVariants} className="w-full">
-                <div className="text-black bg-clip-text text-3xl md:text-4xl font-bold lg:text-3xl leading-tight sm:leading-snug md:leading-[45px] lg:leading-[60px] tracking-tight">
+                <div className="text-[#217e8c] bg-clip-text text-transparent text-3xl md:text-4xl font-bold lg:text-3xl leading-tight sm:leading-snug md:leading-[45px] lg:leading-[60px] tracking-tight">
                   Turning Your Product Ideas Into{" "}
                   <span className="bg-gradient-to-r from-[#2d3d7a] to-[#334488] bg-clip-text text-transparent relative inline-block font-extrabold text-[50px]">
                     Shelf-Stopping Pouch
                     <motion.span 
-                      className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#2d3d7a] to-[#2d3d7a]"
+                      className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#217e8c] to-[#2899ab]"
                       initial={{ width: 0 }}
                       animate={{ width: "100%" }}
                       transition={{ duration: 1, delay: 0.5 }}
@@ -93,7 +93,7 @@ function Hero_text() {
               
               <motion.div 
                 variants={itemVariants}
-                className=" flex flex-col sm:flex-row gap-3 sm:gap-5 w-full sm:w-auto justify-center  md:mt-10"
+                className=" flex flex-col sm:flex-row gap-3 sm:gap-5 w-full sm:w-auto justify-center  md:mt-5"
               >
                 <Button 
                   className=" flex justify-center items-center gap-2 bg-gradient-to-r from-[#1d274e] to-[#130827] hover:from-[#091528] hover:to-[#10052a] rounded-full font-medium text-base sm:text-lg text-white px-6 py-6 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/30"

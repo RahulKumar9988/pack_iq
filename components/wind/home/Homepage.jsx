@@ -18,7 +18,7 @@ export default function Homepage() {
   return (
     <div className="flex flex-col gap-5 mt-0 md:mt-0 w-full  ">
       <HeroSection/>
-      <div className=" px-4 sm:px-8 md:px-20 mt-10 ">
+      <div className=" px-4 sm:px-8 md:px-20 mt-5 ">
         <Recomended_product />
       </div>
       <PackagingAchievements/>
