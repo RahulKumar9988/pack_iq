@@ -77,7 +77,7 @@ function Hero_text() {
                 <ul className="space-y-4 sm:space-y-5 list-none">
                   <li className="leading-relaxed flex items-start">
                     
-                    <span>At Packiq, we <span className="text-[21px] italic font-sans text-blue-900 font-semibold">Inspire</span>  bold ideas,<span className=" text-blue-900 text-[21px] italic font-sans font-semibold">Innovate</span>  smarter packaging solutions, and <span className="text-[21px] font-semibold italic font-sans  text-blue-900">Create</span>  designs that bring your brand to life.With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.</span>
+                    <span>At Packiq, we <span className="text-[21px] italic font-sans text-blue-900 font-semibold">Inspire</span>  bold ideas,<span className=" text-blue-900 text-[21px] italic font-sans font-semibold"> Innovate</span>  smarter packaging solutions, and <span className="text-[21px] font-semibold italic font-sans  text-blue-900">Create</span>  designs that bring your brand to life.With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.</span>
                   </li>
                   
                   {/*  */}
