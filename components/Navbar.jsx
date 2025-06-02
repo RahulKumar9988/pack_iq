@@ -87,7 +87,7 @@ export default function HomepageNavbar() {
             <Image 
               src="/productNavLogo.png" 
               alt="PackIQ Logo" 
-              width={180}
+              width={190}
               height={100}
               className="object-cover mb-2"
               loading="eager"
@@ -138,8 +138,7 @@ export default function HomepageNavbar() {
             ) : (
               <Button
                 onClick={handleProfileClick}
-                className="bg-[#143761] hover:bg-blue-950 text-white font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                size="md"
+                className="bg-[#143761] hover:bg-blue-950 text-white text-md p-5 rounded-lg transition-all duration-300 focus:outline-none font-semibold focus:ring-2 focus:ring-blue-400"
               >
                 Login
               </Button>
