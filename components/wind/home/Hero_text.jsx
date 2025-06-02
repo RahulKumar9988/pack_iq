@@ -37,7 +37,7 @@ function Hero_text() {
   };
 
   return (
-    <div className="w-full relative overflow-hidden">
+    <div className="w-full relative overflow-hidden md:mt-10">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full z-0">
         <div className="absolute top-10 right-10 w-96 h-96 bg-gradient-to-r from-[#2563eb]/10 to-[#7c3aed]/10 rounded-full blur-3xl opacity-50" />
@@ -56,7 +56,7 @@ function Hero_text() {
               className="flex flex-col items-center text-start gap-2 sm:gap-3 md:gap-5 uppercase w-full"
             >
               <motion.div variants={itemVariants} className="w-full">
-                <div className="bg-gradient-to-r from-[#000000] via-[#000000] to-[#000000] bg-clip-text text-transparent text-3xl md:text-4xl font-bold lg:text-[45px] leading-tight sm:leading-snug md:leading-[45px] lg:leading-[70px] tracking-tight">
+                <div className="bg-gradient-to-r from-[#000000] via-[#000000] to-[#000000] bg-clip-text text-transparent text-3xl md:text-4xl font-bold lg:text-3xl leading-tight sm:leading-snug md:leading-[45px] lg:leading-[60px] tracking-tight">
                   Turning Your Product Ideas Into{" "}
                   <span className="bg-gradient-to-r from-[#2d3d7a] to-[#334488] bg-clip-text text-transparent relative inline-block font-extrabold text-[50px]">
                     Shelf-Stopping Packs
