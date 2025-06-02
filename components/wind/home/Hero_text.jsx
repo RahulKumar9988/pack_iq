@@ -77,7 +77,7 @@ function Hero_text() {
                 <ul className="space-y-4 sm:space-y-5 list-none">
                   <li className="leading-relaxed flex items-start">
                     
-                    <span>At Packiq, we <span className="text-2xl italic font-sans font-semibold">inspire</span>  bold ideas,<span className="text-2xl italic font-sans font-semibold">innovate</span>  smarter packaging solutions, and <span className="text-2xl font-semibold italic font-sans ">create</span>  designs that bring your brand to life.With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.</span>
+                    <span>At Packiq, we <span className="text-2xl italic font-sans text-blue-900 font-semibold">inspire</span>  bold ideas,<span className=" text-blue-900 text-2xl italic font-sans font-semibold">innovate</span>  smarter packaging solutions, and <span className="text-2xl font-semibold italic font-sans  text-blue-900">create</span>  designs that bring your brand to life.With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.</span>
                   </li>
                   
                   {/*  */}
@@ -86,7 +86,7 @@ function Hero_text() {
                     {/* <div className="bg-gradient-to-r from-[#1d274e] to-[#1d274e] p-1 rounded-full mr-3 mt-1">
                       <GoCheck className="text-white text-sm" />
                     </div> */}
-                    <span className="text-xl font-bold font-sans italic">Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.</span>
+                    <span className="text-xl font-sans italic">Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.</span>
                   </li>
                 </ul>
               </motion.div>
