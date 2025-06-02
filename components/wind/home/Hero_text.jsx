@@ -103,7 +103,7 @@ function Hero_text() {
                 </Button>
                 
                 <Button
-                  className="flex justify-center items-center gap-2 border-2 border-[#3b82f6] bg-white hover:bg-gradient-to-r hover:from-[#1d274e] hover:to-[#0e071b] rounded-full font-medium text-[#3b82f6] hover:text-white text-base sm:text-lg px-6 py-6 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/20"
+                  className="flex justify-center items-center gap-2 border-2 border-blue-900 bg-white hover:bg-gradient-to-r hover:from-[#1d274e] hover:to-[#0e071b] rounded-full font-medium text-blue-900 hover:text-white text-base sm:text-lg px-6 py-6 w-full sm:w-auto transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#3b82f6]/20"
                   onClick={() => router.push('/free-sample')}
                   variant="bordered"
                 >
