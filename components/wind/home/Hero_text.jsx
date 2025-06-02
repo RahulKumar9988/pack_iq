@@ -100,7 +100,7 @@ function Hero_text() {
                       With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.
                     </p>
                     
-                    <p className="leading-relaxed text-xl lg:text-2xl font-medium italic text-gray-800 text-center">
+                    <p className="leading-relaxed text-xl lg:text-2xl font-medium italic text-gray-800 ">
                       Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique.
                     </p>
                   </div>
