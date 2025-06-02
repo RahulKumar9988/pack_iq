@@ -26,7 +26,7 @@ export default function LinkedPortraitGallery() {
   };
 
   return (
-    <div className="relative w-full h-full md:p-8">
+    <div className="relative w-full h-full md:p-8 mt-10">
       {/* Call to Action Section with FlipWords */}
       <div className=" text-center hidden">
         <h2 className="text-4xl font-bold mb-4">
