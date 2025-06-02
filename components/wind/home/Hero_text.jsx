@@ -57,7 +57,7 @@ function Hero_text() {
             >
               {/* Main Headline */}
               <motion.div variants={itemVariants} className="w-full">
-                <h1 className="text-gray-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-tight tracking-tight">
+                <h1 className="text-gray-900 text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-tight tracking-tight">
                   Turning Your Product Ideas Into{" "} <br />
                   <span className="relative inline-block">
                     <span className="text-6xl bg-gradient-to-r from-blue-900 to-blue-950 bg-clip-text text-transparent font-extrabold">
