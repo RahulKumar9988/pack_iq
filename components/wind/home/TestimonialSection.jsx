@@ -22,16 +22,15 @@ function TestimonialSection() {
             </div>
             
             <p className="text-base sm:text-lg lg:text-lg text-slate-700/90 leading-relaxed">
-              To ensure your complete satisfaction, we offer complimentary sample kits for you to evaluate our products firsthand. Request your sample kit at your convenience, and allow us the opportunity to demonstrate the quality and care we put into every item. We look
-              forward to serving you. 
+              To ensure your complete satisfaction, we provide free sample kits for you to experience the quality and durability of our packaging firsthand. Simply request your sample kit at your convenience, and let us demonstrate the attention to detail and craftsmanship we put into every product. We look forward to helping you find the perfect packaging solution.
             </p>
             
             <div className="pt-2 sm:pt-4 w-fit hidden sm:block">
               <Button 
-              className="flex justify-center items-center gap-2 bg-gradient-to-r from-[#143761] to-[#1e4a73] hover:from-[#1e4a73] hover:to-[#143761] rounded-full font-normal text-xl text-white px-4 py-2 w-full sm:w-auto transition-all duration-300"
-                onClick={() => router.push('/contact')}
+              className="flex justify-center items-center gap-2 bg-gradient-to-r from-[#143761] to-[#1e4a73] hover:from-[#1e4a73] hover:to-[#143761] rounded-full font-normal text-lg text-white px-4 py-2 w-full sm:w-auto transition-all duration-300"
+                onClick={() => router.push('/free-sample')}
               >
-                Contact Us <GoArrowUpRight />
+                Get Free Sample <GoArrowUpRight />
               </Button>
             </div>
           </div>

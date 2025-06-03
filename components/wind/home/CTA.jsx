@@ -18,9 +18,9 @@ function CTA() {
         </div>
 
         {/* Left Section - Text & Buttons */}
-        <div className="relative z-10 flex flex-col gap-6 font-bold text-white text-xl sm:text-center md:text-3xl lg:text-4xl xl:text-4xl lg:text-left leading-tight md:leading-snug lg:w-1/2">
+        <div className="relative z-10 flex flex-col gap-6 font-bold text-white text-xl sm:text-center md:text-5xl lg:text-5xl xl:text-5xl lg:text-left leading-tight md:leading-snug lg:w-1/2">
           <div>
-            <p className=' font-bold '>
+            <p className=' font-bold  '>
                 Ready to build your Brand&apos;s Dream Pouch. <br /> 
             </p>
           </div>
@@ -31,7 +31,7 @@ function CTA() {
               className="bg-gradient-to-r from-[#0A7CFF] to-[#46E3FF] text-white flex items-center rounded-full gap-3 px-6 py-6 text-lg border-none hover:shadow-lg transition-all"
               onClick={()=> router.push('/packaging-type')}
             >
-              Customize now
+              Customize Now
               <GoArrowUpRight />
             </Button>
             <Button
@@ -39,25 +39,45 @@ function CTA() {
               className="flex items-center gap-3 px-6 py-6 border-2 border-white rounded-full text-lg text-white hover:bg-white/10 transition-all"
               onClick={()=>router.push('/free-sample')}
             >
-              Get sample products
+              Get Free Sample 
             </Button>
           </div>
         </div>
 
         {/* Right Section - Image */}
         <div className="relative mt-10 lg:mt-0 w-full lg:w-1/2 transform lg:translate-x-6">
-          <div className="relative shadow-xl rounded-lg overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#0A7CFF]/20 to-transparent z-10"></div>
-            <Image
-              src="/test.png"
-              alt="Packaging Design"
-              width={708}
-              height={346}
-              loading='lazy'
-              className="rounded-lg w-full h-auto object-cover"
-            />
-          </div>
-        </div>
+  <div className="relative shadow-2xl rounded-2xl overflow-hidden">
+    {/* Multiple gradient overlays for better blending */}
+    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 via-blue-400/10 to-transparent z-10 pointer-events-none rounded-2xl"></div>
+    <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-blue-500/10 to-blue-800/25 z-10 pointer-events-none rounded-2xl"></div>
+    
+    {/* Image with blurred borders */}
+    <img
+      src="/test.png"
+      alt="Packaging Design"
+      className="rounded-2xl w-full h-96 object-cover mix-blend-multiply"
+      style={{
+        maskImage: `
+          radial-gradient(ellipse at center, 
+            black 60%, 
+            rgba(0,0,0,0.8) 75%, 
+            rgba(0,0,0,0.4) 85%, 
+            transparent 95%
+          )
+        `,
+        WebkitMaskImage: `
+          radial-gradient(ellipse at center, 
+            black 60%, 
+            rgba(0,0,0,0.8) 75%, 
+            rgba(0,0,0,0.4) 85%, 
+            transparent 95%
+          )
+        `
+      }}
+    />
+  </div>
+</div>
+
       </div>
     </div>
   )

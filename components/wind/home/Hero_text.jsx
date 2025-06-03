@@ -125,7 +125,7 @@ function Hero_text() {
                   onClick={() => router.push('/free-sample')}
                   variant="bordered"
                 >
-                  Get Sample Products
+                  Get Free Sample 
                 </Button>
               </motion.div>
             </motion.div>
