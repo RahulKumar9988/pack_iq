@@ -33,10 +33,10 @@ const PackagingAchievements = () => {
     {
       id: 3,
       icon: "💡",
-      title: "Expert Packaging Advice",
+      title: "No setup charges",
       image: "/why_us/Smart packaging-01.png",
       alt: "Expert Advice Icon",
-      description: "Guidance to optimize packaging for market success.",
+      description: " digital printing with no tooling costs or delays.",
     },
     {
       id: 4,
