@@ -82,14 +82,14 @@ function Hero_text() {
               <motion.div variants={itemVariants} className="w-full">
                 <h1 className="text-gray-900 leading-tight tracking-tight">
                   {/* First line - responsive text sizing */}
-                  <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold ">
+                  <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold ">
                     Turning Your Product Ideas Into
                   </div>
                   
                   {/* Second line - hero text with gradient */}
                   <div className="relative inline-block">
                     <span className="bg-gradient-to-r from-blue-900 to-blue-950 bg-clip-text text-transparent font-extrabold
-                                   text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl
+                                   text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl
                                    leading-tight block">
                       Shelf-Stopping Pouch
                     </span>
@@ -113,13 +113,13 @@ function Hero_text() {
                 <div className="text-gray-700 space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6">
                   {/* Mobile and small tablet version (xs to md) */}
                   <div className="block lg:hidden">
-                    <p className="leading-relaxed text-sm sm:text-base md:text-lg">
+                    <p className="leading-relaxed text-lg sm:text-base md:text-lg">
                       At Packiq, we <span className="text-blue-900 font-semibold italic">Inspire</span> bold ideas, 
                       <span className="text-blue-900 font-semibold italic"> Innovate</span> smarter solutions, and 
                       <span className="text-blue-900 font-semibold italic"> Create</span> designs that bring your brand to life.
                     </p>
                     <p className="leading-relaxed  
-                                 text-base sm:text-lg md:text-xl 
+                                 text-base sm:text-xl md:text-xl 
                                  font-medium italic text-gray-800">
                       Your one-stop packaging partner — fast, affordable, and refreshingly unique.
                     </p>
