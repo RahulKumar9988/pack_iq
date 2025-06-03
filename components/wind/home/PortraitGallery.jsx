@@ -28,9 +28,9 @@ export default function LinkedPortraitGallery() {
       "/THREE SIDE SEAL/Three side seal.png"
     ],
     "Rollon": [
-      "/CENTER SEAL BAR/Center seal bar 03.png",
-      "/CENTER SEAL BAR/Center seal bar.png",
-      "/CENTER SEAL BAR/Center seal bar 02.png"
+      "/Flat bottom/Flat bottom 02.png",
+      "/Flat bottom/Flat bottom 03.png",
+      "/Flat bottom/Flat bottom.png"
     ],
     
   };
