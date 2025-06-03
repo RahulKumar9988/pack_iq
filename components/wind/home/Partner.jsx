@@ -55,7 +55,7 @@
       <section className="overflow-x-clip h-full py-16 px-4 bg-gradient-to-b from-gray-50 to-white ">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-6xl font-bold text-blue-950 mb-4">Trusted Choice For</h2>
+            <h2 className="text-3xl md:text-6xl font-bold text-blue-950 mb-4">Trusted Choices For</h2>
             <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We collaborate with industry-leading brands to deliver exceptional solutions and experiences
