@@ -102,7 +102,7 @@ const PackagingAchievements = () => {
         </div>
         
         {/* Cards Grid - Optimized for performance */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-[-30px]">
           {achievements.map((achievement) => (
             <div
               key={achievement.id}
@@ -113,7 +113,7 @@ const PackagingAchievements = () => {
               onMouseLeave={handleMouseLeave}
             > 
               {/* Content */}
-              <div className="relative z-10 flex flex-col items-center text-center space-y-4 px-2 h-full">
+              <div className="relative z-10 flex flex-col items-center text-center px-2 h-full">
                 {/* Image container with optimized loading */}
                 <div className={`flex-shrink-0 transition-transform duration-300 ease-out ${
                   hoveredCard === achievement.id ? 'scale-105' : 'scale-100'

@@ -12,14 +12,7 @@ const AdvancedQAContact = () => {
         <div className="max-w-6xl mx-auto text-center">
           
           {/* Header Section */}
-          <div className="mb-8 sm:mb-12 lg:mb-16">
-            <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-gray-800 mb-4 leading-tight">
-              Still Have {' '}
-              <span className="bg-gradient-to-r from-[#0A7CFF] to-[#00abc9] bg-clip-text text-transparent">
-                Questions?
-              </span>
-            </h1>
-          </div>
+          
 
           {/* Main Content Container */}
           <div className='flex flex-col lg:flex-row justify-center items-center gap-8 sm:gap-10 md:gap-12 lg:gap-16 xl:gap-20'>
@@ -37,8 +30,15 @@ const AdvancedQAContact = () => {
             </div>
 
             {/* CTA Section */}
-            <div className="flex flex-col items-center lg:items-start max-w-md lg:max-w-lg xl:max-w-xl">
+            <div className="flex flex-col items-center lg:items-start max-w-xl ">
               <div className="mb-6 sm:mb-8 lg:mb-10">
+                <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl  text-gray-800 mb-4 ">
+              Still Have {' '}
+              <span className="bg-gradient-to-r from-blue-800 to-blue-900 bg-clip-text text-transparent">
+                Questions?
+              </span>
+            </h1>
+
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed text-center lg:text-left px-2 sm:px-0">
 
                   We want to make your experience easy and stress-free.

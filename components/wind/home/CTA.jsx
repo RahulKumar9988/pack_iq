@@ -1,9 +1,9 @@
 import { Button } from '@nextui-org/react';
 import React, { useState, useEffect } from 'react';
 import { GoArrowUpRight } from 'react-icons/go';
-import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi';
+// import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 function CTA() {
     const router = useRouter();
@@ -21,7 +21,7 @@ function CTA() {
         <div className="relative z-10 flex flex-col gap-6 font-bold text-white text-xl sm:text-center md:text-5xl lg:text-5xl xl:text-5xl lg:text-left leading-tight md:leading-snug lg:w-1/2">
           <div>
             <p className=' font-bold  '>
-                Ready to build your Brand&apos;s Dream Pouch. <br /> 
+                Ready to build your <br /> <span className='text-6xl'> Brand&apos;s Dream Pouch. </span> <br /> 
             </p>
           </div>
 
@@ -48,8 +48,8 @@ function CTA() {
         <div className="relative mt-10 lg:mt-0 w-full lg:w-1/2 transform lg:translate-x-6">
   <div className="relative shadow-2xl rounded-2xl overflow-hidden">
     {/* Multiple gradient overlays for better blending */}
-    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 via-blue-400/10 to-transparent z-10 pointer-events-none rounded-2xl"></div>
-    <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-blue-500/10 to-blue-800/25 z-10 pointer-events-none rounded-2xl"></div>
+    <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/20 via-blue-200/10 to-transparent z-10 pointer-events-none rounded-2xl"></div>
+    <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-blue-200/10 to-blue-200/25 z-10 pointer-events-none rounded-2xl"></div>
     
     {/* Image with blurred borders */}
     <img
