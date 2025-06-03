@@ -82,7 +82,7 @@ function Hero_text() {
               <motion.div variants={itemVariants} className="w-full">
                 <h1 className="text-gray-900 leading-tight tracking-tight">
                   {/* First line - responsive text sizing */}
-                  <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold ">
+                  <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold ">
                     Turning Your Product Ideas Into
                   </div>
                   
