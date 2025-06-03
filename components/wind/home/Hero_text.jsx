@@ -58,19 +58,19 @@ function Hero_text() {
               {/* Main Headline */}
               <motion.div variants={itemVariants} className="w-full">
                <h1 className="text-gray-900 text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold leading-tight tracking-tight">
-  <div>Turning Your Product Ideas Into</div>
-  <div className="mt-6 relative inline-block">
-    <span className="text-6xl bg-gradient-to-r from-blue-900 to-blue-950 bg-clip-text text-transparent font-extrabold">
-      Shelf-Stopping Pouch
-    </span>
-    <motion.span 
-      className="absolute bottom-0 -z-20 left-0 w-full h-0.5 md:h-1 bg-gradient-to-r from-black to-blue-950 rounded-full"
-      initial={{ width: 0 }}
-      animate={{ width: "100%" }}
-      transition={{ duration: 1.2, delay: 0.8 }}
-    />
-  </div>
-</h1>
+                <div>Turning Your Product Ideas Into</div>
+                <div className="mt-6 relative inline-block">
+                  <span className="text-6xl bg-gradient-to-r from-blue-900 to-blue-950 bg-clip-text text-transparent font-extrabold">
+                    Shelf-Stopping Pouch
+                  </span>
+                  <motion.span 
+                    className="absolute bottom-0 -z-20 left-0 w-full h-0.5 md:h-1 bg-gradient-to-r from-black to-blue-950 rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 1.2, delay: 0.8 }}
+                  />
+                </div>
+              </h1>
 
               </motion.div>
               
