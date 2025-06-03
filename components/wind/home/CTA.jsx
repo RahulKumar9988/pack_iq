@@ -49,7 +49,7 @@ function CTA() {
           <div className="relative shadow-xl rounded-lg overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#0A7CFF]/20 to-transparent z-10"></div>
             <Image
-              src="/homepage10.svg"
+              src="/test.png"
               alt="Packaging Design"
               width={708}
               height={346}
