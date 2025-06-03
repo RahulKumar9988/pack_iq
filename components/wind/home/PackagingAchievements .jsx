@@ -33,10 +33,10 @@ const PackagingAchievements = () => {
     {
       id: 3,
       icon: "💡",
-      title: "No setup charges",
+      title: "No cylinder cost",
       image: "/why_us/Smart packaging-01.png",
       alt: "Expert Advice Icon",
-      description: " digital printing with no tooling costs or delays.",
+      description: "Skip setup charges — go digital with zero tooling costs or delays",
     },
     {
       id: 4,
