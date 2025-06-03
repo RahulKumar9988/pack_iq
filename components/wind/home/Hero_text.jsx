@@ -87,10 +87,10 @@ function Hero_text() {
                   </div>
                   
                   {/* Second line - hero text with gradient */}
-                  <div className="relative inline-block">
+                  <div className="relative inline-block mt-5">
                     <span className="bg-gradient-to-r from-blue-900 to-blue-950 bg-clip-text text-transparent font-extrabold
                                    text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl
-                                   leading-tight block">
+                                   leading-tight">
                       Shelf-Stopping Pouch
                     </span>
                     <motion.span 

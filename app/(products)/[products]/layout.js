@@ -114,7 +114,7 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="flex flex-col gap-5 mobile:gap-8 h-full mt-1 w-full md:mt-0 px-2 md:px-16 bg-[#]">
+    <div className="md:mt-10 flex flex-col gap-5 mobile:gap-8 h-full mt-1 w-full px-2 md:px-16 bg-[#]">
       <div className="mt-8 md:block hidden bg-[#]">
         <TabBar content={content} />
       </div>

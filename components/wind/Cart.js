@@ -267,7 +267,7 @@ export default function Cart() {
 
   // console.log(cartItem, "cartItem");
   return (
-    <div className="container mx-auto mb-20">
+    <div className="container mx-auto mb-20 md:mt-10">
       {/* Product Details Section */}
       <div className="w-full flex flex-col md:flex-row gap-5">
         <div className="w-full lg:w-3/5">

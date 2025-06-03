@@ -181,8 +181,8 @@ export default function PackagingType() {
                       src={item.packaging_image_url}
                       className="object-cover"
                       alt={item.name}
-                      width={260}
-                      height={260}
+                      width={210}
+                      height={210}
                       priority={index < 2}
                       loading={index < 2 ? "eager" : "lazy"}
                     />

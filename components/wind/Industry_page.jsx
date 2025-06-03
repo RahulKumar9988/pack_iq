@@ -132,7 +132,7 @@ export default function Industry_page() {
   const currentIndustry = industrySpecifics[industry] || industrySpecifics['Tea'];
 
   return (
-    <div className="h-full w-full mt-5 bg-white text-gray-800 font-sans">
+    <div className="h-full w-full md:mt-16 bg-white text-gray-800 font-sans">
       {/* Mobile Industry Selector */}
       <div className="bg-gray-50 py-2 px-4 border-b border-gray-200 block md:hidden">
         <div className="flex justify-between items-center">
@@ -192,17 +192,17 @@ export default function Industry_page() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className={`transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4">
-              Premium <span className="text-blue-600">{industry}</span> Packaging That Builds Brands
+              Premium <span className="text-blue-900">{industry}</span> Packaging That Builds Brands
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl">
               From startups to established brands, we create standout packaging that keeps your {industry.toLowerCase()} fresh, protected, and beautifully presented.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 rounded-lg font-medium transition-all flex items-center group">
+              <button className="bg-blue-900 hover:bg-blue-800 text-white px-4 sm:px-6 py-3 rounded-full font-medium transition-all flex items-center group">
                 Start Your Order
                 <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="bg-white border border-blue-600 hover:bg-blue-50 text-blue-600 px-4 sm:px-6 py-3 rounded-lg font-medium transition-all">
+              <button className="bg-white border border-blue-900 hover:bg-blue-50 text-blue-900 px-4 sm:px-6 py-3 rounded-full font-medium transition-all">
                 Explore Packaging Styles
               </button>
             </div>
@@ -410,11 +410,11 @@ export default function Industry_page() {
               Let us help bring your idea to life. Whether it is your first pouch or your next big launch, we are here to support you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center group">
+              <button className="bg-blue-900 hover:bg-blue-800 text-white px-4 sm:px-6 py-3 rounded-full font-medium transition-all flex items-center justify-center group">
                 Get Free Design Support
                 <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="bg-white border border-blue-600 hover:bg-blue-50 text-blue-600 px-4 sm:px-6 py-3 rounded-lg font-medium transition-all">
+              <button className="bg-white border border-blue-900 hover:bg-blue-50 text-blue-900 px-4 sm:px-6 py-3 rounded-full font-medium transition-all">
                 Start Customizing Now
               </button>
             </div>
