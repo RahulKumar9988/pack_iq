@@ -5,14 +5,34 @@ export default function LinkedPortraitGallery() {
   const words = ["Solution", "Standup", "Rounded", "Rollon", "Flat", "Flow"];
   const [currentWord, setCurrentWord] = useState(words[0]);
   
-  // Image mapping for each flip word
+  // Image mapping with arrays for multiple images per word
   const imageMapping = {
-    "Solution": "/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png",
-    "Standup": "/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-monument-blend-packiro.png",
-    "Rounded": "/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png",
-    "Rollon": "/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-monument-blend-packiro.png",
-    "Flat": "/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-limited-lighthouse-blend-packiro.png",
-    "Flow": "/pack/flat-bottom-pouch-coffee-packaging-robin-zipper-monument-blend-packiro.png"
+    "Solution": [
+      "/CENTER SEAL BAR/Center seal bar 03.png",
+      "/CENTER SEAL BAR/Center seal bar.png",
+      "/CENTER SEAL BAR/Center seal bar 04.png"
+    ],
+    "Flat": [
+      "/Flat bottom/Flat bottom 02.png",
+      "/Flat bottom/Flat bottom 03.png",
+      "/Flat bottom/Flat bottom.png"
+    ],
+    "Standup": [
+      "/STAND UP/Nut TREES STAND UP POUCH 2.png",
+      "/STAND UP/Nut TREES STAND UP POUCH.png",
+      "/STAND UP/STAND UP.png"
+    ],
+    "Rounded": [
+      "/THREE SIDE SEAL/Three side seal 2.png",
+      "/THREE SIDE SEAL/Three side seal 3.png",
+      "/THREE SIDE SEAL/Three side seal.png"
+    ],
+    "Rollon": [
+      "/CENTER SEAL BAR/Center seal bar 03.png",
+      "/CENTER SEAL BAR/Center seal bar.png",
+      "/CENTER SEAL BAR/Center seal bar 02.png"
+    ],
+    
   };
 
   // Colors mapping for background circles
@@ -22,11 +42,16 @@ export default function LinkedPortraitGallery() {
     "Rounded": "bg-blue-300",
     "Rollon": "bg-green-300",
     "Flat": "bg-orange-300",
-    "Flow": "bg-pink-300"
+    
+  };
+
+  // Get images for current word
+  const getCurrentImages = () => {
+    return imageMapping[currentWord] || imageMapping["Solution"];
   };
 
   return (
-    <div className="relative w-full h-full md:p-8 ">
+    <div className="relative w-full md:h-full md:p-8 ">
       {/* Call to Action Section with FlipWords */}
       <div className=" text-center hidden">
         <h2 className="text-4xl font-bold mb-4">
@@ -55,13 +80,13 @@ export default function LinkedPortraitGallery() {
         </div>
         
         <div className="flex flex-wrap justify-center gap-10 ">
-          {/* Main featured image (changes with flip words) */}
+          {/* Main featured image (first image of current word) */}
           <div className="relative mt-10">
             <div className={`${colorMapping[currentWord] || "bg-yellow-400"} rounded-full w-64 h-80 flex items-center justify-center transition-colors duration-500`}>
               <img 
-                src={imageMapping[currentWord]}
+                src={getCurrentImages()[0]}
                 alt={`${currentWord} packaging`}
-                className="h-[380px] w-auto object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
+                className="h-[300px] md:h-[360px] w-auto object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
               />
             </div>
             
@@ -78,23 +103,23 @@ export default function LinkedPortraitGallery() {
             </div>
           </div>
           
-          {/* Right column portraits - these will swap positions when word changes */}
+          {/* Right column portraits - showing different images from the same category */}
           <div className="hidden md:flex md:flex-col md:gap-10">
-            {/* Top right portrait */}
+            {/* Top right portrait - second image */}
             <div className={`${colorMapping[currentWord] || "bg-yellow-400"} rounded-full w-40 h-45 flex items-center justify-center transition-colors duration-500`}>
               <img 
-                src={imageMapping[currentWord]}
-                alt={`${words[(words.indexOf(currentWord) + 1) % words.length]} packaging`}
+                src={getCurrentImages()[1] || getCurrentImages()[0]}
+                alt={`${currentWord} packaging variant`}
                 className="h-[250px] w-auto object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
               />
             </div>
             
-            {/* Bottom right portrait */}
+            {/* Bottom right portrait - third image */}
             <div className="relative">
               <div className={`${colorMapping[currentWord] || "bg-yellow-400"} rounded-full w-40 h-60 flex items-center justify-center transition-colors duration-500`}>
                 <img 
-                  src={imageMapping[currentWord]}
-                  alt={`${words[(words.indexOf(currentWord) + 1) % words.length]} packaging`}
+                  src={getCurrentImages()[2] || getCurrentImages()[0]}
+                  alt={`${currentWord} packaging variant`}
                   className="h-[260px] w-auto object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
               </div>
