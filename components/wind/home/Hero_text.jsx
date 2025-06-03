@@ -113,15 +113,16 @@ function Hero_text() {
                 <div className="text-gray-700 space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6">
                   {/* Mobile and small tablet version (xs to md) */}
                   <div className="block lg:hidden">
-                    <p className="leading-relaxed text-lg sm:text-base md:text-lg">
+                    <p className="leading-relaxed text-sm sm:text-base md:text-lg">
                       At Packiq, we <span className="text-blue-900 font-semibold italic">Inspire</span> bold ideas, 
                       <span className="text-blue-900 font-semibold italic"> Innovate</span> smarter solutions, and 
-                      <span className="text-blue-900 font-semibold italic"> Create</span> designs that bring your brand to life.
+                      <span className="text-blue-900 font-semibold italic"> Create</span> designs that bring your brand to life. 
+                      With low MOQs, no cylinder costs, fast digital printing, and complete design freedom, we eliminate the barriers that hold small businesses back.
                     </p>
                     <p className="leading-relaxed  
                                  text-base sm:text-xl md:text-xl 
                                  font-medium italic text-gray-800">
-                      Your one-stop packaging partner — fast, affordable, and refreshingly unique.
+                      Packiq is your one-stop packaging partner — fast, affordable, and refreshingly unique. 
                     </p>
                   </div>
                   
