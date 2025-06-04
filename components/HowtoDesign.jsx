@@ -98,7 +98,7 @@ const HowtoDesign = () => {
                           {item.description}
                         </p>
                       </div>
-                      <div className="ml-0 md:ml-8 flex-shrink-0">
+                      <div className="ml-0 md:ml-8 flex-shrink-0 hidden md:block">
                         {item.icon}
                       </div>
                     </div>
