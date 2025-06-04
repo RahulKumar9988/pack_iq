@@ -24,13 +24,13 @@ const AdvancedQAContact = () => {
                 <img 
                   src="/pack/still have questions V1.png" 
                   alt="Customer support representative" 
-                  className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-full object-cover shadow-2xl floating-animation image-hover"
+                  className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-[47%] object-contain shadow-2xl floating-animation image-hover"
                 />
               </div>
             </div>
 
             {/* CTA Section */}
-            <div className="flex flex-col items-center lg:items-start max-w-xl ">
+            <div className="flex flex-col text-start items-start max-w-xl ">
               <div className="mb-6 sm:mb-8 lg:mb-10">
                 <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl  text-gray-800 mb-4 ">
               Still Have {' '}
@@ -42,7 +42,7 @@ const AdvancedQAContact = () => {
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed text-center lg:text-left px-2 sm:px-0">
 
                   We want to make your experience easy and stress-free.
-If you didn&apos;t find what you&apos;re looking for, please contact us—we&apos;re happy to help.
+                  If you didn&apos;t find what you&apos;re looking for, please contact us—we&apos;re happy to help.
                 </p>
               </div>
               

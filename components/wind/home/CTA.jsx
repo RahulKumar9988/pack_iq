@@ -20,8 +20,8 @@ function CTA() {
         {/* Left Section - Text & Buttons */}
         <div className="relative z-10 flex flex-col gap-6 font-bold text-white text-xl sm:text-center md:text-5xl lg:text-5xl xl:text-5xl lg:text-left leading-tight md:leading-snug lg:w-1/2">
           <div>
-            <p className=' font-bold  '>
-                Ready to build your <br /> <span className='text-6xl'> Brand&apos;s Dream Pouch. </span> <br /> 
+            <p className=' font-bold  text-3xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-6xl'>
+                Ready to build your <br /> <span className='text-3xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-6xl'> Brand&apos;s Dream Pouch? </span> <br /> 
             </p>
           </div>
 
