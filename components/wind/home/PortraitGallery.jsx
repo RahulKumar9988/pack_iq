@@ -94,7 +94,8 @@ export default function LinkedPortraitGallery() {
   };
 
   return (
-    <div className="relative w-full md:h-full">
+    <div className="relative w-full mt-[-10px] sm:mt-[-15px] md:mt-[-30px] lg:mt-[-30px] lx:mt-[-30px] xl:mt-[-30px] 2xl:mt-[-30px]">
+
       {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center z-50">
@@ -107,7 +108,7 @@ export default function LinkedPortraitGallery() {
 
       {/* Call to Action Section with FlipWords */}
       <div className="text-center hidden">
-        <h2 className="text-4xl font-bold mb-4">
+        <h2 className="text-4xl font-bold">
           Eco-Friendly Packaging <FlipWords 
             words={words} 
             duration={3000} 
@@ -115,10 +116,10 @@ export default function LinkedPortraitGallery() {
             onWordChange={handleWordChange}
           />
         </h2>
-        <p className="text-lg text-[#03172BB0] mb-6">
+        <p className="text-lg text-[#03172BB0]">
           Discover innovative and sustainable packaging options that reduce waste and protect our planet.
         </p>
-        <button className="bg-[#143761] text-white px-6 py-3 rounded-full font-semibold text-base hover:bg-[#0f2a4a] transition-all duration-300 transform hover:shadow-lg">
+        <button className="bg-[#143761] text-white px-6 rounded-full font-semibold text-base hover:bg-[#0f2a4a] transition-all duration-300 transform hover:shadow-lg">
           Explore {currentWord} Packaging
         </button>
       </div>

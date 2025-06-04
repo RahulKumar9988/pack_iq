@@ -37,7 +37,7 @@ function Hero_text() {
   };
 
   return (
-    <div className="w-full relative overflow-hidden py-6 sm:py-8 md:py-12 lg:py-16 xl:py-20">
+    <div className=" w-full relative overflow-hidden py-6 sm:py-8 md:py-12 lg:py-16 xl:py-20">
       {/* Responsive decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Top right gradient */}
@@ -87,7 +87,7 @@ function Hero_text() {
                   </div>
                   
                   {/* Second line - hero text with gradient */}
-                  <div className="relative inline-block">
+                  <div className="relative inline-block md:mt-2">
                     <span className="bg-gradient-to-r from-blue-900 to-blue-950 bg-clip-text text-transparent font-extrabold
                                    text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl
                                    leading-tight ">

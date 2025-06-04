@@ -6,8 +6,8 @@ export default function HeroSection({ inter }) {
   return (
     <section className="w-full bg-gradient-to-br from-indigo-100 via-white to-indigo-100 rounded-3xl shadow-md overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center 
-                      min-h-[50vh] sm:min-h-[60vh] md:min-h-[65vh] 
-                      px-4 sm:px-6 md:px-8 lg:px-12">
+                      min-h-[40vh] sm:min-h-[40vh] md:min-h-[40vh] 
+                      px-4 sm:px-6 md:px-8 lg:px-12 md:mb-[-50px]">
         
         {/* Left: Text content */}
         <div className="w-full flex items-center justify-center">
@@ -15,7 +15,7 @@ export default function HeroSection({ inter }) {
         </div>
 
         {/* Right: Gallery */}
-        <div className="w-full h-[50vh] sm:h-[50vh] md:h-[50vh] lg:h-[55vh] relative">
+        <div className="w-full h-[50vh] sm:h-[50vh] md:h-[50vh] lg:h-[55vh] relative ">
           <PortraitGallery />
           {/* <ThreeDMarqueeDemo /> */}
         </div>
