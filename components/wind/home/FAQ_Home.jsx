@@ -104,7 +104,7 @@ function FAQ_Home() {
           <div className="z-40 flex flex-col items-center gap-10 px-6 w-full max-w-4xl mx-auto">
             {/* Header Section */}
             <div className="text-center space-y-4">
-              <h2 className="font-bold text-3xl md:text-4xl lg:text-5xl text-center bg-gradient-to-r from-[#143761] via-[#0A7CFF] to-[#46E3FF] bg-clip-text text-transparent leading-tight">
+              <h2 className="font-bold text-3xl md:text-4xl lg:text-5xl text-center bg-gradient-to-r from-[#143761] via-[#00336e] to-[#004f5d] bg-clip-text text-transparent leading-tight">
                 Frequently Asked Questions
               </h2>
 
@@ -171,7 +171,7 @@ function FAQ_Home() {
               <div className="flex justify-center mt-8">
                 <Button
                   onClick={() => router.push('/faq')}
-                  className="bg-gradient-to-r from-[#0A7CFF] to-[#143761] text-white px-10 py-4 rounded-full font-semibold text-base md:text-lg transition-all hover:shadow-xl hover:scale-105 flex items-center gap-3"
+                  className="bg-gradient-to-r from-[#0f3765] to-[#143761] text-white px-10 py-4 rounded-full font-semibold text-base md:text-lg transition-all hover:shadow-xl hover:scale-105 flex items-center gap-3"
                 >
                   See All FAQs
                   <GoArrowUpRight size={20} />
