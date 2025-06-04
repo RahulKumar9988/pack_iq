@@ -94,7 +94,7 @@ export default function LinkedPortraitGallery() {
   };
 
   return (
-    <div className="relative w-full md:h-full md:p-8 overflow-hidden">
+    <div className="relative w-full md:h-full">
       {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center z-50">
@@ -129,7 +129,7 @@ export default function LinkedPortraitGallery() {
         
         <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
           {/* Main featured image with enhanced animations */}
-          <div className="relative md:mt-10 group">
+          <div className="relative group">
             <div 
               key={`main-${animationKey}`}
               className={` w-64 h-96 lg:w-72 lg:h-88 
@@ -217,7 +217,7 @@ export default function LinkedPortraitGallery() {
                   alt={`${currentWord} packaging variant`}
                   className="h-[240px] lg:h-[280px] w-auto object-cover 
                             transform transition-all duration-500 ease-out
-                            filter drop-shadow-lg mr-24"
+                            filter drop-shadow-lg mr-20"
                 />
               </div>
             </div>
