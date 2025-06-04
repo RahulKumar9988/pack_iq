@@ -144,10 +144,10 @@ export default function LinkedPortraitGallery() {
           <div className="relative mt-10 group">
             <div 
               key={`main-${animationKey}`}
-              className={`bg-gradient-to-br ${getCurrentGradient()} rounded-full w-64 h-96 lg:w-72 lg:h-88 
+              className={` w-64 h-96 lg:w-72 lg:h-88 
                          flex items-center justify-center relative 
-                         shadow-2xl hover:shadow-3xl transition-all duration-700 ease-out
-                         transform hover:scale-105 hover:rotate-1
+                         transition-all duration-700 ease-out
+                         transform 
                          animate-fadeInScale`}
               style={{
                 animation: 'fadeInScale 0.8s ease-out forwards'
@@ -207,10 +207,10 @@ export default function LinkedPortraitGallery() {
                 animation: 'fadeInScale 0.8s ease-out 0.3s both'
               }}
             >
-              <div className={`bg-gradient-to-br ${getCurrentGradient()} rounded-full w-40 h-56 lg:w-44 lg:h-52 
+              <div className={` w-40 h-56 lg:w-44 lg:h-52 
                              flex items-center justify-center relative 
-                             shadow-xl hover:shadow-2xl transition-all duration-500 ease-out
-                             transform hover:-rotate-1`}>
+                             transition-all duration-500 ease-out
+                             transform `}>
                 
                 
                 <img 
@@ -231,10 +231,10 @@ export default function LinkedPortraitGallery() {
                 animation: 'fadeInScale 0.8s ease-out 0.6s both'
               }}
             >
-              <div className={`bg-gradient-to-br ${getCurrentGradient()} rounded-full w-40 h-60 lg:w-44 lg:h-64 
+              <div className={` w-40 h-60 lg:w-44 lg:h-64 
                              flex items-center justify-center relative 
-                             shadow-xl hover:shadow-2xl transition-all duration-500 ease-out
-                             transform hover:rotate-1`}>
+                             transition-all duration-500 ease-out
+                             transform `}>
                 
                 
                 <img 
