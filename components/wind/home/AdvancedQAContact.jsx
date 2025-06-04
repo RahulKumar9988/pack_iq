@@ -24,7 +24,7 @@ const AdvancedQAContact = () => {
                 <img 
                   src="/pack/still have questions V1.png" 
                   alt="Customer support representative" 
-                  className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-[47%] object-contain shadow-2xl floating-animation image-hover"
+                  className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-[45%] object-contain shadow-2xl floating-animation image-hover"
                 />
               </div>
             </div>

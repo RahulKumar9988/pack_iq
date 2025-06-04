@@ -83,8 +83,9 @@ const PackagingSolutions = () => {
   //     setIsLoading(false);
   //   }
   // }, [baseUrl]);
-  
+
   // Fetch data on component mount
+
   useEffect(() => {
     getPackagingTypes();
     // getMaterials();

@@ -1,10 +1,55 @@
+"use client";
 import Image from "next/image";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import axios from 'axios';
+import { useCallback, useEffect, useState } from "react";
 
 const Footer = () => {
+  const router = useRouter();
+  const [packagingTypes, setPackagingTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "your-api-base-url";
+
+  const getPackagingTypes = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${baseUrl}/api/v1/resources/packaging-type`
+      );
+      if (response.status === 200) {
+        const responseData = response.data.data.map((ele) => ({
+          id: ele.packaging_id,
+          name: ele.name,
+          icon: ele.packaging_image_icon_url,
+          imageUrl: ele.packaging_image_url,
+          minimumQty: ele.minimum_qty,
+          isNew: false,
+          time: "4-7 weeks",
+          quantity: ele.minimum_qty
+        }));
+        setPackagingTypes(responseData);
+      }
+    } catch (error) {
+      console.error(error.response ? error.response.data : error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [baseUrl]);
+
+   useEffect(() => {
+    getPackagingTypes();
+  }, [getPackagingTypes]);
+
+  const handleNavigate = (itemId, type) => {
+    console.log(`Navigating to ${type} with ID: ${itemId}`);
+    router.push(`/products/${itemId}`);
+  };
+
   const footerLinks = [
     {
       title: "Social Media",
@@ -32,11 +77,21 @@ const Footer = () => {
       ],
     },
     {
+      title: "Products",
+      items: packagingTypes.slice(0, 6).map(product => ({
+        name: product.name,
+        href: `/products/${product.id}`,
+        onClick: () => handleNavigate(product.id, 'product')
+      })),
+    },
+    {
       title: "Services",
       items: [
         { name: "Configure Packaging", href: "/packaging-type" },
         { name: "Bulk Order", href: "/profile" },
         { name: "Custom Packaging", href: "/products" },
+        { name: "Template & Artwork Specifications", href: "/" },
+        { name: "Design Services", href: "/" },
       ],
     },
     {
@@ -50,21 +105,16 @@ const Footer = () => {
         { name: "FAQ", href: "/faq" },
         { name: "Contact Us", href: "/contact" },
         { name: "Terms and Conditions", href: "/terms" },
+       
       ],
     },
-    {
-      title: "Resources",
-      items: [
-        { name: "Template & Artwork Specifications", href: "/" },
-        { name: "Design Services", href: "/" },
-      ],
-    },
+    
   ];
 
   const contactInfo = [
-    { icon: <MdEmail className="text-[#143761]" size={20} />, text: "support@packiq.com" },
-    { icon: <FaPhoneAlt className="text-[#143761]" size={18} />, text: "+91 1234567890" },
-    { icon: <IoLocationSharp className="text-[#143761]" size={20} />, text: "Kolkata, West Bengal, India" },
+    { icon: <MdEmail className="text-[#143761]" size={20} />, text: "Support@packiq.co.in"},
+    { icon: <FaPhoneAlt className="text-[#143761]" size={18} />, text: "+91 9007778338/ +91 6289043085" },
+    { icon: <IoLocationSharp className="text-[#143761]" size={20} />, text: "50A, Girish Mukurjee Road, Kolkata, India - 700025" },
   ];
 
   return (
