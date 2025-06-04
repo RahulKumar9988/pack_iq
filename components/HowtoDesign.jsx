@@ -94,6 +94,41 @@ const HowtoDesign = () => {
   const dotPosition = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
   const dotOpacity = useTransform(smoothProgress, [0, 0.01], [0, 1]);
 
+  // Pre-calculate all step animations at the top level
+  const stepAnimations = timelineData.map((_, index) => {
+    const stepProgress = useTransform(
+      smoothProgress, 
+      [index / timelineData.length, (index + 1) / timelineData.length], 
+      [0, 1]
+    );
+    
+    return {
+      stepOpacity: useTransform(stepProgress, [0, 0.3], [0.3, 1]),
+      stepY: useTransform(stepProgress, [0, 0.3], [20, 0]),
+      stepScale: useTransform(stepProgress, [0, 0.3], [0.98, 1]),
+      borderColor: useTransform(stepProgress, [0, 0.3], ["#D1D5DB", "#012d75"]),
+      textColor: useTransform(stepProgress, [0, 0.3], ["#6B7280", "#1E3A8A"]),
+      stepRotation: useTransform(stepProgress, [0, 1], [0, 45]),
+      numberRotation: useTransform(stepProgress, [0, 1], [0, -45]),
+      numberScale: useTransform(stepProgress, [0, 0.3], [0.9, 1]),
+      boxShadow: useTransform(
+        stepProgress, 
+        [0, 0.3], 
+        ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]
+      ),
+      iconOpacity: useTransform(stepProgress, [0, 0.3], [0.5, 1]),
+      iconScale: useTransform(stepProgress, [0, 0.3], [0.9, 1])
+    };
+  });
+
+  // Footer animations
+  const footerOpacity = useTransform(smoothProgress, [0.8, 0.9], [0, 1]);
+  const footerY = useTransform(smoothProgress, [0.8, 0.9], [20, 0]);
+
+  // Recommendation animations
+  const recommendationOpacity = useTransform(smoothProgress, [0.1, 0.2], [0, 1]);
+  const recommendationY = useTransform(smoothProgress, [0.1, 0.2], [30, 0]);
+
   return (
     <div className="min-h-screen bg-gray-50 py-16 px-6">
       <div className="max-w-6xl mx-auto">
@@ -141,60 +176,43 @@ const HowtoDesign = () => {
           {/* Steps */}
           <div className="space-y-12 relative z-10">
             {timelineData.map((item, index) => {
-              // Create individual step animations based on scroll progress
-              const stepProgress = useTransform(
-                smoothProgress, 
-                [index / timelineData.length, (index + 1) / timelineData.length], 
-                [0, 1]
-              );
-              
-              const stepOpacity = useTransform(stepProgress, [0, 0.3], [0.3, 1]);
-              const stepY = useTransform(stepProgress, [0, 0.3], [20, 0]);
-              const stepScale = useTransform(stepProgress, [0, 0.3], [0.98, 1]);
-              const borderColor = useTransform(stepProgress, [0, 0.3], ["#D1D5DB", "#012d75"]);
-              const textColor = useTransform(stepProgress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+              const animations = stepAnimations[index];
               
               return (
                 <React.Fragment key={item.id}>
                   <motion.div 
                     className="relative flex items-center"
                     style={{
-                      opacity: stepOpacity,
-                      y: stepY
+                      opacity: animations.stepOpacity,
+                      y: animations.stepY
                     }}
                   >
                     {/* Step number */}
                     <motion.div 
-                      // ref={stepRef}
                       className="font-bold text-lg w-20 h-20 bg-white border-4 z-10 flex-shrink-0 flex justify-center items-center"
                       style={{
-                        borderColor: borderColor,
-                        rotate: useTransform(stepProgress, [0, 1], [0, 45]),  // Animated rotation
-                        scale: useTransform(stepProgress, [0, 0.3], [0.9, 1]) // Scale in effect
+                        borderColor: animations.borderColor,
+                        rotate: animations.stepRotation,
+                        scale: animations.numberScale
                       }}
                     >
                       <motion.span 
                         className="transform text-4xl"
                         style={{ 
-                          rotate: useTransform(stepProgress, [0, 1], [0, -45]), // Opposite rotation for number
-                          color: textColor
+                          rotate: animations.numberRotation,
+                          color: animations.textColor
                         }}
                       >
                         {item.id}
                       </motion.span>
                     </motion.div>
 
-
                     {/* Content */}
                     <motion.div
                       className={`ml-12 flex-1 ${item.color} rounded-r-full border border-gray-200 px-8 md:px-12 py-20 shadow-sm`}
                       style={{
-                        scale: stepScale,
-                        boxShadow: useTransform(
-                          stepProgress, 
-                          [0, 0.3], 
-                          ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]
-                        )
+                        scale: animations.stepScale,
+                        boxShadow: animations.boxShadow
                       }}
                     >
                       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -221,8 +239,8 @@ const HowtoDesign = () => {
                         <motion.div 
                           className="ml-0 md:ml-8 flex-shrink-0 hidden md:block"
                           style={{
-                            opacity: useTransform(stepProgress, [0, 0.3], [0.5, 1]),
-                            scale: useTransform(stepProgress, [0, 0.3], [0.9, 1])
+                            opacity: animations.iconOpacity,
+                            scale: animations.iconScale
                           }}
                           whileHover={{ scale: 1.05 }}
                           transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -242,8 +260,8 @@ const HowtoDesign = () => {
                     <motion.div 
                       className="mt-8 ml-20"
                       style={{
-                        opacity: useTransform(smoothProgress, [0.1, 0.2], [0, 1]),
-                        y: useTransform(smoothProgress, [0.1, 0.2], [30, 0])
+                        opacity: recommendationOpacity,
+                        y: recommendationY
                       }}
                     >
                       <RecommendedProducts />
@@ -259,8 +277,8 @@ const HowtoDesign = () => {
         <motion.div 
           className="text-center mt-16"
           style={{
-            opacity: useTransform(smoothProgress, [0.8, 0.9], [0, 1]),
-            y: useTransform(smoothProgress, [0.8, 0.9], [20, 0])
+            opacity: footerOpacity,
+            y: footerY
           }}
         >
           <h3 className="text-2xl font-bold text-blue-950 mb-4">Ready to get started?</h3>
