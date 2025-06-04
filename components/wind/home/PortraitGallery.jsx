@@ -158,7 +158,7 @@ export default function LinkedPortraitGallery() {
               <img 
                 src={getCurrentImages()[0]}
                 alt={`${currentWord} packaging`}
-                className="h-[280px] md:h-[340px] lg:h-[380px] w-auto object-cover 
+                className="h-[340px] md:h-[340px] lg:h-[380px] w-auto object-cover 
                           transform transition-all duration-700 ease-out
                           filter drop-shadow-xl"
                 style={{
@@ -216,7 +216,7 @@ export default function LinkedPortraitGallery() {
                 <img 
                   src={getCurrentImages()[1] || getCurrentImages()[0]}
                   alt={`${currentWord} packaging variant`}
-                  className="h-[220px] lg:h-[240px] w-auto object-cover 
+                  className="h-[240px] lg:h-[240px] w-auto object-cover 
                             transform transition-all duration-500 ease-out
                            filter drop-shadow-lg"
                 />
