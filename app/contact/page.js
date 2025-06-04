@@ -127,7 +127,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen md:mt-10 ">
       {/* Toast Container */}
       <Toaster 
         position="top-right"

@@ -15,6 +15,39 @@ const Footer = () => {
   
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "your-api-base-url";
 
+  // Define the desired order for products
+  const productOrder = [
+    "Standup Pouch",
+    "Three Side Seal Pouch", 
+    "Center Seal Pouch",
+    "Flat Bottom Pouch",
+    "Center Seal Side Gusset"
+  ];
+
+  // Function to sort products according to the specified order
+  const sortProductsByOrder = (products) => {
+    return products.sort((a, b) => {
+      const indexA = productOrder.findIndex(orderItem => 
+        a.name.toLowerCase().includes(orderItem.toLowerCase()) ||
+        orderItem.toLowerCase().includes(a.name.toLowerCase())
+      );
+      const indexB = productOrder.findIndex(orderItem => 
+        b.name.toLowerCase().includes(orderItem.toLowerCase()) ||
+        orderItem.toLowerCase().includes(b.name.toLowerCase())
+      );
+      
+      // If both items are in the order array, sort by their position
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      // If only one item is in the order array, prioritize it
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      // If neither is in the order array, sort alphabetically
+      return a.name.localeCompare(b.name);
+    });
+  };
+
   const getPackagingTypes = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -32,7 +65,10 @@ const Footer = () => {
           time: "4-7 weeks",
           quantity: ele.minimum_qty
         }));
-        setPackagingTypes(responseData);
+        
+        // Sort the products according to the specified order
+        const sortedProducts = sortProductsByOrder(responseData);
+        setPackagingTypes(sortedProducts);
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
@@ -88,10 +124,10 @@ const Footer = () => {
       title: "Services",
       items: [
         { name: "Configure Packaging", href: "/packaging-type" },
-        { name: "Bulk Order", href: "/profile" },
-        { name: "Custom Packaging", href: "/products" },
+        { name: "Bulk Order", href: "/contact" },
+         { name: "Design Services", href: "/design-help" },
         { name: "Template & Artwork Specifications", href: "/" },
-        { name: "Design Services", href: "/" },
+       
       ],
     },
     {
