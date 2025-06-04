@@ -80,7 +80,7 @@ export default function LinkedPortraitGallery() {
     setAnimationKey(prev => prev + 1);
     setTimeout(() => {
       setCurrentWord(word);
-    }, 150); // Small delay for smooth transition
+    },); // Small delay for smooth transition
   };
 
   // Get images for current word
@@ -105,13 +105,6 @@ export default function LinkedPortraitGallery() {
         </div>
       )}
 
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full blur-3xl opacity-30 animate-pulse"></div>
-        <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-full blur-3xl opacity-20 animate-pulse animation-delay-150"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full blur-3xl opacity-25 animate-pulse animation-delay-300"></div>
-      </div>
-
       {/* Call to Action Section with FlipWords */}
       <div className="text-center hidden">
         <h2 className="text-4xl font-bold mb-4">
@@ -133,11 +126,6 @@ export default function LinkedPortraitGallery() {
       {/* Gallery Section */}
       <div className="max-w-4xl mx-auto relative">
         {/* Animated decorative elements */}
-        <div className="absolute left-4 top-0 animate-bounce animation-delay-200">
-          <svg viewBox="0 0 24 24" className="w-10 h-10 text-yellow-400 fill-current filter drop-shadow-lg">
-            <path d="M12 1L15.36 8.48L23 9.24L17.5 14.52L19.08 22L12 18.48L4.92 22L6.5 14.52L1 9.24L8.64 8.48L12 1Z" />
-          </svg>
-        </div>
         
         <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
           {/* Main featured image with enhanced animations */}
@@ -182,19 +170,6 @@ export default function LinkedPortraitGallery() {
                 ))}
               </div>
             </div>
-            
-            {/* Enhanced blue scribble with animation */}
-            <div className="absolute -left-8 top-1/3 transform -translate-y-1/2 animate-pulse">
-              <svg viewBox="0 0 100 100" className="w-24 h-24">
-                <path 
-                  d="M10,50 Q30,30 50,50 T90,50" 
-                  stroke="#3b82f6" 
-                  strokeWidth="4" 
-                  fill="none" 
-                  className="animate-draw"
-                />
-              </svg>
-            </div>
           </div>
           
           {/* Right column portraits with staggered animations */}
@@ -228,7 +203,7 @@ export default function LinkedPortraitGallery() {
               key={`bottom-${animationKey}`}
               className="relative group"
               style={{
-                animation: 'fadeInScale 0.8s ease-out 0.6s both'
+                animation: 'fadeInScale 0.8s ease-out 0.6s both '
               }}
             >
               <div className={` w-40 h-60 lg:w-44 lg:h-64 
@@ -242,35 +217,13 @@ export default function LinkedPortraitGallery() {
                   alt={`${currentWord} packaging variant`}
                   className="h-[240px] lg:h-[280px] w-auto object-cover 
                             transform transition-all duration-500 ease-out
-                            filter drop-shadow-lg"
+                            filter drop-shadow-lg mr-24"
                 />
-              </div>
-              
-              {/* Enhanced radiating lines with animation */}
-              <div className="absolute -right-6 bottom-0 animate-spin-slow">
-                <svg viewBox="0 0 24 24" className="w-12 h-12 text-gray-700">
-                  <g stroke="currentColor" strokeWidth="2" className="animate-pulse">
-                    <line x1="12" y1="1" x2="12" y2="4" />
-                    <line x1="12" y1="20" x2="12" y2="23" />
-                    <line x1="4" y1="12" x2="1" y2="12" />
-                    <line x1="23" y1="12" x2="20" y2="12" />
-                    <line x1="4.93" y1="4.93" x2="7.05" y2="7.05" />
-                    <line x1="16.95" y1="16.95" x2="19.07" y2="19.07" />
-                    <line x1="16.95" y1="7.05" x2="19.07" y2="4.93" />
-                    <line x1="4.93" y1="19.07" x2="7.05" y2="16.95" />
-                  </g>
-                </svg>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Enhanced bottom star with animation */}
-        <div className="absolute left-16 bottom-4 animate-bounce animation-delay-400">
-          <svg viewBox="0 0 24 24" className="w-8 h-8 text-yellow-400 fill-current filter drop-shadow-md">
-            <path d="M12 1L15.36 8.48L23 9.24L17.5 14.52L19.08 22L12 18.48L4.92 22L6.5 14.52L1 9.24L8.64 8.48L12 1Z" />
-          </svg>
-        </div>
       </div>
 
       {/* Custom CSS animations */}
