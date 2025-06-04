@@ -36,7 +36,7 @@ function CTA() {
             </Button>
             <Button
               variant="bordered"
-              className="flex items-center gap-3 px-6 py-6 border-2 border-white rounded-full text-lg text-white hover:bg-white/10 transition-all"
+              className="flex items-center gap-3 px-6 py-6 rounded-full text-lg text-white hover:bg-white/10 transition-all"
               onClick={()=>router.push('/free-sample')}
             >
               Get Free Sample 
@@ -46,34 +46,15 @@ function CTA() {
 
         {/* Right Section - Image */}
         <div className="relative mt-10 lg:mt-0 w-full lg:w-1/2 transform lg:translate-x-6">
-  <div className="relative shadow-2xl rounded-2xl overflow-hidden">
+  <div className="relative rounded-2xl overflow-hidden">
     {/* Multiple gradient overlays for better blending */}
-    <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/20 via-blue-200/10 to-transparent z-10 pointer-events-none rounded-2xl"></div>
-    <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-blue-200/10 to-blue-200/25 z-10 pointer-events-none rounded-2xl"></div>
+    
     
     {/* Image with blurred borders */}
     <img
       src="/test.png"
       alt="Packaging Design"
       className="rounded-2xl w-full h-96 object-cover mix-blend-multiply"
-      style={{
-        maskImage: `
-          radial-gradient(ellipse at center, 
-            black 60%, 
-            rgba(0,0,0,0.8) 75%, 
-            rgba(0,0,0,0.4) 85%, 
-            transparent 95%
-          )
-        `,
-        WebkitMaskImage: `
-          radial-gradient(ellipse at center, 
-            black 60%, 
-            rgba(0,0,0,0.8) 75%, 
-            rgba(0,0,0,0.4) 85%, 
-            transparent 95%
-          )
-        `
-      }}
     />
   </div>
 </div>

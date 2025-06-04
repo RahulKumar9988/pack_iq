@@ -18,12 +18,12 @@ export default function LinkedPortraitGallery() {
     ],
     "Flat": [
       "/Flat bottom/Flat bottom 02.png",
-      "/Flat bottom/Flat bottom 03.png",
+      "/Flat bottom/Flat bottom 03-01.png",
       "/Flat bottom/Flat bottom.png"
     ],
     "Standup": [
       "/STAND UP/Nut TREES STAND UP POUCH 2.png",
-      "/STAND UP/Nut TREES STAND UP POUCH.png",
+      "/STAND UP/Nut TREES STAND UP POUCH 3.png",
       "/STAND UP/STAND UP.png"
     ],
     "Rounded": [
@@ -40,11 +40,11 @@ export default function LinkedPortraitGallery() {
 
   // Colors mapping for background circles
   const colorMapping = {
-    "Solution": "from-yellow-300 to-yellow-500",
-    "Standup": "from-purple-300 to-purple-500",
-    "Rounded": "from-blue-300 to-blue-500",
-    "Rollon": "from-green-300 to-green-500",
-    "Flat": "from-orange-300 to-orange-500",
+    "Solution": "from-green-100 to-yellow-500",
+    "Standup": "from-purple-300 to-brown-500",
+    "Rounded": "from-red-300 to-yellow-200",
+    "Rollon": "from-yellow-200 to-orange-400",
+    "Flat": "from-orange-200 to-yellow-500",
   };
 
   // Preload all images for smooth transitions
