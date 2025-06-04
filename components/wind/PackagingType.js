@@ -174,15 +174,15 @@ export default function PackagingType() {
                 onClick={() => handleSelectAndNavigate(item, index)}
 
               >
-                <CardBody className="flex flex-col items-center justify-between p-4">
+                <CardBody className="flex flex-col items-center justify-between">
                   {/* Optimized Image loading */}
                   <div className="overflow-hidden flex-1 flex items-center justify-center w-full relative mb-4">
                     <Image
                       src={item.packaging_image_url}
-                      className="object-cover"
+                      className="object-contain"
                       alt={item.name}
-                      width={210}
-                      height={210}
+                      width={180}
+                      height={180}
                       priority={index < 2}
                       loading={index < 2 ? "eager" : "lazy"}
                     />
@@ -223,8 +223,8 @@ export default function PackagingType() {
                       <Image
                         src={item.packaging_image_url}
                         alt={item.name}
-                        width={120}
-                        height={120}
+                        width={100}
+                        height={100}
                         className="object-contain sm:block"
                         loading="lazy"
                         
