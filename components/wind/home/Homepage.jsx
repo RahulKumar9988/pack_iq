@@ -2,14 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import HeroSection from "./Herosection";
-import Innovations from "./Innovations";
 import TestimonialSection from "./TestimonialSection";
-import FAQ from "./FAQ";
 import PackagingAchievements from "./PackagingAchievements ";
 import Recomended_product from "@/components/Recomended_product";
 import Partner from "./Partner";
 import CTA from "./CTA";
 import AdvancedQAContact from "./AdvancedQAContact";
+import FAQ_Home from "./FAQ_Home";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,7 +50,7 @@ export default function Homepage() {
 
       {/* FAQ Section - Full width */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
-        <FAQ/>
+        <FAQ_Home/>
       </section>
 
       {/* Advanced Q&A Contact - Full width */}
