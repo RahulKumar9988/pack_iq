@@ -174,7 +174,7 @@ export default function RecommendedProducts() {
                 >
                   <Card
                     shadow="sm"
-                    className="bg-gradient-to-br from-indigo-100 to-blue-100 border border-gray-200 h-full w-full relative overflow-visible"
+                    className="bg-gradient-to-b from-blue-200 to-blue-50 border border-gray-200 h-full w-full relative overflow-visible"
                     isPressable
                     onClick={() => navigateToProductDetail(product.packaging_id)}
 
