@@ -1,362 +1,121 @@
-"use client";
+import React from 'react';
+import { Lightbulb, Brain, Pencil, Star, Palette, Search, Monitor, Trophy } from 'lucide-react';
 
-import React from "react";
-import { Timeline } from "@/components/ui/timeline";
-import { useRouter } from "next/navigation";
-import RecommendedProducts from "./Recomended_product";
-
-function HowtoDesign() {
-  const router = useRouter();
-  const data = [
+const HowtoDesign = () => {
+  const timelineData = [
     {
-      title: "Choose Your Pouch Style",
-      content: (
-        <div className="w-full h-full">
-          <p className="mb-8 text-sm font-normal text-neutral-800 md:text-2xl dark:text-neutral-200">
-           Start by selecting the pouch format that best fits your product:
-          </p>
-          <div className="">
-            <RecommendedProducts/>
-          </div>
-          <p className="text-sm md:text-lg">
-            We offer styles for everything from snacks and coffee to pet treats and cosmetics.
-          </p>
-        </div>
-      ),
+      id: 1,
+      title: "BRIEF",
+      description: "Initiate your project with a concise overview, setting the stage for success.",
+      color: "bg-orange-200",
+      icon: <Lightbulb className="w-12 h-12 text-gray-700" />
     },
     {
-      title: "Choose Your Finish, Size, Quantity & Add-Ons",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="text-sm md:text-lg">Customize your pouch to match your brands personality:</p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><span className="font-bold">Finish:</span> Matte, gloss, metallic, and more</li>
-              <li><span className="font-bold">Size:</span> Multiple options available for different product volumes</li>
-              <li><span className="font-bold">Quantity:</span> Low MOQs to help you scale with ease</li>
-              <li><span className="font-bold">Add-Ons:</span> Zippers, valves, tear notches, and transparent windows.</li>
-            </ul>
-          </div>
-          
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
+      id: 2,
+      title: "BRAINSTORM",
+      description: "Fuel your creativity by generating a plethora of innovative ideas to explore.",
+      color: "bg-blue-200",
+      icon: <Brain className="w-12 h-12 text-gray-700" />
     },
     {
-      title: "Review Your Selection",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-              Double-check your product configuration before moving forward. You will see pricing
-              updates live based on your choices
-            </p>
-            
-          </div>
-          
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="File upload example 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
+      id: 3,
+      title: "SKETCH",
+      description: "Transform your ideas into visual concepts through preliminary sketches.",
+      color: "bg-pink-200",
+      icon: <Pencil className="w-12 h-12 text-gray-700" />
     },
     {
-      title: "Login to Place Your Order",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-              Create an account or log in to complete your order securely. This helps you track your
-              order history and manage artwork files with ease.
-            </p>
-          </div>
-         
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Checkout process 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Checkout process 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Checkout process 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Checkout process 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
+      id: 4,
+      title: "SOLUTION",
+      description: "Identify the optimal design approach and refine it for maximum impact.",
+      color: "bg-yellow-200",
+      icon: <Star className="w-12 h-12 text-gray-700" />
     },
     {
-      title: "Our Customer Success Manager Will Get in Touch",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-              Once your order is placed, a dedicated Customer Success Manager will contact you to
-              confirm details, answer questions, and guide you through the next steps.
-            </p>
-            
-          </div>
-          
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
+      id: 5,
+      title: "DESIGN",
+      description: "Breathe life into your concepts by incorporating compelling visual elements.",
+      color: "bg-purple-200",
+      icon: <Palette className="w-12 h-12 text-gray-700" />
     },
     {
-      title: "Upload Your Artwork",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-              Upload your design file directly through your dashboard. If you need help, our in-house
-              design team is here to assist you.
-            </p>
-            
-          </div>
-          
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
-    },{
-      title: "Review & Approve Your Digital Proof",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-             We will send a digital mockup for your final approval. Check your design layout, print
-             placement, and pouch specs before we begin production.  
-            </p>
-          </div>
-          
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
-    },{
-      title: "Fast Production & Delivery",
-      content: (
-        <div>
-          <div className="mb-6 text-sm md:text-lg">
-            <p className="mb-4">
-             Once approved, we print and deliver your order with speed and precision — no plates or
-              cylinders required. Your custom packaging is on its way!
-            </p>
-            
-          </div>
-          
-          {/* <div className="grid grid-cols-2 gap-4">
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 1"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 2"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 3"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="/api/placeholder/500/500"
-              alt="Order process 4"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div> */}
-        </div>
-      ),
+      id: 6,
+      title: "REVISION",
+      description: "Fine-tune your design through careful review, ensuring it meets your standards.",
+      color: "bg-cyan-200",
+      icon: <Search className="w-12 h-12 text-gray-700" />
+    },
+    {
+      id: 7,
+      title: "PRESENTATION",
+      description: "Showcase your thoughtfully crafted design to stakeholders and gather valuable feedback.",
+      color: "bg-red-200",
+      icon: <Monitor className="w-12 h-12 text-gray-700" />
+    },
+    {
+      id: 8,
+      title: "DELIVER",
+      description: "Bring your design journey to a close by finalizing and sharing the completed project.",
+      color: "bg-green-200",
+      icon: <Trophy className="w-12 h-12 text-gray-700" />
     }
   ];
-  
+
   return (
-    <div className="relative w-full overflow-clip">
-      
-      <Timeline data={data} heading="How to Order Flexible Packaging Online with PackIQ" subheading="Ordering custom-printed pouches has never been this easy. At PackIQ, we have designed a
-          simple, step-by-step online process that saves you time, reduces complexity, and gives
-          you full control — from design to delivery."/>
-      
-      <h1 className="md:text-4xl text-xl font-bold text-center">SO GET STARTED!</h1>
-      <div className="flex flex-col items-center justify-center">
-        <button 
-          onClick={() => router.push('/products')} 
-          className="bg-blue-900 text-white px-2 md:px-10 py-2 rounded-3xl mt-4 hover:bg-blue-700 transition duration-300 mb-5"
-        >   
-          Order Now
-        </button>
+    <div className="min-h-screen bg-gray-50 py-16 px-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <h1 className="text-8xl font-black text-gray-900 mb-6 tracking-tight">
+            TIMELINE
+          </h1>
+          <h2 className="text-3xl font-bold text-gray-800 tracking-widest mb-4">
+            DESIGN PROCESS
+          </h2>
+        </div>
+
+        {/* Timeline */}
+        <div className="relative">
+          {/* Vertical Line */}
+          <div className="absolute left-8 top-0 bottom-0 w-1 bg-gray-300"></div>
+          
+          {/* Timeline Items */}
+          <div className="space-y-12">
+            {timelineData.map((item, index) => (
+              <div key={item.id} className="relative flex items-center">
+                {/* Square Connector */}
+                <div className="w-8 h-8 bg-white border-4 border-gray-300 rotate-45 z-10 flex-shrink-0"></div>
+                
+                {/* Content Card */}
+                <div className={`ml-12 flex-1 ${item.color} rounded-full px-12 py-10 shadow-sm`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                        {item.id}. {item.title}
+                      </h3>
+                      <p className="text-gray-700 text-lg leading-relaxed max-w-lg">
+                        {item.description}
+                      </p>
+                    </div>
+                    <div className="ml-8 flex-shrink-0">
+                      {item.icon}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-16">
+          <p className="text-gray-600 font-semibold tracking-widest">
+            WWW.YOURWEBSITE.COM
+          </p>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default HowtoDesign;
