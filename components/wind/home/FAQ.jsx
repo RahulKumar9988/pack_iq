@@ -168,7 +168,7 @@ function FAQ() {
               </h1>
 
               <div className="max-w-2xl mx-auto text-[#676D79] text-lg text-center leading-relaxed">
-                Everything you need to know about our packaging solutions. Can't find the answer you're looking for?{" "}
+                Everything you need to know about our packaging solutions. Can&apos;t find the answer you&apos;re looking for?{" "}
                 <a href="/contact" className="text-[#0A7CFF] font-semibold hover:underline transition-all">
                   Contact our support team
                 </a>
