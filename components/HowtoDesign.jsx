@@ -88,7 +88,7 @@ const HowtoDesign = () => {
                     <span className="transform -rotate-45">{item.id}</span>
                   </div>
 
-                  <div className={`ml-12 flex-1 ${item.color} rounded-r-full border border-gray-200 px-8 md:px-12 py-10 shadow-sm`}>
+                  <div className={`ml-12 flex-1 ${item.color} rounded-full border border-gray-200 px-8 md:px-12 py-20 shadow-sm`}>
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                       <div className="flex-1">
                         <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
