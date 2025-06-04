@@ -94,32 +94,185 @@ const HowtoDesign = () => {
   const dotPosition = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
   const dotOpacity = useTransform(smoothProgress, [0, 0.01], [0, 1]);
 
-  // Pre-calculate all step animations at the top level
-  const stepAnimations = timelineData.map((_, index) => {
-    const stepProgress = useTransform(
-      smoothProgress, 
-      [index / timelineData.length, (index + 1) / timelineData.length], 
-      [0, 1]
-    );
-    
-    return {
-      stepOpacity: useTransform(stepProgress, [0, 0.3], [0.3, 1]),
-      stepY: useTransform(stepProgress, [0, 0.3], [20, 0]),
-      stepScale: useTransform(stepProgress, [0, 0.3], [0.98, 1]),
-      borderColor: useTransform(stepProgress, [0, 0.3], ["#D1D5DB", "#012d75"]),
-      textColor: useTransform(stepProgress, [0, 0.3], ["#6B7280", "#1E3A8A"]),
-      stepRotation: useTransform(stepProgress, [0, 1], [0, 45]),
-      numberRotation: useTransform(stepProgress, [0, 1], [0, -45]),
-      numberScale: useTransform(stepProgress, [0, 0.3], [0.9, 1]),
-      boxShadow: useTransform(
-        stepProgress, 
-        [0, 0.3], 
-        ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]
-      ),
-      iconOpacity: useTransform(stepProgress, [0, 0.3], [0.5, 1]),
-      iconScale: useTransform(stepProgress, [0, 0.3], [0.9, 1])
-    };
-  });
+  // Create individual step progress transforms for each step
+  const step1Progress = useTransform(smoothProgress, [0/8, 1/8], [0, 1]);
+  const step2Progress = useTransform(smoothProgress, [1/8, 2/8], [0, 1]);
+  const step3Progress = useTransform(smoothProgress, [2/8, 3/8], [0, 1]);
+  const step4Progress = useTransform(smoothProgress, [3/8, 4/8], [0, 1]);
+  const step5Progress = useTransform(smoothProgress, [4/8, 5/8], [0, 1]);
+  const step6Progress = useTransform(smoothProgress, [5/8, 6/8], [0, 1]);
+  const step7Progress = useTransform(smoothProgress, [6/8, 7/8], [0, 1]);
+  const step8Progress = useTransform(smoothProgress, [7/8, 8/8], [0, 1]);
+
+  // Create step animations for each step
+  const stepProgressArray = [
+    step1Progress, step2Progress, step3Progress, step4Progress,
+    step5Progress, step6Progress, step7Progress, step8Progress
+  ];
+
+  // Step 1 animations
+  const step1Opacity = useTransform(step1Progress, [0, 0.3], [0.3, 1]);
+  const step1Y = useTransform(step1Progress, [0, 0.3], [20, 0]);
+  const step1Scale = useTransform(step1Progress, [0, 0.3], [0.98, 1]);
+  const step1BorderColor = useTransform(step1Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step1TextColor = useTransform(step1Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step1Rotation = useTransform(step1Progress, [0, 1], [0, 45]);
+  const step1NumberRotation = useTransform(step1Progress, [0, 1], [0, -45]);
+  const step1NumberScale = useTransform(step1Progress, [0, 0.3], [0.9, 1]);
+  const step1BoxShadow = useTransform(step1Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step1IconOpacity = useTransform(step1Progress, [0, 0.3], [0.5, 1]);
+  const step1IconScale = useTransform(step1Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 2 animations
+  const step2Opacity = useTransform(step2Progress, [0, 0.3], [0.3, 1]);
+  const step2Y = useTransform(step2Progress, [0, 0.3], [20, 0]);
+  const step2Scale = useTransform(step2Progress, [0, 0.3], [0.98, 1]);
+  const step2BorderColor = useTransform(step2Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step2TextColor = useTransform(step2Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step2Rotation = useTransform(step2Progress, [0, 1], [0, 45]);
+  const step2NumberRotation = useTransform(step2Progress, [0, 1], [0, -45]);
+  const step2NumberScale = useTransform(step2Progress, [0, 0.3], [0.9, 1]);
+  const step2BoxShadow = useTransform(step2Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step2IconOpacity = useTransform(step2Progress, [0, 0.3], [0.5, 1]);
+  const step2IconScale = useTransform(step2Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 3 animations
+  const step3Opacity = useTransform(step3Progress, [0, 0.3], [0.3, 1]);
+  const step3Y = useTransform(step3Progress, [0, 0.3], [20, 0]);
+  const step3Scale = useTransform(step3Progress, [0, 0.3], [0.98, 1]);
+  const step3BorderColor = useTransform(step3Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step3TextColor = useTransform(step3Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step3Rotation = useTransform(step3Progress, [0, 1], [0, 45]);
+  const step3NumberRotation = useTransform(step3Progress, [0, 1], [0, -45]);
+  const step3NumberScale = useTransform(step3Progress, [0, 0.3], [0.9, 1]);
+  const step3BoxShadow = useTransform(step3Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step3IconOpacity = useTransform(step3Progress, [0, 0.3], [0.5, 1]);
+  const step3IconScale = useTransform(step3Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 4 animations
+  const step4Opacity = useTransform(step4Progress, [0, 0.3], [0.3, 1]);
+  const step4Y = useTransform(step4Progress, [0, 0.3], [20, 0]);
+  const step4Scale = useTransform(step4Progress, [0, 0.3], [0.98, 1]);
+  const step4BorderColor = useTransform(step4Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step4TextColor = useTransform(step4Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step4Rotation = useTransform(step4Progress, [0, 1], [0, 45]);
+  const step4NumberRotation = useTransform(step4Progress, [0, 1], [0, -45]);
+  const step4NumberScale = useTransform(step4Progress, [0, 0.3], [0.9, 1]);
+  const step4BoxShadow = useTransform(step4Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step4IconOpacity = useTransform(step4Progress, [0, 0.3], [0.5, 1]);
+  const step4IconScale = useTransform(step4Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 5 animations
+  const step5Opacity = useTransform(step5Progress, [0, 0.3], [0.3, 1]);
+  const step5Y = useTransform(step5Progress, [0, 0.3], [20, 0]);
+  const step5Scale = useTransform(step5Progress, [0, 0.3], [0.98, 1]);
+  const step5BorderColor = useTransform(step5Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step5TextColor = useTransform(step5Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step5Rotation = useTransform(step5Progress, [0, 1], [0, 45]);
+  const step5NumberRotation = useTransform(step5Progress, [0, 1], [0, -45]);
+  const step5NumberScale = useTransform(step5Progress, [0, 0.3], [0.9, 1]);
+  const step5BoxShadow = useTransform(step5Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step5IconOpacity = useTransform(step5Progress, [0, 0.3], [0.5, 1]);
+  const step5IconScale = useTransform(step5Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 6 animations
+  const step6Opacity = useTransform(step6Progress, [0, 0.3], [0.3, 1]);
+  const step6Y = useTransform(step6Progress, [0, 0.3], [20, 0]);
+  const step6Scale = useTransform(step6Progress, [0, 0.3], [0.98, 1]);
+  const step6BorderColor = useTransform(step6Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step6TextColor = useTransform(step6Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step6Rotation = useTransform(step6Progress, [0, 1], [0, 45]);
+  const step6NumberRotation = useTransform(step6Progress, [0, 1], [0, -45]);
+  const step6NumberScale = useTransform(step6Progress, [0, 0.3], [0.9, 1]);
+  const step6BoxShadow = useTransform(step6Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step6IconOpacity = useTransform(step6Progress, [0, 0.3], [0.5, 1]);
+  const step6IconScale = useTransform(step6Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 7 animations
+  const step7Opacity = useTransform(step7Progress, [0, 0.3], [0.3, 1]);
+  const step7Y = useTransform(step7Progress, [0, 0.3], [20, 0]);
+  const step7Scale = useTransform(step7Progress, [0, 0.3], [0.98, 1]);
+  const step7BorderColor = useTransform(step7Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step7TextColor = useTransform(step7Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step7Rotation = useTransform(step7Progress, [0, 1], [0, 45]);
+  const step7NumberRotation = useTransform(step7Progress, [0, 1], [0, -45]);
+  const step7NumberScale = useTransform(step7Progress, [0, 0.3], [0.9, 1]);
+  const step7BoxShadow = useTransform(step7Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step7IconOpacity = useTransform(step7Progress, [0, 0.3], [0.5, 1]);
+  const step7IconScale = useTransform(step7Progress, [0, 0.3], [0.9, 1]);
+
+  // Step 8 animations
+  const step8Opacity = useTransform(step8Progress, [0, 0.3], [0.3, 1]);
+  const step8Y = useTransform(step8Progress, [0, 0.3], [20, 0]);
+  const step8Scale = useTransform(step8Progress, [0, 0.3], [0.98, 1]);
+  const step8BorderColor = useTransform(step8Progress, [0, 0.3], ["#D1D5DB", "#012d75"]);
+  const step8TextColor = useTransform(step8Progress, [0, 0.3], ["#6B7280", "#1E3A8A"]);
+  const step8Rotation = useTransform(step8Progress, [0, 1], [0, 45]);
+  const step8NumberRotation = useTransform(step8Progress, [0, 1], [0, -45]);
+  const step8NumberScale = useTransform(step8Progress, [0, 0.3], [0.9, 1]);
+  const step8BoxShadow = useTransform(step8Progress, [0, 0.3], ["0 4px 6px rgba(0,0,0,0.05)", "0 10px 25px rgba(0,0,0,0.1)"]);
+  const step8IconOpacity = useTransform(step8Progress, [0, 0.3], [0.5, 1]);
+  const step8IconScale = useTransform(step8Progress, [0, 0.3], [0.9, 1]);
+
+  // Create arrays to organize the animations
+  const stepAnimations = [
+    {
+      stepOpacity: step1Opacity, stepY: step1Y, stepScale: step1Scale,
+      borderColor: step1BorderColor, textColor: step1TextColor,
+      stepRotation: step1Rotation, numberRotation: step1NumberRotation,
+      numberScale: step1NumberScale, boxShadow: step1BoxShadow,
+      iconOpacity: step1IconOpacity, iconScale: step1IconScale
+    },
+    {
+      stepOpacity: step2Opacity, stepY: step2Y, stepScale: step2Scale,
+      borderColor: step2BorderColor, textColor: step2TextColor,
+      stepRotation: step2Rotation, numberRotation: step2NumberRotation,
+      numberScale: step2NumberScale, boxShadow: step2BoxShadow,
+      iconOpacity: step2IconOpacity, iconScale: step2IconScale
+    },
+    {
+      stepOpacity: step3Opacity, stepY: step3Y, stepScale: step3Scale,
+      borderColor: step3BorderColor, textColor: step3TextColor,
+      stepRotation: step3Rotation, numberRotation: step3NumberRotation,
+      numberScale: step3NumberScale, boxShadow: step3BoxShadow,
+      iconOpacity: step3IconOpacity, iconScale: step3IconScale
+    },
+    {
+      stepOpacity: step4Opacity, stepY: step4Y, stepScale: step4Scale,
+      borderColor: step4BorderColor, textColor: step4TextColor,
+      stepRotation: step4Rotation, numberRotation: step4NumberRotation,
+      numberScale: step4NumberScale, boxShadow: step4BoxShadow,
+      iconOpacity: step4IconOpacity, iconScale: step4IconScale
+    },
+    {
+      stepOpacity: step5Opacity, stepY: step5Y, stepScale: step5Scale,
+      borderColor: step5BorderColor, textColor: step5TextColor,
+      stepRotation: step5Rotation, numberRotation: step5NumberRotation,
+      numberScale: step5NumberScale, boxShadow: step5BoxShadow,
+      iconOpacity: step5IconOpacity, iconScale: step5IconScale
+    },
+    {
+      stepOpacity: step6Opacity, stepY: step6Y, stepScale: step6Scale,
+      borderColor: step6BorderColor, textColor: step6TextColor,
+      stepRotation: step6Rotation, numberRotation: step6NumberRotation,
+      numberScale: step6NumberScale, boxShadow: step6BoxShadow,
+      iconOpacity: step6IconOpacity, iconScale: step6IconScale
+    },
+    {
+      stepOpacity: step7Opacity, stepY: step7Y, stepScale: step7Scale,
+      borderColor: step7BorderColor, textColor: step7TextColor,
+      stepRotation: step7Rotation, numberRotation: step7NumberRotation,
+      numberScale: step7NumberScale, boxShadow: step7BoxShadow,
+      iconOpacity: step7IconOpacity, iconScale: step7IconScale
+    },
+    {
+      stepOpacity: step8Opacity, stepY: step8Y, stepScale: step8Scale,
+      borderColor: step8BorderColor, textColor: step8TextColor,
+      stepRotation: step8Rotation, numberRotation: step8NumberRotation,
+      numberScale: step8NumberScale, boxShadow: step8BoxShadow,
+      iconOpacity: step8IconOpacity, iconScale: step8IconScale
+    }
+  ];
 
   // Footer animations
   const footerOpacity = useTransform(smoothProgress, [0.8, 0.9], [0, 1]);
