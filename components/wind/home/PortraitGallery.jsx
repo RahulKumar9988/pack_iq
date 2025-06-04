@@ -129,7 +129,7 @@ export default function LinkedPortraitGallery() {
         
         <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
           {/* Main featured image with enhanced animations */}
-          <div className="relative mt-10 group">
+          <div className="relative md:mt-10 group">
             <div 
               key={`main-${animationKey}`}
               className={` w-64 h-96 lg:w-72 lg:h-88 
