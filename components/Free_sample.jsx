@@ -378,7 +378,7 @@ export default function EnhancedFreeSample() {
             </div>
             
             {/* What You'll Get Section */}
-            <div className="space-y-3 border-1 rounded-xl p-2">
+            <div className="space-y-3 border-1 border-gray-300 rounded-xl p-2">
               <h2 className="text-2xl font-bold text-blue-950">What You&apos;ll Get</h2>
               <div className="space-y-2">
                 {whatYouGet.map((item, index) => (
@@ -395,7 +395,7 @@ export default function EnhancedFreeSample() {
             </div>
             
             {/* Who Is It For Section */}
-            <div className="space-y-3 border-1 rounded-xl p-2">
+            <div className="space-y-3 border-1 border-gray-300 rounded-xl p-2">
               <h2 className="text-2xl font-bold text-blue-950">Who is it for?</h2>
               <div className="space-y-2">
                 {whoIsItFor.map((item, index) => (
