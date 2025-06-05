@@ -12,6 +12,7 @@ export default function EnhancedFreeSample() {
     address: "",
     pincode: "",
     city: "",
+    query:"",
     state: "",
     country: "",
     phone: "",
@@ -131,6 +132,7 @@ export default function EnhancedFreeSample() {
         address: formData.address.trim(),
         pincode: formData.pincode.trim(),
         city: formData.city.trim(),
+        query:formData.query.trim(),
         state: formData.state.trim(),
         country: formData.country.trim(),
         company: formData.company.trim() || "", // Optional field
@@ -195,6 +197,7 @@ export default function EnhancedFreeSample() {
           city: "",
           state: "",
           country: "",
+          query: "",
           phone: "",
           email: "",
           company: "",
@@ -357,9 +360,9 @@ export default function EnhancedFreeSample() {
           <div className="space-y-6 text-center lg:text-left md:mt-3">
             <div className="top-0 left-1/2 absolute blur-[125px] w-full h-full transform -translate-x-1/2 opacity-60 overflow-hidden -z-40">
               {/* Gradient Vectors */}
-              <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgba(188,219,255,0.5)] to-[rgba(147,197,255,0.2)]" />
-              <div className="top-[35%] right-[20%] bottom-[50%] left-[52%] absolute bg-gradient-to-bl from-[rgba(145,196,255,0.5)] to-[rgba(152,200,255,0.2)]" />
-              <div className="top-[32%] right-[48%] bottom-[50%] left-[19%] absolute bg-gradient-to-r from-[#46E3FF] to-[rgba(70,227,255,0.5)]" />
+              <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgb(188,219,255)] to-[rgb(212,232,255)]" />
+              <div className="top-[35%] right-[20%] bottom-[50%] left-[52%] absolute bg-gradient-to-bl from-[rgb(145,196,255)] to-[rgba(152,200,255,0.2)]" />
+              <div className="top-[32%] right-[48%] bottom-[50%] left-[19%] absolute bg-gradient-to-r from-[#46E3FF] to-[rgb(219,250,255)]" />
               <div className="top-[50%] right-[48%] bottom-[28%] left-[19%] absolute bg-gradient-to-tr from-[#cddbff] to-[rgba(255,178,150,0.6)]" />
               <div className="top-[50%] right-[19%] bottom-[25%] left-[52%] absolute bg-gradient-to-bl from-[rgba(201,255,255,0.4)] to-[rgba(181,255,255,0.1)]" />
               <div className="top-[50%] right-[47%] bottom-[21%] left-[31%] absolute bg-gradient-to-r from-[rgba(210,187,255,0.6)] to-[rgba(119,51,255,0.3)]" />
@@ -699,7 +702,22 @@ export default function EnhancedFreeSample() {
                     className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
                   />
                 </div>
-                
+
+                {/* Query */}
+                <div className="space-y-1">
+                  <label className="text-xs font-medium text-gray-700">
+                    Write your query 
+                  </label>
+                  <input
+                    type="text"
+                    name="query"
+                    placeholder="Write your query here."
+                    value={formData.query}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                  />
+                </div>
+
                 <button
                   type="submit"
                   className={`w-full flex items-center justify-center gap-2 ${
