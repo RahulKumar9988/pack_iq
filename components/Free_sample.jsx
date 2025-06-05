@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, ArrowRight, CheckCircle, Mail, Phone, User, AlertCircle, X } from "lucide-react";
 
@@ -61,6 +61,7 @@ export default function EnhancedFreeSample() {
       }
     }
   };
+  
 
   const formAnimation = {
     hidden: { opacity: 0, y: 30 },

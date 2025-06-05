@@ -1,44 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pack IQ offers smart, sustainable pouch and packaging solutions including stand-up pouches, ziplock bags, spout pouches, and more. Get in touch instantly.">
+  <meta name="keywords" content="Pack IQ, Packaging Solutions, Stand Up Pouch, Ziplock Pouch, Spout Pouch, Flexible Packaging, Custom Printing, Eco Packaging">
+  <meta name="author" content="Pack IQ Team">
+  <title>Pack IQ | Pouch & Packaging Solutions</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div>
-        <h2>qucik text</h2>
-        
-        <div>
-            <button class="rep">call me</button>
-            <button class="rep"> thanks</button>
-            <button class="rep">hi</button>
-            <button class="rep">hellow</button>
-        </div>
+  <header>
+    <h1>Pack IQ</h1>
+    <p>Your Partner in Smart Pouch & Packaging Solutions</p>
+  </header>
 
-        <div id="messagebox"></div>
-        
-    </div>
-    
-    <script>
-        
-        document.querySelectorAll('.rep').forEach(buttton =>{
-            buttton.addEventListener('click', () =>{
-                const messagebox = document.getElementById('messagebox');
-                const span = document.createElement('span');
-                span.textContent = buttton.textContent + " ";
+  <main>
+    <section aria-labelledby="quickTextTitle">
+      <h2 id="quickTextTitle">Quick Contact</h2>
+      <p>Click on a message to instantly send it to our team. Click again to remove it.</p>
+      
+      <div>
+        <button class="rep" aria-label="Send message: Call me">Call Me</button>
+        <button class="rep" aria-label="Send message: I need pouch details">Need Pouch Details</button>
+        <button class="rep" aria-label="Send message: Hi, I have a custom order">Custom Order</button>
+        <button class="rep" aria-label="Send message: Thank you">Thank You</button>
+      </div>
 
-                // Remove the reply when clicked
-4350
-                span.addEventListener('click', () => {
-                    messagebox.removeChild(span);
-                });
+      <div id="messagebox" aria-live="polite" role="region" style="margin-top: 1rem;"></div>
+    </section>
 
-                messagebox.appendChild(span);
-            })
-        })
-        
-    </script>
+    <section aria-labelledby="productsTitle">
+      <h2 id="productsTitle">Our Pouch Products</h2>
+      <ul>
+        <li><strong>Stand-Up Pouches</strong>  Great for shelf display, food-safe and customizable.</li>
+        <li><strong>Ziplock Pouches</strong>  Resealable, durable, perfect for dry goods and snacks.</li>
+        <li><strong>Spout Pouches</strong>  Ideal for liquids, sauces, and drinkables.</li>
+        <li><strong>Three-Side Seal Pouches</strong>  Compact and economical for small items.</li>
+        <li><strong>Flat Bottom Pouches</strong>  Stable base, high-capacity for premium products.</li>
+        <li><strong>Kraft Paper Pouches</strong>  Eco-friendly, natural look for organic products.</li>
+      </ul>
+      <p>All pouches are available in custom sizes, colors, and printing options with fast delivery worldwide.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pack IQ. All rights reserved. | <a href="mailto:support@packiq.com">support@packiq.com</a></p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.rep').forEach(button => {
+      button.addEventListener('click', () => {
+        const messagebox = document.getElementById('messagebox');
+        const span = document.createElement('span');
+        span.textContent = button.textContent + ' ';
+        span.style.cursor = 'pointer';
+        span.style.padding = '4px 8px';
+        span.style.backgroundColor = '#eee';
+        span.style.margin = '4px';
+        span.style.display = 'inline-block';
+        span.style.borderRadius = '4px';
+
+        span.addEventListener('click', () => {
+          messagebox.removeChild(span);
+        });
+
+        messagebox.appendChild(span);
+      });
+    });
+  </script>
 </body>
 </html>
