@@ -44,7 +44,7 @@ const HowtoDesign = () => {
       id: 5,
       title: "Create your POUCH DESIGN",
       description:
-        "Have a design ready? Upload it now — or reach out if you need help creating one.",
+        "Have a design ready? Upload it now — or reach out to us if you need help creating one",
       color: "bg-blue-200",
       icon: "/How_to_Order/icons 2-05.png",
     },
