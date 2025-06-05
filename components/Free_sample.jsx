@@ -373,20 +373,20 @@ export default function EnhancedFreeSample() {
                 Get Your Free Sample
               </h1>
               <p className="text-lg text-indigo-900 font-medium">
-                Request a Free Packaging Sample. Experience PackIQ Quality Before You Order
+                Experience PackIQ Quality Before You Order
               </p>
             </div>
             
             {/* What You'll Get Section */}
-            <div className="space-y-3">
-              <h2 className="text-xl font-bold text-blue-950">What You&apos;ll Get</h2>
+            <div className="space-y-3 border-1 rounded-xl p-2">
+              <h2 className="text-2xl font-bold text-blue-950">What You&apos;ll Get</h2>
               <div className="space-y-2">
                 {whatYouGet.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0">
                       <CheckCircle size={16} className="text-green-600" />
                     </div>
-                    <p className="text-blue-950 text-sm leading-relaxed">
+                    <p className="text-blue-950 text-lg leading-relaxed">
                       {item}
                     </p>
                   </div>
@@ -395,15 +395,15 @@ export default function EnhancedFreeSample() {
             </div>
             
             {/* Who Is It For Section */}
-            <div className="space-y-3">
-              <h2 className="text-xl font-bold text-blue-950">Who is it for?</h2>
+            <div className="space-y-3 border-1 rounded-xl p-2">
+              <h2 className="text-2xl font-bold text-blue-950">Who is it for?</h2>
               <div className="space-y-2">
                 {whoIsItFor.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0">
                       <CheckCircle size={16} className="text-green-600" />
                     </div>
-                    <p className="text-blue-950 text-sm leading-relaxed">
+                    <p className="text-blue-950 text-lg leading-relaxed">
                       <span className="font-semibold">{item.title}</span> {item.description}
                     </p>
                   </div>
@@ -423,9 +423,6 @@ export default function EnhancedFreeSample() {
                   <h2 className="text-lg font-bold text-gray-800">
                     Sample Kit Request
                   </h2>
-                  <p className="text-gray-500 text-xs">
-                    Delivered in 7 days, no obligations
-                  </p>
                 </div>
               </div>
               
