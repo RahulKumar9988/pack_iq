@@ -487,7 +487,7 @@ import { useAppSelector } from "@/redux/hooks";
               {/* Image Gallery - Enhanced for professional appearance */}
               <div className="w-full flex flex-col gap-4 h-full">
                 {/* Main product image with subtle zoom effect */}
-                <div className="relative w-full aspect-square rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 border border-gray-100  overflow-hidden shadow-md group">
+                <div className="relative w-full aspect-square rounded-3xl bg-gradient-to-br from-blue-100 to-blue-50 border border-gray-200  overflow-hidden shadow-md">
                   <Image 
                     src={product.thumbnails[selectedImage]} 
                     alt={`${product.name} - Image ${selectedImage + 1}`} 
@@ -584,13 +584,12 @@ import { useAppSelector } from "@/redux/hooks";
                     .filter(Boolean)
                     .map((sentence, index) => {
                       const trimmed = sentence.trim();
-                      const shortText = trimmed.length > 50 ? trimmed.slice(0, 200) + '.' : trimmed + '.';
-                      
+                      // const shortText = trimmed.length > 50 ? trimmed.slice(0, 200) + '.' : trimmed + '.';
                       return (
                         <p
                           key={index}
                           className="text-gray-600 text-sm sm:text-base leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: shortText }}
+                          dangerouslySetInnerHTML={{ __html: trimmed }}
                         />
                       );
                     })}
@@ -1034,7 +1033,7 @@ import { useAppSelector } from "@/redux/hooks";
                     className="group relative bg-gradient-to-r from-[#0b2949] to-indigo-800 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
                     onClick={() => router.push('/packaging-type')}
                   >
-                    <span className="relative z-10">Customize Your Kit</span>
+                    <span className="relative z-10">Customize Now</span>
                     <ArrowRightIcon className="w-5 h-5 ml-2 inline-block transform group-hover:translate-x-1 transition-transform" />
                   </Button>
 
