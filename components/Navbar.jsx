@@ -90,7 +90,7 @@ export default function HomepageNavbar() {
               width={190}
               height={100}
               className="object-cover mb-2"
-              loading="eager"
+              loading="lazy"
             />
           </div>
         </div>
