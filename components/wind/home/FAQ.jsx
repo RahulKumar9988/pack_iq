@@ -10,9 +10,10 @@ function FAQ() {
   const router = useRouter();
   const [expandedQuestions, setExpandedQuestions] = useState({});
   const [allQuestions, setAllQuestions] = useState({
+    'Product Questions': [],
     'Artwork Questions': [],
     'Order Process Questions': [],
-    'Product Questions': []
+    
   });
   const [loading, setLoading] = useState({
     'Artwork Questions': false,
@@ -42,6 +43,12 @@ function FAQ() {
 
   const questionTypes = [
     {
+      key: 'Product Questions',
+      title: 'Product Questions',
+      description: 'Questions about product specifications, materials, and customization options',
+      icon: '🏷️'
+    },
+    {
       key: 'Artwork Questions',
       title: 'Artwork Questions',
       description: 'Questions about artwork requirements, file formats, and design specifications',
@@ -53,12 +60,7 @@ function FAQ() {
       description: 'Questions about ordering, payment, shipping, and delivery process',
       icon: '📦'
     },
-    {
-      key: 'Product Questions',
-      title: 'Product Questions',
-      description: 'Questions about product specifications, materials, and customization options',
-      icon: '🏷️'
-    }
+    
   ];
 
   // Load initial questions for all sections when component mounts
@@ -143,7 +145,7 @@ function FAQ() {
   };
 
   return (
-    <div className='h-full w-full'>
+    <div className='h-full w-full md:mt-8'>
       <div className="relative flex justify-center items-center min-h-screen w-full">
         <div className="flex justify-center items-center bg-gradient-to-br from-white via-[#f8f9ff] to-[#f0f4ff] py-20 w-full h-auto">
           {/* Enhanced Background Effects */}
@@ -163,7 +165,7 @@ function FAQ() {
                 <span className="text-[#143761] text-sm font-medium">FAQ Section</span>
               </div> */}
               
-              <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-center bg-gradient-to-r from-[#143761] via-[#003c80] to-[#00437d] bg-clip-text text-transparent leading-tight">
+              <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-center bg-gradient-to-r from-[#0d2643] via-[#003067] to-[#00284b] bg-clip-text text-transparent leading-tight">
                 Frequently Asked Questions
               </h1>
 
@@ -267,7 +269,7 @@ function FAQ() {
                             </div>
                           ))}
 
-                          {/* Load More Button */}
+                          {/* Load More Button
                           {hasMoreQuestions[type.key] && (
                             <div className="flex justify-center mt-6">
                               <Button
@@ -283,7 +285,7 @@ function FAQ() {
                                 {loading[type.key] ? 'Loading...' : 'Load more questions'}
                               </Button>
                             </div>
-                          )}
+                          )} */}
                         </>
                       )}
                     </div>
@@ -294,13 +296,17 @@ function FAQ() {
 
             {/* Footer CTA */}
             <div className="text-center backdrop-blur-sm rounded-2xl p-8">
-              <h3 className="text-xl font-bold text-[#143761] mb-2">Still have questions?</h3>
+              <h3 className="md:text-4xl text-2xl font-bold text-[#0b2d57] mb-2 uppercase">Still have questions?</h3>
               <p className="text-[#676D79] mb-4">Our support team is here to help you with any additional questions.</p>
               <Button
                 onClick={() => router.push('/contact')}
-                className="bg-gradient-to-r from-[#202f93] to-[#003169] text-white px-6 py-2 rounded-full font-medium transition-all hover:shadow-lg hover:scale-105 flex items-center gap-2 mx-auto"
+                className="bg-blue-900 text-white font-bold py-7 px-10 rounded-full text-xl hover:bg-blue-900 transition-colors duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+
               >
-                Contact Support
+                Contact Us
                 <GoArrowUpRight size={18} />
               </Button>
             </div>
