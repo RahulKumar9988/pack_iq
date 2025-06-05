@@ -292,7 +292,7 @@ const HowtoDesign = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-4xl md:text-6xl font-black text-blue-950 mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-[4rem] font-extrabold text-blue-950 mb-6 tracking-tight md:mt-10">
             How to order online at PACKIQ
           </h1>
           <h2 className="text-lg md:text-2xl font-bold text-blue-950 tracking-wide mb-4">
@@ -371,7 +371,7 @@ const HowtoDesign = () => {
                       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex-1">
                           <motion.h3 
-                            className="text-xl md:text-2xl font-bold text-gray-800 mb-4 uppercase"
+                            className="text-xl md:text-3xl font-extrabold text-gray-800 mb-4 uppercase"
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -380,7 +380,7 @@ const HowtoDesign = () => {
                             {item.title}
                           </motion.h3>
                           <motion.p 
-                            className="text-gray-700 text-base md:text-lg leading-relaxed max-w-xl"
+                            className="text-gray-700 text-base md:text-xl leading-relaxed max-w-xl"
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
@@ -408,7 +408,7 @@ const HowtoDesign = () => {
                       </div>
                     </motion.div>
                   </motion.div>
-
+{/* 
                   {item.id === 1 && item.showRecommendation && (
                     <motion.div 
                       className="mt-8 ml-20"
@@ -419,7 +419,7 @@ const HowtoDesign = () => {
                     >
                       <RecommendedProducts />
                     </motion.div>
-                  )}
+                  )} */}
                 </React.Fragment>
               );
             })}
@@ -434,14 +434,14 @@ const HowtoDesign = () => {
             y: footerY
           }}
         >
-          <h3 className="text-2xl font-bold text-blue-950 mb-4">Ready to get started?</h3>
+          <h3 className="text-3xl uppercase font-bold text-blue-950 mb-4">Ready to get started?</h3>
           <motion.button 
             className="bg-blue-900 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-900 transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            Start Your Order
+            Customize Now
           </motion.button>
         </motion.div>
       </div>
