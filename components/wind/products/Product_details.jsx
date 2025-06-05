@@ -907,54 +907,54 @@ import { useAppSelector } from "@/redux/hooks";
                       <span className="text-gray-500 font-normal text-sm">(default addons are already selected)</span>
                     </label>
                     <button
-                      type="button"
-                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-                      onClick={() => !addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
-                      disabled={addonDisabled}
-                    >
-                      <span className="text-gray-800 truncate max-w-full">
-                        {(() => {
-                          // Check if addons array is empty or undefined - show "no addons" message
-                          if (!Array.isArray(addons) || addons.length === 0) {
-                            return <span className="text-gray-500">No add-ons available</span>;
-                          }
+  type="button"
+  className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+  onClick={() => !addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
+  disabled={addonDisabled}
+>
+  <span className="text-gray-800 truncate max-w-full">
+    {(() => {
+      // Check if addons array is empty or undefined - show "no addons" message
+      if (!Array.isArray(addons) || addons.length === 0) {
+        return <span className="text-gray-500">No add-ons available</span>;
+      }
 
-                          // Get names of all default add-ons (checked = 1) - these are auto-selected
-                          const defaultAddonNames = addons
-                            .filter(addon => addon.checked === 1 && addon.additionsId)
-                            .map(addon => addon.additionsId?.additions_title)
-                            .filter(name => name); // Remove any undefined/null names
-                            
-                          // Get names of all manually selected optional add-ons  
-                          const selectedAddonNames = Array.isArray(selectedAddons) && selectedAddons.length > 0
-                            ? selectedAddons
-                                .map(addonId => {
-                                  const addon = addons.find(a => 
-                                    a.additionsId?.additions_id?.toString() === addonId?.toString()
-                                  );
-                                  return addon?.additionsId?.additions_title;
-                                })
-                                .filter(name => name) // Remove any undefined/null names
-                            : [];
-                          
-                          // Combine all add-on names (default + manually selected)
-                          const allSelectedNames = [...defaultAddonNames, ...selectedAddonNames];
-                          
-                          // If no addons are selected at all, show placeholder
-                          if (allSelectedNames.length === 0) {
-                            return <span className="text-gray-500">Select add-ons</span>;
-                          }
-                          
-                          // Display addon names - truncate if more than 2
-                          const displayText = allSelectedNames.length > 2 
-                            ? `${allSelectedNames.slice(0, 2).join(', ')} +${allSelectedNames.length - 2} more`
-                            : allSelectedNames.join(', ');
-                            
-                          return displayText;
-                        })()}
-                      </span>
-                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                    </button>
+      // Get names of all default add-ons (checked = 1) - these are auto-selected
+      const defaultAddonNames = addons
+        .filter(addon => addon.checked === 1 && addon.additionsId)
+        .map(addon => addon.additionsId?.additions_title)
+        .filter(name => name); // Remove any undefined/null names
+        
+      // Get names of all manually selected optional add-ons  
+      const selectedAddonNames = Array.isArray(selectedAddons) && selectedAddons.length > 0
+        ? selectedAddons
+            .map(addonId => {
+              const addon = addons.find(a => 
+                a.additionsId?.additions_id?.toString() === addonId?.toString()
+              );
+              return addon?.additionsId?.additions_title;
+            })
+            .filter(name => name) // Remove any undefined/null names
+        : [];
+      
+      // Combine all add-on names (default + manually selected)
+      const allSelectedNames = [...defaultAddonNames, ...selectedAddonNames];
+      
+      // If no addons are selected at all, show placeholder
+      if (allSelectedNames.length === 0) {
+        return <span className="text-gray-500">Select add-ons</span>;
+      }
+      
+      // Display addon names - truncate if more than 2
+      const displayText = allSelectedNames.length > 2 
+        ? `${allSelectedNames.slice(0, 2).join(', ')} +${allSelectedNames.length - 2} more`
+        : allSelectedNames.join(', ');
+        
+      return displayText;
+    })()}
+  </span>
+  <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+</button>
 
                     {isDropdownOpenAddon && (
                       <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
