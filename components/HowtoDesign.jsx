@@ -9,7 +9,7 @@ const HowtoDesign = () => {
   const timelineData = [
     {
       id: 1,
-      title: "CHOOSE YOUR POUCH STYLE",
+      title: "Choose Your Pouch Style",
       description:
         "We offer a full range of packaging solutions — from pouches for snacks and coffee to packaging for pet treats and cosmetics.",
       color: "bg-blue-200",
@@ -18,7 +18,7 @@ const HowtoDesign = () => {
     },
     {
       id: 2,
-      title: "SELECT YOUR POUCH FEATURES",
+      title: "Select Your Pouch Features",
       description:
         "Select the features that suit your product — glossy or matte finish, resealable zippers, window and more. The choice is yours.",
       color: "bg-white",
@@ -26,7 +26,7 @@ const HowtoDesign = () => {
     },
     {
       id: 3,
-      title: "Review your pouch details",
+      title: "Review Your Pouch Details",
       description:
         "Confirm your pouch details before moving on. Pricing will update real time according to your selections.",
       color: "bg-blue-200",
@@ -34,7 +34,7 @@ const HowtoDesign = () => {
     },
     {
       id: 4,
-      title: "Login to Place Order",
+      title: "Login To Place Order",
       description:
         "To complete your order securely, please log in or create an account. This lets you track orders and manage artwork files effortlessly.",
       color: "bg-white",
@@ -42,7 +42,7 @@ const HowtoDesign = () => {
     },
     {
       id: 5,
-      title: "Create your POUCH DESIGN",
+      title: "Create Your Pouch Design",
       description:
         "Have a design ready? Upload it now — or reach out to us if you need help creating one",
       color: "bg-blue-200",
@@ -50,7 +50,7 @@ const HowtoDesign = () => {
     },
     {
       id: 6,
-      title: "Our customer success manager will contact you",
+      title: "Our Customer Success Manager Will Contact You",
       description:
         "After your order is placed, a dedicated Customer Success Manager will reach out to confirm details, answer any questions, and guide you through the next steps.",
       color: "bg-white",
@@ -58,7 +58,7 @@ const HowtoDesign = () => {
     },
     {
       id: 7,
-      title: "Verify and approve the digital proof",
+      title: "Verify And Approve The Digital Proof",
       description:
         "We will send a mockup for your final approval. Please confirm the design layout, print placement, and pouch specifications to proceed with production.",
       color: "bg-blue-200",
@@ -66,7 +66,7 @@ const HowtoDesign = () => {
     },
     {
       id: 8,
-      title: "Efficient and timely production and delivery",
+      title: "Efficient And Timely Production And Delivery",
       description:
         "Once approved, your order proceeds to production and is delivered with efficiency and precision. Your custom pouch is on its way.",
       color: "bg-white",
@@ -371,7 +371,7 @@ const HowtoDesign = () => {
                       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex-1">
                           <motion.h3 
-                            className="text-2xl md:text-4xl font-black text-black mb-4 uppercase tracking-tighter drop-shadow-md"
+                            className="text-2xl md:text-4xl font-black text-black mb-4  tracking-tighter drop-shadow-md"
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
