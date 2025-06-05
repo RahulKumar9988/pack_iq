@@ -6,16 +6,13 @@ export const LayoutGrid = ({ cards }) => {
   const [selected, setSelected] = useState(null);
   const containerRef = useRef(null);
   const [windowHeight, setWindowHeight] = useState(0);
-  
+
   useEffect(() => {
     setWindowHeight(window.innerHeight);
     const handleResize = () => setWindowHeight(window.innerHeight);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
-  
-  // Pre-calculate all transformations outside the render loop
 
   const getGridClasses = (index) => {
     const patterns = [
@@ -30,7 +27,7 @@ export const LayoutGrid = ({ cards }) => {
     ];
     return patterns[index % patterns.length];
   };
-  
+
   const getBgColor = (index) => {
     const colors = ["bg-white"];
     return colors[index % colors.length];
@@ -41,25 +38,32 @@ export const LayoutGrid = ({ cards }) => {
       {cards.map((card, index) => {
         const { cols, height } = getGridClasses(index);
         const bgColor = getBgColor(index);
-        
+
         return (
           <motion.div
             key={card.id}
             className={`${cols} ${height} ${bgColor} relative rounded-xl overflow-hidden`}
             onClick={() => setSelected(card.id === selected ? null : card.id)}
-            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            whileHover={{ y: -5, transition: { duration: 0.2 }, scale: 1.02,filter: "brightness(120%)",
+                transition: { duration: 0.3 }, }}
             layout
           >
             <motion.div
               className="absolute inset-0 w-full h-full bg-cover bg-center"
               style={{
                 backgroundImage: card.thumbnail ? `url(${card.thumbnail})` : "none",
-                backgroundSize: 'cover',
-                filter: selected === card.id ? "brightness(100%)" : "brightness(90%)",
+                backgroundSize: "cover",
+              }}
+              animate={{
+                filter:
+                  selected === null || selected === card.id
+                    ? "brightness(80%)"
+                    : "brightness(100%)",
               }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-20" />
             </motion.div>
+
             <motion.div
               className="absolute inset-0 z-10 flex flex-col justify-end p-6"
               animate={{ opacity: selected === null || selected === card.id ? 1 : 0 }}

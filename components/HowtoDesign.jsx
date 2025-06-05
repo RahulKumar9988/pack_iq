@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import RecommendedProducts from './Recomended_product';
+// import RecommendedProducts from './Recomended_product';
 
 const HowtoDesign = () => {
   const timelineData = [
@@ -292,7 +292,7 @@ const HowtoDesign = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-4xl md:text-[4rem] font-extrabold text-blue-950 mb-6 tracking-tight md:mt-10">
+          <h1 className="text-4xl md:text-[4rem] font-extrabold text-blue-950 mb-6 md:mt-10">
             How to order online at PACKIQ
           </h1>
           <h2 className="text-lg md:text-2xl font-bold text-blue-950 tracking-wide mb-4">

@@ -119,7 +119,14 @@ export default function LayoutGridDemo() {
   }
 
   return (
-    <div className="w-full"> 
+    <div className="w-full">
+      <h1 className="text-4xl md:text-[4rem] font-extrabold text-center text-blue-950 mb-10 md:mt-28 mt-20">
+        Inspirations
+      </h1>
+      <h2 className="text-lg md:text-2xl font-bold text-center text-blue-950 tracking-wide">
+        Inspiration Starts Here — Bold Packaging Ideas to Fuel Your Brand <br />
+        "Big Ideas, Beautiful Packs — See What&apos;s Possible
+      </h2> 
       <LayoutGrid cards={generateCards()} />
     </div>
   );

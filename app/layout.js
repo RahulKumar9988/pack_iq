@@ -5,6 +5,7 @@ import "./globals.css";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import StoreProvider from "./(products)/StoreProvider";
+import { ScrollToTopOnNavigate } from "@/components/ScrollToTopOnNavigate";
 
 // Simple loading placeholders
 const NavbarPlaceholder = () => <div className="h-16 bg-white shadow-sm w-full"></div>;
@@ -62,7 +63,7 @@ export default function RootLayout({ children }) {
         <Suspense fallback={<LoadingSpinner />}>
           <TopLoader />
         </Suspense>
-        
+          <ScrollToTopOnNavigate/>
         <StoreProvider>
           <div className="flex flex-col flex-grow w-full items-center">
             {/* Desktop Navigation */}
