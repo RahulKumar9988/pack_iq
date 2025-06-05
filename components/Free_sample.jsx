@@ -343,7 +343,7 @@ export default function EnhancedFreeSample() {
             
             {/* What You'll Get Section */}
             <div className="space-y-3">
-              <h2 className="text-xl font-bold text-blue-950">What You'll Get</h2>
+              <h2 className="text-xl font-bold text-blue-950">What You&apos;ll Get</h2>
               <div className="space-y-2">
                 {whatYouGet.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
