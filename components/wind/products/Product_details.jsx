@@ -305,8 +305,18 @@ import { useAppSelector } from "@/redux/hooks";
       }
     }, [selectedImage]);
 
-    const prevIndex = selectedImage === 0 ? product?.thumbnails?.length - 1 : selectedImage - 1;
-    const nextIndex = selectedImage === product?.thumbnails?.length - 1 ? 0 : selectedImage + 1;
+    const visibleThumbnails = Array.isArray(product?.thumbnails)
+      ? product.thumbnails.slice(0, -1)
+      : [];
+
+
+    const prevIndex = selectedImage === 0
+      ? visibleThumbnails.length - 1
+      : selectedImage - 1;
+
+    const nextIndex = selectedImage === visibleThumbnails.length - 1
+      ? 0
+      : selectedImage + 1;
 
     // Calculate carousel navigation indices
     const carouselPrevIndex = carouselSelectedImage === 0 ? product?.thumbnails?.length - 1 : carouselSelectedImage - 1;
@@ -523,14 +533,17 @@ import { useAppSelector } from "@/redux/hooks";
               <div className="w-full flex flex-col gap-4 h-full">
                 {/* Main product image with subtle zoom effect */}
                 <div className="relative w-full aspect-square rounded-3xl bg-gradient-to-br from-blue-50 to-blue-50 border border-gray-200  overflow-hidden shadow-md">
-                  <Image 
-                    src={product.thumbnails[selectedImage]} 
-                    alt={`${product.name} - Image ${selectedImage + 1}`} 
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
-                    className="object-contain transition-transform duration-300 group-hover:scale-102"
-                  />
+                  {visibleThumbnails.length > 0 && (
+                    <Image
+                      src={visibleThumbnails[selectedImage]}
+                      alt={`${product.name} - Image ${selectedImage + 1}`}
+                      fill
+                      priority={selectedImage === 0}
+                      loading={selectedImage === 0 ? 'eager' : 'lazy'}
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw"
+                      className="object-contain transition-transform duration-300 group-hover:scale-102"
+                    />
+                  )}
                   
                   {/* Navigation arrows with improved design */}
                   <div className="flex justify-between absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-4">
