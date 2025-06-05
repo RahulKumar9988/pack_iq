@@ -11,7 +11,7 @@ const ImageComparisonFeature = ({
   afterDescription = "",
   theme = "light-blue",
   sliding_desc= "product details",
-  product_desc="product_desc"
+  // product_desc="product_desc"
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -87,15 +87,16 @@ const ImageComparisonFeature = ({
       <div className="max-w-6xl mx-auto">
         {/* Animated heading section */}
         <div className={`text-center mb-12 transition-all duration-1000 ${fadeInClass}`}>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 relative inline-block">
+          {/* <h2 className="text-4xl md:text-5xl font-extrabold mb-6 relative inline-block">
             <span className="bg-clip-text text-transparent bg-blue-900">
               {title}
             </span>
             <div className={`absolute -bottom-2 left-0 w-full h-1 ${colors.primary} rounded-full transform origin-left transition-all duration-500 ease-out scale-x-0 group-hover:scale-x-100`}></div>
-          </h2>
+          </h2> */}
+          {/* Additional info */}
           <p
             className="text-gray-600 text-sm sm:text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: product_desc }}
+            dangerouslySetInnerHTML={{ __html: sliding_desc }}
           ></p>
 
         </div>
@@ -120,12 +121,12 @@ const ImageComparisonFeature = ({
                   {/* Header */}
                   <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-4">
                     <h3 className={`text-2xl font-bold text-blue-950`}>{beforeText}</h3>
-                    <div className={`px-3 py-1 bg-blue-800 text-white rounded-full text-sm flex items-center space-x-1`}>
+                    {/* <div className={`px-3 py-1 bg-blue-800 text-white rounded-full text-sm flex items-center space-x-1`}>
                       <span>BEFORE</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M12 5v14M5 12h14" />
                       </svg>
-                    </div>
+                    </div> */}
                   </div>
                   
                   {/* Main image */}
@@ -190,12 +191,12 @@ const ImageComparisonFeature = ({
                   {/* Header */}
                   <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-4">
                     <h3 className={`text-2xl font-bold text-blue-950`}>{afterText}</h3>
-                    <div className={`px-3 py-1 bg-blue-800 text-white rounded-full text-sm flex items-center space-x-1`}>
+                    {/* <div className={`px-3 py-1 bg-blue-800 text-white rounded-full text-sm flex items-center space-x-1`}>
                       <span>AFTER</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M5 9l7-7 7 7M5 15l7 7 7-7" />
                       </svg>
-                    </div>
+                    </div> */}
                   </div>
                   
                   {/* Main image */}
@@ -301,13 +302,7 @@ const ImageComparisonFeature = ({
           </div>
         </div>
         
-        {/* Additional info */}
-        <div className={`mt-16 md:text-left text-justify px-1 mx-auto text-gray-600 transition-all duration-1000 ${fadeInClass} delay-500`}>
-          <p
-            className="text-gray-600 text-sm sm:text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: sliding_desc }}
-          ></p>
-        </div>
+        
       </div>
       
       {/* Custom CSS */}

@@ -46,13 +46,15 @@ const AdvancedQAContact = () => {
                 </p>
               </div>
               
-              <Button
-                className="bg-gradient-to-r from-blue-900 to-blue-950 text-white flex items-center justify-center rounded-full gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-semibold font-inter border-none hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto mx-auto lg:mx-0 min-w-[200px] sm:min-w-[250px] max-w-[300px]"
-                onClick={() => router.push('/contact')}
-              >
-                <span>Contact Us</span>
-                <GoArrowUpRight className="text-lg sm:text-xl md:text-2xl flex-shrink-0" />
-              </Button>            
+              <div className="flex justify-center mt-8">
+                <a
+                  href='/contact'
+                  className="bg-gradient-to-r from-[#0f3765] to-[#143761] text-white px-10 py-4 rounded-full font-semibold text-base md:text-lg transition-all hover:shadow-xl hover:scale-105 flex items-center gap-3"
+                >
+                  Contact Us
+                  <GoArrowUpRight size={20} />
+                </a>
+              </div>           
             </div>
           </div>
         </div>

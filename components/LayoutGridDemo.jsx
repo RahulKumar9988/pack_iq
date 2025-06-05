@@ -90,7 +90,7 @@ export default function LayoutGridDemo() {
               {inspiration.inspiration_description ? (
                 <div dangerouslySetInnerHTML={{ __html: inspiration.inspiration_description }} />
               ) : (
-                <p>No description available</p>
+                ""
               )}
             </div>
           </div>

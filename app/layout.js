@@ -63,6 +63,8 @@ export default function RootLayout({ children }) {
         <Suspense fallback={<LoadingSpinner />}>
           <TopLoader />
         </Suspense>
+        <ScrollToTopOnNavigate/>
+
         <StoreProvider>
           <div className="flex flex-col flex-grow w-full items-center">
             {/* Desktop Navigation */}
@@ -79,7 +81,6 @@ export default function RootLayout({ children }) {
               <div className="animate-pulse h-10 w-10 bg-blue-200 rounded-full"></div>
             </div>}>
               <SmoothScrollProvider>
-                <ScrollToTopOnNavigate/>
 
                 {/* Main Content with proper padding/margin to account for fixed header */}
                 <div className="w-full flex justify-center flex-grow md:mt-28 sm:mt-16 mt-2">

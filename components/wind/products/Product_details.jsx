@@ -487,7 +487,7 @@ import { useAppSelector } from "@/redux/hooks";
               {/* Image Gallery - Enhanced for professional appearance */}
               <div className="w-full flex flex-col gap-4 h-full">
                 {/* Main product image with subtle zoom effect */}
-                <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md group">
+                <div className="relative w-full aspect-square rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 border border-gray-100  overflow-hidden shadow-md group">
                   <Image 
                     src={product.thumbnails[selectedImage]} 
                     alt={`${product.name} - Image ${selectedImage + 1}`} 
@@ -528,7 +528,7 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
                   
                   {/* Image counter indicator with improved design */}
-                  <div className="absolute bottom-3 right-3 bg-white/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
+                  <div className="absolute bottom-3 right-3 bg-blue-100/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
                     {selectedImage + 1}/{product.thumbnails.length}
                   </div>
                 </div>
@@ -542,14 +542,14 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
                   
                   <div 
-                    className="flex gap-3 overflow-x-auto py-2 px-1 snap-x snap-mandatory scroll-smooth hide-scrollbar"
+                    className="flex h-44 gap-3 overflow-y-hidden py-2 px-1 snap-x snap-mandatory scroll-smooth hide-scrollbar"
                     role="region" 
                     aria-label="Product image thumbnails"
                   >
                     {product.thumbnails.map((thumbnail, index) => (
                       <button 
                         key={index} 
-                        className={`min-w-16 w-16 h-16 border flex-shrink-0 snap-center${
+                        className={`w-32 border flex-shrink-0 snap-center${
                           selectedImage === index 
                             ? 'border-[#143761] ' 
                             : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
@@ -573,10 +573,10 @@ import { useAppSelector } from "@/redux/hooks";
                 </div>
               </div>
 
-              <div className="flex flex-col gap-5 p-6 md:p-8 bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-gray-100 rounded-xl shadow-lg">
+              <div className="flex flex-col gap-5 p-6 md:px-8 bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-gray-100 rounded-xl shadow-lg">
                 {/* Product Header Section */}
                 <div className="space-y-3">
-                  <h1 className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#143761] to-[#2a5a8f] bg-clip-text text-transparent mb-2">
+                  <h1 className="text-2xl md:text-5xl font-extrabold text-blue-950 ">
                     {product.name}
                   </h1>
                   {product.description
@@ -584,7 +584,7 @@ import { useAppSelector } from "@/redux/hooks";
                     .filter(Boolean)
                     .map((sentence, index) => {
                       const trimmed = sentence.trim();
-                      const shortText = trimmed.length > 50 ? trimmed.slice(0, 100) + '...' : trimmed + '.';
+                      const shortText = trimmed.length > 50 ? trimmed.slice(0, 200) + '.' : trimmed + '.';
                       
                       return (
                         <p
@@ -601,129 +601,128 @@ import { useAppSelector } from "@/redux/hooks";
                 {/* Selection Sections */}
                 <div className="space-y-6 flex-grow">
                   {/* Material Select - Single Selection */}
-                  {/* Material Select - Single Selection */}
-<div className="flex flex-col gap-2 relative">
-  <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
-    <SparklesIcon className="w-5 h-5 text-blue-500" />
-    Material Selection
-    <span className="text-gray-500 font-normal text-sm">(select one material)</span>
-  </label>
-  
-  <button
-    type="button"
-    className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-    onClick={() => !materialDisabled && setIsDropdownOpen(!isDropdownOpen)}
-    disabled={materialDisabled}
-  >
-    <span className="text-gray-800 truncate max-w-full">
-      {(() => {
-        if (!selectedMaterial) {
-          return <span className="text-gray-500">Select a material</span>;
-        }
-        
-        // Find the selected material from all materials
-        const selectedMaterialItem = materials.find(material => {
-          const materialId = material.materialId?.material_id || material.material_id || material.id;
-          return materialId?.toString() === selectedMaterial?.toString();
-        });
-        
-        if (selectedMaterialItem) {
-          const materialName = selectedMaterialItem.materialId?.name || 
-                              selectedMaterialItem.name || 
-                              selectedMaterialItem.material_name || 
-                              selectedMaterialItem.title || 
-                              selectedMaterialItem.material_title || 
-                              `Material ${selectedMaterialItem.materialId?.material_id || selectedMaterialItem.material_id || selectedMaterialItem.id}` || 
-                              'Selected Material';
-          return materialName;
-        }
-        
-        return <span className="text-gray-500">Select a material</span>;
-      })()}
-    </span>
-    <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-  </button>
-
-  {isDropdownOpen && (
-    <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
-      <div className="mb-2 p-3 border-b border-gray-100">
-        <h4 className="font-medium text-blue-800">Available Materials</h4>
-      </div>
-      
-      <ul className="max-h-60 overflow-y-auto divide-y divide-gray-100">
-        {Array.isArray(materials) && materials.length > 0 ? (
-          materials.map((material) => {
-            const materialId = material?.materialId?.material_id || material?.material_id || material?.id;
-            const isSelected = selectedMaterial?.toString() === materialId?.toString();
-            const isDefault = material.checked === 1;
-            
-            return (
-              <li
-                key={materialId || `material-${Math.random()}`}
-                className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
-                  isSelected ? 'bg-blue-50 border-l-4 border-blue-500' : 'hover:bg-gray-50'
-                }`}
-                onClick={() => {
-                  setSelectedMaterial(materialId?.toString());
-                  setIsDropdownOpen(false); // Close dropdown after selection
-                }}
-              >
-                <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
-                  {material?.materialId?.material_image_url || material?.material_image_url || material?.image ? (
-                    <Image 
-                      src={material.materialId?.material_image_url || material.material_image_url || material.image} 
-                      alt={material.materialId?.name || material.name || 'Material image'} 
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <PhotoIcon className="w-5 h-5 text-gray-400" />
-                    </div>
-                  )}
-                </div>
-                
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-gray-800">
-                      {material?.materialId?.name || 
-                      material?.name || 
-                      material?.material_name || 
-                      material?.title || 
-                      material?.material_title || 
-                      `Material ${materialId}` || 
-                      'Unnamed material'}
-                    </p>
-                    {/* {isDefault && (
-                      <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full border border-green-200">
-                        Default
+                  <div className="flex flex-col gap-2 relative">
+                    <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
+                      <SparklesIcon className="w-5 h-5 text-blue-500" />
+                      Material Selection
+                      <span className="text-gray-500 font-normal text-sm">(select one material)</span>
+                    </label>
+                    
+                    <button
+                      type="button"
+                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+                      onClick={() => !materialDisabled && setIsDropdownOpen(!isDropdownOpen)}
+                      disabled={materialDisabled}
+                    >
+                      <span className="text-gray-800 truncate max-w-full">
+                        {(() => {
+                          if (!selectedMaterial) {
+                            return <span className="text-gray-500">Select a material</span>;
+                          }
+                          
+                          // Find the selected material from all materials
+                          const selectedMaterialItem = materials.find(material => {
+                            const materialId = material.materialId?.material_id || material.material_id || material.id;
+                            return materialId?.toString() === selectedMaterial?.toString();
+                          });
+                          
+                          if (selectedMaterialItem) {
+                            const materialName = selectedMaterialItem.materialId?.name || 
+                                                selectedMaterialItem.name || 
+                                                selectedMaterialItem.material_name || 
+                                                selectedMaterialItem.title || 
+                                                selectedMaterialItem.material_title || 
+                                                `Material ${selectedMaterialItem.materialId?.material_id || selectedMaterialItem.material_id || selectedMaterialItem.id}` || 
+                                                'Selected Material';
+                            return materialName;
+                          }
+                          
+                          return <span className="text-gray-500">Select a material</span>;
+                        })()}
                       </span>
-                    )} */}
+                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    </button>
+
+                    {isDropdownOpen && (
+                      <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
+                        <div className="mb-2 p-3 border-b border-gray-100">
+                          <h4 className="font-medium text-blue-800">Available Materials</h4>
+                        </div>
+                        
+                        <ul className="max-h-60 overflow-y-auto divide-y divide-gray-100">
+                          {Array.isArray(materials) && materials.length > 0 ? (
+                            materials.map((material) => {
+                              const materialId = material?.materialId?.material_id || material?.material_id || material?.id;
+                              const isSelected = selectedMaterial?.toString() === materialId?.toString();
+                              const isDefault = material.checked === 1;
+                              
+                              return (
+                                <li
+                                  key={materialId || `material-${Math.random()}`}
+                                  className={`flex items-center gap-4 p-3 cursor-pointer transition-colors ${
+                                    isSelected ? 'bg-blue-50 border-l-4 border-blue-500' : 'hover:bg-gray-50'
+                                  }`}
+                                  onClick={() => {
+                                    setSelectedMaterial(materialId?.toString());
+                                    setIsDropdownOpen(false); // Close dropdown after selection
+                                  }}
+                                >
+                                  <div className="relative h-12 w-12 rounded-xl border-2 border-gray-200 overflow-hidden">
+                                    {material?.materialId?.material_image_url || material?.material_image_url || material?.image ? (
+                                      <Image 
+                                        src={material.materialId?.material_image_url || material.material_image_url || material.image} 
+                                        alt={material.materialId?.name || material.name || 'Material image'} 
+                                        fill
+                                        className="object-cover"
+                                      />
+                                    ) : (
+                                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                        <PhotoIcon className="w-5 h-5 text-gray-400" />
+                                      </div>
+                                    )}
+                                  </div>
+                                  
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2">
+                                      <p className="font-medium text-gray-800">
+                                        {material?.materialId?.name || 
+                                        material?.name || 
+                                        material?.material_name || 
+                                        material?.title || 
+                                        material?.material_title || 
+                                        `Material ${materialId}` || 
+                                        'Unnamed material'}
+                                      </p>
+                                      {/* {isDefault && (
+                                        <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full border border-green-200">
+                                          Default
+                                        </span>
+                                      )} */}
+                                    </div>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                      {material?.materialId?.description || 
+                                      material?.description || 
+                                      material?.material_description || 
+                                      material?.desc || 
+                                      'No description available'}
+                                    </p>
+                                  </div>
+                                  
+                                  {isSelected ? (
+                                    <CheckCircleIcon className="w-5 h-5 text-blue-600 shrink-0" />
+                                  ) : (
+                                    <div className="w-5 h-5 border-2 border-gray-300 rounded-full shrink-0" />
+                                  )}
+                                </li>
+                              );
+                            })
+                          ) : (
+                            <li className="p-3 text-center text-gray-500">No materials available</li>
+                          )}
+                        </ul>
+                      </div>
+                    )}
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {material?.materialId?.description || 
-                    material?.description || 
-                    material?.material_description || 
-                    material?.desc || 
-                    'No description available'}
-                  </p>
-                </div>
-                
-                {isSelected ? (
-                  <CheckCircleIcon className="w-5 h-5 text-blue-600 shrink-0" />
-                ) : (
-                  <div className="w-5 h-5 border-2 border-gray-300 rounded-full shrink-0" />
-                )}
-              </li>
-            );
-          })
-        ) : (
-          <li className="p-3 text-center text-gray-500">No materials available</li>
-        )}
-      </ul>
-    </div>
-  )}
-</div>
 
                   {/* Size Select */}
                   <div className="flex flex-col gap-2 relative">
@@ -1076,7 +1075,7 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
                   <ImageComparisonFeature 
                   title={product.name}
-                  product_desc={product.description}
+                  // product_desc={product.description}
                   beforeImage={product.slider_image_url} // You can use product images from your state
                   afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
                   beforeText="Hello, unique design!"
