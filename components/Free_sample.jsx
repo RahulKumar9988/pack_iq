@@ -120,9 +120,10 @@ export default function EnhancedFreeSample() {
 
     setIsSubmitting(true);
     setErrors({});
+    setShowError(false);
     
     try {
-      // Format the data to match the API expectations
+      // Format the data to match the API expectations based on your screenshot
       const formPayload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -132,68 +133,100 @@ export default function EnhancedFreeSample() {
         city: formData.city.trim(),
         state: formData.state.trim(),
         country: formData.country.trim(),
-        company: formData.company.trim(),
+        company: formData.company.trim() || "", // Optional field
         product_type: formData.productType,
         pouch_type: formData.pouchType,
-        flag_type: "sample_product"
+        flag_type: "sample_product" // This identifies it as a sample request
       };
+      
+      console.log('Submitting form data:', formPayload);
       
       // Send the form data to your API endpoint
       const response = await fetch(`${baseUrl}/api/v1/contact-us/get-in-touch`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify(formPayload),
       });
       
-      const data = await response.json();
+      console.log('Response status:', response.status);
+      
+      // Try to parse the response
+      let data;
+      try {
+        data = await response.json();
+        console.log('Response data:', data);
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
+        throw new Error('Invalid response from server');
+      }
 
       if (!response.ok) {
         // Handle different types of API errors
+        let errorMsg = "Something went wrong. Please try again.";
+        
         if (response.status === 400) {
-          setErrorMessage(data.message || "Please check your information and try again.");
+          errorMsg = data.message || data.error || "Please check your information and try again.";
+        } else if (response.status === 422) {
+          errorMsg = data.message || "Validation error. Please check your input.";
         } else if (response.status === 429) {
-          setErrorMessage("Too many requests. Please wait a moment and try again.");
+          errorMsg = "Too many requests. Please wait a moment and try again.";
         } else if (response.status >= 500) {
-          setErrorMessage("Server error. Please try again later.");
-        } else {
-          setErrorMessage(data.error || "Something went wrong. Please try again.");
+          errorMsg = "Server error. Please try again later.";
+        } else if (data.message) {
+          errorMsg = data.message;
+        } else if (data.error) {
+          errorMsg = data.error;
         }
-        throw new Error(data.error || 'Request failed');
+        
+        setErrorMessage(errorMsg);
+        throw new Error(errorMsg);
       }
       
-      // Reset the form on success
-      setFormData({
-        name: "",
-        address: "",
-        pincode: "",
-        city: "",
-        state: "",
-        country: "",
-        phone: "",
-        email: "",
-        company: "",
-        productType: "",
-        pouchType: "",
-      });
-      
-      // Show success message
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 7000);
+      // Check if the response indicates success
+      if (data.status === 200 || data.message === "contact details created") {
+        // Reset the form on success
+        setFormData({
+          name: "",
+          address: "",
+          pincode: "",
+          city: "",
+          state: "",
+          country: "",
+          phone: "",
+          email: "",
+          company: "",
+          productType: "",
+          pouchType: "",
+        });
+        
+        // Show success message
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 7000);
+        
+        console.log('Form submitted successfully');
+      } else {
+        // Handle unexpected response format
+        throw new Error(data.message || "Unexpected response from server");
+      }
       
     } catch (error) {
       console.error('Error submitting form:', error);
       
-      // Handle network errors
+      // Handle different types of errors
+      let errorMsg = "Failed to submit your request. Please try again.";
+      
       if (!navigator.onLine) {
-        setErrorMessage("No internet connection. Please check your connection and try again.");
+        errorMsg = "No internet connection. Please check your connection and try again.";
       } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        setErrorMessage("Network error. Please check your connection and try again.");
-      } else if (!errorMessage) {
-        setErrorMessage("Failed to submit your request. Please try again.");
+        errorMsg = "Network error. Please check your connection and try again.";
+      } else if (error.message && !error.message.includes('Failed to fetch')) {
+        errorMsg = error.message;
       }
       
+      setErrorMessage(errorMsg);
       setShowError(true);
       setTimeout(() => setShowError(false), 7000);
     } finally {
