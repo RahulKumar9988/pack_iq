@@ -26,9 +26,9 @@ function FAQ() {
     'Product Questions': null
   });
   const [openDropdowns, setOpenDropdowns] = useState({
-    'Artwork Questions': true,
-    'Order Process Questions': true,
-    'Product Questions': true
+    'Artwork Questions': false,
+    'Order Process Questions': false,
+    'Product Questions': false
   });
   const [hasMoreQuestions, setHasMoreQuestions] = useState({
     'Artwork Questions': true,
