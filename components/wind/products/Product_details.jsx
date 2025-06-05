@@ -59,6 +59,23 @@ import { useAppSelector } from "@/redux/hooks";
       if (params.id) getProductDetails();
     }, [params.id]);
 
+    useEffect(() => {
+      if (materials && materials.length > 0) {
+        // Auto-select the first default material if available
+        const defaultMaterial = materials.find(material => material.checked === 1);
+        if (defaultMaterial) {
+          const materialId = defaultMaterial.materialId?.material_id || defaultMaterial.material_id || defaultMaterial.id;
+          setSelectedMaterial(materialId?.toString());
+          console.log('Auto-selected default material:', materialId);
+        } else {
+          // If no default material, don't auto-select - let user choose
+          // This ensures placeholder "Select a material" shows initially
+          setSelectedMaterial(null);
+          console.log('No default material found, showing placeholder');
+        }
+      }
+    }, [materials]);
+
     // Add new useEffect hooks to control the sequential flow
     useEffect(() => {
       // Enable size selection only when material is selected
@@ -71,6 +88,24 @@ import { useAppSelector } from "@/redux/hooks";
         setAddonDisabled(true);
       }
     }, [selectedMaterial]);
+
+    // Add this useEffect after your existing useEffects
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        // Check if click is outside any dropdown
+        if (!event.target.closest('.dropdown-container')) {
+          setIsDropdownOpen(false);
+          setIsDropdownOpenSize(false);
+          setIsDropdownOpenQuantity(false);
+          setIsDropdownOpenAddon(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
 
     useEffect(() => {
       // Enable quantity selection only when size is selected
@@ -600,7 +635,7 @@ import { useAppSelector } from "@/redux/hooks";
                 {/* Selection Sections */}
                 <div className="space-y-6 flex-grow">
                   {/* Material Select - Single Selection */}
-                  <div className="flex flex-col gap-2 relative">
+                  <div className="flex flex-col gap-2 relative dropdown-container">
                     <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
                       <SparklesIcon className="w-5 h-5 text-blue-500" />
                       Material Selection
@@ -614,6 +649,7 @@ import { useAppSelector } from "@/redux/hooks";
                     >
                       <span className="text-gray-800 truncate max-w-full">
                         {(() => {
+                          // Check if no material is selected - show placeholder
                           if (!selectedMaterial) {
                             return <span className="text-gray-500">Select a material</span>;
                           }
@@ -624,17 +660,17 @@ import { useAppSelector } from "@/redux/hooks";
                             return materialId?.toString() === selectedMaterial?.toString();
                           });
                           
+                          // If selected material is found, display its name
                           if (selectedMaterialItem) {
                             const materialName = selectedMaterialItem.materialId?.name || 
                                                 selectedMaterialItem.name || 
                                                 selectedMaterialItem.material_name || 
                                                 selectedMaterialItem.title || 
-                                                selectedMaterialItem.material_title || 
-                                                `Material ${selectedMaterialItem.materialId?.material_id || selectedMaterialItem.material_id || selectedMaterialItem.id}` || 
-                                                'Selected Material';
-                            return materialName;
+                                                selectedMaterialItem.material_title;
+                            return materialName || 'Selected Material';
                           }
                           
+                          // Fallback if material ID exists but item not found
                           return <span className="text-gray-500">Select a material</span>;
                         })()}
                       </span>
@@ -723,7 +759,7 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
 
                   {/* Size Select */}
-                  <div className="flex flex-col gap-2 relative">
+                  <div className="flex flex-col gap-2 relative dropdown-container">
                     <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
                       <ArrowsPointingOutIcon className="w-5 h-5 text-blue-500" />
                       Size Options
@@ -762,7 +798,7 @@ import { useAppSelector } from "@/redux/hooks";
                                     ? 'bg-blue-50/30' 
                                     : ''
                                 }`}
-                                onClick={() => handleSizeSelection(getDimensions(size))}
+                                onClick={() => handleSizeSelection(getSizeId(size))}
                               >
                                 <td className="px-4 py-3 border-t border-gray-100">
                                   <div className="flex items-center">
@@ -790,7 +826,7 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
 
                   {/* Quantity Select */}
-                  <div className="flex flex-col gap-2 relative">
+                  <div className="flex flex-col gap-2 relative dropdown-container">
                     <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
                       <TagIcon className="w-5 h-5 text-blue-500" />
                       Quantity & Pricing
@@ -864,7 +900,7 @@ import { useAppSelector } from "@/redux/hooks";
                   </div>
 
                   {/* Addons Select */}
-                  <div className="flex flex-col gap-2 relative">
+                  <div className="flex flex-col gap-2 relative dropdown-container">
                     <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
                       <PlusCircleIcon className="w-5 h-5 text-blue-500" />
                       Custom Add-Ons
@@ -878,32 +914,43 @@ import { useAppSelector } from "@/redux/hooks";
                     >
                       <span className="text-gray-800 truncate max-w-full">
                         {(() => {
-                          // Get names of all default add-ons
-                          const defaultAddonNames = Array.isArray(addons) 
-                            ? addons
-                                .filter(addon => addon.checked === 1)
-                                .map(addon => addon.additionsId?.additions_title || '')
-                                .filter(name => name)
-                            : [];
+                          // Check if addons array is empty or undefined - show "no addons" message
+                          if (!Array.isArray(addons) || addons.length === 0) {
+                            return <span className="text-gray-500">No add-ons available</span>;
+                          }
+
+                          // Get names of all default add-ons (checked = 1) - these are auto-selected
+                          const defaultAddonNames = addons
+                            .filter(addon => addon.checked === 1 && addon.additionsId)
+                            .map(addon => addon.additionsId?.additions_title)
+                            .filter(name => name); // Remove any undefined/null names
                             
-                          // Get names of all selected optional add-ons
-                          const selectedAddonNames = Array.isArray(selectedAddons) && Array.isArray(addons)
+                          // Get names of all manually selected optional add-ons  
+                          const selectedAddonNames = Array.isArray(selectedAddons) && selectedAddons.length > 0
                             ? selectedAddons
                                 .map(addonId => {
-                                  const addon = addons.find(a => a.additionsId?.additions_id?.toString() === addonId);
-                                  return addon?.additionsId?.additions_title || '';
+                                  const addon = addons.find(a => 
+                                    a.additionsId?.additions_id?.toString() === addonId?.toString()
+                                  );
+                                  return addon?.additionsId?.additions_title;
                                 })
-                                .filter(name => name) // Filter out any empty names
+                                .filter(name => name) // Remove any undefined/null names
                             : [];
                           
-                          // Combine all add-on names
+                          // Combine all add-on names (default + manually selected)
                           const allSelectedNames = [...defaultAddonNames, ...selectedAddonNames];
                           
+                          // If no addons are selected at all, show placeholder
                           if (allSelectedNames.length === 0) {
-                            return <span className="text-gray-500">Select additions</span>;
-                          } else {
-                            return allSelectedNames.join(', ');
+                            return <span className="text-gray-500">Select add-ons</span>;
                           }
+                          
+                          // Display addon names - truncate if more than 2
+                          const displayText = allSelectedNames.length > 2 
+                            ? `${allSelectedNames.slice(0, 2).join(', ')} +${allSelectedNames.length - 2} more`
+                            : allSelectedNames.join(', ');
+                            
+                          return displayText;
                         })()}
                       </span>
                       <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
