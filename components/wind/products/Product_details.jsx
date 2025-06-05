@@ -1132,28 +1132,29 @@ import { useAppSelector } from "@/redux/hooks";
                 />
                   
                   {/* Carousel-style Gallery with center-focused layout */}
-                  {product.sliderGalleryImages && product.sliderGalleryImages.length > 0 && (
-                    <div className="bg-white rounded-lg shadow">
-                      <Carousel
-                        images={product.sliderGalleryImages}
-                        altPrefix={`${product.name} - Slider Image`}
-                        title={`This is what your ${product.name} could look like`}
-                        selectedImage={sliderSelectedImage}
-                        setSelectedImage={setSliderSelectedImage}
-                      />
-                    </div>
-                  )}
+                  {product.sliderGalleryImages && product.sliderGalleryImages.length > 1 && (
+  <div className="bg-white rounded-lg shadow">
+    <Carousel
+      images={product.sliderGalleryImages.slice(0, -1)} // Excludes last image
+      altPrefix={`${product.name} - Slider Image`}
+      title={`This is what your ${product.name} could look like`}
+      selectedImage={sliderSelectedImage}
+      setSelectedImage={setSliderSelectedImage}
+    />
+  </div>
+)}
+
                   </div>
               </div>
               <div className="flex flex-col md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between gap-8">
-  {/* Image Section */}
-  <div className="w-full md:w-1/2 flex justify-center">
-    <img
-      src="/ChatGPT Image Jun 4, 2025, 11_21_32 AM (2)-01-01.png"
-      alt="Packaging Sample Kit"
-      className="h-80 w-auto md:h-96 object-contain"
-    />
-  </div>
+          {/* Image Section */}
+          <div className="w-full md:w-1/2 flex justify-center">
+            <img
+              src="/ChatGPT Image Jun 4, 2025, 11_21_32 AM (2)-01-01.png"
+              alt="Packaging Sample Kit"
+              className="h-80 w-auto md:h-96 object-contain"
+            />
+          </div>
 
   {/* Text Section */}
   <div className="w-full md:w-1/2">
