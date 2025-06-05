@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { GoArrowUpRight } from 'react-icons/go';
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { ScrollToTopOnNavigate } from '@/components/ScrollToTopOnNavigate';
 
 function FAQ_Home() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -169,13 +170,13 @@ function FAQ_Home() {
             {/* See All FAQs Button */}
             {!loading && !error && allQuestions.length > 0 && (
               <div className="flex justify-center mt-8">
-                <Button
-                  onClick={() => router.push('/faq')}
+                <a
+                  href='/faq'
                   className="bg-gradient-to-r from-[#0f3765] to-[#143761] text-white px-10 py-4 rounded-full font-semibold text-base md:text-lg transition-all hover:shadow-xl hover:scale-105 flex items-center gap-3"
                 >
                   See All FAQs
                   <GoArrowUpRight size={20} />
-                </Button>
+                </a>
               </div>
             )}
 

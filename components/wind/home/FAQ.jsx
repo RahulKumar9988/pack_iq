@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { GoArrowUpRight } from 'react-icons/go';
 import { FiPlusCircle, FiMinusCircle, FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { ScrollToTopOnNavigate } from '@/components/ScrollToTopOnNavigate';
 
 function FAQ() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -146,6 +147,7 @@ function FAQ() {
 
   return (
     <div className='h-full w-full md:mt-8'>
+      <ScrollToTopOnNavigate/>
       <div className="relative flex justify-center items-center min-h-screen w-full">
         <div className="flex justify-center items-center bg-gradient-to-br from-white via-[#f8f9ff] to-[#f0f4ff] py-20 w-full h-auto">
           {/* Enhanced Background Effects */}
@@ -165,7 +167,7 @@ function FAQ() {
                 <span className="text-[#143761] text-sm font-medium">FAQ Section</span>
               </div> */}
               
-              <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-center bg-gradient-to-r from-[#0d2643] via-[#003067] to-[#00284b] bg-clip-text text-transparent leading-tight">
+              <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-center text-blue-950">
                 Frequently Asked Questions
               </h1>
 
