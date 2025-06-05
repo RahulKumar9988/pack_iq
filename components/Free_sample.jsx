@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Package, ArrowRight, CheckCircle, Mail, Phone, User, AlertCircle, X } from "lucide-react";
 
 export default function EnhancedFreeSample() {
@@ -27,6 +28,48 @@ export default function EnhancedFreeSample() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  const staggerChildren = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemAnimation = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 }
+  };
+
+  const pulseAnimation = {
+    initial: { scale: 1 },
+    animate: { 
+      scale: [1, 1.05, 1],
+      transition: { 
+        duration: 1.5,
+        repeat: Infinity,
+        repeatType: "loop"
+      }
+    }
+  };
+
+  const formAnimation = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
 
   // Validation functions
   const validateEmail = (email) => {
@@ -295,69 +338,92 @@ export default function EnhancedFreeSample() {
 
   return (
     <div className="relative w-full min-h-screen">
-      {/* Success Toast */}
-      {showSuccess && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex items-center border-l-4 border-green-500">
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5">
-                <div className="bg-green-100 p-2 rounded-full">
-                  <CheckCircle className="h-6 w-6 text-green-500" />
+      {/* Success Toast with animation */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full"
+          >
+            <div className="bg-white shadow-lg rounded-lg pointer-events-auto flex items-center border-l-4 border-green-500">
+              <div className="flex-1 w-0 p-4">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <div className="bg-green-100 p-2 rounded-full">
+                      <CheckCircle className="h-6 w-6 text-green-500" />
+                    </div>
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm font-medium text-gray-900">Success! 🎉</p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      Your request has been submitted. You will get a free sample in 7 days!
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">Success!</p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Your request has been submitted. You will get a free sample in 7 days!
-                </p>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => setShowSuccess(false)}
+                  className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-600 focus:outline-none"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
             </div>
-          </div>
-          <div className="flex border-l border-gray-200">
-            <button
-              onClick={() => setShowSuccess(false)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-600 focus:outline-none"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Error Toast */}
-      {showError && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex items-center border-l-4 border-red-500">
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5">
-                <div className="bg-red-100 p-2 rounded-full">
-                  <AlertCircle className="h-6 w-6 text-red-500" />
+      {/* Error Toast with animation */}
+      <AnimatePresence>
+        {showError && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full"
+          >
+            <div className="bg-white shadow-lg rounded-lg pointer-events-auto flex items-center border-l-4 border-red-500">
+              <div className="flex-1 w-0 p-4">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <div className="bg-red-100 p-2 rounded-full">
+                      <AlertCircle className="h-6 w-6 text-red-500" />
+                    </div>
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm font-medium text-gray-900">Error ⚠️</p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      {errorMessage}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">Error</p>
-                <p className="mt-1 text-sm text-gray-500">
-                  {errorMessage}
-                </p>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => setShowError(false)}
+                  className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-600 focus:outline-none"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
             </div>
-          </div>
-          <div className="flex border-l border-gray-200">
-            <button
-              onClick={() => setShowError(false)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-600 focus:outline-none"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Hero Section */}
       <div className="relative z-10 max-w-6xl mx-auto pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left Content */}
-          <div className="space-y-6 text-center lg:text-left md:mt-3">
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            className="space-y-6 text-center lg:text-left md:mt-3"
+          >
             <div className="top-0 left-1/2 absolute blur-[125px] w-full h-full transform -translate-x-1/2 opacity-60 overflow-hidden -z-40">
               {/* Gradient Vectors */}
               <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgb(188,219,255)] to-[rgb(212,232,255)]" />
@@ -368,63 +434,106 @@ export default function EnhancedFreeSample() {
               <div className="top-[50%] right-[47%] bottom-[21%] left-[31%] absolute bg-gradient-to-r from-[rgba(210,187,255,0.6)] to-[rgba(119,51,255,0.3)]" />
             </div>
             {/* Main Heading */}
-            <div className="space-y-3">
+            <motion.div className="space-y-3">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-950 leading-tight">
                 Get Your Free Sample
               </h1>
               <p className="text-lg text-indigo-900 font-medium">
-                Experience PackIQ Quality Before You Order
+                Experience PackIQ Quality Before You Order ✨
               </p>
-            </div>
+            </motion.div>
             
             {/* What You'll Get Section */}
-            <div className="space-y-3 border-1 border-gray-300 rounded-xl p-2">
-              <h2 className="text-2xl font-bold text-blue-950">What You&apos;ll Get</h2>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerChildren}
+              className="space-y-3 border-1 border-gray-300 rounded-xl p-2 bg-white/80 backdrop-blur-sm"
+            >
+              <h2 className="text-2xl font-bold text-blue-950 underline">What You&apos;ll Get 🎯</h2>
               <div className="space-y-2">
                 {whatYouGet.map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
+                  <motion.div 
+                    key={index} 
+                    variants={itemAnimation}
+                    className="flex items-start gap-3"
+                  >
                     <div className="mt-1 flex-shrink-0">
-                      <CheckCircle size={16} className="text-green-600" />
+                      <span className="text-xl">
+                        {index === 0 ? "📦" : 
+                         index === 1 ? "🎨" : 
+                         index === 2 ? "✋" : 
+                         "💡"}
+                      </span>
                     </div>
                     <p className="text-blue-950 text-lg leading-relaxed">
                       {item}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
             
             {/* Who Is It For Section */}
-            <div className="space-y-3 border-1 border-gray-300 rounded-xl p-2">
-              <h2 className="text-2xl font-bold text-blue-950">Who is it for?</h2>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerChildren}
+              className="space-y-3 border-1 border-gray-300 rounded-xl p-2 bg-white/80 backdrop-blur-sm"
+            >
+              <h2 className="text-2xl font-bold text-blue-950 underline">Who is it for? 👥</h2>
               <div className="space-y-2">
                 {whoIsItFor.map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
+                  <motion.div 
+                    key={index} 
+                    variants={itemAnimation}
+                    className="flex items-start gap-3"
+                  >
                     <div className="mt-1 flex-shrink-0">
-                      <CheckCircle size={16} className="text-green-600" />
+                      <span className="text-xl">
+                        {index === 0 ? "🚀" : 
+                         index === 1 ? "🎨" : 
+                         index === 2 ? "📈" : 
+                         index === 3 ? "🛒" : 
+                         "🏭"}
+                      </span>
                     </div>
                     <p className="text-blue-950 text-lg leading-relaxed">
                       <span className="font-semibold">{item.title}</span> {item.description}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           
           {/* Right Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-5 backdrop-blur-sm md:mt-5">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={formAnimation}
+            className="bg-white rounded-2xl shadow-xl p-5 backdrop-blur-sm border border-blue-100 md:mt-14"
+          >
             <div className="space-y-4">
-              <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
-                <div className="bg-indigo-100 p-2 rounded-lg">
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-3 border-b border-gray-100 pb-3"
+              >
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 5, -5, 0],
+                    transition: { duration: 1.5, repeat: Infinity }
+                  }}
+                  className="bg-indigo-100 p-2 rounded-lg"
+                >
                   <Package className="h-5 w-5 text-blue-600" />
-                </div>
+                </motion.div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-800">
-                    Sample Kit Request
+                    Sample Kit Request 📝
                   </h2>
                 </div>
-              </div>
+              </motion.div>
               
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -715,32 +824,42 @@ export default function EnhancedFreeSample() {
                   />
                 </div>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  variants={pulseAnimation}
                   type="submit"
                   className={`w-full flex items-center justify-center gap-2 ${
                     isSubmitting 
                       ? "bg-gray-400 cursor-not-allowed" 
                       : "bg-gradient-to-r from-blue-950 to-blue-900 hover:from-blue-950 hover:to-blue-950"
-                  } text-white py-2.5 px-4 rounded-3xl font-medium transition-all duration-300 shadow-md hover:shadow-lg text-lg`}
+                  } text-white py-2.5 px-4 rounded-3xl font-medium shadow-md hover:shadow-lg text-lg`}
                   disabled={isSubmitting}
-                  onMouseEnter={() => setHovered('submit')}
-                  onMouseLeave={() => setHovered(null)}
                 >
-                  {isSubmitting ? "Processing..." : "Request Sample Kit"}
-                  {!isSubmitting && (
-                    <ArrowRight 
-                      size={16} 
-                      className={`transition-transform duration-300 ${hovered === 'submit' ? 'transform translate-x-1' : ''}`} 
-                    />
+                  {isSubmitting ? (
+                    <>
+                      Processing 
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="ml-2"
+                      >
+                        ⏳
+                      </motion.span>
+                    </>
+                  ) : (
+                    <>
+                      Request Sample Kit 🚚
+                    </>
                   )}
-                </button>
+                </motion.button>
                 
                 <p className="text-gray-500 text-xs text-center pt-1">
                   By submitting, you agree to our Terms and Privacy Policy
                 </p>
               </form>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
