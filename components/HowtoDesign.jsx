@@ -434,16 +434,16 @@ const HowtoDesign = () => {
             y: footerY
           }}
         >
-          <h3 className="md:text-4xl text-2xl uppercase font-bold text-blue-950 mb-4">Ready to get started?</h3>
-          <motion.button 
+          <h3 className="md:text-4xl text-2xl uppercase font-bold text-blue-950 mb-10 ">Ready to get started?</h3>
+          <a 
             className="bg-blue-900 text-white font-bold py-4 px-10 rounded-full text-xl hover:bg-blue-900 transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            onClick={()=>router.push('/packaging-type')}
+            href="/packaging-type"
           >
             Customize Now
-          </motion.button>
+          </a>
         </motion.div>
       </div>
     </div>
