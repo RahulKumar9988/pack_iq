@@ -46,7 +46,7 @@ function FAQ() {
       key: 'Product Questions',
       title: 'Product Questions',
       description: 'Questions about product specifications, materials, and customization options',
-      icon: '🏷️'
+      icon: '🧃'
     },
     {
       key: 'Artwork Questions',
