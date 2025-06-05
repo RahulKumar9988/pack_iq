@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 
 const ImageComparisonFeature = ({
   title = "Image Comparison",
-  beforeImage = "https://via.placeholder.com/400x400/3B82F6/FFFFFF?text=Before",
-  afterImage = "https://via.placeholder.com/400x400/10B981/FFFFFF?text=After",
+  beforeImage = "",
+  afterImage = "",
   beforeText = "Bye, labels...",
   afterText = "Hello, unique design!",
   beforeDescription = "",
