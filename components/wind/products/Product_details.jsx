@@ -487,7 +487,7 @@ import { useAppSelector } from "@/redux/hooks";
               {/* Image Gallery - Enhanced for professional appearance */}
               <div className="w-full flex flex-col gap-4 h-full">
                 {/* Main product image with subtle zoom effect */}
-                <div className="relative w-full aspect-square rounded-3xl bg-gradient-to-br from-blue-100 to-blue-50 border border-gray-200  overflow-hidden shadow-md">
+                <div className="relative w-full aspect-square rounded-3xl bg-gradient-to-br from-blue-50 to-blue-50 border border-gray-200  overflow-hidden shadow-md">
                   <Image 
                     src={product.thumbnails[selectedImage]} 
                     alt={`${product.name} - Image ${selectedImage + 1}`} 
@@ -604,7 +604,6 @@ import { useAppSelector } from "@/redux/hooks";
                     <label className="font-semibold text-sm sm:text-base text-gray-700 flex items-center gap-2">
                       <SparklesIcon className="w-5 h-5 text-blue-500" />
                       Material Selection
-                      <span className="text-gray-500 font-normal text-sm">(select one material)</span>
                     </label>
                     
                     <button
@@ -763,7 +762,7 @@ import { useAppSelector } from "@/redux/hooks";
                                     ? 'bg-blue-50/30' 
                                     : ''
                                 }`}
-                                onClick={() => handleSizeSelection(getSizeId(size))}
+                                onClick={() => handleSizeSelection(getDimensions(size))}
                               >
                                 <td className="px-4 py-3 border-t border-gray-100">
                                   <div className="flex items-center">
