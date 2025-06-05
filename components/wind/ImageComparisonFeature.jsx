@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 
 const ImageComparisonFeature = ({
@@ -112,11 +113,15 @@ const ImageComparisonFeature = ({
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative w-4/5 h-4/5 rounded-lg overflow-hidden">
-                    <img
+                    <Image
                       src={beforeImage}
                       alt={beforeText}
+                      width={500} // or an appropriate number
+                      height={500} // required unless using "fill"
                       className="w-full h-full object-contain transition-transform duration-300"
+                      loading="lazy"
                     />
+
                     <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                       <div className="absolute top-4 left-4 w-16 h-16">
                         <svg viewBox="0 0 100 100" fill="none">
