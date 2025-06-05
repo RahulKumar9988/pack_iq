@@ -31,7 +31,6 @@ const AdvancedQAContact = () => {
 
             {/* CTA Section */}
             <div className="w-full flex flex-col md:text-start text-center items-center lg:items-start max-w-xl">
-
               <div className="mb-6 sm:mb-8 lg:mb-10">
                 <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl  text-gray-800 mb-4 ">
               Still Have {' '}
