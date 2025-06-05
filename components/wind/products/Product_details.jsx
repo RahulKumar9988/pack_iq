@@ -1158,8 +1158,12 @@ import { useAppSelector } from "@/redux/hooks";
   {/* Text Section */}
   <div className="w-full md:w-1/2">
     <h1 className="text-2xl md:text-4xl font-bold text-black mb-4">
-      Try before you order — with FREE SAMPLES
+      Try before you order — with{" "}
+      <span className="italic mt-5 font-extrabold text-3xl md:text-4xl inline-block">
+        FREE SAMPLES
+      </span>
     </h1>
+
 
     <p className="text-gray-700 mb-6 text-base md:text-lg leading-relaxed">
       We offer a free sample kit so you can be sure everything fits just right. Take your time to examine the material, test the size, and try filling it with your actual product. This hands-on experience helps you choose the perfect pouch — ensuring the right feel, fit, and function before placing your full order.

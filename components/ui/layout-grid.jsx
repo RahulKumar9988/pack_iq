@@ -67,7 +67,7 @@ export const LayoutGrid = ({ cards }) => {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {card.content}
+                  {/* {card.content} */}
                 </motion.div>
               </motion.div>
             </motion.div>
