@@ -155,7 +155,7 @@ import { useAppSelector } from "@/redux/hooks";
               ...galleryImages
             ];
             
-            // Create a separate array for slider gallery
+            
             // Include slider_image_url if available
             const sliderImages = [
               //...(productData.slider_image_url ? [productData.slider_image_url] : []),
@@ -581,29 +581,31 @@ import { useAppSelector } from "@/redux/hooks";
                     role="region" 
                     aria-label="Product image thumbnails"
                   >
-                    {product.thumbnails.map((thumbnail, index) => (
-                      <button 
-                        key={index} 
-                        className={`w-32 border flex-shrink-0 snap-center${
-                          selectedImage === index 
-                            ? 'border-[#143761] ' 
-                            : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
-                        }`}
-                        onClick={() => setSelectedImage(index)}
-                        aria-label={`View product image ${index + 1} of ${product.thumbnails.length}`}
-                        aria-pressed={selectedImage === index}
-                      >
-                        <div className="relative w-full h-full">
-                          <Image 
-                            src={thumbnail} 
-                            alt="" 
-                            fill
-                            sizes="64px"
-                            className="object-contain p-1"
-                          />
-                        </div>
-                      </button>
-                    ))}
+                    {Array.isArray(product?.thumbnails) &&
+  product.thumbnails.slice(0, -1).map((thumbnail, index) => (
+    <button 
+      key={index} 
+      className={`w-32 border flex-shrink-0 snap-center ${
+        selectedImage === index 
+          ? 'border-[#143761]' 
+          : 'border-gray-200 opacity-80 hover:opacity-100 hover:shadow-sm'
+      }`}
+      onClick={() => setSelectedImage(index)}
+      aria-label={`View product image ${index + 1}`}
+      aria-pressed={selectedImage === index}
+    >
+      <div className="relative w-full h-24">
+        <Image 
+          src={thumbnail} 
+          alt={`Thumbnail ${index + 1}`} 
+          fill
+          sizes="64px"
+          className="object-contain p-1"
+        />
+      </div>
+    </button>
+))}
+
                   </div>
                 </div>
               </div>
@@ -907,54 +909,54 @@ import { useAppSelector } from "@/redux/hooks";
                       <span className="text-gray-500 font-normal text-sm">(default addons are already selected)</span>
                     </label>
                     <button
-  type="button"
-  className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
-  onClick={() => !addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
-  disabled={addonDisabled}
->
-  <span className="text-gray-800 truncate max-w-full">
-    {(() => {
-      // Check if addons array is empty or undefined - show "no addons" message
-      if (!Array.isArray(addons) || addons.length === 0) {
-        return <span className="text-gray-500">No add-ons available</span>;
-      }
+                      type="button"
+                      className="p-2 bg-white border-2 border-gray-100 rounded-xl w-full text-sm sm:text-base flex items-center justify-between hover:border-blue-200 transition-all duration-300 group shadow-sm"
+                      onClick={() => !addonDisabled && setIsDropdownOpenAddon(!isDropdownOpenAddon)}
+                      disabled={addonDisabled}
+                    >
+                      <span className="text-gray-500 truncate max-w-full">
+                        {(() => {
+                          // Check if addons array is empty or undefined - show "no addons" message
+                          if (!Array.isArray(addons) || addons.length === 0) {
+                            return <span className="text-gray-500">No add-ons available</span>;
+                          }
 
-      // Get names of all default add-ons (checked = 1) - these are auto-selected
-      const defaultAddonNames = addons
-        .filter(addon => addon.checked === 1 && addon.additionsId)
-        .map(addon => addon.additionsId?.additions_title)
-        .filter(name => name); // Remove any undefined/null names
-        
-      // Get names of all manually selected optional add-ons  
-      const selectedAddonNames = Array.isArray(selectedAddons) && selectedAddons.length > 0
-        ? selectedAddons
-            .map(addonId => {
-              const addon = addons.find(a => 
-                a.additionsId?.additions_id?.toString() === addonId?.toString()
-              );
-              return addon?.additionsId?.additions_title;
-            })
-            .filter(name => name) // Remove any undefined/null names
-        : [];
-      
-      // Combine all add-on names (default + manually selected)
-      const allSelectedNames = [...defaultAddonNames, ...selectedAddonNames];
-      
-      // If no addons are selected at all, show placeholder
-      if (allSelectedNames.length === 0) {
-        return <span className="text-gray-500">Select add-ons</span>;
-      }
-      
-      // Display addon names - truncate if more than 2
-      const displayText = allSelectedNames.length > 2 
-        ? `${allSelectedNames.slice(0, 2).join(', ')} +${allSelectedNames.length - 2} more`
-        : allSelectedNames.join(', ');
-        
-      return displayText;
-    })()}
-  </span>
-  <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
-</button>
+                          // Get names of all default add-ons (checked = 1) - these are auto-selected
+                          const defaultAddonNames = addons
+                            .filter(addon => addon.checked === 1 && addon.additionsId)
+                            .map(addon => addon.additionsId?.additions_title)
+                            .filter(name => name); // Remove any undefined/null names
+                            
+                          // Get names of all manually selected optional add-ons  
+                          const selectedAddonNames = Array.isArray(selectedAddons) && selectedAddons.length > 0
+                            ? selectedAddons
+                                .map(addonId => {
+                                  const addon = addons.find(a => 
+                                    a.additionsId?.additions_id?.toString() === addonId?.toString()
+                                  );
+                                  return addon?.additionsId?.additions_title;
+                                })
+                                .filter(name => name) // Remove any undefined/null names
+                            : [];
+                          
+                          // Combine all add-on names (default + manually selected)
+                          const allSelectedNames = [...defaultAddonNames, ...selectedAddonNames];
+                          
+                          // If no addons are selected at all, show placeholder
+                          if (allSelectedNames.length === 0) {
+                            return <span className="text-gray-500">Select add-ons</span>;
+                          }
+                          
+                          // Display addon names - truncate if more than 2
+                          const displayText = allSelectedNames.length > 2 
+                            ? `${allSelectedNames.slice(0, 2).join(', ')} +${allSelectedNames.length - 2} more`
+                            : allSelectedNames.join(', ');
+                            
+                          return displayText;
+                        })()}
+                      </span>
+                      <ChevronDownIcon className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    </button>
 
                     {isDropdownOpenAddon && (
                       <div className="absolute top-full left-0 w-full bg-white border-2 border-blue-50 rounded-xl shadow-xl mt-1 z-20 animate-fade-in">
@@ -1122,7 +1124,7 @@ import { useAppSelector } from "@/redux/hooks";
                   title={product.name}
                   // product_desc={product.description}
                   beforeImage={product.slider_image_url} // You can use product images from your state
-                  afterImage={product.thumbnails[0] || product.thumbnails[0]} // Fallback to first image if no second exists
+                  afterImage={product.thumbnails[product.thumbnails.length - 1]} // do not use this use statci image 
                   beforeText="Hello, unique design!"
                   afterText="Bye, labels..."
                   theme="light-blue"
@@ -1143,33 +1145,35 @@ import { useAppSelector } from "@/redux/hooks";
                   )}
                   </div>
               </div>
-              <div className="flex flex-col gap-5 md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between">
-                <div className="flex-shrink-0">
-                  {/* Using a placeholder image since real image paths won't work here */}
-                  <img
-                    src="/samplekit.webp" // Replace with actual image path
-                    alt="Packaging Sample Kit"
-                    className="md:object-cover h-96 w-96 object-contain"
-                  />
-                </div>
-                
-                <div className="flex-1 max-w-lg">
-                  <h1 className="text-4xl font-bold text-black mb-4">
-                    You want to test the packaging first?
-                  </h1>
-                  
-                  <p className="text-gray-700 mb-6">
-                    You want everything to fit with your new packaging. Take your time 
-                    to look at your packaging samples and try out to fill your product. 
-                    That way you are guaranteed to find the perfect material and the 
-                    right size.
-                  </p>
-                  
-                  <button className='flex items-center gap-2 px-5 py-4 font-light bg-gradient-to-r from-[#0b2949] to-indigo-800 rounded-lg text-white hover:shadow-lg transition-all duration-200' onClick={() => router.push('/free-sample')}>
-                    GET A FREE SAMPLE KIT
-                  </button>
-                </div>
-              </div>
+              <div className="flex flex-col md:flex-row w-full bg-blue-50 md:p-10 p-5 rounded-lg items-center justify-between gap-8">
+  {/* Image Section */}
+  <div className="w-full md:w-1/2 flex justify-center">
+    <img
+      src="/ChatGPT Image Jun 4, 2025, 11_21_32 AM (2)-01-01.png"
+      alt="Packaging Sample Kit"
+      className="h-80 w-auto md:h-96 object-contain"
+    />
+  </div>
+
+  {/* Text Section */}
+  <div className="w-full md:w-1/2">
+    <h1 className="text-2xl md:text-4xl font-bold text-black mb-4">
+      Try before you order — with FREE SAMPLES
+    </h1>
+
+    <p className="text-gray-700 mb-6 text-base md:text-lg leading-relaxed">
+      We offer a free sample kit so you can be sure everything fits just right. Take your time to examine the material, test the size, and try filling it with your actual product. This hands-on experience helps you choose the perfect pouch — ensuring the right feel, fit, and function before placing your full order.
+    </p>
+
+    <button
+      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0b2949] to-blue-900 rounded-full text-white font-medium hover:shadow-lg transition-all duration-200"
+      onClick={() => router.push('/free-sample')}
+    >
+      GET FREE SAMPLE
+    </button>
+  </div>
+</div>
+
           </div>
         </div>
     );
