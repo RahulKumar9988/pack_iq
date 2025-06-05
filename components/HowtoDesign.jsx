@@ -283,7 +283,7 @@ const HowtoDesign = () => {
   const recommendationY = useTransform(smoothProgress, [0.1, 0.2], [30, 0]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-6">
+    <div className="min-h-screen bg-gray-50 py-16 md:mt-5 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div 
@@ -371,7 +371,7 @@ const HowtoDesign = () => {
                       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex-1">
                           <motion.h3 
-                            className="text-xl md:text-3xl font-extrabold text-gray-800 mb-4 uppercase"
+                            className="text-2xl md:text-4xl font-black text-black mb-4 uppercase tracking-tighter drop-shadow-md"
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -434,12 +434,13 @@ const HowtoDesign = () => {
             y: footerY
           }}
         >
-          <h3 className="text-3xl uppercase font-bold text-blue-950 mb-4">Ready to get started?</h3>
+          <h3 className="md:text-4xl text-2xl uppercase font-bold text-blue-950 mb-4">Ready to get started?</h3>
           <motion.button 
-            className="bg-blue-900 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-900 transition-colors duration-300"
+            className="bg-blue-900 text-white font-bold py-4 px-10 rounded-full text-xl hover:bg-blue-900 transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={()=>router.push('/packaging-type')}
           >
             Customize Now
           </motion.button>

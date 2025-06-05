@@ -7,7 +7,7 @@ export default function HeroSection({ inter }) {
     <section className="w-full bg-gradient-to-br from-indigo-100 via-white to-indigo-100 rounded-3xl shadow-md overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center 
                       min-h-[40vh] sm:min-h-[40vh] md:min-h-[40vh] 
-                      px-4 sm:px-6 md:px-8 lg:px-12 md:mb-[-50px]">
+                      px-4 sm:px-6 md:px-8 lg:px-12 md:mb-[-40px]">
         
         {/* Left: Text content */}
         <div className="w-full flex items-center justify-center">
