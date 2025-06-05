@@ -102,83 +102,6 @@ const IndustriesDropdown = () => {
     </Dropdown>
   );
 };
-
-// // Products dropdown component
-// const ProductsDropdown = () => {
-//   return (
-//     <Dropdown>
-//       <NavbarItem>
-//         <DropdownTrigger>
-//           <Button
-//             disableRipple
-//             className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
-//             endContent={ICONS.chevron}
-//             radius="sm"
-//             variant="light"
-//           >
-//             Products
-//           </Button>
-//         </DropdownTrigger>
-//       </NavbarItem>
-//       <DropdownMenu
-//         aria-label="Product features"
-//         className="w-64"
-//         itemClasses={{
-//           base: "gap-4",
-//         }}
-//       >
-//         <DropdownItem 
-//           key="all-products" 
-//           startContent={ICONS.scale}
-//           as={Link}
-//           href="/products"
-//           className="cursor-pointer w-full"
-//         >
-//           All Products
-//         </DropdownItem>
-//       </DropdownMenu>
-//     </Dropdown>
-//   );
-// };
-
-// // Shop By dropdown component
-// const ShopByDropdown = () => {
-//   return (
-//     <Dropdown>
-//       <NavbarItem>
-//         <DropdownTrigger>
-//           <Button
-//             disableRipple
-//             className="bg-transparent data-[hover=true]:bg-transparent p-0 text-base font-medium flex items-center gap-1"
-//             endContent={ICONS.chevron}
-//             radius="sm"
-//             variant="light"
-//           >
-//             Shop By
-//           </Button>
-//         </DropdownTrigger>
-//       </NavbarItem>
-//       <DropdownMenu
-//         aria-label="Shop By features"
-//         className="w-64"
-//         itemClasses={{
-//           base: "gap-4",
-//         }}
-//       >
-//         <DropdownItem 
-//           key="packaging-type" 
-//           startContent={ICONS.scale}
-//           as={Link}
-//           href="/packaging-type"
-//           className="cursor-pointer w-full"
-//         >
-//           Packaging Type
-//         </DropdownItem>
-//       </DropdownMenu>
-//     </Dropdown>
-//   );
-// };
-
 export default function NavLinks() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector(state => state.auth);
@@ -193,20 +116,6 @@ export default function NavLinks() {
     setIsMounted(true);
   }, []);
 
-  // Memoize navigation handlers
-  // const handleProfileClick = useCallback(() => {
-  //   router.push('/auth/signin');
-  // }, [router]);
-
-  // const handleLogout = useCallback(async () => {
-  //   const result = await Logout();
-  //   if(result.success){
-  //     dispatch(logout());
-  //     router.push('/');
-  //   }
-  // }, [dispatch, router]);
-
-  // Prevent rendering on server-side
   if (!isMounted) {
     return null;
   }
@@ -252,23 +161,6 @@ export default function NavLinks() {
             Free Sample
           </NextUILink>
         </NavbarItem>
-        {/* <NavbarItem>
-          <NextUILink href="/products" as={Link} color="foreground" className=" text-blue-900 text-base font-medium">
-            Products
-          </NextUILink>
-        </NavbarItem> */}
-
-        {/* <NavbarItem>
-          <ProductsDropdown />
-        </NavbarItem> */}
-        {/* <NavbarItem>
-          <ShopByDropdown />
-        </NavbarItem> */}
-        {/* <NavbarItem>
-          <NextUILink href="/blog" as={Link} color="foreground" className="text-base font-medium">
-            Blogs
-          </NextUILink>
-        </NavbarItem> */}
       </NavbarContent>
       <button className="mt-5 border-1 shadow-md px-5 py-2 rounded-2xl border-blue-900 text-blue-900" onClick={()=>router.push('/packaging-type')}>Customize Now</button>
     </Navbar>

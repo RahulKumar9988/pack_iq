@@ -6,7 +6,7 @@ import { ScrollToTopOnNavigate } from './ScrollToTopOnNavigate';
 
 function Inspirations() {
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-hidden'>
       <LayoutGridDemo/>
     </div>
   )

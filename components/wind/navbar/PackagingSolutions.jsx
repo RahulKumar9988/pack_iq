@@ -12,6 +12,15 @@ const fallbackPackagingImages = {
   "Rollstock": "https://images.pexels.com/photos/4466524/pexels-photo-4466524.jpeg?auto=compress&cs=tinysrgb&w=600"
 };
 
+// Define the desired product order
+const productOrder = [
+  "Standup Pouch",
+  "Three Side Seal Pouch", 
+  "Center Seal Pouch",
+  "Flat Bottom Pouch",
+  "Center Seal Side Gusset"
+];
+
 // const fallbackMaterialImages = {
 //   "Transparent Toni": "https://images.pexels.com/photos/3943748/pexels-photo-3943748.jpeg?auto=compress&cs=tinysrgb&w=600",
 //   "Metallised Martha": "https://images.pexels.com/photos/5871217/pexels-photo-5871217.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -29,6 +38,26 @@ const PackagingSolutions = () => {
   
   // Base URL for API calls
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+  
+  // Function to sort packaging types according to the specified order
+  const sortPackagingTypes = (types) => {
+    return types.sort((a, b) => {
+      const indexA = productOrder.indexOf(a.name);
+      const indexB = productOrder.indexOf(b.name);
+      
+      // If both items are in the order array, sort by their position
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      
+      // If only one item is in the order array, prioritize it
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      
+      // If neither item is in the order array, maintain alphabetical order
+      return a.name.localeCompare(b.name);
+    });
+  };
   
   // Get packaging types from API
   const getPackagingTypes = useCallback(async () => {
@@ -49,7 +78,10 @@ const PackagingSolutions = () => {
           time: "4-7 weeks",
           quantity: ele.minimum_qty
         }));
-        setPackagingTypes(responseData);
+        
+        // Sort the packaging types according to the specified order
+        const sortedData = sortPackagingTypes(responseData);
+        setPackagingTypes(sortedData);
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);

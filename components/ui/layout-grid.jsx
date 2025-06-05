@@ -46,7 +46,7 @@ export const LayoutGrid = ({ cards }) => {
             key={card.id}
             className={`${cols} ${height} ${bgColor} relative rounded-xl overflow-hidden cursor-pointer `}
             style={{
-              zIndex: isHovered ? 50 : 1
+              zIndex: isHovered ? 10 : 1
             }}
             onClick={() => setSelected(card.id === selected ? null : card.id)}
             onHoverStart={() => setHoveredCard(card.id)}
@@ -84,14 +84,14 @@ export const LayoutGrid = ({ cards }) => {
             </motion.div>
 
             <motion.div
-              className="absolute inset-0 z-40 flex flex-col justify-end p-6"
+              className="absolute inset-0 z-30 flex flex-col justify-end p-6"
               animate={{ 
                 opacity: selected === null || selected === card.id ? 1 : 0 
               }}
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="relative z-50 transform"
+                className="relative z-30 transform"
                 initial={{ y: 0, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.3 }}
