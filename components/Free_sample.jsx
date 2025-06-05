@@ -321,17 +321,16 @@ export default function EnhancedFreeSample() {
       <div className="relative z-10 max-w-6xl mx-auto pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left Content */}
-          <div className="space-y-6 text-center lg:text-left">
-            <div className="top-0 left-1/2 absolute blur-[125px] w-full h-full transform -translate-x-1/2 opacity-60 overflow-hidden">
+          <div className="space-y-6 text-center lg:text-left md:mt-3">
+            <div className="top-0 left-1/2 absolute blur-[125px] w-full h-full transform -translate-x-1/2 opacity-60 overflow-hidden -z-40">
               {/* Gradient Vectors */}
-              <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgba(10,124,255,0.5)] to-[rgba(10,124,255,0.2)]" />
-              <div className="top-[35%] right-[20%] bottom-[50%] left-[52%] absolute bg-gradient-to-bl from-[rgba(10,124,255,0.5)] to-[rgba(10,124,255,0.2)]" />
+              <div className="top-[20%] right-[35%] bottom-[50%] left-[35%] absolute bg-gradient-to-tr from-[rgba(188,219,255,0.5)] to-[rgba(147,197,255,0.2)]" />
+              <div className="top-[35%] right-[20%] bottom-[50%] left-[52%] absolute bg-gradient-to-bl from-[rgba(145,196,255,0.5)] to-[rgba(152,200,255,0.2)]" />
               <div className="top-[32%] right-[48%] bottom-[50%] left-[19%] absolute bg-gradient-to-r from-[#46E3FF] to-[rgba(70,227,255,0.5)]" />
-              <div className="top-[50%] right-[48%] bottom-[28%] left-[19%] absolute bg-gradient-to-tr from-[#FF7847] to-[rgba(255,120,71,0.6)]" />
-              <div className="top-[50%] right-[19%] bottom-[25%] left-[52%] absolute bg-gradient-to-bl from-[rgba(0,223,223,0.4)] to-[rgba(0,223,223,0.1)]" />
-              <div className="top-[50%] right-[47%] bottom-[21%] left-[31%] absolute bg-gradient-to-r from-[rgba(119,51,255,0.6)] to-[rgba(119,51,255,0.3)]" />
+              <div className="top-[50%] right-[48%] bottom-[28%] left-[19%] absolute bg-gradient-to-tr from-[#cddbff] to-[rgba(255,178,150,0.6)]" />
+              <div className="top-[50%] right-[19%] bottom-[25%] left-[52%] absolute bg-gradient-to-bl from-[rgba(201,255,255,0.4)] to-[rgba(181,255,255,0.1)]" />
+              <div className="top-[50%] right-[47%] bottom-[21%] left-[31%] absolute bg-gradient-to-r from-[rgba(210,187,255,0.6)] to-[rgba(119,51,255,0.3)]" />
             </div>
-            
             {/* Main Heading */}
             <div className="space-y-3">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-950 leading-tight">
@@ -349,9 +348,9 @@ export default function EnhancedFreeSample() {
                 {whatYouGet.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0">
-                      <CheckCircle size={16} className="text-green-500" />
+                      <CheckCircle size={16} className="text-green-600" />
                     </div>
-                    <p className="text-indigo-900 text-sm leading-relaxed">
+                    <p className="text-blue-950 text-sm leading-relaxed">
                       {item}
                     </p>
                   </div>
@@ -366,9 +365,9 @@ export default function EnhancedFreeSample() {
                 {whoIsItFor.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0">
-                      <CheckCircle size={16} className="text-green-500" />
+                      <CheckCircle size={16} className="text-green-600" />
                     </div>
-                    <p className="text-indigo-900 text-sm leading-relaxed">
+                    <p className="text-blue-950 text-sm leading-relaxed">
                       <span className="font-semibold">{item.title}</span> {item.description}
                     </p>
                   </div>
@@ -378,7 +377,7 @@ export default function EnhancedFreeSample() {
           </div>
           
           {/* Right Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-5 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl p-5 backdrop-blur-sm md:mt-5">
             <div className="space-y-4">
               <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
                 <div className="bg-indigo-100 p-2 rounded-lg">
