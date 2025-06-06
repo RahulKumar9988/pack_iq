@@ -302,21 +302,38 @@ export default function Page() {
           <h2 className="text-2xl md:text-5xl font-semibold text-blue-950 mb-1">Contact Us</h2>
           
           <p className="text-gray-600 mb-8 text-sm leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            <span className="font-semibold"> Have a question or need custom packaging support? </span> <br />
+            We're here to help. You can call us, email us, or simply fill out the form — and our team will get back to you shortly.
           </p>
           
-          <div className="flex flex-col sm:flex-row sm:space-x-8 mb-8">
-            <div className="flex items-center mb-3 sm:mb-0">
-              <FaPhone className="text-blue-900 mr-2 text-sm" />
-              <span className="text-gray-700 text-sm">(229) 555-0109</span>
+          <div className="flex flex-col sm:flex-row sm:justify-around gap-4 sm:gap-8 mb-8">
+
+            {/* Phone Section */}
+            <div className="space-y-2 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start">
+                <FaPhone className="text-blue-900 mr-2 text-sm rotate-90" />
+                <span className="text-gray-700 text-sm">+91 90077 78338</span>
+              </div>
+              <div className="flex items-center justify-center sm:justify-start">
+                <FaPhone className="text-blue-900 mr-2 text-sm rotate-90" />
+                <span className="text-gray-700 text-sm">+91 62890 43085</span>
+              </div>
             </div>
-            <div className="flex items-center">
-              <FaEnvelope className="text-blue-900 mr-2 text-sm" />
-              <span className="text-gray-700 text-sm">deanna.curtis@example.com</span>
+
+            {/* Email Section */}
+            <div className="space-y-2 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start">
+                <FaEnvelope className="text-blue-900 mr-2 text-sm" />
+                <span className="text-gray-700 text-sm">Sales@packiq.co.in</span>
+              </div>
+              <div className="flex items-center justify-center sm:justify-start">
+                <FaEnvelope className="text-blue-900 mr-2 text-sm" />
+                <span className="text-gray-700 text-sm">Preeti@packiq.co.in</span>
+              </div>
             </div>
+
           </div>
+
           
           <div className="flex justify-center">
             <img 
@@ -340,7 +357,7 @@ export default function Page() {
             >
               <div>
                 <h2 className="text-xl font-bold text-gray-800 ">
-                  📝 Contact Form 
+                 Send Us a message 
                 </h2>
               </div>
             </motion.div>
