@@ -1086,7 +1086,7 @@ import { useAppSelector } from "@/redux/hooks";
                 {/* CTA Section */}
                 <div className="flex flex-col sm:flex-row gap-3 border-t border-gray-200">
                   <Button
-                    className="group relative bg-gradient-to-r from-[#0b2949] to-indigo-800 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
+                    className="group relative bg-gradient-to-r from-[#0b2949] to-blue-900 text-white font-semibold text-sm sm:text-base py-3.5 px-8 rounded-xl w-full sm:w-auto transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50"
                     onClick={() => router.push('/packaging-type')}
                   >
                     <span className="relative z-10">Customize Now</span>
