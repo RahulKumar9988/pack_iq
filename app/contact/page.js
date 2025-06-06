@@ -485,7 +485,7 @@ export default function Page() {
                   </>
                 ) : (
                   <>
-                    Request Sample Kit 
+                    Submit Now
                   </>
                 )}
               </motion.button>
