@@ -36,6 +36,34 @@ export default function Page() {
   
   // FAQ state
   const [openFAQ, setOpenFAQ] = useState(0);
+  
+  // FAQ data
+  const faqData = [
+    {
+      question: "What makes printing different?",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      question: "What makes printing different?",
+      answer: "Our advanced printing technology offers superior quality, faster turnaround times, and more sustainable options compared to traditional methods."
+    },
+    {
+      question: "What makes printing different?",
+      answer: "We use eco-friendly materials and processes that reduce environmental impact while maintaining high-quality results."
+    },
+    {
+      question: "What makes printing different?",
+      answer: "Our customization options allow for unique designs and finishes that stand out from standard printing services."
+    },
+    {
+      question: "What makes printing different?",
+      answer: "We offer specialized solutions for various industries, ensuring your printed materials meet specific requirements and standards."
+    },
+    {
+      question: "What makes printing different?",
+      answer: "Our prices are competitive while offering premium quality thanks to our efficient processes and technology investments."
+    }
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -163,7 +191,32 @@ export default function Page() {
       </div>
 
       {/* FAQ Section */}
-      
+      <div className="max-w-6xl mx-auto p-4 mb-12">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* FAQ Sidebar */}
+          <div className="md:w-1/3">
+            <h2 className="text-2xl font-semibold text-blue-800 mb-1">Do you have any question?</h2>
+            <p className="text-gray-500 text-sm mb-6">Frequently asked questions</p>
+            
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+          
+          {/* FAQ Accordion */}
+          <div className="md:w-2/3">
+            {faqData.map((faq, index) => (
+              <FAQItem 
+                key={index}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openFAQ === index}
+                onClick={() => setOpenFAQ(openFAQ === index ? -1 : index)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

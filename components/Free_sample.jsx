@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Package, ArrowRight, CheckCircle, Mail, Phone, User, AlertCircle, X } from "lucide-react";
 
 export default function EnhancedFreeSample() {
-  const [openFAQ, setOpenFAQ] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   
