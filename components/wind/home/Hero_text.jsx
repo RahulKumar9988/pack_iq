@@ -37,7 +37,7 @@ function Hero_text() {
   };
 
   return (
-    <div className="w-full relative overflow-hidden md:mt-10 md:py-8 lg:py-10">
+    <div className="w-full  relative overflow-hidden md:mt-10 md:py-8 lg:py-10">
       {/* Optimized decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-8 right-4 md:top-10 md:right-10 w-48 h-48 md:w-96 md:h-96 bg-gradient-to-r from-blue-600/8 to-purple-600/8 rounded-full blur-3xl" />

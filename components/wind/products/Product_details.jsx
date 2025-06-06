@@ -574,11 +574,6 @@ import { useAppSelector } from "@/redux/hooks";
                       </svg>
                     </button>
                   </div>
-                  
-                  {/* Image counter indicator with improved design */}
-                  <div className="absolute bottom-3 right-3 bg-blue-100/90 text-gray-800 text-xs px-3 py-1 rounded-full font-medium shadow-sm">
-                    {selectedImage + 1}/{product.thumbnails.length}
-                  </div>
                 </div>
                 
                 {/* Thumbnails row - professionally styled */}
@@ -1136,10 +1131,10 @@ import { useAppSelector } from "@/redux/hooks";
                   <ImageComparisonFeature 
                   title={product.name}
                   // product_desc={product.description}
-                  beforeImage={product.slider_image_url} // You can use product images from your state
-                  afterImage={product.thumbnails[product.thumbnails.length - 1]} // do not use this use statci image 
-                  beforeText="Hello, unique design!"
-                  afterText="Bye, labels..."
+                  afterImage={product.slider_image_url} // You can use product images from your state
+                  beforeImage={product.thumbnails[product.thumbnails.length - 1]} // do not use this use statci image 
+                  afterText="Hello, unique design!"
+                  beforeText="Bye, labels..."
                   theme="light-blue"
                   sliding_desc={product.slider_description}
                 />
