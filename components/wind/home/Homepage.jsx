@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Inter } from "next/font/google";
 import HeroSection from "./Herosection";
 import TestimonialSection from "./TestimonialSection";
@@ -9,54 +9,65 @@ import Partner from "./Partner";
 import CTA from "./CTA";
 import AdvancedQAContact from "./AdvancedQAContact";
 import FAQ_Home from "./FAQ_Home";
+import { FaWhatsapp } from "react-icons/fa";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Homepage() {
-
   return (
-    <div className="flex flex-col w-full ">
-      {/* Hero Section - Full width with proper spacing */}
+    <div className="relative flex flex-col w-full">
+      {/* Hero Section */}
       <section className="w-full mt-0">
-        <HeroSection/>
+        <HeroSection />
       </section>
 
-      {/* Recommended Products - Responsive padding */}
+      {/* Recommended Products */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
         <div className="px-3 sm:px-4 md:px-8 lg:px-12 xl:px-20 2xl:px-24">
           <Recomended_product />
         </div>
       </section>
 
-      {/* Packaging Achievements - Full width */}
+      {/* Packaging Achievements */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
-        <PackagingAchievements/>
+        <PackagingAchievements />
       </section>
 
-      {/* Partners Section - Full width */}
+      {/* Partners */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
-        <Partner/>
+        <Partner />
       </section>
 
-      {/* Testimonials Section - Full width with spacing */}
+      {/* Testimonials */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
-        <TestimonialSection/>
+        <TestimonialSection />
       </section>
 
-      {/* CTA Section - Full width */}
+      {/* CTA */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
-        <CTA/>
+        <CTA />
       </section>
 
-      {/* FAQ Section - Full width */}
+      {/* FAQ */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">
-        <FAQ_Home/>
+        <FAQ_Home />
       </section>
 
-      {/* Advanced Q&A Contact - Full width */}
+      {/* Advanced Q&A */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10 mb-4 sm:mb-6 md:mb-8 lg:mb-10">
-        <AdvancedQAContact/>
+        <AdvancedQAContact />
       </section>
+
+      {/* 🟢 Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/919007778338" // Replace with your real number
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+        aria-label="Chat on WhatsApp"
+      >
+        <FaWhatsapp size={28} />
+      </a>
     </div>
   );
 }

@@ -13,6 +13,7 @@ export default function Home() {
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="canonical" href="https://pack-iq-gamma.vercel.app/" />
+        
 
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Pack IQ | Smart Pouch & Packaging Solutions" />
