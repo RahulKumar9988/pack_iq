@@ -306,31 +306,21 @@ export default function Page() {
             We are here to help. You can call us, email us, or simply fill out the form — and our team will get back to you shortly.
           </p>
           
-          <div className="flex flex-col sm:flex-row sm:justify-around gap-4 sm:gap-8 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8">
 
             {/* Phone Section */}
-            <div className="space-y-2 text-center sm:text-left">
+            <div className="space-y-2 sm:text-left">
               <div className="flex items-center justify-center sm:justify-start">
                 <FaPhone className="text-blue-900 mr-2 text-sm rotate-90" />
-                <span className="text-gray-700 text-sm">+91 90077 78338</span>
+                <span className="text-gray-700 text-sm">+91 9007778338  /+91 6289043085</span>
               </div>
-              <div className="flex items-center justify-center sm:justify-start">
-                <FaPhone className="text-blue-900 mr-2 text-sm rotate-90" />
-                <span className="text-gray-700 text-sm">+91 62890 43085</span>
-              </div>
-            </div>
-
-            {/* Email Section */}
-            <div className="space-y-2 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start">
                 <FaEnvelope className="text-blue-900 mr-2 text-sm" />
                 <span className="text-gray-700 text-sm">Sales@packiq.co.in</span>
               </div>
-              <div className="flex items-center justify-center sm:justify-start">
-                <FaEnvelope className="text-blue-900 mr-2 text-sm" />
-                <span className="text-gray-700 text-sm">Preeti@packiq.co.in</span>
-              </div>
             </div>
+
+            
 
           </div>
 
