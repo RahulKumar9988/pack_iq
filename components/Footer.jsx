@@ -148,7 +148,7 @@ const Footer = () => {
   ];
 
   const contactInfo = [
-    { icon: <MdEmail className="text-[#143761]" size={20} />, text: "Support@packiq.co.in"},
+    { icon: <MdEmail className="text-[#143761]" size={20} />, text: "support@packiq.co.in"},
     { icon: <FaPhoneAlt className="text-[#143761]" size={18} />, text: "+91 9007778338/ +91 6289043085" },
     { icon: <IoLocationSharp className="text-[#143761]" size={20} />, text: "50A, Girish Mukurjee Road, Kolkata, India - 700025" },
   ];

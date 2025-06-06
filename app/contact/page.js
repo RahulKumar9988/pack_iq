@@ -256,7 +256,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full min-h-screen md:mt-12 ">
+    <div className="w-full min-h-screen md:mt-20 ">
       {/* Toast Container */}
       {/* Success Toast with animation */}
       <AnimatePresence>
@@ -298,12 +298,13 @@ export default function Page() {
       
       <div className="max-w-6xl mx-auto p-4 mb-12">
         <div className="grid md:grid-cols-2 gap-8 bg-white rounded-lg overflow-hidden">
-          <div className="p-8 bg-gray-50">
-          <h2 className="text-2xl md:text-5xl font-semibold text-blue-950 mb-1">Contact Us</h2>
+          <div className="px-8 py-3 bg-gray-50">
+          <h2 className="text-2xl md:text-5xl font-semibold text-blue-950 mb-2">Contact Us</h2>
           
-          <p className="text-gray-600 mb-8 text-sm leading-relaxed">
-            <span className="font-semibold"> Have a question or need custom packaging support? </span> <br />
-            We are here to help. You can call us, email us, or simply fill out the form — and our team will get back to you shortly.
+          <p className="text-gray-600 mb-8 font-semibold text-xl leading-relaxed">
+            Have a question or need custom packaging support? 
+            <span className=" text-lg font-extralight">We are here to help. You can call us, email us, or simply fill out the form — and our team will get back to you shortly. </span> <br />
+            
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8">
@@ -316,7 +317,7 @@ export default function Page() {
               </div>
               <div className="flex items-center justify-center sm:justify-start">
                 <FaEnvelope className="text-blue-900 mr-2 text-sm" />
-                <span className="text-gray-700 text-sm">Sales@packiq.co.in</span>
+                <span className="text-gray-700 text-sm">support@packiq.co.in</span>
               </div>
             </div>
 

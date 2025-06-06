@@ -470,7 +470,7 @@ export default function Cart() {
                     </p>
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                       <Button 
-                        className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300"
+                        className="bg-gradient-to-r from-blue-950 to-blue-950 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold"
                         onClick={() => router.push('/')}
                       >
                         Continue Shopping
