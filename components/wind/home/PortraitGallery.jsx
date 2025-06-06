@@ -94,7 +94,7 @@ export default function LinkedPortraitGallery() {
   };
 
   return (
-    <div className="relative w-full mt-[-10px] sm:mt-[-15px] md:mt-[-30px] lg:mt-[-30px] lx:mt-[-30px] xl:mt-[-30px] 2xl:mt-[-30px]">
+    <div className="relative w-full h-full flex items-center justify-center">
 
       {/* Loading overlay */}
       {isLoading && (
@@ -122,56 +122,57 @@ export default function LinkedPortraitGallery() {
       </div>
 
       {/* Gallery Section */}
-      <div className="max-w-4xl mx-auto relative">
+      <div className="w-full h-full flex items-center justify-center">
         {/* Animated decorative elements */}
         
-        <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
+        <div className="flex flex-wrap justify-center gap-4 lg:gap-8 items-center max-w-4xl">
           {/* Main featured image with enhanced animations */}
-          <div className="relative group">
-            <div 
-              key={`main-${animationKey}`}
-              className={` w-64 h-96 lg:w-72 lg:h-88 
-                         flex items-center justify-center relative 
-                         transition-all duration-700 ease-out
-                         transform 
-                         animate-fadeInScale`}
-              style={{
-                animation: 'fadeInScale 0.8s ease-out forwards'
-              }}
-            >
-              {/* Shimmer effect */}
-              
-              <img 
-                src={getCurrentImages()[0]}
-                alt={`${currentWord} packaging`}
-                className="h-[340px] md:h-[340px] lg:h-[380px] w-auto object-cover 
-                          transform transition-all duration-700 ease-out
-                          filter drop-shadow-xl"
-                style={{
-                  animation: 'fadeInUp 0.6s ease-out 0.2s both'
-                }}
-              />
-              
-              {/* Floating particles */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(3)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-2 h-2 bg-white/40 rounded-full animate-float"
-                    style={{
-                      left: `${20 + i * 30}%`,
-                      top: `${30 + i * 20}%`,
-                      animationDelay: `${i * 0.5}s`,
-                      animationDuration: `${3 + i}s`
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+          <div className="relative group flex-shrink-0">
+  <div 
+    key={`main-${animationKey}`}
+    className="w-60 h-72 lg:w-96 lg:h-[30rem] xl:w-[28rem] xl:h-[34rem]
+               flex items-center justify-center relative 
+               transition-all duration-700 ease-out
+               transform 
+               animate-fadeInScale"
+    style={{
+      animation: 'fadeInScale 0.8s ease-out forwards'
+    }}
+  >
+    {/* Shimmer effect */}
+
+    <img 
+      src={getCurrentImages()[0]}
+      alt={`${currentWord} packaging`}
+      className="max-h-[343px] lg:max-h-[400px] xl:max-h-[400px] w-auto object-contain 
+                 transform transition-all duration-700 ease-out
+                 filter drop-shadow-xl"
+      style={{
+        animation: 'fadeInUp 0.6s ease-out 0.2s both'
+      }}
+    />
+
+    {/* Floating particles */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(3)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-2 h-2 bg-white/40 rounded-full animate-float"
+          style={{
+            left: `${20 + i * 30}%`,
+            top: `${30 + i * 20}%`,
+            animationDelay: `${i * 0.5}s`,
+            animationDuration: `${3 + i}s`
+          }}
+        />
+      ))}
+    </div>
+  </div>
+</div>
+
           
           {/* Right column portraits with staggered animations */}
-          <div className="hidden md:flex md:flex-col md:gap-8 lg:gap-12">
+          <div className="hidden md:flex md:flex-col md:gap-4 lg:gap-6 flex-shrink-0">
             {/* Top right portrait */}
             <div 
               key={`top-${animationKey}`}
@@ -180,18 +181,18 @@ export default function LinkedPortraitGallery() {
                 animation: 'fadeInScale 0.8s ease-out 0.3s both'
               }}
             >
-              <div className={` w-40 h-56 lg:w-44 lg:h-52 
+              <div className="w-32 h-40 lg:w-48 lg:h-56 xl:w-52 xl:h-64 
                              flex items-center justify-center relative 
                              transition-all duration-500 ease-out
-                             transform `}>
+                             transform">
                 
                 
                 <img 
                   src={getCurrentImages()[1] || getCurrentImages()[0]}
                   alt={`${currentWord} packaging variant`}
-                  className="h-[240px] lg:h-[240px] w-auto object-cover 
+                  className="max-h-[143px] lg:max-h-[210px] xl:max-h-[240px] w-auto object-contain 
                             transform transition-all duration-500 ease-out
-                           filter drop-shadow-lg"
+                           filter drop-shadow-lg md:mr-20"
                 />
               </div>
             </div>
@@ -199,23 +200,23 @@ export default function LinkedPortraitGallery() {
             {/* Bottom right portrait */}
             <div 
               key={`bottom-${animationKey}`}
-              className="relative group"
+              className="relative group "
               style={{
-                animation: 'fadeInScale 0.8s ease-out 0.6s both '
+                animation: 'fadeInScale 0.8s ease-out 0.6s both'
               }}
             >
-              <div className={` w-40 h-60 lg:w-44 lg:h-64 
+              <div className="w-32 h-40 lg:w-48 lg:h-56 xl:w-52 xl:h-64 
                              flex items-center justify-center relative 
                              transition-all duration-500 ease-out
-                             transform `}>
+                             transform">
                 
                 
                 <img 
                   src={getCurrentImages()[2] || getCurrentImages()[0]}
                   alt={`${currentWord} packaging variant`}
-                  className="h-[240px] lg:h-[280px] w-auto object-cover 
+                  className="max-h-[143px] lg:max-h-[210px] xl:max-h-[240px] w-auto object-contain 
                             transform transition-all duration-500 ease-out
-                            filter drop-shadow-lg mr-20"
+                            filter drop-shadow-lg md:mr-36"
                 />
               </div>
             </div>
