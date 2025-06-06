@@ -445,67 +445,71 @@ export default function EnhancedFreeSample() {
             </motion.div>
             
             {/* What You'll Get Section */}
+          <div className="w-full space-y-3">
+            {/* What You'll Get Section */}
             <motion.div
               initial="hidden"
               animate="visible"
               variants={staggerChildren}
-              className="space-y-3 border-1 border-gray-300 rounded-xl p-2 bg-white/80 backdrop-blur-sm"
+              className=" border border-gray-300 rounded-xl p-4 sm:p-6 bg-white/80 backdrop-blur-sm shadow-md"
             >
-              <h2 className="text-2xl font-bold text-blue-950 underline">What You&apos;ll Get 🎯</h2>
-              <div className="space-y-2">
+              <h2 className="text-xl mb-4 sm:text-xl font-bold text-blue-950 underline">
+                What You&apos;ll Get 
+              </h2>
+              <div className="space-y-4">
                 {whatYouGet.map((item, index) => (
-                  <motion.div 
-                    key={index} 
+                  <motion.div
+                    key={index}
                     variants={itemAnimation}
                     className="flex items-start gap-3"
                   >
-                    <div className="mt-1 flex-shrink-0">
-                      <span className="text-xl">
-                        {index === 0 ? "📦" : 
-                         index === 1 ? "🎨" : 
-                         index === 2 ? "✋" : 
-                         "💡"}
-                      </span>
+                    <div className="mt-1 flex-shrink-0 text-xl sm:text-2xl">
+                      {index === 0 ? "📦" :
+                        index === 1 ? "🎨" :
+                        index === 2 ? "✋" :
+                        "💡"}
                     </div>
-                    <p className="text-blue-950 text-lg leading-relaxed">
+                    <p className="text-blue-950 text-base sm:text-[16px]  leading-relaxed">
                       {item}
                     </p>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
-            
+
             {/* Who Is It For Section */}
             <motion.div
               initial="hidden"
               animate="visible"
               variants={staggerChildren}
-              className="space-y-3 border-1 border-gray-300 rounded-xl p-2 bg-white/80 backdrop-blur-sm"
+              className="space-y-4 border border-gray-300 rounded-xl p-4 sm:p-6 bg-white/80 backdrop-blur-sm shadow-md"
             >
-              <h2 className="text-2xl font-bold text-blue-950 underline">Who is it for? 👥</h2>
-              <div className="space-y-2">
+              <h2 className="text-xl sm:text-xl font-bold text-blue-950 underline">
+                Who is it for? 
+              </h2>
+              <div className="space-y-4">
                 {whoIsItFor.map((item, index) => (
-                  <motion.div 
-                    key={index} 
+                  <motion.div
+                    key={index}
                     variants={itemAnimation}
                     className="flex items-start gap-3"
                   >
-                    <div className="mt-1 flex-shrink-0">
-                      <span className="text-xl">
-                        {index === 0 ? "🚀" : 
-                         index === 1 ? "🎨" : 
-                         index === 2 ? "📈" : 
-                         index === 3 ? "🛒" : 
-                         "🏭"}
-                      </span>
+                    <div className="mt-1 flex-shrink-0 text-xl sm:text-2xl">
+                      {index === 0 ? "🚀" :
+                        index === 1 ? "🎨" :
+                        index === 2 ? "📈" :
+                        index === 3 ? "🛒" :
+                        "🏭"}
                     </div>
-                    <p className="text-blue-950 text-lg leading-relaxed">
+                    <p className="text-blue-950 text-base sm:text-[16px] leading-relaxed">
                       <span className="font-semibold">{item.title}</span> {item.description}
                     </p>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
+          </div>
+
           </motion.div>
           
           {/* Right Form */}
