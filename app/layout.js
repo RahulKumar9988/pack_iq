@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import StoreProvider from "./(products)/StoreProvider";
 import { ScrollToTopOnNavigate } from "@/components/ScrollToTopOnNavigate";
+import { FaWhatsapp } from "react-icons/fa";
 
 // Simple loading placeholders
 const NavbarPlaceholder = () => <div className="h-16 bg-white shadow-sm w-full"></div>;
@@ -85,6 +86,16 @@ export default function RootLayout({ children }) {
                 {/* Main Content with proper padding/margin to account for fixed header */}
                 <div className="w-full flex justify-center flex-grow md:mt-28 sm:mt-16 mt-2">
                   {children}
+                  {/* 🟢 Global WhatsApp Button */}
+                  <a
+                    href="https://wa.me/916289043085"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+                    aria-label="Chat on WhatsApp"
+                  >
+                    <FaWhatsapp size={28} />
+                  </a>
                 </div>
                 
                 <Footer />
