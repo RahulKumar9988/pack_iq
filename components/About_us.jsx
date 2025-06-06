@@ -138,7 +138,7 @@ function About_us() {
         </div>
       </div>
 
-      {/* Statistics Section */}
+      {/* Statistics Section
       <p className="text-3xl sm:text-4xl font-bold mb-10 text-center mt-20">
         PackIQ helps you grow
       </p>
@@ -159,7 +159,7 @@ function About_us() {
           <p className="font-bold text-3xl md:text-4xl">200</p>
           <p>Customers Scaleup</p>
         </div>
-      </div>
+      </div> */}
 
       {/* Team Section */}
       <div className="w-full text-center">
