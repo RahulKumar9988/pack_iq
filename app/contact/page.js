@@ -303,7 +303,7 @@ export default function Page() {
           
           <p className="text-gray-600 mb-8 text-sm leading-relaxed">
             <span className="font-semibold"> Have a question or need custom packaging support? </span> <br />
-            We're here to help. You can call us, email us, or simply fill out the form — and our team will get back to you shortly.
+            We are here to help. You can call us, email us, or simply fill out the form — and our team will get back to you shortly.
           </p>
           
           <div className="flex flex-col sm:flex-row sm:justify-around gap-4 sm:gap-8 mb-8">
@@ -495,7 +495,7 @@ export default function Page() {
                   </>
                 ) : (
                   <>
-                    Request Sample Kit 🚚
+                    Request Sample Kit 
                   </>
                 )}
               </motion.button>
