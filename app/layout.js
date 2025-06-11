@@ -48,8 +48,28 @@ const dmSans = DM_Sans({
 // Separated metadata and viewport exports
 export const metadata = {
   title: "Packiq Ecommerce Home",
-  description: "An Ecommerce Website for Packaging",
+  description: "An Ecommerce Website for Packaging Solutions",
+  keywords: ["Pack IQ", "Packaging", "Ecommerce", "Pouch", "Ziplock", "Stand-up Pouches"],
+  authors: [{ name: "Pack IQ Team", url: "https://www.packiq.in/" }],
+  openGraph: {
+    title: "Packiq Ecommerce Home",
+    description: "Explore smart and sustainable ecommerce pouch packaging with Pack IQ.",
+    url: "https://www.packiq.in/",
+    siteName: "Pack IQ",
+    images: [
+      {
+        url: "/color logo-1 1.png",
+        width: 1200,
+        height: 630,
+        alt: "Pack IQ Product Packaging",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+    location: "India",
+  },
 };
+
 
 // Move viewport config to its own export as recommended by Next.js
 export const viewport = {
