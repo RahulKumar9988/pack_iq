@@ -129,6 +129,7 @@ export default function LinkedPortraitGallery() {
               <img 
                 src={getCurrentImages()[0]}
                 alt={`${currentWord} packaging main`}
+                loading="lazy"
                 className="w-full h-full object-contain 
                           transform transition-all duration-700 ease-out
                           filter drop-shadow-xl relative z-10"
@@ -174,6 +175,7 @@ export default function LinkedPortraitGallery() {
                   <img 
                     src={getCurrentImages()[1]}
                     alt={`${currentWord} packaging variant 1`}
+                    loading="lazy"
                     className="w-full h-full object-contain 
                               transform transition-all duration-500 ease-out
                               filter drop-shadow-lg md:mt-5"
@@ -199,9 +201,10 @@ export default function LinkedPortraitGallery() {
                   <img 
                     src={getCurrentImages()[2]}
                     alt={`${currentWord} packaging variant 2`}
+                    loading="lazy"
                     className="w-full md:mr-20 md:mt-[-10px] h-full object-contain 
                               transform transition-all duration-500 ease-out
-                              filter drop-shadow-lg"
+                              filter drop-shadow-lg loading-lazy"
                   />
                 )}
               </div>
