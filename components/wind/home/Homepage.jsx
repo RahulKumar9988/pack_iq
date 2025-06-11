@@ -17,9 +17,9 @@ export default function Homepage() {
   return (
     <div className="relative flex flex-col w-full">
       {/* Hero Section */}
-      <section className="w-full mt-0">
+      <div className="w-full h-full mt-0">
         <HeroSection />
-      </section>
+      </div>
 
       {/* Recommended Products */}
       <section className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10">

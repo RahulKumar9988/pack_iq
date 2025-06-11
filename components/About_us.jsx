@@ -281,9 +281,9 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-
+      
       {/* CTA Section */}
-      <section className="py-20 rounded-full mb-4 px-6 bg-gradient-to-r from-blue-900 to-blue-800" id="cta" data-animate>
+      <section className="py-20 md:rounded-full rounded-3xl mx-1 mb-4 px-6 bg-gradient-to-r from-blue-900 to-blue-800" id="cta" data-animate>
         <div className="max-w-4xl mx-auto text-center">
           <div className={`transition-all duration-1000 ${isVisible.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
