@@ -55,6 +55,7 @@ function CTA() {
       src="/test.png"
       alt="Packaging Design"
       className="rounded-2xl w-full h-96 object-cover mix-blend-multiply"
+      loading='lazy'
     />
   </div>
 </div>

@@ -37,7 +37,7 @@ function TestimonialSection() {
 
           {/* Right Column - For larger screens */}
             <div className="w-full lg:w-1/2 mt-8 lg:mt-0 hidden sm:block">
-              <img src="/pack/all items.png" alt="" className='rounded-2xl' />
+              <img src="/pack/all items.png" alt="" className='rounded-2xl' loading='lazy' />
             </div>
 
           {/* Right Column - Mobile version */}
